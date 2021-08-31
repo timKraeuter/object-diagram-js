@@ -5,7 +5,7 @@
   "scripts": {
     "all": "run-s lint build",
     "build": "webpack",
-    "build:production": "webpack --env production",
+    "build:plugin": "webpack --env production",
     "dev": "run-p build:watch serve",
     "build:watch": "webpack -w",
     "serve": "serve public -l 5001",
