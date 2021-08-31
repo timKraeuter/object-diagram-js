@@ -1,6 +1,6 @@
-## Object-diagram modeler
+## Object diagram modeler
 
-This folder contains the source code for an [object-diagram modeler](https://timkraeuter.com/object-diagram-modeler/) based on **diagram-js**.
+This folder contains the source code for an [object diagram modeler](https://timkraeuter.com/object-diagram-modeler/) based on **diagram-js**.
 
 ## Development
 

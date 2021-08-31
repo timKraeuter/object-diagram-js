@@ -2,7 +2,7 @@
 
 This folder contains the source code for the UI used in the [visual debugger IntelliJ plugin](https://plugins.jetbrains.com/plugin/16851-visual-debugger).
 
-The source code for the plugin can be found [here](https://github.com/timKraeuter/VisualDebugger).
+You can find the source code for the plugin [here](https://github.com/timKraeuter/VisualDebugger).
 
 ## Development
 
