@@ -10,7 +10,7 @@ module.exports = (env) => {
   if (env.production) {
 
     // We expect the Visual debugger project in the same folder as this project.
-    outputPath = __dirname + '/../../github-pages';
+    outputPath = __dirname + '/../../docs';
   }
   return {
     entry: {
