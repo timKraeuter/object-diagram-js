@@ -1,0 +1,130 @@
+{
+  "name": "debug api",
+  "uri": "http://tk/schema/db",
+  "prefix": "db",
+  "xml": {
+    "tagAlias": "lowerCase"
+  },
+  "types": [
+    {
+      "name": "ObjectDiagram",
+      "properties": [
+        {
+          "name": "object",
+          "isMany": true,
+          "type": "Object"
+        },
+        {
+          "name": "link",
+          "isMany": true,
+          "type": "Link"
+        },
+        {
+          "name": "primitiveRootValue",
+          "isMany": true,
+          "type": "PrimitiveRootValue"
+        }
+      ]
+    },
+    {
+      "name": "Object",
+      "properties": [
+        {
+          "name": "id",
+          "isAttr": true,
+          "isId": true,
+          "type": "String"
+        },
+        {
+          "name": "attributeValue",
+          "isMany": true,
+          "type": "AttributeValue"
+        },
+        {
+          "name": "link",
+          "isMany": true,
+          "type": "Link",
+          "isReference": true
+        },
+        {
+          "name": "variableName",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "type",
+          "isAttr": true,
+          "type": "String"
+        }
+      ]
+    },
+    {
+      "name": "AttributeValue",
+      "properties": [
+        {
+          "name": "name",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "type",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "value",
+          "isAttr": true,
+          "type": "String"
+        }
+      ]
+    },
+    {
+      "name": "Link",
+      "properties": [
+        {
+          "name": "id",
+          "isAttr": true,
+          "isId": true,
+          "type": "String"
+        },
+        {
+          "name": "type",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "from",
+          "isAttr": true,
+          "isReference": true,
+          "type": "Object"
+        },
+        {
+          "name": "to",
+          "isAttr": true,
+          "isReference": true,
+          "type": "Object"
+        }
+      ]
+    },
+    {
+      "name": "PrimitiveRootValue",
+      "properties": [
+        {
+          "name": "variableName",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "type",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "value",
+          "isAttr": true,
+          "type": "String"
+        }
+      ]
+    }
+  ]
+}

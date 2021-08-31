@@ -1,0 +1,6 @@
+coverage
+dist
+example
+node_modules
+*.json
+assets

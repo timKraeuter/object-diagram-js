@@ -1,0 +1,45 @@
+{
+  "name": "visual-debugger-starter",
+  "version": "0.0.0",
+  "description": "A debugger GUI showing object diagrams build on diagram-js",
+  "scripts": {
+    "all": "run-s lint build",
+    "build": "webpack",
+    "build:production": "webpack --env production",
+    "dev": "run-p build:watch serve",
+    "build:watch": "webpack -w",
+    "serve": "serve public -l 5001",
+    "lint": "eslint .",
+    "start": "run-s dev"
+  },
+  "private": "true",
+  "keywords": [
+    "diagram-js",
+    "debugger",
+    "object diagram"
+  ],
+  "author": {
+    "name": "Tim Kräuter",
+    "url": "https://github.com/timKraeuter"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "copy-webpack-plugin": "^8.1.1",
+    "css-loader": "^5.2.4",
+    "eslint": "^7.26.0",
+    "eslint-plugin-bpmn-io": "^0.12.0",
+    "file-loader": "^6.2.0",
+    "npm-run-all": "^4.1.5",
+    "raw-loader": "^4.0.2",
+    "serve": "^11.3.2",
+    "style-loader": "^2.0.0",
+    "webpack": "^5.37.0",
+    "webpack-cli": "^4.7.0"
+  },
+  "dependencies": {
+    "jquery": "^3.6.0",
+    "less": "^4.1.1",
+    "less-loader": "^8.1.1",
+    "visual-debugger": "file:../"
+  }
+}
