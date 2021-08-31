@@ -2,7 +2,7 @@
 
 Repository for the UI used in the visual debugger IntelliJ plugin.
 
-In addition, we have implemented an object-diagram modeler based on diagram-js.
+In addition, we have implemented an [object-diagram modeler](https://timkraeuter.com/object-diagram-modeler/) based on diagram-js.
 
 ## License
 
