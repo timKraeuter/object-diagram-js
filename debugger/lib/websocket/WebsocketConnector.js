@@ -93,7 +93,7 @@ WebsocketConnector.prototype.setOnMessageHandler = function(eventBus, lastBoard)
       });
 
       // removed the unwanted \n at the end.
-      local_primitive_vars.attributeValues = local_primitive_vars.attributeValues.substring(0, local_primitive_varscd .attributeValues.length - 1);
+      local_primitive_vars.attributeValues = local_primitive_vars.attributeValues.substring(0, local_primitive_vars .attributeValues.length - 1);
     }
 
     return board;
