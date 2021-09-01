@@ -58404,6 +58404,21 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/sampleBoard.xml":
+/*!***********************************!*\
+  !*** ./resources/sampleBoard.xml ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<od:definitions xmlns:od=\"http://tk/schema/od\" xmlns:odDi=\"http://tk/schema/odDi\"\r\n                xmlns:dc=\"http://www.omg.org/spec/DD/20100524/DC\">\r\n    <od:odBoard id=\"Board_debug\">\r\n        <od:link name=\"components\" id=\"Link_Object_2669_to_Object_2837_type_components\" type=\"components\"\r\n                 sourceRef=\"Object_2669\" targetRef=\"Object_2837\"/>\r\n        <od:link name=\"components\" id=\"Link_Object_2669_to_Object_2838_type_components\" type=\"components\"\r\n                 sourceRef=\"Object_2669\" targetRef=\"Object_2838\"/>\r\n        <od:link name=\"components\" id=\"Link_Object_2669_to_Object_2839_type_components\" type=\"components\"\r\n                 sourceRef=\"Object_2669\" targetRef=\"Object_2839\"/>\r\n        <od:link name=\"components\" id=\"Link_Object_2669_to_Object_2840_type_components\" type=\"components\"\r\n                 sourceRef=\"Object_2669\" targetRef=\"Object_2840\"/>\r\n        <od:object name=\"folding_wall_table:Product\" id=\"Object_2669\"\r\n                   attributeValues=\"cost=5&#10;name=&#34;Folding wall table&#34;\">\r\n            <od:links>Link_Object_2669_to_Object_2837_type_components</od:links>\r\n            <od:links>Link_Object_2669_to_Object_2838_type_components</od:links>\r\n            <od:links>Link_Object_2669_to_Object_2839_type_components</od:links>\r\n            <od:links>Link_Object_2669_to_Object_2840_type_components</od:links>\r\n        </od:object>\r\n        <od:object name=\"0:QuantifiedComponent\" id=\"Object_2837\" attributeValues=\"quantity=4\"/>\r\n        <od:object name=\"1:QuantifiedComponent\" id=\"Object_2838\" attributeValues=\"quantity=10\"/>\r\n        <od:object name=\"2:QuantifiedComponent\" id=\"Object_2839\" attributeValues=\"quantity=1\"/>\r\n        <od:object name=\"3:QuantifiedComponent\" id=\"Object_2840\" attributeValues=\"quantity=26\"/>\r\n    </od:odBoard>\r\n    <odDi:odRootBoard id=\"RootBoard_debug\">\r\n        <odDi:odPlane id=\"Plane_debug\" boardElement=\"Board_debug\">\r\n            <odDi:link id=\"Link_Object_2669_to_Object_2837_type_components_di\"\r\n                       boardElement=\"Link_Object_2669_to_Object_2837_type_components\">\r\n                <odDi:waypoint x=\"566.1\" y=\"198.60000000000002\"/>\r\n                <odDi:waypoint x=\"566.1\" y=\"233.60000000000002\"/>\r\n                <odDi:waypoint x=\"652.5\" y=\"233.60000000000002\"/>\r\n                <odDi:waypoint x=\"652.5\" y=\"296.6\"/>\r\n                <odDi:odLabel>\r\n                    <dc:Bounds x=\"560\" y=\"240\" width=\"82\" height=\"18\"/>\r\n                </odDi:odLabel>\r\n            </odDi:link>\r\n            <odDi:link id=\"Link_Object_2669_to_Object_2838_type_components_di\"\r\n                       boardElement=\"Link_Object_2669_to_Object_2838_type_components\">\r\n                <odDi:waypoint x=\"610.3\" y=\"198.60000000000002\"/>\r\n                <odDi:waypoint x=\"610.3\" y=\"223.60000000000002\"/>\r\n                <odDi:waypoint x=\"869.5\" y=\"223.60000000000002\"/>\r\n                <odDi:waypoint x=\"869.5\" y=\"296.6\"/>\r\n                <odDi:odLabel>\r\n                    <dc:Bounds x=\"699\" y=\"199\" width=\"82\" height=\"18\"/>\r\n                </odDi:odLabel>\r\n            </odDi:link>\r\n            <odDi:link id=\"Link_Object_2669_to_Object_2839_type_components_di\"\r\n                       boardElement=\"Link_Object_2669_to_Object_2839_type_components\">\r\n                <odDi:waypoint x=\"477.7\" y=\"198.60000000000002\"/>\r\n                <odDi:waypoint x=\"477.7\" y=\"223.60000000000002\"/>\r\n                <odDi:waypoint x=\"218.5\" y=\"223.60000000000002\"/>\r\n                <odDi:waypoint x=\"218.5\" y=\"296.6\"/>\r\n                <odDi:odLabel>\r\n                    <dc:Bounds x=\"307\" y=\"199\" width=\"82\" height=\"18\"/>\r\n                </odDi:odLabel>\r\n            </odDi:link>\r\n            <odDi:link id=\"Link_Object_2669_to_Object_2840_type_components_di\"\r\n                       boardElement=\"Link_Object_2669_to_Object_2840_type_components\">\r\n                <odDi:waypoint x=\"521.9\" y=\"198.60000000000002\"/>\r\n                <odDi:waypoint x=\"521.9\" y=\"233.60000000000002\"/>\r\n                <odDi:waypoint x=\"435.5\" y=\"233.60000000000002\"/>\r\n                <odDi:waypoint x=\"435.5\" y=\"296.6\"/>\r\n                <odDi:odLabel>\r\n                    <dc:Bounds x=\"450\" y=\"240\" width=\"82\" height=\"18\"/>\r\n                </odDi:odLabel>\r\n            </odDi:link>\r\n            <odDi:odShape id=\"Object_2669_di\" boardElement=\"Object_2669\">\r\n                <dc:Bounds x=\"434\" y=\"120\" width=\"221\" height=\"78\"/>\r\n            </odDi:odShape>\r\n            <odDi:odShape id=\"Object_2837_di\" boardElement=\"Object_2837\">\r\n                <dc:Bounds x=\"554\" y=\"297\" width=\"197\" height=\"59\"/>\r\n            </odDi:odShape>\r\n            <odDi:odShape id=\"Object_2838_di\" boardElement=\"Object_2838\">\r\n                <dc:Bounds x=\"771\" y=\"297\" width=\"197\" height=\"59\"/>\r\n            </odDi:odShape>\r\n            <odDi:odShape id=\"Object_2839_di\" boardElement=\"Object_2839\">\r\n                <dc:Bounds x=\"120\" y=\"297\" width=\"197\" height=\"59\"/>\r\n            </odDi:odShape>\r\n            <odDi:odShape id=\"Object_2840_di\" boardElement=\"Object_2840\">\r\n                <dc:Bounds x=\"337\" y=\"297\" width=\"197\" height=\"59\"/>\r\n            </odDi:odShape>\r\n        </odDi:odPlane>\r\n    </odDi:odRootBoard>\r\n</od:definitions>\r\n");
+
+/***/ }),
+
 /***/ "../assets/odm.css":
 /*!*************************!*\
   !*** ../assets/odm.css ***!
@@ -58857,8 +58872,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var object_diagram_modeler_assets_odm_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! object-diagram-modeler/assets/odm.css */ "../assets/odm.css");
-/* harmony import */ var object_diagram_modeler_lib_Modeler__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! object-diagram-modeler/lib/Modeler */ "../lib/Modeler.js");
+/* harmony import */ var object_diagram_modeler_lib_Modeler__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! object-diagram-modeler/lib/Modeler */ "../lib/Modeler.js");
 /* harmony import */ var _resources_emptyBoard_xml__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../resources/emptyBoard.xml */ "./resources/emptyBoard.xml");
+/* harmony import */ var _resources_sampleBoard_xml__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../resources/sampleBoard.xml */ "./resources/sampleBoard.xml");
+
 
 
 
@@ -58867,7 +58884,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 // modeler instance
-var modeler = new object_diagram_modeler_lib_Modeler__WEBPACK_IMPORTED_MODULE_3__.default({
+var modeler = new object_diagram_modeler_lib_Modeler__WEBPACK_IMPORTED_MODULE_4__.default({
   container: '#canvas',
   keyboard: {
     bindTo: window,
@@ -59038,7 +59055,7 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(function() {
 
 });
 
-openBoard(_resources_emptyBoard_xml__WEBPACK_IMPORTED_MODULE_2__.default);
+openBoard(_resources_sampleBoard_xml__WEBPACK_IMPORTED_MODULE_3__.default);
 
 
 // helpers //////////////////////
