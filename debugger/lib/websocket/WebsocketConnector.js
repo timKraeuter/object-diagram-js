@@ -86,13 +86,14 @@ WebsocketConnector.prototype.setOnMessageHandler = function(eventBus, lastBoard)
       local_primitive_vars.name = 'LocalPrimitiveVars';
       boardElements.push(local_primitive_vars);
 
-      let attributeValues = local_primitive_vars.get('attributeValues');
+      local_primitive_vars.attributeValues = '';
       primitiveRootValus.forEach(primitiveVar => {
-        let attributeValue = moddle.create('od:AttributeValue');
-        attributeValue.attributeName = primitiveVar.variableName;
-        attributeValue.attributeValue = primitiveVar.value;
-        attributeValues.push(attributeValue);
+        local_primitive_vars.attributeValues += primitiveVar.variableName + '=' + primitiveVar.value;
+        local_primitive_vars.attributeValues += '\n';
       });
+
+      // removed the unwanted \n at the end.
+      local_primitive_vars.attributeValues = local_primitive_vars.attributeValues.substring(0, local_primitive_varscd .attributeValues.length - 1);
     }
 
     return board;
