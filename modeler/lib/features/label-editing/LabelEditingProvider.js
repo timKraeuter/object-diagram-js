@@ -30,7 +30,7 @@ export default function LabelEditingProvider(
   function decideIfTitelOrAttributesClicked(event) {
     var zoom = canvas.zoom();
     var titel_attribute_divider_y_coordinate = (event.element.y + 30 - canvas._cachedViewbox.y) * zoom;
-    var click_y_coordinate = event.originalEvent.y;
+    var click_y_coordinate = event.originalEvent.offsetY;
     if (click_y_coordinate >= titel_attribute_divider_y_coordinate) {
       event.element.businessObject.labelAttribute = 'attributeValues';
     } else {
