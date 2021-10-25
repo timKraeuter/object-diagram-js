@@ -224,10 +224,22 @@ WebsocketConnector.prototype.setOnMessageHandler = function(eventBus, lastBoard)
       return from_waypoint;
     }
 
+    function addLabelInformation(edge, linkShape) {
+      var elkLabel = edge.labels[0];
+      var label = moddle.create('odDi:OdLabel');
+      label.bounds = moddle.create('dc:Bounds');
+      label.bounds.x = elkLabel.x;
+      label.bounds.y = elkLabel.y;
+      label.bounds.width = elkLabel.width;
+      label.bounds.height = elkLabel.height;
+      linkShape.label = label;
+    }
+
     layout.edges.forEach(edge => {
       let linkShape = moddle.create('odDi:Link');
       linkShape.boardElement = edge.boardElement;
       linkShape.id = edge.id + '_di';
+      addLabelInformation(edge, linkShape);
 
       edge.sections.forEach(section => {
         let startPoint = createPoint(section.startPoint.x, section.startPoint.y);
