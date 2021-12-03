@@ -48,11 +48,11 @@ export function getRectPath(shape) {
       height = shape.height;
 
   var rectPath = [
-    ['M', x, y],
-    ['l', width, 0],
-    ['l', 0, height],
-    ['l', -width, 0],
-    ['z']
+    [ 'M', x, y ],
+    [ 'l', width, 0 ],
+    [ 'l', 0, height ],
+    [ 'l', -width, 0 ],
+    [ 'z' ]
   ];
 
   return componentsToPath(rectPath);

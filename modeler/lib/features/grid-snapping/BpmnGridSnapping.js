@@ -13,4 +13,4 @@ export default function BpmnGridSnapping(eventBus) {
   });
 }
 
-BpmnGridSnapping.$inject = ['eventBus'];
+BpmnGridSnapping.$inject = [ 'eventBus' ];

@@ -4,7 +4,7 @@ function getLabelAttr(semantic) {
   if (semantic.labelAttribute) {
     return semantic.labelAttribute;
   }
-  if (isAny(semantic, ['od:TextBox', 'od:Link', 'od:Object'])) {
+  if (isAny(semantic, [ 'od:TextBox', 'od:Link', 'od:Object' ])) {
     return 'name';
   }
 }

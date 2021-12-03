@@ -14,7 +14,7 @@ module.exports = (env) => {
   }
   return {
     entry: {
-      bundle: ['./app/app.js'],
+      bundle: [ './app/app.js' ],
     },
     output: {
       path: outputPath,
@@ -28,11 +28,11 @@ module.exports = (env) => {
         },
         {
           test: /\.css$/i,
-          use: ['style-loader', 'css-loader'],
+          use: [ 'style-loader', 'css-loader' ],
         },
         {
           test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-          use: ['file-loader'],
+          use: [ 'file-loader' ],
         },
         {
           test: /\.less$/i,
@@ -55,7 +55,7 @@ module.exports = (env) => {
       ],
     },
     plugins: [
-      new CopyWebpackPlugin({ patterns: [{ from: '**/*.{html,css,woff,ttf,eot,svg,woff2,ico}', context: 'app/' }] }),
+      new CopyWebpackPlugin({ patterns: [ { from: '**/*.{html,css,woff,ttf,eot,svg,woff2,ico}', context: 'app/' } ] }),
       new webpack.DefinePlugin({
         'process.env.SOURCE_VERSION': JSON.stringify(SOURCE_VERSION || null)
       }),

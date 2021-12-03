@@ -70,7 +70,7 @@ export default function ODRenderer(
 
   function drawPath(parentGfx, d, attrs) {
 
-    attrs = computeStyle(attrs, ['no-fill'], {
+    attrs = computeStyle(attrs, [ 'no-fill' ], {
       strokeWidth: 2,
       stroke: 'black'
     });
@@ -164,7 +164,7 @@ export default function ODRenderer(
   }
 
   function drawLine(parentGfx, waypoints, attrs) {
-    attrs = computeStyle(attrs, ['no-fill'], {
+    attrs = computeStyle(attrs, [ 'no-fill' ], {
       stroke: 'black',
       strokeWidth: 2,
       fill: 'none'
@@ -232,7 +232,7 @@ export default function ODRenderer(
     // fix for safari / chrome / firefox bug not correctly
     // resetting stroke dash array
     if (attrs.strokeDasharray === 'none') {
-      attrs.strokeDasharray = [10000, 1];
+      attrs.strokeDasharray = [ 10000, 1 ];
     }
 
     var marker = svgCreate('marker');

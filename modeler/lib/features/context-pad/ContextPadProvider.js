@@ -91,13 +91,13 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
   return actions;
 
   function removeElement() {
-    modeling.removeElements([element]);
+    modeling.removeElements([ element ]);
   }
 
   function createDeleteEntry(actions) {
 
     // delete element entry, only show if allowed by rules
-    let deleteAllowed = rules.allowed('elements.delete', { elements: [element] });
+    let deleteAllowed = rules.allowed('elements.delete', { elements: [ element ] });
 
     if (isArray(deleteAllowed)) {
 

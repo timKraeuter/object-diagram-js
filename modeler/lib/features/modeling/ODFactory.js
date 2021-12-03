@@ -15,7 +15,7 @@ export default function ODFactory(moddle) {
   this._model = moddle;
 }
 
-ODFactory.$inject = ['moddle'];
+ODFactory.$inject = [ 'moddle' ];
 
 
 ODFactory.prototype._needsId = function(element) {
@@ -98,5 +98,5 @@ ODFactory.prototype.createDiWaypoints = function(waypoints) {
 };
 
 ODFactory.prototype.createDiWaypoint = function(point) {
-  return this.create('dc:Point', pick(point, ['x', 'y']));
+  return this.create('dc:Point', pick(point, [ 'x', 'y' ]));
 };
