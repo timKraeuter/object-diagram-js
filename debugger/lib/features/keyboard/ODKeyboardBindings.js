@@ -57,7 +57,7 @@ ODKeyboardBindings.prototype.registerBindings = function(keyboard, editorActions
 
     var event = context.keyEvent;
 
-    if (keyboard.isKey(['a', 'A'], event) && keyboard.isCmd(event)) {
+    if (keyboard.isKey([ 'a', 'A' ], event) && keyboard.isCmd(event)) {
       editorActions.trigger('selectElements');
 
       return true;

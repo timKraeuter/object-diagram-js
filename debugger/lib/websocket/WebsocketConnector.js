@@ -175,14 +175,14 @@ WebsocketConnector.prototype.setOnMessageHandler = function(eventBus, lastBoard)
       } else {
         elk_graph.edges.push({
           id: linkOrObject.id,
-          sources: [linkOrObject.sourceRef.id],
-          targets: [linkOrObject.targetRef.id],
+          sources: [ linkOrObject.sourceRef.id ],
+          targets: [ linkOrObject.targetRef.id ],
           labels: [
             {
               text: linkOrObject.name,
               width: getTextWidth(linkOrObject.name, LINK_FONT_SIZE),
               height: 18
-            }],
+            } ],
           boardElement: linkOrObject
         });
       }

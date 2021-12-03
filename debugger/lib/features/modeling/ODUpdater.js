@@ -55,7 +55,7 @@ export default function ODUpdater(
     'connection.create'
   ], cropConnection);
 
-  this.reverted(['connection.layout'], function(e) {
+  this.reverted([ 'connection.layout' ], function(e) {
     delete e.context.cropped;
   });
 
@@ -119,8 +119,8 @@ export default function ODUpdater(
     });
   }
 
-  this.executed(['canvas.updateRoot'], updateRoot);
-  this.reverted(['canvas.updateRoot'], updateRoot);
+  this.executed([ 'canvas.updateRoot' ], updateRoot);
+  this.reverted([ 'canvas.updateRoot' ], updateRoot);
 
 
   // update bounds
@@ -212,8 +212,8 @@ export default function ODUpdater(
     self.updateAttachment(e.context);
   }
 
-  this.executed(['element.updateAttachment'], ifOd(updateAttachment));
-  this.reverted(['element.updateAttachment'], ifOd(updateAttachment));
+  this.executed([ 'element.updateAttachment' ], ifOd(updateAttachment));
+  this.reverted([ 'element.updateAttachment' ], ifOd(updateAttachment));
 
 }
 

@@ -25,7 +25,7 @@ export default function ODRules(eventBus) {
 
 inherits(ODRules, RuleProvider);
 
-ODRules.$inject = ['eventBus'];
+ODRules.$inject = [ 'eventBus' ];
 
 ODRules.prototype.init = function() {
 
@@ -239,7 +239,7 @@ function canReplace(elements, target) {
 function canAttach(elements, target) {
 
   if (!Array.isArray(elements)) {
-    elements = [elements];
+    elements = [ elements ];
   }
 
   // only (re-)attach one element at a time
@@ -298,7 +298,7 @@ function canCreate(shape, target, source, position) {
 }
 
 function canResize(shape, newBounds) {
-  if (isAny(shape, ['od:Object'])) {
+  if (isAny(shape, [ 'od:Object' ])) {
     return !newBounds || (newBounds.width >= 50 && newBounds.height >= 50);
   }
   return false;
