@@ -28,7 +28,7 @@
     "eslint-plugin-bpmn-io": "^0.13.0",
     "eslint-plugin-import": "^2.25.4",
     "file-loader": "^6.2.0",
-    "karma": "^6.3.9",
+    "karma": "^6.3.13",
     "karma-chrome-launcher": "^3.1.0",
     "karma-debug-launcher": "0.0.4",
     "karma-env-preprocessor": "^0.1.1",
@@ -43,12 +43,12 @@
     "raw-loader": "^4.0.2",
     "sinon": "^11.1.2",
     "sinon-chai": "^3.7.0",
-    "webpack": "^5.65.0"
+    "webpack": "^5.68.0"
   },
   "dependencies": {
     "bpmn-font": "^0.10.0",
     "css.escape": "^1.5.1",
-    "diagram-js": "^7.8.1",
+    "diagram-js": "^7.8.2",
     "diagram-js-direct-editing": "^1.6.3",
     "ids": "^1.0.0",
     "inherits": "^2.0.4",
