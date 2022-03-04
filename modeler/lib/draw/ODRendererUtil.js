@@ -60,8 +60,20 @@ export function getRectPath(shape) {
 
 // helpers //////////
 
-function getColor(element) {
+export function getColor(element) {
   var bo = getBusinessObject(element);
 
   return bo.color || element.color;
+}
+
+export function getLinkSourceRelation(element) {
+  var bo = getBusinessObject(element);
+
+  return bo.get('sourceRelation') || 'default';
+}
+
+export function getLinkTargetRelation(element) {
+  var bo = getBusinessObject(element);
+
+  return bo.get('targetRelation') || 'default';
 }

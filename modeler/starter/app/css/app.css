@@ -68,3 +68,8 @@ html, body, #canvas {
 	padding: 5px 10px;
 	font-family: monospace;
 }
+
+.djs-overlay-context-pad {
+  /* Allow 5 icons next to eachother in the context pad */
+  width: 120px !important;
+}

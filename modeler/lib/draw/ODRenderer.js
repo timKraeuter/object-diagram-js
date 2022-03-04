@@ -14,7 +14,7 @@ import {
   query as domQuery
 } from 'min-dom';
 
-import { getFillColor, getRectPath, getSemantic, getStrokeColor } from './ODRendererUtil';
+import { getFillColor, getRectPath, getSemantic, getStrokeColor, getColor, getLinkSourceRelation, getLinkTargetRelation} from './ODRendererUtil';
 import Ids from 'ids';
 
 var RENDERER_IDS = new Ids();
@@ -207,11 +207,11 @@ export default function ODRenderer(
     return pathData;
   }
 
-  function marker(fill, stroke) {
-    var id = '-' + colorEscape(fill) + '-' + colorEscape(stroke) + '-' + rendererId;
+  function marker(type, fill, stroke, sourceOrTarget) {
+    var id = type + '-' + colorEscape(fill) + '-' + colorEscape(stroke) + '-' + rendererId + '-' + sourceOrTarget;
 
     if (!markers[id]) {
-      createMarker(id, fill, stroke);
+      createMarker(id, type, fill, stroke, sourceOrTarget);
     }
 
     return 'url(#' + id + ')';
@@ -248,7 +248,7 @@ export default function ODRenderer(
       refY: ref.y,
       markerWidth: 20 * scale,
       markerHeight: 20 * scale,
-      orient: 'auto'
+      orient: 'auto-start-reverse',
     });
 
     var defs = domQuery('defs', canvas._svg);
@@ -270,16 +270,43 @@ export default function ODRenderer(
     return str.replace(/[^0-9a-zA-z]+/g, '_');
   }
 
-  function createMarker(id, type, fill, stroke) {
-    var linkEnd = svgCreate('path');
-    svgAttr(linkEnd, { d: 'M 1 5 L 11 10 L 1 15 Z' });
+  function createMarker(id, type, fill, stroke, sourceOrTarget) {
+    var fillColor = stroke;
+    var element = svgCreate('path');
+    var ref;
+    var scale = 0.5;
+
+    if (type !== 'default') {
+      scale = 0.95;
+      fillColor = 'white';
+    }
+
+    // Only add the default arrow to the target direction.
+    if (sourceOrTarget === 'target' && type === 'default') {
+      svgAttr(element, { d: 'M 1 5 L 11 10 L 1 15 Z' });
+      ref = { x: 11, y: 10 };
+    }
+
+    if (type === 'zero-or-many') {
+      ref = { x: 20.3, y: 6.95 };
+      svgAttr(element, { d: 'M13.063 6.945 25.563 6.945M13.063 6.945 25.563.695M13.063 6.945 25.563 13.195M13.063 6.945a6.25 6.25 0 1 1 0-.25Z' });
+    } else if (type === 'one-or-many') {
+      ref = { x: 19.75, y: 12.5 };
+      svgAttr(element, { d: 'M25 12.5 0 12.5M12.5 12.5 25 6.25M12.5 12.5 25 18.75M6.25 6.25 6.25 18.75' });
+    } else if (type === 'one') {
+      ref = { x: 21.90, y: 12.5 };
+      svgAttr(element, { d: 'M0 12.5 25 12.5M6.25 6.25 6.25 18.75M18.75 6.25 18.75 18.75' });
+    } else if (type === 'zero-or-one') {
+      ref = { x: 22.45, y: 6.95 };
+      svgAttr(element, { d: 'M13.063 6.945 25.563 6.945M19.313.695 19.313 13.195M13.063 6.945a6.25 6.25 0 1 1 0-.25Z' });
+    }
 
     addMarker(id, {
-      element: linkEnd,
-      ref: { x: 11, y: 10 },
-      scale: 0.5,
+      element,
+      ref,
+      scale,
       attrs: {
-        fill: stroke,
+        fill: fillColor,
         stroke: stroke
       }
     });
@@ -307,9 +334,13 @@ export default function ODRenderer(
       var fill = getFillColor(element, defaultFillColor),
           stroke = getStrokeColor(element, defaultStrokeColor);
 
+      var sourceRelation = getLinkSourceRelation(element);
+      var targetRelation = getLinkTargetRelation(element);
+
       var attrs = {
         strokeLinejoin: 'round',
-        markerEnd: marker(fill, stroke),
+        markerStart: marker(sourceRelation, fill, stroke, 'source'),
+        markerEnd: marker(targetRelation, fill, stroke, 'target'),
         stroke: getStrokeColor(element, defaultStrokeColor)
       };
       return drawPath(parentGfx, pathData, attrs);
@@ -370,11 +401,3 @@ ODRenderer.prototype.getShapePath = function(element) {
 
   return getRectPath(element);
 };
-
-// helpers //////////
-
-function getColor(element) {
-  var bo = getBusinessObject(element);
-
-  return bo.color || element.color;
-}
