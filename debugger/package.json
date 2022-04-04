@@ -29,7 +29,7 @@
     "eslint-plugin-import": "^2.25.4",
     "file-loader": "^6.2.0",
     "karma": "^6.3.17",
-    "karma-chrome-launcher": "^3.1.0",
+    "karma-chrome-launcher": "^3.1.1",
     "karma-debug-launcher": "0.0.4",
     "karma-env-preprocessor": "^0.1.1",
     "karma-firefox-launcher": "^2.1.2",
