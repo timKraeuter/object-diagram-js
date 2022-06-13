@@ -9430,10 +9430,12 @@ DirectEditing.prototype.registerProvider = function(provider) {
 /**
  * Returns true if direct editing is currently active
  *
- * @return {Boolean}
+ * @param {djs.model.Base} [element]
+ *
+ * @return {boolean}
  */
-DirectEditing.prototype.isActive = function() {
-  return !!this._active;
+DirectEditing.prototype.isActive = function(element) {
+  return !!(this._active && (!element || this._active.element === element));
 };
 
 
@@ -10062,63 +10064,21 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @typedef { import('didi').ModuleDeclaration } Module
+ */
 
 /**
  * Bootstrap an injector from a list of modules, instantiating a number of default components
  *
- * @ignore
- * @param {Array<didi.Module>} bootstrapModules
+ * @param {Array<Module>} modules
  *
- * @return {didi.Injector} a injector to use to access the components
+ * @return {Injector} a injector to use to access the components
  */
-function bootstrap(bootstrapModules) {
-
-  var modules = [],
-      components = [];
-
-  function hasModule(m) {
-    return modules.indexOf(m) >= 0;
-  }
-
-  function addModule(m) {
-    modules.push(m);
-  }
-
-  function visit(m) {
-    if (hasModule(m)) {
-      return;
-    }
-
-    (m.__depends__ || []).forEach(visit);
-
-    if (hasModule(m)) {
-      return;
-    }
-
-    addModule(m);
-
-    (m.__init__ || []).forEach(function(c) {
-      components.push(c);
-    });
-  }
-
-  bootstrapModules.forEach(visit);
-
+function bootstrap(modules) {
   var injector = new didi__WEBPACK_IMPORTED_MODULE_0__.Injector(modules);
 
-  components.forEach(function(c) {
-
-    try {
-
-      // eagerly resolve component (fn or string)
-      injector[typeof c === 'string' ? 'get' : 'invoke'](c);
-    } catch (e) {
-      console.error('Failed to instantiate component');
-      console.error(e.stack);
-
-      throw e;
-    }
-  });
+  injector.init();
 
   return injector;
 }
@@ -10126,16 +10086,15 @@ function bootstrap(bootstrapModules) {
 /**
  * Creates an injector from passed options.
  *
- * @ignore
- * @param  {Object} options
- * @return {didi.Injector}
+ * @param {Object} options
+ * @return {Injector}
  */
 function createInjector(options) {
 
   options = options || {};
 
   var configModule = {
-    'config': ['value', options]
+    'config': [ 'value', options ]
   };
 
   var modules = [ configModule, _core__WEBPACK_IMPORTED_MODULE_1__["default"] ].concat(options.modules || []);
@@ -10148,7 +10107,7 @@ function createInjector(options) {
  * The main diagram-js entry point that bootstraps the diagram with the given
  * configuration.
  *
- * To register extensions with the diagram, pass them as Array<didi.Module> to the constructor.
+ * To register extensions with the diagram, pass them as Array<Module> to the constructor.
  *
  * @class djs.Diagram
  * @memberOf djs
@@ -10190,8 +10149,8 @@ function createInjector(options) {
  * // 'shape ... was added to the diagram' logged to console
  *
  * @param {Object} options
- * @param {Array<didi.Module>} [options.modules] external modules to instantiate with the diagram
- * @param {didi.Injector} [injector] an (optional) injector to bootstrap the diagram with
+ * @param {Array<Module>} [options.modules] external modules to instantiate with the diagram
+ * @param {Injector} [injector] an (optional) injector to bootstrap the diagram with
  */
 function Diagram(options, injector) {
 
@@ -10290,7 +10249,7 @@ var DEFAULT_PRIORITY = 1000;
  *
  * @example
  *
- * import inherits from 'inherits';
+ * import inherits from 'inherits-browser';
  *
  * import CommandInterceptor from 'diagram-js/lib/command/CommandInterceptor';
  *
@@ -10983,10 +10942,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ Canvas)
 /* harmony export */ });
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
-/* harmony import */ var _util_Collections__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../util/Collections */ "../node_modules/diagram-js/lib/util/Collections.js");
-/* harmony import */ var _util_Elements__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../util/Elements */ "../node_modules/diagram-js/lib/util/Elements.js");
-/* harmony import */ var _layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../layout/LayoutUtil */ "../node_modules/diagram-js/lib/layout/LayoutUtil.js");
-/* harmony import */ var tiny_svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tiny-svg */ "../node_modules/tiny-svg/dist/index.esm.js");
+/* harmony import */ var min_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! min-dom */ "../node_modules/min-dom/dist/index.esm.js");
+/* harmony import */ var _util_Collections__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../util/Collections */ "../node_modules/diagram-js/lib/util/Collections.js");
+/* harmony import */ var _util_Elements__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../util/Elements */ "../node_modules/diagram-js/lib/util/Elements.js");
+/* harmony import */ var _layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../layout/LayoutUtil */ "../node_modules/diagram-js/lib/layout/LayoutUtil.js");
+/* harmony import */ var tiny_svg__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tiny-svg */ "../node_modules/tiny-svg/dist/index.esm.js");
+
+
 
 
 
@@ -11035,7 +10997,7 @@ function createContainer(options) {
   var parent = document.createElement('div');
   parent.setAttribute('class', 'djs-container');
 
-  (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.assign)(parent.style, {
+  (0,min_dom__WEBPACK_IMPORTED_MODULE_1__.assignStyle)(parent, {
     position: 'relative',
     overflow: 'hidden',
     width: ensurePx(options.width),
@@ -11048,8 +11010,8 @@ function createContainer(options) {
 }
 
 function createGroup(parent, cls, childIndex) {
-  var group = (0,tiny_svg__WEBPACK_IMPORTED_MODULE_1__.create)('g');
-  (0,tiny_svg__WEBPACK_IMPORTED_MODULE_1__.classes)(group).add(cls);
+  var group = (0,tiny_svg__WEBPACK_IMPORTED_MODULE_2__.create)('g');
+  (0,tiny_svg__WEBPACK_IMPORTED_MODULE_2__.classes)(group).add(cls);
 
   var index = childIndex !== undefined ? childIndex : parent.childNodes.length - 1;
 
@@ -11061,7 +11023,6 @@ function createGroup(parent, cls, childIndex) {
 }
 
 var BASE_LAYER = 'base';
-var HIDDEN_MARKER = 'djs-element-hidden';
 
 // render plane contents behind utility layers
 var PLANE_LAYER_INDEX = 0;
@@ -11091,6 +11052,12 @@ function Canvas(config, eventBus, graphicsFactory, elementRegistry) {
   this._eventBus = eventBus;
   this._elementRegistry = elementRegistry;
   this._graphicsFactory = graphicsFactory;
+
+  this._rootsIdx = 0;
+
+  this._layers = {};
+  this._planes = [];
+  this._rootElement = null;
 
   this._init(config || {});
 }
@@ -11122,15 +11089,12 @@ Canvas.prototype._init = function(config) {
   // html container
   var container = this._container = createContainer(config);
 
-  var svg = this._svg = (0,tiny_svg__WEBPACK_IMPORTED_MODULE_1__.create)('svg');
-  (0,tiny_svg__WEBPACK_IMPORTED_MODULE_1__.attr)(svg, { width: '100%', height: '100%' });
+  var svg = this._svg = (0,tiny_svg__WEBPACK_IMPORTED_MODULE_2__.create)('svg');
+  (0,tiny_svg__WEBPACK_IMPORTED_MODULE_2__.attr)(svg, { width: '100%', height: '100%' });
 
-  (0,tiny_svg__WEBPACK_IMPORTED_MODULE_1__.append)(container, svg);
+  (0,tiny_svg__WEBPACK_IMPORTED_MODULE_2__.append)(container, svg);
 
   var viewport = this._viewport = createGroup(svg, 'viewport');
-
-  this._layers = {};
-  this._planes = {};
 
   // debounce canvas.viewbox.changed events
   // for smoother diagram interaction
@@ -11166,7 +11130,7 @@ Canvas.prototype._init = function(config) {
     'shape.removed',
     'connection.removed',
     'elements.changed',
-    'plane.set'
+    'root.set'
   ], function() {
     delete this._cachedViewbox;
   }, this);
@@ -11191,7 +11155,7 @@ Canvas.prototype._destroy = function(emit) {
   delete this._container;
   delete this._layers;
   delete this._planes;
-  delete this._activePlane;
+  delete this._rootElement;
   delete this._viewport;
 };
 
@@ -11203,18 +11167,18 @@ Canvas.prototype._clear = function() {
 
   // remove all elements
   allElements.forEach(function(element) {
-    var type = (0,_util_Elements__WEBPACK_IMPORTED_MODULE_2__.getType)(element);
+    var type = (0,_util_Elements__WEBPACK_IMPORTED_MODULE_3__.getType)(element);
 
     if (type === 'root') {
-      self.setRootElementForPlane(null, self.findPlane(element), true);
+      self.removeRootElement(element);
     } else {
       self._removeElement(element, type);
     }
   });
 
   // remove all planes
-  this._activePlane = null;
-  this._planes = {};
+  this._planes = [];
+  this._rootElement = null;
 
   // force recomputation of view box
   delete this._cachedViewbox;
@@ -11267,6 +11231,25 @@ Canvas.prototype.getLayer = function(name, index) {
 };
 
 /**
+ * For a given index, return the number of layers that have a higher index and
+ * are visible.
+ *
+ * This is used to determine the node a layer should be inserted at.
+ *
+ * @param {Number} index
+ * @returns {Number}
+ */
+Canvas.prototype._getChildIndex = function(index) {
+  return (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.reduce)(this._layers, function(childIndex, layer) {
+    if (layer.visible && index >= layer.index) {
+      childIndex++;
+    }
+
+    return childIndex;
+  }, 0);
+};
+
+/**
  * Creates a given layer and returns it.
  *
  * @param {string} name
@@ -11280,154 +11263,150 @@ Canvas.prototype._createLayer = function(name, index) {
     index = UTILITY_LAYER_INDEX;
   }
 
-  var childIndex = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.reduce)(this._layers, function(childIndex, layer) {
-    if (index >= layer.index) {
-      childIndex++;
-    }
-
-    return childIndex;
-  }, 0);
+  var childIndex = this._getChildIndex(index);
 
   return {
     group: createGroup(this._viewport, 'layer-' + name, childIndex),
-    index: index
+    index: index,
+    visible: true
   };
-
 };
 
-/**
- * Returns a plane that is used to draw elements on it.
- *
- * @param {string} name
- *
- * @return {Object} plane descriptor with { layer, rootElement, name }
- */
-Canvas.prototype.getPlane = function(name) {
-  if (!name) {
-    throw new Error('must specify a name');
-  }
-
-  return this._planes[name];
-};
 
 /**
- * Creates a plane that is used to draw elements on it. If no
- * root element is provided, an implicit root will be used.
+ * Shows a given layer.
  *
- * @param {string} name
- * @param {Object|djs.model.Root} [rootElement] optional root element
- *
- * @return {Object} plane descriptor with { layer, rootElement, name }
- */
-Canvas.prototype.createPlane = function(name, rootElement) {
-  if (!name) {
-    throw new Error('must specify a name');
-  }
-
-  if (this._planes[name]) {
-    throw new Error('plane ' + name + ' already exists');
-  }
-
-  if (!rootElement) {
-    rootElement = {
-      id: '__implicitroot' + name,
-      children: [],
-      isImplicit: true
-    };
-  }
-
-  var svgLayer = this.getLayer(name, PLANE_LAYER_INDEX);
-  (0,tiny_svg__WEBPACK_IMPORTED_MODULE_1__.classes)(svgLayer).add(HIDDEN_MARKER);
-
-  var plane = this._planes[name] = {
-    layer: svgLayer,
-    name: name,
-    rootElement: null
-  };
-
-  this.setRootElementForPlane(rootElement, plane);
-
-  return plane;
-};
-
-/**
- * Sets the active plane and hides the previously active plane.
- *
- * @param {string|Object} plane
- *
- * @return {Object} plane descriptor with { layer, rootElement, name }
- */
-Canvas.prototype.setActivePlane = function(plane) {
-  if (!plane) {
-    throw new Error('must specify a plane');
-  }
-
-  if (typeof plane === 'string') {
-    plane = this.getPlane(plane);
-  }
-
-  // hide previous Plane
-  if (this._activePlane) {
-    (0,tiny_svg__WEBPACK_IMPORTED_MODULE_1__.classes)(this._activePlane.layer).add(HIDDEN_MARKER);
-  }
-
-  this._activePlane = plane;
-
-  // show current Plane
-  (0,tiny_svg__WEBPACK_IMPORTED_MODULE_1__.classes)(plane.layer).remove(HIDDEN_MARKER);
-
-  if (plane.rootElement) {
-    this._elementRegistry.updateGraphics(plane.rootElement, this._svg, true);
-  }
-
-  this._eventBus.fire('plane.set', { plane: plane });
-
-  return plane;
-};
-
-/**
- * Returns the currently active layer
- *
+ * @param {String} layer
  * @returns {SVGElement}
  */
+Canvas.prototype.showLayer = function(name) {
 
-Canvas.prototype.getActiveLayer = function() {
-  return this.getActivePlane().layer;
+  if (!name) {
+    throw new Error('must specify a name');
+  }
+
+  var layer = this._layers[name];
+
+  if (!layer) {
+    throw new Error('layer <' + name + '> does not exist');
+  }
+
+  var viewport = this._viewport;
+  var group = layer.group;
+  var index = layer.index;
+
+  if (layer.visible) {
+    return group;
+  }
+
+  var childIndex = this._getChildIndex(index);
+
+  viewport.insertBefore(group, viewport.childNodes[childIndex] || null);
+
+  layer.visible = true;
+
+  return group;
 };
 
 /**
- * Returns the currently active plane.
+ * Hides a given layer.
  *
- * @return {Object} plane descriptor with { layer, rootElement, name }
+ * @param {String} layer
+ * @returns {SVGElement}
  */
-Canvas.prototype.getActivePlane = function() {
-  var plane = this._activePlane;
-  if (!plane) {
-    plane = this.createPlane(BASE_LAYER);
-    this.setActivePlane(BASE_LAYER);
+Canvas.prototype.hideLayer = function(name) {
+
+  if (!name) {
+    throw new Error('must specify a name');
   }
 
-  return plane;
+  var layer = this._layers[name];
+
+  if (!layer) {
+    throw new Error('layer <' + name + '> does not exist');
+  }
+
+  var group = layer.group;
+
+  if (!layer.visible) {
+    return group;
+  }
+
+  (0,tiny_svg__WEBPACK_IMPORTED_MODULE_2__.remove)(group);
+
+  layer.visible = false;
+
+  return group;
 };
+
+
+Canvas.prototype._removeLayer = function(name) {
+
+  var layer = this._layers[name];
+
+  if (layer) {
+    delete this._layers[name];
+
+    (0,tiny_svg__WEBPACK_IMPORTED_MODULE_2__.remove)(layer.group);
+  }
+};
+
+/**
+ * Returns the currently active layer. Can be null.
+ *
+ * @returns {SVGElement|null}
+ */
+Canvas.prototype.getActiveLayer = function() {
+  var plane = this._findPlaneForRoot(this.getRootElement());
+
+  if (!plane) {
+    return null;
+  }
+
+  return plane.layer;
+};
+
 
 /**
  * Returns the plane which contains the given element.
  *
  * @param {string|djs.model.Base} element
  *
- * @return {Object} plane descriptor with { layer, rootElement, name }
+ * @return {djs.model.Base} root for element
  */
-Canvas.prototype.findPlane = function(element) {
+Canvas.prototype.findRoot = function(element) {
   if (typeof element === 'string') {
     element = this._elementRegistry.get(element);
   }
 
-  var root = findRoot(element);
+  if (!element) {
+    return;
+  }
 
-  return (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.find)(this._planes, function(plane) {
-    return plane.rootElement === root;
+  var plane = this._findPlaneForRoot(
+    findRoot(element)
+  ) || {};
+
+  return plane.rootElement;
+};
+
+/**
+ * Return a list of all root elements on the diagram.
+ *
+ * @return {djs.model.Root[]}
+ */
+Canvas.prototype.getRootElements = function() {
+  return this._planes.map(function(plane) {
+    return plane.rootElement;
   });
 };
+
+Canvas.prototype._findPlaneForRoot = function(rootElement) {
+  return (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.find)(this._planes, function(plane) {
+    return plane.rootElement === rootElement;
+  });
+};
+
 
 /**
  * Returns the html element that encloses the
@@ -11461,9 +11440,9 @@ Canvas.prototype._updateMarker = function(element, marker, add) {
 
       // invoke either addClass or removeClass based on mode
       if (add) {
-        (0,tiny_svg__WEBPACK_IMPORTED_MODULE_1__.classes)(gfx).add(marker);
+        (0,tiny_svg__WEBPACK_IMPORTED_MODULE_2__.classes)(gfx).add(marker);
       } else {
-        (0,tiny_svg__WEBPACK_IMPORTED_MODULE_1__.classes)(gfx).remove(marker);
+        (0,tiny_svg__WEBPACK_IMPORTED_MODULE_2__.classes)(gfx).remove(marker);
       }
     }
   });
@@ -11529,7 +11508,7 @@ Canvas.prototype.hasMarker = function(element, marker) {
 
   var gfx = this.getGraphics(element);
 
-  return (0,tiny_svg__WEBPACK_IMPORTED_MODULE_1__.classes)(gfx).has(marker);
+  return (0,tiny_svg__WEBPACK_IMPORTED_MODULE_2__.classes)(gfx).has(marker);
 };
 
 /**
@@ -11549,12 +11528,106 @@ Canvas.prototype.toggleMarker = function(element, marker) {
   }
 };
 
+/**
+ * Returns the current root element.
+ *
+ * Supports two different modes for handling root elements:
+ *
+ * 1. if no root element has been added before, an implicit root will be added
+ * and returned. This is used in applications that don't require explicit
+ * root elements.
+ *
+ * 2. when root elements have been added before calling `getRootElement`,
+ * root elements can be null. This is used for applications that want to manage
+ * root elements themselves.
+ *
+ * @returns {Object|djs.model.Root|null} rootElement.
+ */
 Canvas.prototype.getRootElement = function() {
-  var plane = this.getActivePlane();
+  var rootElement = this._rootElement;
 
-  return plane.rootElement;
+  // can return null if root elements are present but none was set yet
+  if (rootElement || this._planes.length) {
+    return rootElement;
+  }
+
+  return this.setRootElement(this.addRootElement(null));
 };
 
+/**
+ * Adds a given root element and returns it.
+ *
+ * @param {Object|djs.model.Root} rootElement
+ *
+ * @return {Object|djs.model.Root} rootElement
+ */
+
+Canvas.prototype.addRootElement = function(rootElement) {
+  var idx = this._rootsIdx++;
+
+  if (!rootElement) {
+    rootElement = {
+      id: '__implicitroot_' + idx,
+      children: [],
+      isImplicit: true
+    };
+  }
+
+  var layerName = rootElement.layer = 'root-' + idx;
+
+  this._ensureValid('root', rootElement);
+
+  var layer = this.getLayer(layerName, PLANE_LAYER_INDEX);
+
+  this.hideLayer(layerName);
+
+  this._addRoot(rootElement, layer);
+
+  this._planes.push({
+    rootElement: rootElement,
+    layer: layer
+  });
+
+  return rootElement;
+};
+
+/**
+ * Removes a given rootElement and returns it.
+ *
+ * @param {djs.model.Root|String} rootElement
+ *
+ * @return {Object|djs.model.Root} rootElement
+ */
+Canvas.prototype.removeRootElement = function(rootElement) {
+
+  if (typeof rootElement === 'string') {
+    rootElement = this._elementRegistry.get(rootElement);
+  }
+
+  var plane = this._findPlaneForRoot(rootElement);
+
+  if (!plane) {
+    return;
+  }
+
+  // hook up life-cycle events
+  this._removeRoot(rootElement);
+
+  // clean up layer
+  this._removeLayer(rootElement.layer);
+
+  // clean up plane
+  this._planes = this._planes.filter(function(plane) {
+    return plane.rootElement !== rootElement;
+  });
+
+  // clean up active root
+  if (this._rootElement === rootElement) {
+    this._rootElement = null;
+  }
+
+  return rootElement;
+};
 
 
 // root element handling //////////////////////
@@ -11563,81 +11636,93 @@ Canvas.prototype.getRootElement = function() {
  * Sets a given element as the new root element for the canvas
  * and returns the new root element.
  *
- * @param {Object|djs.model.Root} element
- * @param {boolean} [override] whether to override the current root element, if any
+ * @param {Object|djs.model.Root} rootElement
  *
  * @return {Object|djs.model.Root} new root element
  */
-Canvas.prototype.setRootElement = function(element, override) {
-  var activePlane = this._activePlane;
+Canvas.prototype.setRootElement = function(rootElement, override) {
 
-  if (activePlane) {
-    return this.setRootElementForPlane(element, activePlane, override);
-  } else {
-    var basePlane = this.createPlane(BASE_LAYER, element);
-
-    this.setActivePlane(basePlane);
-
-    return basePlane.rootElement;
+  if ((0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isDefined)(override)) {
+    throw new Error('override not supported');
   }
+
+  if (rootElement === this._rootElement) {
+    return;
+  }
+
+  var plane;
+
+  if (!rootElement) {
+    throw new Error('rootElement required');
+  }
+
+  plane = this._findPlaneForRoot(rootElement);
+
+  // give set add semantics for backwards compatibility
+  if (!plane) {
+    rootElement = this.addRootElement(rootElement);
+  }
+
+  this._setRoot(rootElement);
+
+  return rootElement;
 };
 
 
-/**
- * Sets a given element as the new root element for the canvas
- * and returns the new root element.
- *
- * @param {Object|djs.model.Root} element
- * @param {Object|djs.model.Root} plane
- * @param {boolean} [override] whether to override the current root element, if any
- *
- * @return {Object|djs.model.Root} new root element
- */
-Canvas.prototype.setRootElementForPlane = function(element, plane, override) {
-
-  if (typeof plane === 'string') {
-    plane = this.getPlane(plane);
-  }
-
-  if (element) {
-    this._ensureValid('root', element);
-  }
-
-  var currentRoot = plane.rootElement,
-      elementRegistry = this._elementRegistry,
+Canvas.prototype._removeRoot = function(element) {
+  var elementRegistry = this._elementRegistry,
       eventBus = this._eventBus;
 
+  // simulate element remove event sequence
+  eventBus.fire('root.remove', { element: element });
+  eventBus.fire('root.removed', { element: element });
+
+  elementRegistry.remove(element);
+};
+
+
+Canvas.prototype._addRoot = function(element, gfx) {
+  var elementRegistry = this._elementRegistry,
+      eventBus = this._eventBus;
+
+  // resemble element add event sequence
+  eventBus.fire('root.add', { element: element });
+
+  elementRegistry.add(element, gfx);
+
+  eventBus.fire('root.added', { element: element, gfx: gfx });
+};
+
+
+Canvas.prototype._setRoot = function(rootElement, layer) {
+
+  var currentRoot = this._rootElement;
+
   if (currentRoot) {
-    if (!override) {
-      throw new Error('rootElement already set, need to specify override');
-    }
 
-    // simulate element remove event sequence
-    eventBus.fire('root.remove', { element: currentRoot });
-    eventBus.fire('root.removed', { element: currentRoot });
+    // un-associate previous root element <svg>
+    this._elementRegistry.updateGraphics(currentRoot, null, true);
 
-    elementRegistry.remove(currentRoot);
+    // hide previous layer
+    this.hideLayer(currentRoot.layer);
   }
 
-  if (element) {
-    var gfx = plane.layer;
+  if (rootElement) {
 
-    // resemble element add event sequence
-    eventBus.fire('root.add', { element: element });
-
-    elementRegistry.add(element, gfx);
-
-    eventBus.fire('root.added', { element: element, gfx: gfx });
-
-    // associate SVG with root element when active
-    if (plane === this._activePlane) {
-      this._elementRegistry.updateGraphics(element, this._svg, true);
+    if (!layer) {
+      layer = this._findPlaneForRoot(rootElement).layer;
     }
+
+    // associate element with <svg>
+    this._elementRegistry.updateGraphics(rootElement, this._svg, true);
+
+    // show root layer
+    this.showLayer(rootElement.layer);
   }
 
-  plane.rootElement = element;
+  this._rootElement = rootElement;
 
-  return element;
+  this._eventBus.fire('root.set', { element: rootElement });
 };
 
 // add functionality //////////////////////
@@ -11648,7 +11733,7 @@ Canvas.prototype._ensureValid = function(type, element) {
   }
 
   if (this._elementRegistry.get(element.id)) {
-    throw new Error('element with id ' + element.id + ' already exists');
+    throw new Error('element <' + element.id + '> already exists');
   }
 
   var requiredAttrs = REQUIRED_MODEL_ATTRS[type];
@@ -11664,7 +11749,7 @@ Canvas.prototype._ensureValid = function(type, element) {
 };
 
 Canvas.prototype._setParent = function(element, parent, parentIndex) {
-  (0,_util_Collections__WEBPACK_IMPORTED_MODULE_3__.add)(parent.children, element, parentIndex);
+  (0,_util_Collections__WEBPACK_IMPORTED_MODULE_4__.add)(parent.children, element, parentIndex);
   element.parent = parent;
 };
 
@@ -11763,7 +11848,7 @@ Canvas.prototype._removeElement = function(element, type) {
   graphicsFactory.remove(element);
 
   // unset parent <-> child relationship
-  (0,_util_Collections__WEBPACK_IMPORTED_MODULE_3__.remove)(element.parent && element.parent.children, element);
+  (0,_util_Collections__WEBPACK_IMPORTED_MODULE_4__.remove)(element.parent && element.parent.children, element);
   element.parent = null;
 
   eventBus.fire(type + '.removed', { element: element });
@@ -11938,6 +12023,7 @@ Canvas.prototype.viewbox = function(box) {
       innerBox,
       outerBox = this.getSize(),
       matrix,
+      activeLayer,
       transform,
       scale,
       x, y;
@@ -11945,13 +12031,14 @@ Canvas.prototype.viewbox = function(box) {
   if (!box) {
 
     // compute the inner box based on the
-    // diagrams active plane. This allows us to exclude
+    // diagrams active layer. This allows us to exclude
     // external components, such as overlays
 
-    innerBox = (this._activePlane && this._activePlane.layer.getBBox()) || {};
+    activeLayer = this._rootElement ? this.getActiveLayer() : null;
+    innerBox = activeLayer && activeLayer.getBBox() || {};
 
-    transform = (0,tiny_svg__WEBPACK_IMPORTED_MODULE_1__.transform)(viewport);
-    matrix = transform ? transform.matrix : (0,tiny_svg__WEBPACK_IMPORTED_MODULE_1__.createMatrix)();
+    transform = (0,tiny_svg__WEBPACK_IMPORTED_MODULE_2__.transform)(viewport);
+    matrix = transform ? transform.matrix : (0,tiny_svg__WEBPACK_IMPORTED_MODULE_2__.createMatrix)();
     scale = round(matrix.a, 1000);
 
     x = round(-matrix.e || 0, 1000);
@@ -11982,7 +12069,7 @@ Canvas.prototype.viewbox = function(box) {
         .scale(scale)
         .translate(-box.x, -box.y);
 
-      (0,tiny_svg__WEBPACK_IMPORTED_MODULE_1__.transform)(viewport, matrix);
+      (0,tiny_svg__WEBPACK_IMPORTED_MODULE_2__.transform)(viewport, matrix);
     });
   }
 
@@ -12031,10 +12118,11 @@ Canvas.prototype.scrollToElement = function(element, padding) {
     element = this._elementRegistry.get(element);
   }
 
-  // switch to correct Plane
-  var targetPlane = this.findPlane(element);
-  if (targetPlane !== this._activePlane) {
-    this.setActivePlane(targetPlane);
+  // set to correct rootElement
+  var rootElement = this.findRoot(element);
+
+  if (rootElement !== this.getRootElement()) {
+    this.setRootElement(rootElement);
   }
 
   if (!padding) {
@@ -12051,8 +12139,8 @@ Canvas.prototype.scrollToElement = function(element, padding) {
     left: padding.left || defaultPadding
   };
 
-  var elementBounds = (0,_util_Elements__WEBPACK_IMPORTED_MODULE_2__.getBBox)(element),
-      elementTrbl = (0,_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_4__.asTRBL)(elementBounds),
+  var elementBounds = (0,_util_Elements__WEBPACK_IMPORTED_MODULE_3__.getBBox)(element),
+      elementTrbl = (0,_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_5__.asTRBL)(elementBounds),
       viewboxBounds = this.viewbox(),
       zoom = this.zoom(),
       dx, dy;
@@ -12063,7 +12151,7 @@ Canvas.prototype.scrollToElement = function(element, padding) {
   viewboxBounds.width -= (padding.right + padding.left) / zoom;
   viewboxBounds.height -= (padding.bottom + padding.top) / zoom;
 
-  var viewboxTrbl = (0,_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_4__.asTRBL)(viewboxBounds);
+  var viewboxTrbl = (0,_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_5__.asTRBL)(viewboxBounds);
 
   var canFit = elementBounds.width < viewboxBounds.width && elementBounds.height < viewboxBounds.height;
 
@@ -12476,7 +12564,9 @@ ElementRegistry.prototype.updateGraphics = function(filter, gfx, secondary) {
     container.gfx = gfx;
   }
 
-  (0,tiny_svg__WEBPACK_IMPORTED_MODULE_0__.attr)(gfx, ELEMENT_ID, id);
+  if (gfx) {
+    (0,tiny_svg__WEBPACK_IMPORTED_MODULE_0__.attr)(gfx, ELEMENT_ID, id);
+  }
 
   return gfx;
 };
@@ -13480,7 +13570,7 @@ function BaseRenderer(eventBus, renderPriority) {
     }
   });
 
-  eventBus.on([ 'render.getShapePath', 'render.getConnectionPath'], renderPriority, function(evt, element) {
+  eventBus.on([ 'render.getShapePath', 'render.getConnectionPath' ], renderPriority, function(evt, element) {
     if (self.canRender(element)) {
       if (evt.type === 'render.getShapePath') {
         return self.getShapePath(element);
@@ -13553,9 +13643,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ DefaultRenderer)
 /* harmony export */ });
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inherits */ "../node_modules/inherits/inherits_browser.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(inherits__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _BaseRenderer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BaseRenderer */ "../node_modules/diagram-js/lib/draw/BaseRenderer.js");
+/* harmony import */ var inherits_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! inherits-browser */ "../node_modules/inherits-browser/dist/index.es.js");
+/* harmony import */ var _BaseRenderer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseRenderer */ "../node_modules/diagram-js/lib/draw/BaseRenderer.js");
 /* harmony import */ var _util_RenderUtil__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../util/RenderUtil */ "../node_modules/diagram-js/lib/util/RenderUtil.js");
 /* harmony import */ var tiny_svg__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tiny-svg */ "../node_modules/tiny-svg/dist/index.esm.js");
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
@@ -13585,14 +13674,14 @@ var DEFAULT_RENDER_PRIORITY = 1;
 function DefaultRenderer(eventBus, styles) {
 
   //
-  _BaseRenderer__WEBPACK_IMPORTED_MODULE_1__["default"].call(this, eventBus, DEFAULT_RENDER_PRIORITY);
+  _BaseRenderer__WEBPACK_IMPORTED_MODULE_0__["default"].call(this, eventBus, DEFAULT_RENDER_PRIORITY);
 
   this.CONNECTION_STYLE = styles.style([ 'no-fill' ], { strokeWidth: 5, stroke: 'fuchsia' });
   this.SHAPE_STYLE = styles.style({ fill: 'white', stroke: 'fuchsia', strokeWidth: 2 });
   this.FRAME_STYLE = styles.style([ 'no-fill' ], { stroke: 'fuchsia', strokeDasharray: 4, strokeWidth: 2 });
 }
 
-inherits__WEBPACK_IMPORTED_MODULE_0___default()(DefaultRenderer, _BaseRenderer__WEBPACK_IMPORTED_MODULE_1__["default"]);
+(0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(DefaultRenderer, _BaseRenderer__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 
 DefaultRenderer.prototype.canRender = function() {
@@ -13636,11 +13725,11 @@ DefaultRenderer.prototype.getShapePath = function getShapePath(shape) {
       height = shape.height;
 
   var shapePath = [
-    ['M', x, y],
-    ['l', width, 0],
-    ['l', 0, height],
-    ['l', -width, 0],
-    ['z']
+    [ 'M', x, y ],
+    [ 'l', width, 0 ],
+    [ 'l', 0, height ],
+    [ 'l', -width, 0 ],
+    [ 'z' ]
   ];
 
   return (0,_util_RenderUtil__WEBPACK_IMPORTED_MODULE_5__.componentsToPath)(shapePath);
@@ -13998,12 +14087,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ AttachSupport)
 /* harmony export */ });
-/* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
-/* harmony import */ var _util_Removal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/Removal */ "../node_modules/diagram-js/lib/util/Removal.js");
-/* harmony import */ var _util_AttachUtil__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../util/AttachUtil */ "../node_modules/diagram-js/lib/util/AttachUtil.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inherits */ "../node_modules/inherits/inherits_browser.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(inherits__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../command/CommandInterceptor */ "../node_modules/diagram-js/lib/command/CommandInterceptor.js");
+/* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
+/* harmony import */ var _util_Removal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/Removal */ "../node_modules/diagram-js/lib/util/Removal.js");
+/* harmony import */ var _util_AttachUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/AttachUtil */ "../node_modules/diagram-js/lib/util/AttachUtil.js");
+/* harmony import */ var inherits_browser__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! inherits-browser */ "../node_modules/inherits-browser/dist/index.es.js");
+/* harmony import */ var _command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../command/CommandInterceptor */ "../node_modules/diagram-js/lib/command/CommandInterceptor.js");
 
 
 
@@ -14037,7 +14125,7 @@ var MARKER_ATTACH = 'attach-ok';
  */
 function AttachSupport(injector, eventBus, canvas, rules, modeling) {
 
-  _command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_1__["default"].call(this, eventBus);
+  _command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"].call(this, eventBus);
 
   var movePreview = injector.get('movePreview', false);
 
@@ -14062,10 +14150,10 @@ function AttachSupport(injector, eventBus, canvas, rules, modeling) {
         shapes = context.shapes,
         attachers = getAttachers(shapes);
 
-    (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.forEach)(attachers, function(attacher) {
+    (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.forEach)(attachers, function(attacher) {
       movePreview.makeDraggable(context, attacher, true);
 
-      (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.forEach)(attacher.labels, function(label) {
+      (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.forEach)(attacher.labels, function(label) {
         movePreview.makeDraggable(context, label, true);
       });
     });
@@ -14103,7 +14191,7 @@ function AttachSupport(injector, eventBus, canvas, rules, modeling) {
         shapes = context.shapes,
         attachers = getAttachers(shapes);
 
-    (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.forEach)(attachers, function(attacher) {
+    (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.forEach)(attachers, function(attacher) {
       closure.add(attacher, closure.topLevel[attacher.host.id]);
     });
   });
@@ -14127,14 +14215,14 @@ function AttachSupport(injector, eventBus, canvas, rules, modeling) {
     } else {
 
       // find attachers moved without host
-      attachers = (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.filter)(shapes, function(shape) {
+      attachers = (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.filter)(shapes, function(shape) {
         var host = shape.host;
 
         return isAttacher(shape) && !includes(shapes, host);
       });
     }
 
-    (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.forEach)(attachers, function(attacher) {
+    (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.forEach)(attachers, function(attacher) {
       modeling.updateAttachment(attacher, newHost);
     });
   });
@@ -14144,12 +14232,12 @@ function AttachSupport(injector, eventBus, canvas, rules, modeling) {
 
     var shapes = e.context.shapes;
 
-    (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.forEach)(shapes, function(shape) {
+    (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.forEach)(shapes, function(shape) {
 
-      (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.forEach)(shape.attachers, function(attacher) {
+      (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.forEach)(shape.attachers, function(attacher) {
 
         // remove invalid outgoing connections
-        (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.forEach)(attacher.outgoing.slice(), function(connection) {
+        (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.forEach)(attacher.outgoing.slice(), function(connection) {
           var allowed = rules.allowed('connection.reconnect', {
             connection: connection,
             source: connection.source,
@@ -14162,7 +14250,7 @@ function AttachSupport(injector, eventBus, canvas, rules, modeling) {
         });
 
         // remove invalid incoming connections
-        (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.forEach)(attacher.incoming.slice(), function(connection) {
+        (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.forEach)(attacher.incoming.slice(), function(connection) {
           var allowed = rules.allowed('connection.reconnect', {
             connection: connection,
             source: connection.source,
@@ -14195,10 +14283,10 @@ function AttachSupport(injector, eventBus, canvas, rules, modeling) {
         newShape = context.newShape;
 
     // move the attachers to the new host
-    (0,_util_Removal__WEBPACK_IMPORTED_MODULE_3__.saveClear)(oldShape.attachers, function(attacher) {
+    (0,_util_Removal__WEBPACK_IMPORTED_MODULE_2__.saveClear)(oldShape.attachers, function(attacher) {
       var allowed = rules.allowed('elements.move', {
         target: newShape,
-        shapes: [attacher]
+        shapes: [ attacher ]
       });
 
       if (allowed === 'attach') {
@@ -14211,8 +14299,8 @@ function AttachSupport(injector, eventBus, canvas, rules, modeling) {
     // move attachers if new host has different size
     if (newShape.attachers.length) {
 
-      (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.forEach)(newShape.attachers, function(attacher) {
-        var delta = (0,_util_AttachUtil__WEBPACK_IMPORTED_MODULE_4__.getNewAttachShapeDelta)(attacher, oldShape, newShape);
+      (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.forEach)(newShape.attachers, function(attacher) {
+        var delta = (0,_util_AttachUtil__WEBPACK_IMPORTED_MODULE_3__.getNewAttachShapeDelta)(attacher, oldShape, newShape);
         modeling.moveShape(attacher, delta, attacher.parent);
       });
     }
@@ -14232,12 +14320,12 @@ function AttachSupport(injector, eventBus, canvas, rules, modeling) {
       return;
     }
 
-    (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.forEach)(attachers, function(attacher) {
-      var delta = (0,_util_AttachUtil__WEBPACK_IMPORTED_MODULE_4__.getNewAttachShapeDelta)(attacher, oldBounds, newBounds);
+    (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.forEach)(attachers, function(attacher) {
+      var delta = (0,_util_AttachUtil__WEBPACK_IMPORTED_MODULE_3__.getNewAttachShapeDelta)(attacher, oldBounds, newBounds);
 
       modeling.moveShape(attacher, delta, attacher.parent);
 
-      (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.forEach)(attacher.labels, function(label) {
+      (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.forEach)(attacher.labels, function(label) {
         modeling.moveShape(label, delta, label.parent);
       });
     });
@@ -14248,7 +14336,7 @@ function AttachSupport(injector, eventBus, canvas, rules, modeling) {
 
     var shape = event.context.shape;
 
-    (0,_util_Removal__WEBPACK_IMPORTED_MODULE_3__.saveClear)(shape.attachers, function(attacher) {
+    (0,_util_Removal__WEBPACK_IMPORTED_MODULE_2__.saveClear)(shape.attachers, function(attacher) {
       modeling.removeShape(attacher);
     });
 
@@ -14258,7 +14346,7 @@ function AttachSupport(injector, eventBus, canvas, rules, modeling) {
   });
 }
 
-inherits__WEBPACK_IMPORTED_MODULE_0___default()(AttachSupport, _command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_1__["default"]);
+(0,inherits_browser__WEBPACK_IMPORTED_MODULE_4__["default"])(AttachSupport, _command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 AttachSupport.$inject = [
   'injector',
@@ -14276,7 +14364,7 @@ AttachSupport.$inject = [
  * @return {Array<djs.model.Base>}
  */
 function getAttachers(shapes) {
-  return (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.flatten)((0,min_dash__WEBPACK_IMPORTED_MODULE_2__.map)(shapes, function(s) {
+  return (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.flatten)((0,min_dash__WEBPACK_IMPORTED_MODULE_1__.map)(shapes, function(s) {
     return s.attachers || [];
   }));
 }
@@ -14291,7 +14379,7 @@ function getAttachers(shapes) {
 function addAttached(elements) {
   var attachers = getAttachers(elements);
 
-  return (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.unionBy)('id', elements, attachers);
+  return (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.unionBy)('id', elements, attachers);
 }
 
 /**
@@ -14305,9 +14393,9 @@ function addAttached(elements) {
  */
 function removeAttached(elements) {
 
-  var ids = (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.groupBy)(elements, 'id');
+  var ids = (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.groupBy)(elements, 'id');
 
-  return (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.filter)(elements, function(element) {
+  return (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.filter)(elements, function(element) {
     while (element) {
 
       // host in selection
@@ -15510,12 +15598,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ BendpointSnapping)
 /* harmony export */ });
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
-/* harmony import */ var _snapping_SnapUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../snapping/SnapUtil */ "../node_modules/diagram-js/lib/features/snapping/SnapUtil.js");
+/* harmony import */ var _snapping_SnapUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../snapping/SnapUtil */ "../node_modules/diagram-js/lib/features/snapping/SnapUtil.js");
+/* harmony import */ var _BendpointUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BendpointUtil */ "../node_modules/diagram-js/lib/features/bendpoints/BendpointUtil.js");
 
 
 
 
-var abs= Math.abs,
+
+
+var abs = Math.abs,
     round = Math.round;
 
 var TOLERANCE = 10;
@@ -15547,7 +15638,12 @@ function BendpointSnapping(eventBus) {
     return value;
   }
 
-  function mid(element) {
+  function getSnapPoint(element, event) {
+
+    if (element.waypoints) {
+      return (0,_BendpointUtil__WEBPACK_IMPORTED_MODULE_1__.getClosestPointOnConnection)(event, element);
+    }
+
     if (element.width) {
       return {
         x: round(element.width / 2 + element.x),
@@ -15558,9 +15654,10 @@ function BendpointSnapping(eventBus) {
 
   // connection segment snapping //////////////////////
 
-  function getConnectionSegmentSnaps(context) {
+  function getConnectionSegmentSnaps(event) {
 
-    var snapPoints = context.snapPoints,
+    var context = event.context,
+        snapPoints = context.snapPoints,
         connection = context.connection,
         waypoints = connection.waypoints,
         segmentStart = context.segmentStart,
@@ -15581,11 +15678,11 @@ function BendpointSnapping(eventBus) {
     ];
 
     if (segmentStartIndex < 2) {
-      referenceWaypoints.unshift(mid(connection.source));
+      referenceWaypoints.unshift(getSnapPoint(connection.source, event));
     }
 
     if (segmentEndIndex > waypoints.length - 3) {
-      referenceWaypoints.unshift(mid(connection.target));
+      referenceWaypoints.unshift(getSnapPoint(connection.target, event));
     }
 
     context.snapPoints = snapPoints = { horizontal: [] , vertical: [] };
@@ -15611,8 +15708,7 @@ function BendpointSnapping(eventBus) {
   }
 
   eventBus.on('connectionSegment.move.move', 1500, function(event) {
-    var context = event.context,
-        snapPoints = getConnectionSegmentSnaps(context),
+    var snapPoints = getConnectionSegmentSnaps(event),
         x = event.x,
         y = event.y,
         sx, sy;
@@ -15640,11 +15736,11 @@ function BendpointSnapping(eventBus) {
 
     // only set snapped if actually snapped
     if (cx || snapPoints.vertical.indexOf(x) !== -1) {
-      (0,_snapping_SnapUtil__WEBPACK_IMPORTED_MODULE_1__.setSnapped)(event, 'x', sx);
+      (0,_snapping_SnapUtil__WEBPACK_IMPORTED_MODULE_2__.setSnapped)(event, 'x', sx);
     }
 
     if (cy || snapPoints.horizontal.indexOf(y) !== -1) {
-      (0,_snapping_SnapUtil__WEBPACK_IMPORTED_MODULE_1__.setSnapped)(event, 'y', sy);
+      (0,_snapping_SnapUtil__WEBPACK_IMPORTED_MODULE_2__.setSnapped)(event, 'y', sy);
     }
   });
 
@@ -15680,13 +15776,31 @@ function BendpointSnapping(eventBus) {
     return snapPoints;
   }
 
+  // Snap Endpoint of new connection
+  eventBus.on([
+    'connect.hover',
+    'connect.move',
+    'connect.end'
+  ], 1500, function(event) {
+    var context = event.context,
+        hover = context.hover,
+        hoverMid = hover && getSnapPoint(hover, event);
+
+    // only snap on connections, elements can have multiple connect endpoints
+    if (!isConnection(hover) || !hoverMid || !hoverMid.x || !hoverMid.y) {
+      return;
+    }
+
+    (0,_snapping_SnapUtil__WEBPACK_IMPORTED_MODULE_2__.setSnapped)(event, 'x', hoverMid.x);
+    (0,_snapping_SnapUtil__WEBPACK_IMPORTED_MODULE_2__.setSnapped)(event, 'y', hoverMid.y);
+  });
 
   eventBus.on([ 'bendpoint.move.move', 'bendpoint.move.end' ], 1500, function(event) {
 
     var context = event.context,
         snapPoints = getBendpointSnaps(context),
         hover = context.hover,
-        hoverMid = hover && mid(hover),
+        hoverMid = hover && getSnapPoint(hover, event),
         x = event.x,
         y = event.y,
         sx, sy;
@@ -15713,17 +15827,25 @@ function BendpointSnapping(eventBus) {
 
     // only set snapped if actually snapped
     if (cx || snapPoints.vertical.indexOf(x) !== -1) {
-      (0,_snapping_SnapUtil__WEBPACK_IMPORTED_MODULE_1__.setSnapped)(event, 'x', sx);
+      (0,_snapping_SnapUtil__WEBPACK_IMPORTED_MODULE_2__.setSnapped)(event, 'x', sx);
     }
 
     if (cy || snapPoints.horizontal.indexOf(y) !== -1) {
-      (0,_snapping_SnapUtil__WEBPACK_IMPORTED_MODULE_1__.setSnapped)(event, 'y', sy);
+      (0,_snapping_SnapUtil__WEBPACK_IMPORTED_MODULE_2__.setSnapped)(event, 'y', sy);
     }
   });
 }
 
 
 BendpointSnapping.$inject = [ 'eventBus' ];
+
+
+// helpers //////////////////////
+
+function isConnection(element) {
+  return element && !!element.waypoints;
+}
+
 
 /***/ }),
 
@@ -15741,6 +15863,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "addBendpoint": () => (/* binding */ addBendpoint),
 /* harmony export */   "addSegmentDragger": () => (/* binding */ addSegmentDragger),
 /* harmony export */   "calculateSegmentMoveRegion": () => (/* binding */ calculateSegmentMoveRegion),
+/* harmony export */   "getClosestPointOnConnection": () => (/* binding */ getClosestPointOnConnection),
 /* harmony export */   "getConnectionIntersection": () => (/* binding */ getConnectionIntersection),
 /* harmony export */   "toCanvasCoordinates": () => (/* binding */ toCanvasCoordinates)
 /* harmony export */ });
@@ -15749,6 +15872,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tiny_svg__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tiny-svg */ "../node_modules/tiny-svg/dist/index.esm.js");
 /* harmony import */ var _util_SvgTransformUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/SvgTransformUtil */ "../node_modules/diagram-js/lib/util/SvgTransformUtil.js");
 /* harmony import */ var _util_LineIntersection__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../util/LineIntersection */ "../node_modules/diagram-js/lib/util/LineIntersection.js");
+/* harmony import */ var _GeometricUtil__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./GeometricUtil */ "../node_modules/diagram-js/lib/features/bendpoints/GeometricUtil.js");
+
+
 
 
 
@@ -15830,8 +15956,8 @@ function createParallelDragger(parentGfx, segmentStart, segmentEnd, alignment) {
 
   (0,tiny_svg__WEBPACK_IMPORTED_MODULE_2__.append)(parentGfx, draggerGfx);
 
-  var width = 14,
-      height = 3,
+  var width = 18,
+      height = 6,
       padding = 11,
       hitWidth = calculateHitWidth(segmentStart, segmentEnd, alignment),
       hitHeight = height + padding;
@@ -15892,6 +16018,20 @@ function calculateSegmentMoveRegion(segmentLength) {
   return Math.abs(Math.round(segmentLength * 2 / 3));
 }
 
+/**
+ * Returns the point with the closest distance that is on the connection path.
+ *
+ * @param {Point} position
+ * @param {djs.Base.Connection} connection
+ * @returns {Point}
+ */
+function getClosestPointOnConnection(position, connection) {
+  var segment = getClosestSegment(position, connection);
+
+  return (0,_GeometricUtil__WEBPACK_IMPORTED_MODULE_5__.perpendicularFoot)(position, segment);
+}
+
+
 // helper //////////
 
 function calculateHitWidth(segmentStart, segmentEnd, alignment) {
@@ -15903,6 +16043,25 @@ function calculateHitWidth(segmentStart, segmentEnd, alignment) {
     calculateSegmentMoveRegion(segmentLengthYAxis);
 }
 
+function getClosestSegment(position, connection) {
+  var waypoints = connection.waypoints;
+
+  var minDistance = Infinity,
+      segmentIndex;
+
+  for (var i = 0; i < waypoints.length - 1; i++) {
+    var start = waypoints[i],
+        end = waypoints[i + 1],
+        distance = (0,_GeometricUtil__WEBPACK_IMPORTED_MODULE_5__.getDistancePointLine)(position, [ start, end ]);
+
+    if (distance < minDistance) {
+      minDistance = distance;
+      segmentIndex = i;
+    }
+  }
+
+  return [ waypoints[segmentIndex], waypoints[segmentIndex + 1] ];
+}
 
 /***/ }),
 
@@ -16748,6 +16907,147 @@ ConnectionSegmentMove.$inject = [
 
 /***/ }),
 
+/***/ "../node_modules/diagram-js/lib/features/bendpoints/GeometricUtil.js":
+/*!***************************************************************************!*\
+  !*** ../node_modules/diagram-js/lib/features/bendpoints/GeometricUtil.js ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getAngle": () => (/* binding */ getAngle),
+/* harmony export */   "getDistancePointLine": () => (/* binding */ getDistancePointLine),
+/* harmony export */   "getDistancePointPoint": () => (/* binding */ getDistancePointPoint),
+/* harmony export */   "perpendicularFoot": () => (/* binding */ perpendicularFoot),
+/* harmony export */   "rotateVector": () => (/* binding */ rotateVector),
+/* harmony export */   "vectorLength": () => (/* binding */ vectorLength)
+/* harmony export */ });
+
+/**
+ * Returns the length of a vector
+ *
+ * @param {Vector}
+ * @return {Float}
+ */
+function vectorLength(v) {
+  return Math.sqrt(Math.pow(v.x, 2) + Math.pow(v.y, 2));
+}
+
+
+/**
+ * Calculates the angle between a line a the yAxis
+ *
+ * @param {Array}
+ * @return {Float}
+ */
+function getAngle(line) {
+
+  // return value is between 0, 180 and -180, -0
+  // @janstuemmel: maybe replace return a/b with b/a
+  return Math.atan((line[1].y - line[0].y) / (line[1].x - line[0].x));
+}
+
+
+/**
+ * Rotates a vector by a given angle
+ *
+ * @param {Vector}
+ * @param {Float} Angle in radians
+ * @return {Vector}
+ */
+function rotateVector(vector, angle) {
+  return (!angle) ? vector : {
+    x: Math.cos(angle) * vector.x - Math.sin(angle) * vector.y,
+    y: Math.sin(angle) * vector.x + Math.cos(angle) * vector.y
+  };
+}
+
+
+/**
+ * Solves a 2D equation system
+ * a + r*b = c, where a,b,c are 2D vectors
+ *
+ * @param {Vector}
+ * @param {Vector}
+ * @param {Vector}
+ * @return {Float}
+ */
+function solveLambaSystem(a, b, c) {
+
+  // the 2d system
+  var system = [
+    { n: a[0] - c[0], lambda: b[0] },
+    { n: a[1] - c[1], lambda: b[1] }
+  ];
+
+  // solve
+  var n = system[0].n * b[0] + system[1].n * b[1],
+      l = system[0].lambda * b[0] + system[1].lambda * b[1];
+
+  return -n / l;
+}
+
+
+/**
+ * Position of perpendicular foot
+ *
+ * @param {Point}
+ * @param [ {Point}, {Point} ] line defined through two points
+ * @return {Point} the perpendicular foot position
+ */
+function perpendicularFoot(point, line) {
+
+  var a = line[0], b = line[1];
+
+  // relative position of b from a
+  var bd = { x: b.x - a.x, y: b.y - a.y };
+
+  // solve equation system to the parametrized vectors param real value
+  var r = solveLambaSystem([ a.x, a.y ], [ bd.x, bd.y ], [ point.x, point.y ]);
+
+  return { x: a.x + r * bd.x, y: a.y + r * bd.y };
+}
+
+
+/**
+ * Calculates the distance between a point and a line
+ *
+ * @param {Point}
+ * @param [ {Point}, {Point} ] line defined through two points
+ * @return {Float} distance
+ */
+function getDistancePointLine(point, line) {
+
+  var pfPoint = perpendicularFoot(point, line);
+
+  // distance vector
+  var connectionVector = {
+    x: pfPoint.x - point.x,
+    y: pfPoint.y - point.y
+  };
+
+  return vectorLength(connectionVector);
+}
+
+
+/**
+ * Calculates the distance between two points
+ *
+ * @param {Point}
+ * @param {Point}
+ * @return {Float} distance
+ */
+function getDistancePointPoint(point1, point2) {
+
+  return vectorLength({
+    x: point1.x - point2.x,
+    y: point1.y - point2.y
+  });
+}
+
+/***/ }),
+
 /***/ "../node_modules/diagram-js/lib/features/bendpoints/index.js":
 /*!*******************************************************************!*\
   !*** ../node_modules/diagram-js/lib/features/bendpoints/index.js ***!
@@ -16887,7 +17187,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  __init__: [ 'changeSupport'],
+  __init__: [ 'changeSupport' ],
   changeSupport: [ 'type', _ChangeSupport__WEBPACK_IMPORTED_MODULE_0__["default"] ]
 });
 
@@ -17061,7 +17361,7 @@ function Connect(eventBus, dragging, modeling, rules) {
       attrs = canExecute;
     }
 
-    modeling.connect(source, target, attrs, hints);
+    context.connection = modeling.connect(source, target, attrs, hints);
   });
 
 
@@ -17587,6 +17887,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 /* harmony import */ var min_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! min-dom */ "../node_modules/min-dom/dist/index.esm.js");
+/* harmony import */ var _util_Elements__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/Elements */ "../node_modules/diagram-js/lib/util/Elements.js");
+
+
 
 
 
@@ -17594,12 +17897,18 @@ __webpack_require__.r(__webpack_exports__);
 var entrySelector = '.entry';
 
 var DEFAULT_PRIORITY = 1000;
+var CONTEXT_PAD_PADDING = 12;
 
+
+/**
+ * @typedef {djs.model.Base|djs.model.Base[]} ContextPadTarget
+ */
 
 /**
  * A context pad that displays element specific, contextual actions next
  * to a diagram element.
  *
+ * @param {Canvas} canvas
  * @param {Object} config
  * @param {boolean|Object} [config.scale={ min: 1.0, max: 1.5 }]
  * @param {number} [config.scale.min]
@@ -17607,8 +17916,9 @@ var DEFAULT_PRIORITY = 1000;
  * @param {EventBus} eventBus
  * @param {Overlays} overlays
  */
-function ContextPad(config, eventBus, overlays) {
+function ContextPad(canvas, config, eventBus, overlays) {
 
+  this._canvas = canvas;
   this._eventBus = eventBus;
   this._overlays = overlays;
 
@@ -17618,10 +17928,6 @@ function ContextPad(config, eventBus, overlays) {
   };
 
   this._overlaysConfig = {
-    position: {
-      right: -9,
-      top: -6
-    },
     scale: scale
   };
 
@@ -17631,6 +17937,7 @@ function ContextPad(config, eventBus, overlays) {
 }
 
 ContextPad.$inject = [
+  'canvas',
   'config.contextPad',
   'eventBus',
   'overlays'
@@ -17638,68 +17945,78 @@ ContextPad.$inject = [
 
 
 /**
- * Registers events needed for interaction with other components
+ * Registers events needed for interaction with other components.
  */
 ContextPad.prototype._init = function() {
-
-  var eventBus = this._eventBus;
-
   var self = this;
 
-  eventBus.on('selection.changed', function(e) {
+  this._eventBus.on('selection.changed', function(event) {
 
-    var selection = e.newSelection;
+    var selection = event.newSelection;
 
-    if (selection.length === 1) {
-      self.open(selection[0]);
+    var target = selection.length
+      ? selection.length === 1
+        ? selection[0]
+        : selection
+      : null;
+
+    if (target) {
+      self.open(target, true);
     } else {
       self.close();
     }
   });
 
-  eventBus.on('elements.delete', function(event) {
-    var elements = event.elements;
-
-    (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.forEach)(elements, function(e) {
-      if (self.isOpen(e)) {
-        self.close();
-      }
-    });
-  });
-
-  eventBus.on('element.changed', function(event) {
-    var element = event.element,
+  this._eventBus.on('elements.changed', function(event) {
+    var elements = event.elements,
         current = self._current;
 
-    // force reopen if element for which we are currently opened changed
-    if (current && current.element === element) {
-      self.open(element, true);
+    if (!current) {
+      return;
+    }
+
+    var currentTarget = current.target;
+
+    var currentChanged = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.some)(
+      (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isArray)(currentTarget) ? currentTarget : [ currentTarget ],
+      function(element) {
+        return includes(elements, element);
+      }
+    );
+
+    // re-open if elements in current selection changed
+    if (currentChanged) {
+      self.open(currentTarget, true);
     }
   });
 };
 
 
 /**
- * Register a provider with the context pad
+ * Register context pad provider.
  *
  * @param  {number} [priority=1000]
  * @param  {ContextPadProvider} provider
  *
  * @example
  * const contextPadProvider = {
-  *   getContextPadEntries: function(element) {
-  *     return function(entries) {
-  *       return {
-  *         ...entries,
-  *         'entry-1': {
-  *           label: 'My Entry',
-  *           action: function() { alert("I have been clicked!"); }
-  *         }
-  *       };
-  *     }
-  *   }
-  * };
-  *
+ *   getContextPadEntries: function(element) {
+ *     return function(entries) {
+ *       return {
+ *         ...entries,
+ *         'entry-1': {
+ *           label: 'My Entry',
+ *           action: function() { alert("I have been clicked!"); }
+ *         }
+ *       };
+ *     }
+ *   },
+ *
+ *   getMultiElementContextPadEntries: function(elements) {
+ *     // ...
+ *   }
+ * };
+ *
  * contextPad.registerProvider(800, contextPadProvider);
  */
 ContextPad.prototype.registerProvider = function(priority, provider) {
@@ -17715,21 +18032,30 @@ ContextPad.prototype.registerProvider = function(priority, provider) {
 
 
 /**
- * Returns the context pad entries for a given element
+ * Get context pad entries for given elements.
  *
- * @param {djs.element.Base} element
+ * @param {ContextPadTarget} target
  *
- * @return {Array<ContextPadEntryDescriptor>} list of entries
+ * @return {ContextPadEntryDescriptor[]} list of entries
  */
-ContextPad.prototype.getEntries = function(element) {
+ContextPad.prototype.getEntries = function(target) {
   var providers = this._getProviders();
+
+  var provideFn = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isArray)(target)
+    ? 'getMultiElementContextPadEntries'
+    : 'getContextPadEntries';
 
   var entries = {};
 
   // loop through all providers and their entries.
   // group entries by id so that overriding an entry is possible
   (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.forEach)(providers, function(provider) {
-    var entriesOrUpdater = provider.getContextPadEntries(element);
+
+    if (!(0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isFunction)(provider[provideFn])) {
+      return;
+    }
+
+    var entriesOrUpdater = provider[provideFn](target);
 
     if ((0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isFunction)(entriesOrUpdater)) {
       entries = entriesOrUpdater(entries);
@@ -17745,7 +18071,7 @@ ContextPad.prototype.getEntries = function(element) {
 
 
 /**
- * Trigger an action available on the opened context pad
+ * Trigger context pad action.
  *
  * @param  {string} action
  * @param  {Event} event
@@ -17753,7 +18079,7 @@ ContextPad.prototype.getEntries = function(element) {
  */
 ContextPad.prototype.trigger = function(action, event, autoActivate) {
 
-  var element = this._current.element,
+  var target = this._current.target,
       entries = this._current.entries,
       entry,
       handler,
@@ -17772,11 +18098,11 @@ ContextPad.prototype.trigger = function(action, event, autoActivate) {
   // simple action (via callback function)
   if ((0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isFunction)(handler)) {
     if (action === 'click') {
-      return handler(originalEvent, element, autoActivate);
+      return handler(originalEvent, target, autoActivate);
     }
   } else {
     if (handler[action]) {
-      return handler[action](originalEvent, element, autoActivate);
+      return handler[action](originalEvent, target, autoActivate);
     }
   }
 
@@ -17786,18 +18112,19 @@ ContextPad.prototype.trigger = function(action, event, autoActivate) {
 
 
 /**
- * Open the context pad for the given element
+ * Open the context pad for given elements.
  *
- * @param {djs.model.Base} element
- * @param {boolean} force if true, force reopening the context pad
+ * @param {ContextPadTarget} target
+ * @param {boolean} [force=false] - Force re-opening context pad.
  */
-ContextPad.prototype.open = function(element, force) {
-  if (!force && this.isOpen(element)) {
+ContextPad.prototype.open = function(target, force) {
+  if (!force && this.isOpen(target)) {
     return;
   }
 
   this.close();
-  this._updateAndOpen(element);
+
+  this._updateAndOpen(target);
 };
 
 ContextPad.prototype._getProviders = function() {
@@ -17812,10 +18139,13 @@ ContextPad.prototype._getProviders = function() {
   return event.providers;
 };
 
-ContextPad.prototype._updateAndOpen = function(element) {
 
-  var entries = this.getEntries(element),
-      pad = this.getPad(element),
+/**
+ * @param {ContextPadTarget} target
+ */
+ContextPad.prototype._updateAndOpen = function(target) {
+  var entries = this.getEntries(target),
+      pad = this.getPad(target),
       html = pad.html;
 
   (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.forEach)(entries, function(entry, id) {
@@ -17849,16 +18179,20 @@ ContextPad.prototype._updateAndOpen = function(element) {
   (0,min_dom__WEBPACK_IMPORTED_MODULE_1__.classes)(html).add('open');
 
   this._current = {
-    element: element,
-    pad: pad,
-    entries: entries
+    target: target,
+    entries: entries,
+    pad: pad
   };
 
   this._eventBus.fire('contextPad.open', { current: this._current });
 };
 
-
-ContextPad.prototype.getPad = function(element) {
+/**
+ * @param {ContextPadTarget} target
+ *
+ * @return {Overlay}
+ */
+ContextPad.prototype.getPad = function(target) {
   if (this.isOpen()) {
     return this._current.pad;
   }
@@ -17869,9 +18203,11 @@ ContextPad.prototype.getPad = function(element) {
 
   var html = (0,min_dom__WEBPACK_IMPORTED_MODULE_1__.domify)('<div class="djs-context-pad"></div>');
 
+  var position = this._getPosition(target);
+
   var overlaysConfig = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.assign)({
     html: html
-  }, this._overlaysConfig);
+  }, this._overlaysConfig, position);
 
   min_dom__WEBPACK_IMPORTED_MODULE_1__.delegate.bind(html, entrySelector, 'click', function(event) {
     self.trigger('click', event);
@@ -17886,11 +18222,16 @@ ContextPad.prototype.getPad = function(element) {
     event.stopPropagation();
   });
 
-  this._overlayId = overlays.add(element, 'context-pad', overlaysConfig);
+  var activeRootElement = this._canvas.getRootElement();
+
+  this._overlayId = overlays.add(activeRootElement, 'context-pad', overlaysConfig);
 
   var pad = overlays.get(this._overlayId);
 
-  this._eventBus.fire('contextPad.create', { element: element, pad: pad });
+  this._eventBus.fire('contextPad.create', {
+    target: target,
+    pad: pad
+  });
 
   return pad;
 };
@@ -17914,29 +18255,86 @@ ContextPad.prototype.close = function() {
 };
 
 /**
- * Check if pad is open. If element is given, will check
- * if pad is opened with given element.
+ * Check if pad is open.
  *
- * @param {Element} element
+ * If target is provided, check if it is opened
+ * for the given target (single or multiple elements).
+ *
+ * @param {ContextPadTarget} [target]
  * @return {boolean}
  */
-ContextPad.prototype.isOpen = function(element) {
-  return !!this._current && (!element ? true : this._current.element === element);
+ContextPad.prototype.isOpen = function(target) {
+  var current = this._current;
+
+  if (!current) {
+    return false;
+  }
+
+  // basic no-args is open check
+  if (!target) {
+    return true;
+  }
+
+  var currentTarget = current.target;
+
+  // strict handling of single vs. multi-selection
+  if ((0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isArray)(target) !== (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isArray)(currentTarget)) {
+    return false;
+  }
+
+  if ((0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isArray)(target)) {
+    return (
+      target.length === currentTarget.length &&
+      (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.every)(target, function(element) {
+        return includes(currentTarget, element);
+      })
+    );
+  } else {
+    return currentTarget === target;
+  }
 };
 
 
+/**
+ * Get contex pad position.
+ *
+ * @param {ContextPadTarget} target
+ * @return {Bounds}
+ */
+ContextPad.prototype._getPosition = function(target) {
+
+  var elements = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isArray)(target) ? target : [ target ];
+  var bBox = (0,_util_Elements__WEBPACK_IMPORTED_MODULE_2__.getBBox)(elements);
+
+  return {
+    position: {
+      left: bBox.x + bBox.width + CONTEXT_PAD_PADDING,
+      top: bBox.y - CONTEXT_PAD_PADDING / 2
+    }
+  };
+};
 
 
-// helpers //////////////////////
+// helpers //////////
 
 function addClasses(element, classNames) {
-
   var classes = (0,min_dom__WEBPACK_IMPORTED_MODULE_1__.classes)(element);
 
-  var actualClassNames = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isArray)(classNames) ? classNames : classNames.split(/\s+/g);
-  actualClassNames.forEach(function(cls) {
+  classNames = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isArray)(classNames) ? classNames : classNames.split(/\s+/g);
+
+  classNames.forEach(function(cls) {
     classes.add(cls);
   });
+}
+
+/**
+ * @param {any[]} array
+ * @param {any} item
+ *
+ * @return {boolean}
+ */
+function includes(array, item) {
+  return array.indexOf(item) !== -1;
 }
 
 /***/ }),
@@ -18007,6 +18405,14 @@ __webpack_require__.r(__webpack_exports__);
  * @param {Object} context.descriptor
  * @param {djs.model.Base} context.element
  * @param {Array<djs.model.Base>} context.elements
+ */
+
+/**
+ * @typedef {Function} <copyPaste.createTree> listener
+ *
+ * @param {Object} context
+ * @param {djs.model.Base} context.element
+ * @param {Array<djs.model.Base>} context.children - Add children to be added to tree.
  */
 
 /**
@@ -18479,7 +18885,19 @@ CopyPaste.prototype.createTree = function(elements) {
 
     addElementData(element, depth);
 
-    return element.children;
+    var children = [];
+
+    if (element.children) {
+      children = element.children.slice();
+    }
+
+    // allow others to add children to tree
+    self._eventBus.fire('copyPaste.createTree', {
+      element: element,
+      children: children
+    });
+
+    return children;
   });
 
   elements = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.map)(elementsData, function(elementData) {
@@ -18907,7 +19325,11 @@ function Create(
       }
     });
 
-    var bbox = (0,_util_Elements__WEBPACK_IMPORTED_MODULE_1__.getBBox)(elements);
+    var visibleElements = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.filter)(elements, function(element) {
+      return !element.hidden;
+    });
+
+    var bbox = (0,_util_Elements__WEBPACK_IMPORTED_MODULE_1__.getBBox)(visibleElements);
 
     // center elements around cursor
     (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.forEach)(elements, function(element) {
@@ -20611,10 +21033,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ ResizeBehavior)
 /* harmony export */ });
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inherits */ "../node_modules/inherits/inherits_browser.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(inherits__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../command/CommandInterceptor */ "../node_modules/diagram-js/lib/command/CommandInterceptor.js");
-/* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
+/* harmony import */ var inherits_browser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! inherits-browser */ "../node_modules/inherits-browser/dist/index.es.js");
+/* harmony import */ var _command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../command/CommandInterceptor */ "../node_modules/diagram-js/lib/command/CommandInterceptor.js");
+/* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 
 
 
@@ -20626,7 +21047,7 @@ __webpack_require__.r(__webpack_exports__);
  * Integrates resizing with grid snapping.
  */
 function ResizeBehavior(eventBus, gridSnapping) {
-  _command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_1__["default"].call(this, eventBus);
+  _command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"].call(this, eventBus);
 
   this._gridSnapping = gridSnapping;
 
@@ -20644,7 +21065,7 @@ function ResizeBehavior(eventBus, gridSnapping) {
     var shape = context.shape,
         newBounds = context.newBounds;
 
-    if ((0,min_dash__WEBPACK_IMPORTED_MODULE_2__.isString)(autoResize)) {
+    if ((0,min_dash__WEBPACK_IMPORTED_MODULE_1__.isString)(autoResize)) {
       context.newBounds = self.snapComplex(newBounds, autoResize);
     } else {
       context.newBounds = self.snapSimple(shape, newBounds);
@@ -20658,7 +21079,7 @@ ResizeBehavior.$inject = [
   'modeling'
 ];
 
-inherits__WEBPACK_IMPORTED_MODULE_0___default()(ResizeBehavior, _command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_1__["default"]);
+(0,inherits_browser__WEBPACK_IMPORTED_MODULE_2__["default"])(ResizeBehavior, _command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 /**
  * Snap width and height in relation to center.
@@ -20744,7 +21165,7 @@ ResizeBehavior.prototype.snapHorizontally = function(newBounds, directions) {
   }
 
   // assign snapped x and width
-  (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)(newBounds, snappedNewBounds);
+  (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.assign)(newBounds, snappedNewBounds);
 
   return newBounds;
 };
@@ -20788,7 +21209,7 @@ ResizeBehavior.prototype.snapVertically = function(newBounds, directions) {
   }
 
   // assign snapped y and height
-  (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)(newBounds, snappedNewBounds);
+  (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.assign)(newBounds, snappedNewBounds);
 
   return newBounds;
 };
@@ -21560,10 +21981,13 @@ function InteractionEvents(eventBus, elementRegistry, styles) {
 
   var ALL_HIT_STYLE = createHitStyle('djs-hit djs-hit-all');
 
+  var NO_MOVE_HIT_STYLE = createHitStyle('djs-hit djs-hit-no-move');
+
   var HIT_TYPES = {
     'all': ALL_HIT_STYLE,
     'click-stroke': CLICK_STROKE_HIT_STYLE,
-    'stroke': STROKE_HIT_STYLE
+    'stroke': STROKE_HIT_STYLE,
+    'no-move': NO_MOVE_HIT_STYLE
   };
 
   function createHitStyle(classNames, attrs) {
@@ -22141,7 +22565,7 @@ Keyboard.prototype._isModifiedKeyIgnored = function(event) {
   }
 
   var allowedModifiers = this._getAllowedModifiers(event.target);
-  return !allowedModifiers.includes(event.key);
+  return allowedModifiers.indexOf(event.key) === -1;
 };
 
 Keyboard.prototype._getAllowedModifiers = function(element) {
@@ -22258,7 +22682,7 @@ var KEYCODE_V = 86;
 var KEYCODE_Y = 89;
 var KEYCODE_Z = 90;
 
-var KEYS_COPY = ['c', 'C', KEYCODE_C ];
+var KEYS_COPY = [ 'c', 'C', KEYCODE_C ];
 var KEYS_PASTE = [ 'v', 'V', KEYCODE_V ];
 var KEYS_REDO = [ 'y', 'Y', KEYCODE_Y ];
 var KEYS_UNDO = [ 'z', 'Z', KEYCODE_Z ];
@@ -22414,7 +22838,7 @@ KeyboardBindings.prototype.registerBindings = function(keyboard, editorActions) 
 
     var event = context.keyEvent;
 
-    if ((0,_KeyboardUtil__WEBPACK_IMPORTED_MODULE_0__.isKey)(['Backspace', 'Delete', 'Del' ], event)) {
+    if ((0,_KeyboardUtil__WEBPACK_IMPORTED_MODULE_0__.isKey)([ 'Backspace', 'Delete', 'Del' ], event)) {
       editorActions.trigger('removeSelection');
 
       return true;
@@ -22520,12 +22944,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ LabelSupport)
 /* harmony export */ });
-/* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inherits */ "../node_modules/inherits/inherits_browser.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(inherits__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _util_Collections__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../util/Collections */ "../node_modules/diagram-js/lib/util/Collections.js");
-/* harmony import */ var _util_Removal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/Removal */ "../node_modules/diagram-js/lib/util/Removal.js");
-/* harmony import */ var _command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../command/CommandInterceptor */ "../node_modules/diagram-js/lib/command/CommandInterceptor.js");
+/* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
+/* harmony import */ var inherits_browser__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! inherits-browser */ "../node_modules/inherits-browser/dist/index.es.js");
+/* harmony import */ var _util_Collections__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/Collections */ "../node_modules/diagram-js/lib/util/Collections.js");
+/* harmony import */ var _util_Removal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/Removal */ "../node_modules/diagram-js/lib/util/Removal.js");
+/* harmony import */ var _command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../command/CommandInterceptor */ "../node_modules/diagram-js/lib/command/CommandInterceptor.js");
 
 
 
@@ -22550,7 +22973,7 @@ var LOW_PRIORITY = 250,
  */
 function LabelSupport(injector, eventBus, modeling) {
 
-  _command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_1__["default"].call(this, eventBus);
+  _command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"].call(this, eventBus);
 
   var movePreview = injector.get('movePreview', false);
 
@@ -22574,9 +22997,9 @@ function LabelSupport(injector, eventBus, modeling) {
 
     var labels = [];
 
-    (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.forEach)(shapes, function(element) {
+    (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.forEach)(shapes, function(element) {
 
-      (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.forEach)(element.labels, function(label) {
+      (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.forEach)(element.labels, function(label) {
 
         if (!label.hidden && context.shapes.indexOf(label) === -1) {
           labels.push(label);
@@ -22588,7 +23011,7 @@ function LabelSupport(injector, eventBus, modeling) {
       });
     });
 
-    (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.forEach)(labels, function(label) {
+    (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.forEach)(labels, function(label) {
       movePreview.makeDraggable(context, label, true);
     });
 
@@ -22604,8 +23027,8 @@ function LabelSupport(injector, eventBus, modeling) {
 
     // find labels that are not part of
     // move closure yet and add them
-    (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.forEach)(enclosedElements, function(element) {
-      (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.forEach)(element.labels, function(label) {
+    (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.forEach)(enclosedElements, function(element) {
+      (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.forEach)(element.labels, function(label) {
 
         if (!enclosedElements[label.id]) {
           enclosedLabels.push(label);
@@ -22625,7 +23048,7 @@ function LabelSupport(injector, eventBus, modeling) {
     var context = e.context,
         element = context.connection || context.shape;
 
-    (0,_util_Removal__WEBPACK_IMPORTED_MODULE_3__.saveClear)(element.labels, function(label) {
+    (0,_util_Removal__WEBPACK_IMPORTED_MODULE_2__.saveClear)(element.labels, function(label) {
       modeling.removeShape(label, { nested: true });
     });
   });
@@ -22639,7 +23062,7 @@ function LabelSupport(injector, eventBus, modeling) {
 
     // unset labelTarget
     if (labelTarget) {
-      context.labelTargetIndex = (0,_util_Collections__WEBPACK_IMPORTED_MODULE_4__.indexOf)(labelTarget.labels, shape);
+      context.labelTargetIndex = (0,_util_Collections__WEBPACK_IMPORTED_MODULE_3__.indexOf)(labelTarget.labels, shape);
       context.labelTarget = labelTarget;
 
       shape.labelTarget = null;
@@ -22655,7 +23078,7 @@ function LabelSupport(injector, eventBus, modeling) {
 
     // restore labelTarget
     if (labelTarget) {
-      (0,_util_Collections__WEBPACK_IMPORTED_MODULE_4__.add)(labelTarget.labels, shape, labelTargetIndex);
+      (0,_util_Collections__WEBPACK_IMPORTED_MODULE_3__.add)(labelTarget.labels, shape, labelTargetIndex);
 
       shape.labelTarget = labelTarget;
     }
@@ -22663,7 +23086,7 @@ function LabelSupport(injector, eventBus, modeling) {
 
 }
 
-inherits__WEBPACK_IMPORTED_MODULE_0___default()(LabelSupport, _command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_1__["default"]);
+(0,inherits_browser__WEBPACK_IMPORTED_MODULE_4__["default"])(LabelSupport, _command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 LabelSupport.$inject = [
   'injector',
@@ -22683,7 +23106,7 @@ LabelSupport.$inject = [
  */
 function removeLabels(elements) {
 
-  return (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.filter)(elements, function(element) {
+  return (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.filter)(elements, function(element) {
 
     // filter out labels that are move together
     // with their label targets
@@ -22709,7 +23132,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  __init__: [ 'labelSupport'],
+  __init__: [ 'labelSupport' ],
   labelSupport: [ 'type', _LabelSupport__WEBPACK_IMPORTED_MODULE_0__["default"] ]
 });
 
@@ -23850,7 +24273,11 @@ CreateElementsHandler.prototype.preExecute = function(context) {
     }
   });
 
-  var bbox = (0,_util_Elements__WEBPACK_IMPORTED_MODULE_1__.getBBox)(elements);
+  var visibleElements = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.filter)(elements, function(element) {
+    return !element.hidden;
+  });
+
+  var bbox = (0,_util_Elements__WEBPACK_IMPORTED_MODULE_1__.getBBox)(visibleElements);
 
   // center elements around position
   (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.forEach)(elements, function(element) {
@@ -23939,9 +24366,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ CreateLabelHandler)
 /* harmony export */ });
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inherits */ "../node_modules/inherits/inherits_browser.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(inherits__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _CreateShapeHandler__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CreateShapeHandler */ "../node_modules/diagram-js/lib/features/modeling/cmd/CreateShapeHandler.js");
+/* harmony import */ var inherits_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! inherits-browser */ "../node_modules/inherits-browser/dist/index.es.js");
+/* harmony import */ var _CreateShapeHandler__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CreateShapeHandler */ "../node_modules/diagram-js/lib/features/modeling/cmd/CreateShapeHandler.js");
 
 
 
@@ -23953,10 +24379,10 @@ __webpack_require__.r(__webpack_exports__);
  * @param {Canvas} canvas
  */
 function CreateLabelHandler(canvas) {
-  _CreateShapeHandler__WEBPACK_IMPORTED_MODULE_1__["default"].call(this, canvas);
+  _CreateShapeHandler__WEBPACK_IMPORTED_MODULE_0__["default"].call(this, canvas);
 }
 
-inherits__WEBPACK_IMPORTED_MODULE_0___default()(CreateLabelHandler, _CreateShapeHandler__WEBPACK_IMPORTED_MODULE_1__["default"]);
+(0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(CreateLabelHandler, _CreateShapeHandler__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 CreateLabelHandler.$inject = [ 'canvas' ];
 
@@ -23964,7 +24390,7 @@ CreateLabelHandler.$inject = [ 'canvas' ];
 // api //////////////////////
 
 
-var originalExecute = _CreateShapeHandler__WEBPACK_IMPORTED_MODULE_1__["default"].prototype.execute;
+var originalExecute = _CreateShapeHandler__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.execute;
 
 /**
  * Appends a label to a target shape.
@@ -23987,7 +24413,7 @@ CreateLabelHandler.prototype.execute = function(context) {
   return originalExecute.call(this, context);
 };
 
-var originalRevert = _CreateShapeHandler__WEBPACK_IMPORTED_MODULE_1__["default"].prototype.revert;
+var originalRevert = _CreateShapeHandler__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.revert;
 
 /**
  * Undo append by removing the shape
@@ -24110,7 +24536,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ DeleteConnectionHandler)
 /* harmony export */ });
-/* harmony import */ var _util_Collections__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../util/Collections */ "../node_modules/diagram-js/lib/util/Collections.js");
+/* harmony import */ var _util_Collections__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../util/Collections */ "../node_modules/diagram-js/lib/util/Collections.js");
+/* harmony import */ var _util_Removal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../util/Removal */ "../node_modules/diagram-js/lib/util/Removal.js");
+
 
 
 
@@ -24128,6 +24556,30 @@ DeleteConnectionHandler.$inject = [
 ];
 
 
+/**
+ * - Remove connections
+ */
+DeleteConnectionHandler.prototype.preExecute = function(context) {
+
+  var modeling = this._modeling;
+
+  var connection = context.connection;
+
+  // remove connections
+  (0,_util_Removal__WEBPACK_IMPORTED_MODULE_0__.saveClear)(connection.incoming, function(connection) {
+
+    // To make sure that the connection isn't removed twice
+    // For example if a container is removed
+    modeling.removeConnection(connection, { nested: true });
+  });
+
+  (0,_util_Removal__WEBPACK_IMPORTED_MODULE_0__.saveClear)(connection.outgoing, function(connection) {
+    modeling.removeConnection(connection, { nested: true });
+  });
+
+};
+
+
 DeleteConnectionHandler.prototype.execute = function(context) {
 
   var connection = context.connection,
@@ -24136,7 +24588,7 @@ DeleteConnectionHandler.prototype.execute = function(context) {
   context.parent = parent;
 
   // remember containment
-  context.parentIndex = (0,_util_Collections__WEBPACK_IMPORTED_MODULE_0__.indexOf)(parent.children, connection);
+  context.parentIndex = (0,_util_Collections__WEBPACK_IMPORTED_MODULE_1__.indexOf)(parent.children, connection);
 
   context.source = connection.source;
   context.target = connection.target;
@@ -24162,7 +24614,7 @@ DeleteConnectionHandler.prototype.revert = function(context) {
   connection.target = context.target;
 
   // restore containment
-  (0,_util_Collections__WEBPACK_IMPORTED_MODULE_0__.add)(parent.children, connection, parentIndex);
+  (0,_util_Collections__WEBPACK_IMPORTED_MODULE_1__.add)(parent.children, connection, parentIndex);
 
   this._canvas.addConnection(connection, parent);
 
@@ -24737,7 +25189,7 @@ MoveShapeHandler.prototype.execute = function(context) {
       newParentIndex = context.newParentIndex,
       oldParent = shape.parent;
 
-  context.oldBounds = (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.pick)(shape, [ 'x', 'y', 'width', 'height']);
+  context.oldBounds = (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.pick)(shape, [ 'x', 'y', 'width', 'height' ]);
 
   // save old parent in context
   context.oldParent = oldParent;
@@ -25482,7 +25934,7 @@ ToggleShapeCollapseHandler.prototype.execute = function(context) {
   // recursively hide/show children
   var result = setHiddenRecursive(children, shape.collapsed);
 
-  return [shape].concat(result);
+  return [ shape ].concat(result);
 };
 
 
@@ -25499,7 +25951,7 @@ ToggleShapeCollapseHandler.prototype.revert = function(context) {
   // retoggle state
   shape.collapsed = !shape.collapsed;
 
-  return [shape].concat(result);
+  return [ shape ].concat(result);
 };
 
 
@@ -26078,8 +26530,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ MoveEvents)
 /* harmony export */ });
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
+/* harmony import */ var tiny_svg__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! tiny-svg */ "../node_modules/tiny-svg/dist/index.esm.js");
 /* harmony import */ var _util_Event__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/Event */ "../node_modules/diagram-js/lib/util/Event.js");
 /* harmony import */ var _util_Mouse__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../util/Mouse */ "../node_modules/diagram-js/lib/util/Mouse.js");
+
+
 
 
 var LOW_PRIORITY = 500,
@@ -26274,6 +26729,11 @@ function MoveEvents(
 
     // do not move connections or the root element
     if (element.waypoints || !element.parent) {
+      return;
+    }
+
+    // ignore non-draggable hits
+    if ((0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.classes)(event.target).has('djs-hit-no-move')) {
       return;
     }
 
@@ -26649,9 +27109,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ OrderingProvider)
 /* harmony export */ });
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inherits */ "../node_modules/inherits/inherits_browser.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(inherits__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../command/CommandInterceptor */ "../node_modules/diagram-js/lib/command/CommandInterceptor.js");
+/* harmony import */ var inherits_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! inherits-browser */ "../node_modules/inherits-browser/dist/index.es.js");
+/* harmony import */ var _command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../command/CommandInterceptor */ "../node_modules/diagram-js/lib/command/CommandInterceptor.js");
 
 
 
@@ -26688,7 +27147,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 function OrderingProvider(eventBus) {
 
-  _command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_1__["default"].call(this, eventBus);
+  _command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"].call(this, eventBus);
 
 
   var self = this;
@@ -26746,7 +27205,7 @@ OrderingProvider.prototype.getOrdering = function(element, newParent) {
   return null;
 };
 
-inherits__WEBPACK_IMPORTED_MODULE_0___default()(OrderingProvider, _command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_1__["default"]);
+(0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(OrderingProvider, _command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 /***/ }),
 
@@ -26800,6 +27259,7 @@ function Outline(eventBus, styles, elementRegistry) {
     (0,tiny_svg__WEBPACK_IMPORTED_MODULE_0__.attr)(outline, (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.assign)({
       x: 10,
       y: 10,
+      rx: 3,
       width: 100,
       height: 100
     }, OUTLINE_STYLE));
@@ -26879,7 +27339,7 @@ Outline.prototype.updateConnectionOutline = function(outline, connection) {
 };
 
 
-Outline.$inject = ['eventBus', 'styles', 'elementRegistry'];
+Outline.$inject = [ 'eventBus', 'styles', 'elementRegistry' ];
 
 /***/ }),
 
@@ -27160,8 +27620,7 @@ Overlays.prototype.add = function(element, type, overlay) {
  *
  * @see Overlays#get for filter options.
  *
- * @param {string} [id]
- * @param {Object} [filter]
+ * @param {string|object} [filter]
  */
 Overlays.prototype.remove = function(filter) {
 
@@ -27277,11 +27736,13 @@ Overlays.prototype._updateOverlay = function(overlay) {
   }
 
   setPosition(htmlContainer, left || 0, top || 0);
+  this._updateOverlayVisibilty(overlay, this._canvas.viewbox());
 };
 
 
 Overlays.prototype._createOverlayContainer = function(element) {
-  var html = (0,min_dom__WEBPACK_IMPORTED_MODULE_2__.domify)('<div class="djs-overlays" style="position: absolute" />');
+  var html = (0,min_dom__WEBPACK_IMPORTED_MODULE_2__.domify)('<div class="djs-overlays" />');
+  (0,min_dom__WEBPACK_IMPORTED_MODULE_2__.assignStyle)(html, { position: 'absolute' });
 
   this._overlayRoot.appendChild(html);
 
@@ -27352,7 +27813,8 @@ Overlays.prototype._addOverlay = function(overlay) {
 
   overlayContainer = this._getOverlayContainer(element);
 
-  htmlContainer = (0,min_dom__WEBPACK_IMPORTED_MODULE_2__.domify)('<div class="djs-overlay" data-overlay-id="' + id + '" style="position: absolute">');
+  htmlContainer = (0,min_dom__WEBPACK_IMPORTED_MODULE_2__.domify)('<div class="djs-overlay" data-overlay-id="' + id + '">');
+  (0,min_dom__WEBPACK_IMPORTED_MODULE_2__.assignStyle)(htmlContainer, { position: 'absolute' });
 
   htmlContainer.appendChild(html);
 
@@ -27360,12 +27822,10 @@ Overlays.prototype._addOverlay = function(overlay) {
     (0,min_dom__WEBPACK_IMPORTED_MODULE_2__.classes)(htmlContainer).add('djs-overlay-' + overlay.type);
   }
 
-  var plane = this._canvas.findPlane(element);
-  var activePlane = this._canvas.getActivePlane();
-  overlay.plane = plane;
-  if (plane !== activePlane) {
-    setVisible(htmlContainer, false);
-  }
+  var elementRoot = this._canvas.findRoot(element);
+  var activeRoot = this._canvas.getRootElement();
+
+  setVisible(htmlContainer, elementRoot === activeRoot);
 
   overlay.htmlContainer = htmlContainer;
 
@@ -27381,14 +27841,14 @@ Overlays.prototype._addOverlay = function(overlay) {
 
 Overlays.prototype._updateOverlayVisibilty = function(overlay, viewbox) {
   var show = overlay.show,
-      plane = overlay.plane,
+      rootElement = this._canvas.findRoot(overlay.element),
       minZoom = show && show.minZoom,
       maxZoom = show && show.maxZoom,
       htmlContainer = overlay.htmlContainer,
-      activePlane = this._canvas.getActivePlane(),
+      activeRootElement = this._canvas.getRootElement(),
       visible = true;
 
-  if (plane !== activePlane) {
+  if (rootElement !== activeRootElement) {
     visible = false;
   } else if (show) {
     if (
@@ -27524,10 +27984,8 @@ Overlays.prototype._init = function() {
   });
 
 
-  eventBus.on('plane.set', function(e) {
-    (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.forEach)(self._overlays, function(el) {
-      setVisible(el.htmlContainer, el.plane === e.plane);
-    });
+  eventBus.on('root.set', function() {
+    self._updateOverlaysVisibilty(self._canvas.viewbox());
   });
 
   // clear overlays with diagram
@@ -27541,8 +27999,14 @@ Overlays.prototype._init = function() {
 
 function createRoot(parentNode) {
   var root = (0,min_dom__WEBPACK_IMPORTED_MODULE_2__.domify)(
-    '<div class="djs-overlay-container" style="position: absolute; width: 0; height: 0;" />'
+    '<div class="djs-overlay-container" />'
   );
+
+  (0,min_dom__WEBPACK_IMPORTED_MODULE_2__.assignStyle)(root, {
+    position: 'absolute',
+    width: 0,
+    height: 0
+  });
 
   parentNode.insertBefore(root, parentNode.firstChild);
 
@@ -27550,9 +28014,15 @@ function createRoot(parentNode) {
 }
 
 function setPosition(el, x, y) {
-  (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.assign)(el.style, { left: x + 'px', top: y + 'px' });
+  (0,min_dom__WEBPACK_IMPORTED_MODULE_2__.assignStyle)(el, { left: x + 'px', top: y + 'px' });
 }
 
+/**
+ * Set element visible
+ *
+ * @param {DOMElement} el
+ * @param {boolean} [visible=true]
+ */
 function setVisible(el, visible) {
   el.style.display = visible === false ? 'none' : '';
 }
@@ -28675,7 +29145,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var HANDLE_OFFSET = -6,
-    HANDLE_SIZE = 4,
+    HANDLE_SIZE = 8,
     HANDLE_HIT_SIZE = 20;
 
 var CLS_RESIZER = 'djs-resizer';
@@ -28795,19 +29265,17 @@ ResizeHandles.prototype.createResizer = function(element, direction) {
 /**
  * Add resizers for a given element.
  *
- * @param {djs.model.Shape} shape
+ * @param {djs.model.Element} element
  */
-ResizeHandles.prototype.addResizer = function(shape) {
+ResizeHandles.prototype.addResizer = function(element) {
   var self = this;
 
-  var resize = this._resize;
-
-  if (!resize.canResize({ shape: shape })) {
+  if (isConnection(element) || !this._resize.canResize({ shape: element })) {
     return;
   }
 
   (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.forEach)(directions, function(direction) {
-    self.createResizer(shape, direction);
+    self.createResizer(element, direction);
   });
 };
 
@@ -28852,6 +29320,10 @@ function getHandleOffset(direction) {
   }
 
   return offset;
+}
+
+function isConnection(element) {
+  return !!element.waypoints;
 }
 
 /***/ }),
@@ -29269,9 +29741,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ RuleProvider)
 /* harmony export */ });
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inherits */ "../node_modules/inherits/inherits_browser.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(inherits__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../command/CommandInterceptor */ "../node_modules/diagram-js/lib/command/CommandInterceptor.js");
+/* harmony import */ var inherits_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! inherits-browser */ "../node_modules/inherits-browser/dist/index.es.js");
+/* harmony import */ var _command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../command/CommandInterceptor */ "../node_modules/diagram-js/lib/command/CommandInterceptor.js");
 
 
 
@@ -29285,14 +29756,14 @@ __webpack_require__.r(__webpack_exports__);
  * @param {EventBus} eventBus
  */
 function RuleProvider(eventBus) {
-  _command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_1__["default"].call(this, eventBus);
+  _command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"].call(this, eventBus);
 
   this.init();
 }
 
 RuleProvider.$inject = [ 'eventBus' ];
 
-inherits__WEBPACK_IMPORTED_MODULE_0___default()(RuleProvider, _command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_1__["default"]);
+(0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(RuleProvider, _command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 
 /**
@@ -29481,7 +29952,7 @@ function Selection(eventBus, canvas) {
     self.deselect(element);
   });
 
-  eventBus.on([ 'diagram.clear', 'plane.set' ], function(e) {
+  eventBus.on([ 'diagram.clear', 'root.set' ], function(e) {
     self.select(null);
   });
 }
@@ -29534,10 +30005,12 @@ Selection.prototype.select = function(elements, add) {
 
   var canvas = this._canvas;
 
-  elements = elements.filter(function(element) {
-    var plane = canvas.findPlane(element);
+  var rootElement = canvas.getRootElement();
 
-    return plane === canvas.getActivePlane();
+  elements = elements.filter(function(element) {
+    var elementRoot = canvas.findRoot(element);
+
+    return rootElement === elementRoot;
   });
 
   // selection may be cleared by passing an empty array or null
@@ -29610,11 +30083,10 @@ function SelectionBehavior(eventBus, selection, canvas, elementRegistry) {
   // Select connection targets on connect
   eventBus.on('connect.end', 500, function(event) {
     var context = event.context,
-        canExecute = context.canExecute,
-        hover = context.hover;
+        connection = context.connection;
 
-    if (canExecute && hover) {
-      selection.select(hover);
+    if (connection) {
+      selection.select(connection);
     }
   });
 
@@ -29702,10 +30174,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ SelectionVisuals)
 /* harmony export */ });
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
+/* harmony import */ var tiny_svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tiny-svg */ "../node_modules/tiny-svg/dist/index.esm.js");
+/* harmony import */ var _util_Elements__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/Elements */ "../node_modules/diagram-js/lib/util/Elements.js");
+
+
+
+
 
 
 var MARKER_HOVER = 'hover',
     MARKER_SELECTED = 'selected';
+
+var SELECTION_OUTLINE_PADDING = 6;
 
 
 /**
@@ -29716,11 +30196,13 @@ var MARKER_HOVER = 'hover',
  *
  * Makes elements selectable, too.
  *
- * @param {EventBus} events
- * @param {SelectionService} selection
  * @param {Canvas} canvas
+ * @param {EventBus} eventBus
  */
-function SelectionVisuals(events, canvas, selection, styles) {
+function SelectionVisuals(canvas, eventBus, selection) {
+  this._canvas = canvas;
+
+  var self = this;
 
   this._multiSelectionBox = null;
 
@@ -29732,15 +30214,15 @@ function SelectionVisuals(events, canvas, selection, styles) {
     canvas.removeMarker(e, cls);
   }
 
-  events.on('element.hover', function(event) {
+  eventBus.on('element.hover', function(event) {
     addMarker(event.element, MARKER_HOVER);
   });
 
-  events.on('element.out', function(event) {
+  eventBus.on('element.out', function(event) {
     removeMarker(event.element, MARKER_HOVER);
   });
 
-  events.on('selection.changed', function(event) {
+  eventBus.on('selection.changed', function(event) {
 
     function deselect(s) {
       removeMarker(s, MARKER_SELECTED);
@@ -29764,15 +30246,62 @@ function SelectionVisuals(events, canvas, selection, styles) {
         select(e);
       }
     });
+
+    self._updateSelectionOutline(newSelection);
+  });
+
+
+  eventBus.on('element.changed', function(event) {
+    if (selection.isSelected(event.element)) {
+      self._updateSelectionOutline(selection.get());
+    }
   });
 }
 
 SelectionVisuals.$inject = [
-  'eventBus',
   'canvas',
-  'selection',
-  'styles'
+  'eventBus',
+  'selection'
 ];
+
+SelectionVisuals.prototype._updateSelectionOutline = function(selection) {
+  var layer = this._canvas.getLayer('selectionOutline');
+
+  (0,tiny_svg__WEBPACK_IMPORTED_MODULE_1__.clear)(layer);
+
+  var enabled = selection.length > 1;
+
+  var container = this._canvas.getContainer();
+
+  (0,tiny_svg__WEBPACK_IMPORTED_MODULE_1__.classes)(container)[enabled ? 'add' : 'remove']('djs-multi-select');
+
+  if (!enabled) {
+    return;
+  }
+
+  var bBox = addSelectionOutlinePadding((0,_util_Elements__WEBPACK_IMPORTED_MODULE_2__.getBBox)(selection));
+
+  var rect = (0,tiny_svg__WEBPACK_IMPORTED_MODULE_1__.create)('rect');
+
+  (0,tiny_svg__WEBPACK_IMPORTED_MODULE_1__.attr)(rect, (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.assign)({
+    rx: 3
+  }, bBox));
+
+  (0,tiny_svg__WEBPACK_IMPORTED_MODULE_1__.classes)(rect).add('djs-selection-outline');
+
+  (0,tiny_svg__WEBPACK_IMPORTED_MODULE_1__.append)(layer, rect);
+};
+
+// helpers //////////
+
+function addSelectionOutlinePadding(bBox) {
+  return {
+    x: bBox.x - SELECTION_OUTLINE_PADDING,
+    y: bBox.y - SELECTION_OUTLINE_PADDING,
+    width: bBox.width + SELECTION_OUTLINE_PADDING * 2,
+    height: bBox.height + SELECTION_OUTLINE_PADDING * 2
+  };
+}
 
 /***/ }),
 
@@ -31741,7 +32270,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  __init__: ['spaceToolPreview'],
+  __init__: [ 'spaceToolPreview' ],
   __depends__: [
     _dragging__WEBPACK_IMPORTED_MODULE_0__["default"],
     _rules__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -31749,8 +32278,8 @@ __webpack_require__.r(__webpack_exports__);
     _preview_support__WEBPACK_IMPORTED_MODULE_3__["default"],
     _mouse__WEBPACK_IMPORTED_MODULE_4__["default"]
   ],
-  spaceTool: ['type', _SpaceTool__WEBPACK_IMPORTED_MODULE_5__["default"] ],
-  spaceToolPreview: ['type', _SpaceToolPreview__WEBPACK_IMPORTED_MODULE_6__["default"] ]
+  spaceTool: [ 'type', _SpaceTool__WEBPACK_IMPORTED_MODULE_5__["default"] ],
+  spaceToolPreview: [ 'type', _SpaceToolPreview__WEBPACK_IMPORTED_MODULE_6__["default"] ]
 });
 
 
@@ -31939,8 +32468,14 @@ var ids = new _util_IdGenerator__WEBPACK_IMPORTED_MODULE_0__["default"]('tt');
 
 function createRoot(parentNode) {
   var root = (0,min_dom__WEBPACK_IMPORTED_MODULE_1__.domify)(
-    '<div class="djs-tooltip-container" style="position: absolute; width: 0; height: 0;" />'
+    '<div class="djs-tooltip-container" />'
   );
+
+  (0,min_dom__WEBPACK_IMPORTED_MODULE_1__.assignStyle)(root, {
+    position: 'absolute',
+    width: '0',
+    height: '0'
+  });
 
   parentNode.insertBefore(root, parentNode.firstChild);
 
@@ -31949,7 +32484,7 @@ function createRoot(parentNode) {
 
 
 function setPosition(el, x, y) {
-  (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)(el.style, { left: x + 'px', top: y + 'px' });
+  (0,min_dom__WEBPACK_IMPORTED_MODULE_1__.assignStyle)(el, { left: x + 'px', top: y + 'px' });
 }
 
 function setVisible(el, visible) {
@@ -32213,7 +32748,8 @@ Tooltips.prototype._addTooltip = function(tooltip) {
     html = (0,min_dom__WEBPACK_IMPORTED_MODULE_1__.domify)(html);
   }
 
-  htmlContainer = (0,min_dom__WEBPACK_IMPORTED_MODULE_1__.domify)('<div data-tooltip-id="' + id + '" class="' + tooltipClass + '" style="position: absolute">');
+  htmlContainer = (0,min_dom__WEBPACK_IMPORTED_MODULE_1__.domify)('<div data-tooltip-id="' + id + '" class="' + tooltipClass + '">');
+  (0,min_dom__WEBPACK_IMPORTED_MODULE_1__.assignStyle)(htmlContainer, { position: 'absolute' });
 
   htmlContainer.appendChild(html);
 
@@ -33010,6 +33546,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "asBounds": () => (/* binding */ asBounds),
 /* harmony export */   "asTRBL": () => (/* binding */ asTRBL),
 /* harmony export */   "filterRedundantWaypoints": () => (/* binding */ filterRedundantWaypoints),
+/* harmony export */   "getBoundsMid": () => (/* binding */ getBoundsMid),
+/* harmony export */   "getConnectionMid": () => (/* binding */ getConnectionMid),
 /* harmony export */   "getElementLineIntersection": () => (/* binding */ getElementLineIntersection),
 /* harmony export */   "getIntersections": () => (/* binding */ getIntersections),
 /* harmony export */   "getMid": () => (/* binding */ getMid),
@@ -33088,13 +33626,87 @@ function asBounds(trbl) {
  *
  * @return {Point}
  */
-function getMid(bounds) {
+function getBoundsMid(bounds) {
   return roundPoint({
     x: bounds.x + (bounds.width || 0) / 2,
     y: bounds.y + (bounds.height || 0) / 2
   });
 }
 
+
+/**
+ * Get the mid of the given Connection.
+ *
+ * @param {djs.Base.Connection} connection
+ *
+ * @return {Point}
+ */
+function getConnectionMid(connection) {
+  var waypoints = connection.waypoints;
+
+  // calculate total length and length of each segment
+  var parts = waypoints.reduce(function(parts, point, index) {
+
+    var lastPoint = waypoints[index - 1];
+
+    if (lastPoint) {
+      var lastPart = parts[parts.length - 1];
+
+      var startLength = lastPart && lastPart.endLength || 0;
+      var length = distance(lastPoint, point);
+
+      parts.push({
+        start: lastPoint,
+        end: point,
+        startLength: startLength,
+        endLength: startLength + length,
+        length: length
+      });
+    }
+
+    return parts;
+  }, []);
+
+  var totalLength = parts.reduce(function(length, part) {
+    return length + part.length;
+  }, 0);
+
+  // find which segement contains middle point
+  var midLength = totalLength / 2;
+
+  var i = 0;
+  var midSegment = parts[i];
+
+  while (midSegment.endLength < midLength) {
+    midSegment = parts[++i];
+  }
+
+  // calculate relative position on mid segment
+  var segmentProgress = (midLength - midSegment.startLength) / midSegment.length;
+
+  var midPoint = {
+    x: midSegment.start.x + (midSegment.end.x - midSegment.start.x) * segmentProgress,
+    y: midSegment.start.y + (midSegment.end.y - midSegment.start.y) * segmentProgress
+  };
+
+  return midPoint;
+}
+
+
+/**
+ * Get the mid of the given Element.
+ *
+ * @param {djs.Base.Connection} connection
+ *
+ * @return {Point}
+ */
+function getMid(element) {
+  if (isConnection(element)) {
+    return getConnectionMid(element);
+  }
+
+  return getBoundsMid(element);
+}
 
 // orientation utils //////////////////////
 
@@ -33223,6 +33835,15 @@ function filterRedundantWaypoints(waypoints) {
   return waypoints;
 }
 
+// helpers //////////////////////
+
+function distance(a, b) {
+  return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2));
+}
+
+function isConnection(element) {
+  return !!element.waypoints;
+}
 
 /***/ }),
 
@@ -33999,20 +34620,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "create": () => (/* binding */ create)
 /* harmony export */ });
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inherits */ "../node_modules/inherits/inherits_browser.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(inherits__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var object_refs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! object-refs */ "../node_modules/object-refs/index.js");
-/* harmony import */ var object_refs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(object_refs__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var inherits_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! inherits-browser */ "../node_modules/inherits-browser/dist/index.es.js");
+/* harmony import */ var object_refs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! object-refs */ "../node_modules/object-refs/index.js");
+/* harmony import */ var object_refs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(object_refs__WEBPACK_IMPORTED_MODULE_0__);
 
 
 
 
 
-var parentRefs = new (object_refs__WEBPACK_IMPORTED_MODULE_1___default())({ name: 'children', enumerable: true, collection: true }, { name: 'parent' }),
-    labelRefs = new (object_refs__WEBPACK_IMPORTED_MODULE_1___default())({ name: 'labels', enumerable: true, collection: true }, { name: 'labelTarget' }),
-    attacherRefs = new (object_refs__WEBPACK_IMPORTED_MODULE_1___default())({ name: 'attachers', collection: true }, { name: 'host' }),
-    outgoingRefs = new (object_refs__WEBPACK_IMPORTED_MODULE_1___default())({ name: 'outgoing', collection: true }, { name: 'source' }),
-    incomingRefs = new (object_refs__WEBPACK_IMPORTED_MODULE_1___default())({ name: 'incoming', collection: true }, { name: 'target' });
+var parentRefs = new (object_refs__WEBPACK_IMPORTED_MODULE_0___default())({ name: 'children', enumerable: true, collection: true }, { name: 'parent' }),
+    labelRefs = new (object_refs__WEBPACK_IMPORTED_MODULE_0___default())({ name: 'labels', enumerable: true, collection: true }, { name: 'labelTarget' }),
+    attacherRefs = new (object_refs__WEBPACK_IMPORTED_MODULE_0___default())({ name: 'attachers', collection: true }, { name: 'host' }),
+    outgoingRefs = new (object_refs__WEBPACK_IMPORTED_MODULE_0___default())({ name: 'outgoing', collection: true }, { name: 'source' }),
+    incomingRefs = new (object_refs__WEBPACK_IMPORTED_MODULE_0___default())({ name: 'incoming', collection: true }, { name: 'target' });
 
 /**
  * @namespace djs.model
@@ -34138,7 +34758,7 @@ function Shape() {
   attacherRefs.bind(this, 'attachers');
 }
 
-inherits__WEBPACK_IMPORTED_MODULE_0___default()(Shape, Base);
+(0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(Shape, Base);
 
 
 /**
@@ -34153,7 +34773,7 @@ function Root() {
   Shape.call(this);
 }
 
-inherits__WEBPACK_IMPORTED_MODULE_0___default()(Root, Shape);
+(0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(Root, Shape);
 
 
 /**
@@ -34176,7 +34796,7 @@ function Label() {
   labelRefs.bind(this, 'labelTarget');
 }
 
-inherits__WEBPACK_IMPORTED_MODULE_0___default()(Label, Shape);
+(0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(Label, Shape);
 
 
 /**
@@ -34207,7 +34827,7 @@ function Connection() {
   incomingRefs.bind(this, 'target');
 }
 
-inherits__WEBPACK_IMPORTED_MODULE_0___default()(Connection, Base);
+(0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(Connection, Base);
 
 
 var types = {
@@ -35264,6 +35884,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 
 
+/**
+ * @typedef { {x:number, y: number, width: number, height: number} } Bounds
+ */
 
 /**
  * Get parent elements.
@@ -35492,13 +36115,15 @@ function getClosure(elements, isTopLevel, closure) {
  * the array or the element primitive.
  *
  * @param {Array<djs.model.Shape>|djs.model.Shape} elements
- * @param {boolean} stopRecursion
+ * @param {boolean} [stopRecursion=false]
+ *
+ * @return {Bounds}
  */
 function getBBox(elements, stopRecursion) {
 
   stopRecursion = !!stopRecursion;
   if (!(0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isArray)(elements)) {
-    elements = [elements];
+    elements = [ elements ];
   }
 
   var minX,
@@ -35946,11 +36571,11 @@ function circlePath(center, r) {
       y = center.y;
 
   return [
-    ['M', x, y],
-    ['m', 0, -r],
-    ['a', r, r, 0, 1, 1, 0, 2 * r],
-    ['a', r, r, 0, 1, 1, 0, -2 * r],
-    ['z']
+    [ 'M', x, y ],
+    [ 'm', 0, -r ],
+    [ 'a', r, r, 0, 1, 1, 0, 2 * r ],
+    [ 'a', r, r, 0, 1, 1, 0, -2 * r ],
+    [ 'z' ]
   ];
 }
 
@@ -36573,7 +37198,8 @@ function getHelperSvg() {
       id: 'helper-svg',
       width: 0,
       height: 0,
-      style: 'visibility: hidden; position: fixed'
+      visibility: 'hidden',
+      position: 'fixed'
     });
 
     document.body.appendChild(helperSvg);
@@ -36763,24 +37389,51 @@ function getLineHeight(style) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Injector": () => (/* binding */ Injector),
-/* harmony export */   "Module": () => (/* binding */ Module),
 /* harmony export */   "annotate": () => (/* binding */ annotate),
 /* harmony export */   "parseAnnotations": () => (/* binding */ parseAnnotations)
 /* harmony export */ });
 var CLASS_PATTERN = /^class /;
 
+
+/**
+ * @param {function} fn
+ *
+ * @return {boolean}
+ */
 function isClass(fn) {
   return CLASS_PATTERN.test(fn.toString());
 }
 
+/**
+ * @param {any} obj
+ *
+ * @return {boolean}
+ */
 function isArray(obj) {
   return Object.prototype.toString.call(obj) === '[object Array]';
 }
 
+/**
+ * @param {any} obj
+ * @param {string} prop
+ *
+ * @return {boolean}
+ */
 function hasOwnProp(obj, prop) {
   return Object.prototype.hasOwnProperty.call(obj, prop);
 }
 
+/**
+ * @typedef {import('./index').InjectAnnotated } InjectAnnotated
+ */
+
+/**
+ * @template T
+ *
+ * @params {[...string[], T] | ...string[], T} args
+ *
+ * @return {T & InjectAnnotated}
+ */
 function annotate() {
   var args = Array.prototype.slice.call(arguments);
 
@@ -36810,9 +37463,14 @@ function annotate() {
 // of a nested class, too.
 
 var CONSTRUCTOR_ARGS = /constructor\s*[^(]*\(\s*([^)]*)\)/m;
-var FN_ARGS = /^(?:async )?(?:function\s*)?[^(]*\(\s*([^)]*)\)/m;
+var FN_ARGS = /^(?:async\s+)?(?:function\s*[^(]*)?(?:\(\s*([^)]*)\)|(\w+))/m;
 var FN_ARG = /\/\*([^*]*)\*\//m;
 
+/**
+ * @param {unknown} fn
+ *
+ * @return {string[]}
+ */
 function parseAnnotations(fn) {
 
   if (typeof fn !== 'function') {
@@ -36826,36 +37484,26 @@ function parseAnnotations(fn) {
     return [];
   }
 
-  return match[1] && match[1].split(',').map(function(arg) {
-    match = arg.match(FN_ARG);
-    return match ? match[1].trim() : arg.trim();
+  var args = match[1] || match[2];
+
+  return args && args.split(',').map(function(arg) {
+    var argMatch = arg.match(FN_ARG);
+    return (argMatch && argMatch[1] || arg).trim();
   }) || [];
 }
 
-function Module() {
-  var providers = [];
+/**
+ * @typedef { import('./index').ModuleDeclaration } ModuleDeclaration
+ * @typedef { import('./index').ModuleDefinition } ModuleDefinition
+ * @typedef { import('./index').InjectorContext } InjectorContext
+ */
 
-  this.factory = function(name, factory) {
-    providers.push([name, 'factory', factory]);
-    return this;
-  };
-
-  this.value = function(name, value) {
-    providers.push([name, 'value', value]);
-    return this;
-  };
-
-  this.type = function(name, type) {
-    providers.push([name, 'type', type]);
-    return this;
-  };
-
-  this.forEach = function(iterator) {
-    providers.forEach(iterator);
-  };
-
-}
-
+/**
+ * Create a new injector with the given modules.
+ *
+ * @param {ModuleDefinition[]} modules
+ * @param {InjectorContext} [parent]
+ */
 function Injector(modules, parent) {
   parent = parent || {
     get: function(name, strict) {
@@ -36884,12 +37532,12 @@ function Injector(modules, parent) {
   /**
    * Return a named service.
    *
-   * @param {String} name
-   * @param {Boolean} [strict=true] if false, resolve missing services to null
+   * @param {string} name
+   * @param {boolean} [strict=true] if false, resolve missing services to null
    *
-   * @return {Object}
+   * @return {any}
    */
-  var get = function(name, strict) {
+  function get(name, strict) {
     if (!providers[name] && name.indexOf('.') !== -1) {
       var parts = name.split('.');
       var pivot = get(parts.shift());
@@ -36919,9 +37567,9 @@ function Injector(modules, parent) {
     }
 
     return parent.get(name, strict);
-  };
+  }
 
-  var fnDef = function(fn, locals) {
+  function fnDef(fn, locals) {
 
     if (typeof locals === 'undefined') {
       locals = {};
@@ -36948,9 +37596,9 @@ function Injector(modules, parent) {
       fn: fn,
       dependencies: dependencies
     };
-  };
+  }
 
-  var instantiate = function(Type) {
+  function instantiate(Type) {
     var def = fnDef(Type);
 
     var fn = def.fn,
@@ -36960,25 +37608,35 @@ function Injector(modules, parent) {
     var Constructor = Function.prototype.bind.apply(fn, [ null ].concat(dependencies));
 
     return new Constructor();
-  };
+  }
 
-  var invoke = function(func, context, locals) {
+  function invoke(func, context, locals) {
     var def = fnDef(func, locals);
 
     var fn = def.fn,
         dependencies = def.dependencies;
 
     return fn.apply(context, dependencies);
-  };
+  }
 
-
-  var createPrivateInjectorFactory = function(privateChildInjector) {
+  /**
+   * @param {Injector} childInjector
+   *
+   * @return {Function}
+   */
+  function createPrivateInjectorFactory(childInjector) {
     return annotate(function(key) {
-      return privateChildInjector.get(key);
+      return childInjector.get(key);
     });
-  };
+  }
 
-  var createChild = function(modules, forceNewInstances) {
+  /**
+   * @param {ModuleDefinition[]} modules
+   * @param {string[]} [forceNewInstances]
+   *
+   * @return {Injector}
+   */
+  function createChild(modules, forceNewInstances) {
     if (forceNewInstances && forceNewInstances.length) {
       var fromParentModule = Object.create(null);
       var matchedScopes = Object.create(null);
@@ -37003,12 +37661,12 @@ function Injector(modules, parent) {
               privateInjectorsCache.push(provider[3]);
               privateChildInjectors.push(privateChildInjector);
               privateChildFactories.push(privateChildInjectorFactory);
-              fromParentModule[name] = [privateChildInjectorFactory, name, 'private', privateChildInjector];
+              fromParentModule[name] = [ privateChildInjectorFactory, name, 'private', privateChildInjector ];
             } else {
-              fromParentModule[name] = [privateChildFactories[cacheIdx], name, 'private', privateChildInjectors[cacheIdx]];
+              fromParentModule[name] = [ privateChildFactories[cacheIdx], name, 'private', privateChildInjectors[cacheIdx] ];
             }
           } else {
-            fromParentModule[name] = [provider[2], provider[1]];
+            fromParentModule[name] = [ provider[2], provider[1] ];
           }
           matchedScopes[name] = true;
         }
@@ -37017,7 +37675,7 @@ function Injector(modules, parent) {
           /* jshint -W083 */
           forceNewInstances.forEach(function(scope) {
             if (provider[1].$scope.indexOf(scope) !== -1) {
-              fromParentModule[name] = [provider[2], provider[1]];
+              fromParentModule[name] = [ provider[2], provider[1] ];
               matchedScopes[scope] = true;
             }
           });
@@ -37034,7 +37692,7 @@ function Injector(modules, parent) {
     }
 
     return new Injector(modules, self);
-  };
+  }
 
   var factoryMap = {
     factory: invoke,
@@ -37044,62 +37702,169 @@ function Injector(modules, parent) {
     }
   };
 
-  modules.forEach(function(module) {
+  /**
+   * @param {ModuleDefinition} moduleDefinition
+   * @param {Injector} injector
+   */
+  function createInitializer(moduleDefinition, injector) {
 
-    function arrayUnwrap(type, value) {
-      if (type !== 'value' && isArray(value)) {
-        value = annotate(value.slice());
-      }
+    var initializers = moduleDefinition.__init__ || [];
 
-      return value;
-    }
+    return function() {
+      initializers.forEach(function(initializer) {
 
-    // TODO(vojta): handle wrong inputs (modules)
-    if (module instanceof Module) {
-      module.forEach(function(provider) {
-        var name = provider[0];
-        var type = provider[1];
-        var value = provider[2];
+        try {
 
-        providers[name] = [factoryMap[type], arrayUnwrap(type, value), type];
+          // eagerly resolve component (fn or string)
+          if (typeof initializer === 'string') {
+            injector.get(initializer);
+          } else {
+            injector.invoke(initializer);
+          }
+        } catch (error) {
+          if (typeof AggregateError !== 'undefined') {
+            throw new AggregateError([ error ], 'Failed to initialize!');
+          }
+
+          throw new Error('Failed to initialize! ' + error.message);
+        }
       });
-    } else if (typeof module === 'object') {
-      if (module.__exports__) {
-        var clonedModule = Object.keys(module).reduce(function(m, key) {
-          if (key.substring(0, 2) !== '__') {
-            m[key] = module[key];
-          }
-          return m;
-        }, Object.create(null));
+    };
+  }
 
-        var privateInjector = new Injector((module.__modules__ || []).concat([clonedModule]), self);
-        var getFromPrivateInjector = annotate(function(key) {
-          return privateInjector.get(key);
-        });
-        module.__exports__.forEach(function(key) {
-          providers[key] = [getFromPrivateInjector, key, 'private', privateInjector];
-        });
-      } else {
-        Object.keys(module).forEach(function(name) {
-          if (module[name][2] === 'private') {
-            providers[name] = module[name];
-            return;
-          }
+  /**
+   * @param {ModuleDefinition} moduleDefinition
+   */
+  function loadModule(moduleDefinition) {
 
-          var type = module[name][0];
-          var value = module[name][1];
+    var moduleExports = moduleDefinition.__exports__;
 
-          providers[name] = [factoryMap[type], arrayUnwrap(type, value), type];
-        });
-      }
+    // private module
+    if (moduleExports) {
+      var nestedModules = moduleDefinition.__modules__;
+
+      var clonedModule = Object.keys(moduleDefinition).reduce(function(clonedModule, key) {
+
+        if (key !== '__exports__' && key !== '__modules__' && key !== '__init__' && key !== '__depends__') {
+          clonedModule[key] = moduleDefinition[key];
+        }
+
+        return clonedModule;
+      }, Object.create(null));
+
+      var childModules = (nestedModules || []).concat(clonedModule);
+
+      var privateInjector = createChild(childModules);
+      var getFromPrivateInjector = annotate(function(key) {
+        return privateInjector.get(key);
+      });
+
+      moduleExports.forEach(function(key) {
+        providers[key] = [ getFromPrivateInjector, key, 'private', privateInjector ];
+      });
+
+      // ensure child injector initializes
+      var initializers = (moduleDefinition.__init__ || []).slice();
+
+      initializers.unshift(function() {
+        privateInjector.init();
+      });
+
+      moduleDefinition = Object.assign({}, moduleDefinition, {
+        __init__: initializers
+      });
+
+      return createInitializer(moduleDefinition, privateInjector);
     }
-  });
+
+    // normal module
+    Object.keys(moduleDefinition).forEach(function(key) {
+
+      if (key === '__init__' || key === '__depends__') {
+        return;
+      }
+
+      if (moduleDefinition[key][2] === 'private') {
+        providers[key] = moduleDefinition[key];
+        return;
+      }
+
+      var type = moduleDefinition[key][0];
+      var value = moduleDefinition[key][1];
+
+      providers[key] = [ factoryMap[type], arrayUnwrap(type, value), type ];
+    });
+
+    return createInitializer(moduleDefinition, self);
+  }
+
+  /**
+   * @param {ModuleDefinition[]} moduleDefinitions
+   * @param {ModuleDefinition} moduleDefinition
+   *
+   * @return {ModuleDefinition[]}
+   */
+  function resolveDependencies(moduleDefinitions, moduleDefinition) {
+
+    if (moduleDefinitions.indexOf(moduleDefinition) !== -1) {
+      return moduleDefinitions;
+    }
+
+    moduleDefinitions = (moduleDefinition.__depends__ || []).reduce(resolveDependencies, moduleDefinitions);
+
+    if (moduleDefinitions.indexOf(moduleDefinition) !== -1) {
+      return moduleDefinitions;
+    }
+
+    return moduleDefinitions.concat(moduleDefinition);
+  }
+
+  /**
+   * @param {ModuleDefinition[]} moduleDefinitions
+   *
+   * @return { () => void } initializerFn
+   */
+  function bootstrap(moduleDefinitions) {
+
+    var initializers = moduleDefinitions
+      .reduce(resolveDependencies, [])
+      .map(loadModule);
+
+    var initialized = false;
+
+    return function() {
+
+      if (initialized) {
+        return;
+      }
+
+      initialized = true;
+
+      initializers.forEach(function(initializer) {
+        return initializer();
+      });
+    };
+  }
 
   // public API
   this.get = get;
   this.invoke = invoke;
   this.instantiate = instantiate;
   this.createChild = createChild;
+
+  // setup
+  this.init = bootstrap(modules);
+}
+
+
+// helpers ///////////////
+
+function arrayUnwrap(type, value) {
+  if (type !== 'value' && isArray(value)) {
+    value = annotate(value.slice());
+  }
+
+  return value;
 }
 
 
@@ -39937,6 +40702,23 @@ Ids.prototype.clear = function () {
 
 /***/ }),
 
+/***/ "../node_modules/inherits-browser/dist/index.es.js":
+/*!*********************************************************!*\
+  !*** ../node_modules/inherits-browser/dist/index.es.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ e)
+/* harmony export */ });
+function e(e,t){t&&(e.super_=t,e.prototype=Object.create(t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}))}
+//# sourceMappingURL=index.es.js.map
+
+
+/***/ }),
+
 /***/ "../node_modules/inherits/inherits_browser.js":
 /*!****************************************************!*\
   !*** ../node_modules/inherits/inherits_browser.js ***!
@@ -40728,6 +41510,7 @@ function merge(target) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "assignStyle": () => (/* binding */ assign$1),
 /* harmony export */   "attr": () => (/* binding */ attr),
 /* harmony export */   "classes": () => (/* binding */ classes),
 /* harmony export */   "clear": () => (/* binding */ clear),
@@ -40740,6 +41523,101 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "queryAll": () => (/* binding */ all),
 /* harmony export */   "remove": () => (/* binding */ remove)
 /* harmony export */ });
+/**
+ * Flatten array, one level deep.
+ *
+ * @param {Array<?>} arr
+ *
+ * @return {Array<?>}
+ */
+
+var nativeToString = Object.prototype.toString;
+var nativeHasOwnProperty = Object.prototype.hasOwnProperty;
+function isUndefined(obj) {
+  return obj === undefined;
+}
+function isArray(obj) {
+  return nativeToString.call(obj) === '[object Array]';
+}
+/**
+ * Return true, if target owns a property with the given key.
+ *
+ * @param {Object} target
+ * @param {String} key
+ *
+ * @return {Boolean}
+ */
+
+function has(target, key) {
+  return nativeHasOwnProperty.call(target, key);
+}
+/**
+ * Iterate over collection; returning something
+ * (non-undefined) will stop iteration.
+ *
+ * @param  {Array|Object} collection
+ * @param  {Function} iterator
+ *
+ * @return {Object} return result that stopped the iteration
+ */
+
+function forEach(collection, iterator) {
+  var val, result;
+
+  if (isUndefined(collection)) {
+    return;
+  }
+
+  var convertKey = isArray(collection) ? toNum : identity;
+
+  for (var key in collection) {
+    if (has(collection, key)) {
+      val = collection[key];
+      result = iterator(val, convertKey(key));
+
+      if (result === false) {
+        return val;
+      }
+    }
+  }
+}
+
+function identity(arg) {
+  return arg;
+}
+
+function toNum(arg) {
+  return Number(arg);
+}
+
+/**
+ * Assigns style attributes in a style-src compliant way.
+ *
+ * @param {Element} element
+ * @param {...Object} styleSources
+ *
+ * @return {Element} the element
+ */
+function assign$1(element) {
+  var target = element.style;
+
+  for (var _len = arguments.length, styleSources = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    styleSources[_key - 1] = arguments[_key];
+  }
+
+  forEach(styleSources, function (style) {
+    if (!style) {
+      return;
+    }
+
+    forEach(style, function (value, key) {
+      target[key] = value;
+    });
+  });
+
+  return element;
+}
+
 /**
  * Set attribute `name` to `val`, or get attr `name`.
  *
@@ -41026,9 +41904,9 @@ function closest (element, selector, checkYourSelf) {
   return matchesSelector(currentElem, selector) ? currentElem : null;
 }
 
-var bind = window.addEventListener ? 'addEventListener' : 'attachEvent',
+var bind$1 = window.addEventListener ? 'addEventListener' : 'attachEvent',
     unbind = window.removeEventListener ? 'removeEventListener' : 'detachEvent',
-    prefix = bind !== 'addEventListener' ? 'on' : '';
+    prefix = bind$1 !== 'addEventListener' ? 'on' : '';
 
 /**
  * Bind `el` event `type` to `fn`.
@@ -41042,7 +41920,7 @@ var bind = window.addEventListener ? 'addEventListener' : 'attachEvent',
  */
 
 var bind_1 = function(el, type, fn, capture){
-  el[bind](prefix + type, fn, capture || false);
+  el[bind$1](prefix + type, fn, capture || false);
   return fn;
 };
 
@@ -41089,7 +41967,7 @@ var componentEvent = {
 // when delegating.
 var forceCaptureEvents = ['focus', 'blur'];
 
-function bind$1(el, selector, type, fn, capture) {
+function bind$2(el, selector, type, fn, capture) {
   if (forceCaptureEvents.indexOf(type) !== -1) {
     capture = true;
   }
@@ -41121,7 +41999,7 @@ function unbind$1(el, type, fn, capture) {
 }
 
 var delegate = {
-  bind: bind$1,
+  bind: bind$2,
   unbind: unbind$1
 };
 
@@ -41151,7 +42029,7 @@ if (typeof document !== 'undefined') {
  * Wrap map from jquery.
  */
 
-var map = {
+var map$1 = {
   legend: [1, '<fieldset>', '</fieldset>'],
   tr: [2, '<table><tbody>', '</tbody></table>'],
   col: [2, '<table><tbody></tbody><colgroup>', '</colgroup></table>'],
@@ -41160,27 +42038,27 @@ var map = {
   _default: innerHTMLBug ? [1, 'X<div>', '</div>'] : [0, '', '']
 };
 
-map.td =
-map.th = [3, '<table><tbody><tr>', '</tr></tbody></table>'];
+map$1.td =
+map$1.th = [3, '<table><tbody><tr>', '</tr></tbody></table>'];
 
-map.option =
-map.optgroup = [1, '<select multiple="multiple">', '</select>'];
+map$1.option =
+map$1.optgroup = [1, '<select multiple="multiple">', '</select>'];
 
-map.thead =
-map.tbody =
-map.colgroup =
-map.caption =
-map.tfoot = [1, '<table>', '</table>'];
+map$1.thead =
+map$1.tbody =
+map$1.colgroup =
+map$1.caption =
+map$1.tfoot = [1, '<table>', '</table>'];
 
-map.polyline =
-map.ellipse =
-map.polygon =
-map.circle =
-map.text =
-map.line =
-map.path =
-map.rect =
-map.g = [1, '<svg xmlns="http://www.w3.org/2000/svg" version="1.1">','</svg>'];
+map$1.polyline =
+map$1.ellipse =
+map$1.polygon =
+map$1.circle =
+map$1.text =
+map$1.line =
+map$1.path =
+map$1.rect =
+map$1.g = [1, '<svg xmlns="http://www.w3.org/2000/svg" version="1.1">','</svg>'];
 
 /**
  * Parse `html` and return a DOM Node instance, which could be a TextNode,
@@ -41215,7 +42093,7 @@ function parse(html, doc) {
   }
 
   // wrap map
-  var wrap = map[tag] || map._default;
+  var wrap = map$1[tag] || map$1._default;
   var depth = wrap[0];
   var prefix = wrap[1];
   var suffix = wrap[2];
@@ -47407,7 +48285,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _starter_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_starter_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "/**\n * color definitions\n */\n.djs-container {\n  --color-grey-225-10-15: hsl(225, 10%, 15%);\n  --color-grey-225-10-35: hsl(225, 10%, 35%);\n  --color-grey-225-10-55: hsl(225, 10%, 55%);\n  --color-grey-225-10-75: hsl(225, 10%, 75%);\n  --color-grey-225-10-80: hsl(225, 10%, 80%);\n  --color-grey-225-10-85: hsl(225, 10%, 85%);\n  --color-grey-225-10-90: hsl(225, 10%, 90%);\n  --color-grey-225-10-95: hsl(225, 10%, 95%); \n  --color-grey-225-10-97: hsl(225, 10%, 97%);\n\n  --color-blue-205-100-45: hsl(205, 100%, 45%);\n  --color-blue-205-100-45-opacity-30: hsla(205, 100%, 45%, 30%);\n  --color-blue-205-100-50: hsl(205, 100%, 50%);\n  --color-blue-205-100-95: hsl(205, 100%, 95%);\n\n  --color-green-150-86-44: hsl(150, 86%, 44%);\n\n  --color-red-360-100-40: hsl(360, 100%, 40%);\n  --color-red-360-100-45: hsl(360, 100%, 45%);\n  --color-red-360-100-92: hsl(360, 100%, 92%);\n  --color-red-360-100-97: hsl(360, 100%, 97%);\n\n  --color-white: hsl(0, 0%, 100%);\n  --color-black: hsl(0, 0%, 0%); \n  --color-black-opacity-05: hsla(0, 0%, 0%, 5%); \n  --color-black-opacity-10: hsla(0, 0%, 0%, 10%);\n\n  --bendpoint-fill-color: var(--color-blue-205-100-45-opacity-30);\n  --bendpoint-stroke-color: var(--color-blue-205-100-50);\n\n  --context-pad-entry-background-color: var(--color-white);\n  --context-pad-entry-hover-background-color: var(--color-grey-225-10-95);\n\n  --element-dragger-color: var(--color-blue-205-100-50);\n  --element-hover-outline-fill-color: var(--color-blue-205-100-45);\n  --element-selected-outline-stroke-color: var(--color-blue-205-100-50);\n\n  --lasso-fill-color: var(--color-black-opacity-05);\n  --lasso-stroke-color: var(--color-black);\n\n  --palette-entry-color: var(--color-grey-225-10-15);\n  --palette-entry-hover-color: var(--color-blue-205-100-45);\n  --palette-entry-selected-color: var(--color-blue-205-100-50);\n  --palette-separator-color: var(--color-grey-225-10-75);\n  --palette-toggle-hover-background-color: var(--color-grey-225-10-55);\n  --palette-background-color: var(--color-grey-225-10-97);\n  --palette-border-color: var(--color-grey-225-10-75);\n\n  --popup-body-background-color: var(--color-white);\n  --popup-header-entry-selected-color: var(--color-blue-205-100-50);\n  --popup-header-entry-selected-background-color: var(--color-black-opacity-10);\n  --popup-header-separator-color: var(--color-grey-225-10-75);\n  --popup-background-color: var(--color-grey-225-10-97);\n  --popup-border-color: var(--color-grey-225-10-75);\n\n  --resizer-fill-color: var(--color-blue-205-100-45-opacity-30);\n  --resizer-stroke-color: var(--color-blue-205-100-50);\n\n  --search-container-background-color: var(--color-grey-225-10-97);\n  --search-container-border-color: var(--color-blue-205-100-50);\n  --search-container-box-shadow-color: var(--color-blue-205-100-95);\n  --search-container-box-shadow-inset-color: var(--color-grey-225-10-80);\n  --search-input-border-color: var(--color-grey-225-10-75);\n  --search-result-border-color: var(--color-grey-225-10-75);\n  --search-result-highlight-color: var(--color-black);\n  --search-result-selected-color: var(--color-blue-205-100-45-opacity-30);\n\n  --shape-attach-allowed-stroke-color: var(--color-blue-205-100-50);\n  --shape-connect-allowed-fill-color: var(--color-grey-225-10-97);\n  --shape-drop-allowed-fill-color: var(--color-grey-225-10-97);\n  --shape-drop-not-allowed-fill-color: var(--color-red-360-100-97);\n  --shape-resize-preview-stroke-color: var(--color-blue-205-100-50);\n\n  --snap-line-stroke-color: var(--color-blue-205-100-45-opacity-30);\n\n  --space-tool-crosshair-stroke-color: var(--color-black);\n\n  --tooltip-error-background-color: var(--color-red-360-100-97);\n  --tooltip-error-border-color: var(--color-red-360-100-45);\n  --tooltip-error-color: var(--color-red-360-100-45);\n}\n\n/**\n * outline styles\n */\n\n.djs-outline {\n  fill: none;\n  visibility: hidden;\n}\n\n.djs-element.hover .djs-outline,\n.djs-element.selected .djs-outline {\n  visibility: visible;\n  shape-rendering: geometricPrecision;\n  stroke-dasharray: 3,3;\n}\n\n.djs-element.selected .djs-outline {\n  stroke: var(--element-selected-outline-stroke-color);\n  stroke-width: 1px;\n}\n\n.djs-element.hover .djs-outline {\n  stroke: var(--element-hover-outline-fill-color);\n  stroke-width: 1px;\n}\n\n.djs-shape.connect-ok .djs-visual > :nth-child(1) {\n  fill: var(--shape-connect-allowed-fill-color) !important;\n}\n\n.djs-shape.connect-not-ok .djs-visual > :nth-child(1),\n.djs-shape.drop-not-ok .djs-visual > :nth-child(1) {\n  fill: var(--shape-drop-not-allowed-fill-color) !important;\n}\n\n.djs-shape.new-parent .djs-visual > :nth-child(1) {\n  fill: var(--shape-drop-allowed-fill-color) !important;\n}\n\nsvg.drop-not-ok {\n  background: var(--shape-drop-not-allowed-fill-color) !important;\n}\n\nsvg.new-parent {\n  background: var(--shape-drop-allowed-fill-color) !important;\n}\n\n.djs-connection.connect-ok .djs-visual > :nth-child(1),\n.djs-connection.drop-ok .djs-visual > :nth-child(1) {\n  stroke: var(--shape-drop-allowed-fill-color) !important;\n}\n\n.djs-connection.connect-not-ok .djs-visual > :nth-child(1),\n.djs-connection.drop-not-ok .djs-visual > :nth-child(1) {\n  stroke: var(--shape-drop-not-allowed-fill-color) !important;\n}\n\n.drop-not-ok,\n.connect-not-ok {\n  cursor: not-allowed;\n}\n\n.djs-element.attach-ok .djs-visual > :nth-child(1) {\n  stroke-width: 5px !important;\n  stroke: var(--shape-attach-allowed-stroke-color) !important;\n}\n\n.djs-frame.connect-not-ok .djs-visual > :nth-child(1),\n.djs-frame.drop-not-ok .djs-visual > :nth-child(1) {\n  stroke-width: 3px !important;\n  stroke: var(--shape-drop-not-allowed-fill-color) !important;\n  fill: none !important;\n}\n\n/**\n* Selection box style\n*\n*/\n.djs-lasso-overlay {\n  fill: var(--lasso-fill-color);\n\n  stroke-dasharray: 5 1 3 1;\n  stroke: var(--lasso-stroke-color);\n\n  shape-rendering: geometricPrecision;\n  pointer-events: none;\n}\n\n/**\n * Resize styles\n */\n.djs-resize-overlay {\n  fill: none;\n\n  stroke-dasharray: 5 1 3 1;\n  stroke: var(--shape-resize-preview-stroke-color);\n\n  pointer-events: none;\n}\n\n.djs-resizer-hit {\n  fill: none;\n  pointer-events: all;\n}\n\n.djs-resizer-visual {\n  fill: var(--resizer-fill-color);\n  stroke-width: 1px;\n  stroke-opacity: 0.5;\n  stroke: var(--resizer-stroke-color);\n  shape-rendering: geometricprecision;\n}\n\n.djs-resizer:hover .djs-resizer-visual {\n  stroke: var(--resizer-stroke-color);\n  stroke-opacity: 1;\n}\n\n.djs-cursor-resize-ns,\n.djs-resizer-n,\n.djs-resizer-s {\n  cursor: ns-resize;\n}\n\n.djs-cursor-resize-ew,\n.djs-resizer-e,\n.djs-resizer-w {\n  cursor: ew-resize;\n}\n\n.djs-cursor-resize-nwse,\n.djs-resizer-nw,\n.djs-resizer-se {\n  cursor: nwse-resize;\n}\n\n.djs-cursor-resize-nesw,\n.djs-resizer-ne,\n.djs-resizer-sw {\n  cursor: nesw-resize;\n}\n\n.djs-shape.djs-resizing > .djs-outline {\n  visibility: hidden !important;\n}\n\n.djs-shape.djs-resizing > .djs-resizer {\n  visibility: hidden;\n}\n\n.djs-dragger > .djs-resizer {\n  visibility: hidden;\n}\n\n/**\n * drag styles\n */\n.djs-dragger * {\n  fill: none !important;\n  stroke: var(--element-dragger-color) !important;\n}\n\n.djs-dragger tspan,\n.djs-dragger text {\n  fill: var(--element-dragger-color) !important;\n  stroke: none !important;\n}\n\nmarker.djs-dragger circle,\nmarker.djs-dragger path,\nmarker.djs-dragger polygon,\nmarker.djs-dragger polyline,\nmarker.djs-dragger rect {\n  fill: var(--element-dragger-color) !important;\n  stroke: none !important;\n}\n\nmarker.djs-dragger text,\nmarker.djs-dragger tspan {\n  fill: none !important;\n  stroke: var(--element-dragger-color) !important;\n}\n\n.djs-dragging {\n  opacity: 0.3;\n}\n\n.djs-dragging,\n.djs-dragging > * {\n  pointer-events: none !important;\n}\n\n.djs-dragging .djs-context-pad,\n.djs-dragging .djs-outline {\n  display: none !important;\n}\n\n/**\n * no pointer events for visual\n */\n.djs-visual,\n.djs-outline {\n  pointer-events: none;\n}\n\n.djs-element.attach-ok .djs-hit {\n  stroke-width: 60px !important;\n}\n\n/**\n * all pointer events for hit shape\n */\n.djs-element > .djs-hit-all {\n  pointer-events: all;\n}\n\n.djs-element > .djs-hit-stroke,\n.djs-element > .djs-hit-click-stroke {\n  pointer-events: stroke;\n}\n\n/**\n * all pointer events for hit shape\n */\n.djs-drag-active .djs-element > .djs-hit-click-stroke {\n  pointer-events: all;\n}\n\n/**\n * shape / connection basic styles\n */\n.djs-connection .djs-visual {\n  stroke-width: 2px;\n  fill: none;\n}\n\n.djs-cursor-grab {\n  cursor: -webkit-grab;\n  cursor: -moz-grab;\n  cursor: grab;\n}\n\n.djs-cursor-grabbing {\n  cursor: -webkit-grabbing;\n  cursor: -moz-grabbing;\n  cursor: grabbing;\n}\n\n.djs-cursor-crosshair {\n  cursor: crosshair;\n}\n\n.djs-cursor-move {\n  cursor: move;\n}\n\n.djs-cursor-resize-ns {\n  cursor: ns-resize;\n}\n\n.djs-cursor-resize-ew {\n  cursor: ew-resize;\n}\n\n\n/**\n * snapping\n */\n.djs-snap-line {\n  stroke: var(--snap-line-stroke-color);\n  stroke-linecap: round;\n  stroke-width: 2px;\n  pointer-events: none;\n}\n\n/**\n * snapping\n */\n.djs-crosshair {\n  stroke: var(--space-tool-crosshair-stroke-color);\n  stroke-linecap: round;\n  stroke-width: 1px;\n  pointer-events: none;\n  shape-rendering: crispEdges;\n  stroke-dasharray: 5, 5;\n}\n\n/**\n * palette\n */\n\n.djs-palette {\n  position: absolute;\n  left: 20px;\n  top: 20px;\n\n  box-sizing: border-box;\n  width: 48px;\n}\n\n.djs-palette .separator {\n  margin: 0 5px;\n  padding-top: 5px;\n\n  border: none;\n  border-bottom: solid 1px var(--palette-separator-color);\n\n  clear: both;\n}\n\n.djs-palette .entry:before {\n  vertical-align: text-bottom;\n}\n\n.djs-palette .djs-palette-toggle {\n  cursor: pointer;\n}\n\n.djs-palette .entry,\n.djs-palette .djs-palette-toggle {\n  color: var(--palette-entry-color);\n  font-size: 30px;\n\n  text-align: center;\n}\n\n.djs-palette .entry {\n  float: left;\n}\n\n.djs-palette .entry img {\n  max-width: 100%;\n}\n\n.djs-palette .djs-palette-entries:after {\n  content: '';\n  display: table;\n  clear: both;\n}\n\n.djs-palette .djs-palette-toggle:hover {\n  background: var(--palette-toggle-hover-background-color);\n}\n\n.djs-palette .entry:hover {\n  color: var(--palette-entry-hover-color);\n}\n\n.djs-palette .highlighted-entry {\n  color: var(--palette-entry-selected-color) !important;\n}\n\n.djs-palette .entry,\n.djs-palette .djs-palette-toggle {\n  width: 46px;\n  height: 46px;\n  line-height: 46px;\n  cursor: default;\n}\n\n/**\n * Palette open / two-column layout is controlled via\n * classes on the palette. Events to hook into palette\n * changed life-cycle are available in addition.\n */\n.djs-palette.two-column.open {\n  width: 94px;\n}\n\n.djs-palette:not(.open) .djs-palette-entries {\n  display: none;\n}\n\n.djs-palette:not(.open) {\n  overflow: hidden;\n}\n\n.djs-palette.open .djs-palette-toggle {\n  display: none;\n}\n\n/**\n * context-pad\n */\n.djs-overlay-context-pad {\n  width: 72px;\n  z-index: 100;\n}\n\n.djs-context-pad {\n  position: absolute;\n  display: none;\n  pointer-events: none;\n}\n\n.djs-context-pad .entry {\n  width: 22px;\n  height: 22px;\n  text-align: center;\n  display: inline-block;\n  font-size: 22px;\n  margin: 0 2px 2px 0;\n\n  border-radius: 3px;\n\n  cursor: default;\n\n  background-color: var(--context-pad-entry-background-color);\n  box-shadow: 0 0 2px 1px var(--context-pad-entry-background-color);\n  pointer-events: all;\n}\n\n.djs-context-pad .entry:before {\n  vertical-align: top;\n}\n\n.djs-context-pad .entry:hover {\n  background: var(--context-pad-entry-hover-background-color);\n}\n\n.djs-context-pad.open {\n  display: block;\n}\n\n/**\n * popup styles\n */\n.djs-popup .entry {\n  line-height: 20px;\n  white-space: nowrap;\n  cursor: default;\n}\n\n/* larger font for prefixed icons */\n.djs-popup .entry:before {\n  vertical-align: middle;\n  font-size: 20px;\n}\n\n.djs-popup .entry > span {\n  vertical-align: middle;\n  font-size: 14px;\n}\n\n.djs-popup .entry:hover,\n.djs-popup .entry.active:hover {\n  background: var(--popup-header-entry-selected-background-color);\n}\n\n.djs-popup .entry.disabled {\n  background: inherit;\n}\n\n.djs-popup .djs-popup-header .entry {\n  display: inline-block;\n  padding: 2px 3px 2px 3px;\n\n  border: solid 1px transparent;\n  border-radius: 3px;\n}\n\n.djs-popup .djs-popup-header .entry.active {\n  color: var(--popup-header-entry-selected-color);\n  border: solid 1px var(--popup-header-entry-selected-color);\n  background-color: var(--popup-header-entry-selected-background-color);\n}\n\n.djs-popup-body .entry {\n  padding: 4px 10px 4px 5px;\n}\n\n.djs-popup-body .entry > span {\n  margin-left: 5px;\n}\n\n.djs-popup-body {\n  background-color: var(--popup-body-background-color);\n}\n\n.djs-popup-header {\n  border-bottom: 1px solid var(--popup-header-separator-color);\n}\n\n.djs-popup-header .entry {\n  margin: 1px;\n  margin-left: 3px;\n}\n\n.djs-popup-header .entry:last-child {\n  margin-right: 3px;\n}\n\n/**\n * popup / palette styles\n */\n.djs-palette {\n  background: var(--palette-background-color);\n  border: solid 1px var(--palette-border-color);\n  border-radius: 2px;\n}\n\n.djs-popup {\n  background: var(--popup-background-color);\n  border: solid 1px var(--popup-border-color);\n  border-radius: 2px;\n}\n\n/**\n * touch\n */\n\n.djs-shape,\n.djs-connection {\n  touch-action: none;\n}\n\n.djs-segment-dragger,\n.djs-bendpoint {\n  display: none;\n}\n\n/**\n * bendpoints\n */\n.djs-segment-dragger .djs-visual {\n  display: none;\n\n  fill: var(--bendpoint-fill-color);\n  stroke: var(--bendpoint-stroke-color);\n  stroke-width: 1px;\n  stroke-opacity: 1;\n}\n\n.djs-segment-dragger:hover .djs-visual {\n  display: block;\n}\n\n.djs-bendpoint .djs-visual {\n  fill: var(--bendpoint-fill-color);\n  stroke: var(--bendpoint-stroke-color);\n  stroke-width: 1px;\n  stroke-opacity: 0.5;\n}\n\n.djs-segment-dragger:hover,\n.djs-bendpoints.hover .djs-segment-dragger,\n.djs-bendpoints.selected .djs-segment-dragger,\n.djs-bendpoint:hover,\n.djs-bendpoints.hover .djs-bendpoint,\n.djs-bendpoints.selected .djs-bendpoint {\n  display: block;\n}\n\n.djs-drag-active .djs-bendpoints * {\n  display: none;\n}\n\n.djs-bendpoints:not(.hover) .floating {\n  display: none;\n}\n\n.djs-segment-dragger:hover .djs-visual,\n.djs-segment-dragger.djs-dragging .djs-visual,\n.djs-bendpoint:hover .djs-visual,\n.djs-bendpoint.floating .djs-visual {\n  fill: var(--bendpoint-fill-color);\n  stroke: var(--bendpoint-stroke-color);\n  stroke-opacity: 1;\n}\n\n.djs-bendpoint.floating .djs-hit {\n  pointer-events: none;\n}\n\n.djs-segment-dragger .djs-hit,\n.djs-bendpoint .djs-hit {\n  fill: none;\n  pointer-events: all;\n}\n\n.djs-segment-dragger.horizontal .djs-hit {\n  cursor: ns-resize;\n}\n\n.djs-segment-dragger.vertical .djs-hit {\n  cursor: ew-resize;\n}\n\n.djs-segment-dragger.djs-dragging .djs-hit {\n  pointer-events: none;\n}\n\n.djs-updating,\n.djs-updating > * {\n  pointer-events: none !important;\n}\n\n.djs-updating .djs-context-pad,\n.djs-updating .djs-outline,\n.djs-updating .djs-bendpoint,\n.connect-ok .djs-bendpoint,\n.connect-not-ok .djs-bendpoint,\n.drop-ok .djs-bendpoint,\n.drop-not-ok .djs-bendpoint {\n  display: none !important;\n}\n\n.djs-segment-dragger.djs-dragging,\n.djs-bendpoint.djs-dragging {\n  display: block;\n  opacity: 1.0;\n}\n\n\n/**\n * tooltips\n */\n.djs-tooltip-error {\n  width: 160px;\n  padding: 6px;\n\n  background: var(--tooltip-error-background-color);\n  border: solid 1px var(--tooltip-error-border-color);\n  border-radius: 2px;\n  color: var(--tooltip-error-color);\n  font-size: 12px;\n  line-height: 16px;\n\n  opacity: 0.75;\n}\n\n.djs-tooltip-error:hover {\n  opacity: 1;\n}\n\n\n/**\n * search pad\n */\n.djs-search-container {\n  position: absolute;\n  top: 20px;\n  left: 0;\n  right: 0;\n  margin-left: auto;\n  margin-right: auto;\n\n  width: 25%;\n  min-width: 300px;\n  max-width: 400px;\n  z-index: 10;\n\n  font-size: 1.05em;\n  opacity: 0.9;\n  background: var(--search-container-background-color);\n  border: solid 1px var(--search-container-border-color);\n  border-radius: 2px;\n  box-shadow: 0 0 0 2px var(--search-container-box-shadow-color), 0 0 0 1px var(--search-container-box-shadow-inset-color) inset;\n}\n\n.djs-search-container:not(.open) {\n  display: none;\n}\n\n.djs-search-input input {\n  font-size: 1.05em;\n  width: 100%;\n  padding: 6px 10px;\n  border: 1px solid var(--search-input-border-color);\n  box-sizing: border-box;\n}\n\n.djs-search-input input:focus {\n  outline: none;\n  border-color: var(--search-input-border-color);\n}\n\n.djs-search-results {\n  position: relative;\n  overflow-y: auto;\n  max-height: 200px;\n}\n\n.djs-search-results:hover {\n  cursor: pointer;\n}\n\n.djs-search-result {\n  width: 100%;\n  padding: 6px 10px;\n  background: white;\n  border-bottom: solid 1px var(--search-result-border-color);\n  border-radius: 1px;\n}\n\n.djs-search-highlight {\n  color: var(--search-result-highlight-color);\n}\n\n.djs-search-result-primary {\n  margin: 0 0 10px;\n}\n\n.djs-search-result-secondary {\n  font-family: monospace;\n  margin: 0;\n}\n\n.djs-search-result:hover {\n  background: var(--search-result-selected-color);\n}\n\n.djs-search-result-selected {\n  background: var(--search-result-selected-color);\n}\n\n.djs-search-result-selected:hover {\n  background: var(--search-result-selected-color);\n}\n\n.djs-search-overlay {\n  background: var(--search-result-selected-color);\n}\n\n/**\n * hidden styles\n */\n.djs-element-hidden,\n.djs-element-hidden .djs-hit,\n.djs-element-hidden .djs-outline,\n.djs-label-hidden .djs-label {\n  display: none !important;\n}\n", "",{"version":3,"sources":["webpack://./../node_modules/diagram-js/assets/diagram-js.css"],"names":[],"mappings":"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","sourcesContent":["/**\n * color definitions\n */\n.djs-container {\n  --color-grey-225-10-15: hsl(225, 10%, 15%);\n  --color-grey-225-10-35: hsl(225, 10%, 35%);\n  --color-grey-225-10-55: hsl(225, 10%, 55%);\n  --color-grey-225-10-75: hsl(225, 10%, 75%);\n  --color-grey-225-10-80: hsl(225, 10%, 80%);\n  --color-grey-225-10-85: hsl(225, 10%, 85%);\n  --color-grey-225-10-90: hsl(225, 10%, 90%);\n  --color-grey-225-10-95: hsl(225, 10%, 95%); \n  --color-grey-225-10-97: hsl(225, 10%, 97%);\n\n  --color-blue-205-100-45: hsl(205, 100%, 45%);\n  --color-blue-205-100-45-opacity-30: hsla(205, 100%, 45%, 30%);\n  --color-blue-205-100-50: hsl(205, 100%, 50%);\n  --color-blue-205-100-95: hsl(205, 100%, 95%);\n\n  --color-green-150-86-44: hsl(150, 86%, 44%);\n\n  --color-red-360-100-40: hsl(360, 100%, 40%);\n  --color-red-360-100-45: hsl(360, 100%, 45%);\n  --color-red-360-100-92: hsl(360, 100%, 92%);\n  --color-red-360-100-97: hsl(360, 100%, 97%);\n\n  --color-white: hsl(0, 0%, 100%);\n  --color-black: hsl(0, 0%, 0%); \n  --color-black-opacity-05: hsla(0, 0%, 0%, 5%); \n  --color-black-opacity-10: hsla(0, 0%, 0%, 10%);\n\n  --bendpoint-fill-color: var(--color-blue-205-100-45-opacity-30);\n  --bendpoint-stroke-color: var(--color-blue-205-100-50);\n\n  --context-pad-entry-background-color: var(--color-white);\n  --context-pad-entry-hover-background-color: var(--color-grey-225-10-95);\n\n  --element-dragger-color: var(--color-blue-205-100-50);\n  --element-hover-outline-fill-color: var(--color-blue-205-100-45);\n  --element-selected-outline-stroke-color: var(--color-blue-205-100-50);\n\n  --lasso-fill-color: var(--color-black-opacity-05);\n  --lasso-stroke-color: var(--color-black);\n\n  --palette-entry-color: var(--color-grey-225-10-15);\n  --palette-entry-hover-color: var(--color-blue-205-100-45);\n  --palette-entry-selected-color: var(--color-blue-205-100-50);\n  --palette-separator-color: var(--color-grey-225-10-75);\n  --palette-toggle-hover-background-color: var(--color-grey-225-10-55);\n  --palette-background-color: var(--color-grey-225-10-97);\n  --palette-border-color: var(--color-grey-225-10-75);\n\n  --popup-body-background-color: var(--color-white);\n  --popup-header-entry-selected-color: var(--color-blue-205-100-50);\n  --popup-header-entry-selected-background-color: var(--color-black-opacity-10);\n  --popup-header-separator-color: var(--color-grey-225-10-75);\n  --popup-background-color: var(--color-grey-225-10-97);\n  --popup-border-color: var(--color-grey-225-10-75);\n\n  --resizer-fill-color: var(--color-blue-205-100-45-opacity-30);\n  --resizer-stroke-color: var(--color-blue-205-100-50);\n\n  --search-container-background-color: var(--color-grey-225-10-97);\n  --search-container-border-color: var(--color-blue-205-100-50);\n  --search-container-box-shadow-color: var(--color-blue-205-100-95);\n  --search-container-box-shadow-inset-color: var(--color-grey-225-10-80);\n  --search-input-border-color: var(--color-grey-225-10-75);\n  --search-result-border-color: var(--color-grey-225-10-75);\n  --search-result-highlight-color: var(--color-black);\n  --search-result-selected-color: var(--color-blue-205-100-45-opacity-30);\n\n  --shape-attach-allowed-stroke-color: var(--color-blue-205-100-50);\n  --shape-connect-allowed-fill-color: var(--color-grey-225-10-97);\n  --shape-drop-allowed-fill-color: var(--color-grey-225-10-97);\n  --shape-drop-not-allowed-fill-color: var(--color-red-360-100-97);\n  --shape-resize-preview-stroke-color: var(--color-blue-205-100-50);\n\n  --snap-line-stroke-color: var(--color-blue-205-100-45-opacity-30);\n\n  --space-tool-crosshair-stroke-color: var(--color-black);\n\n  --tooltip-error-background-color: var(--color-red-360-100-97);\n  --tooltip-error-border-color: var(--color-red-360-100-45);\n  --tooltip-error-color: var(--color-red-360-100-45);\n}\n\n/**\n * outline styles\n */\n\n.djs-outline {\n  fill: none;\n  visibility: hidden;\n}\n\n.djs-element.hover .djs-outline,\n.djs-element.selected .djs-outline {\n  visibility: visible;\n  shape-rendering: geometricPrecision;\n  stroke-dasharray: 3,3;\n}\n\n.djs-element.selected .djs-outline {\n  stroke: var(--element-selected-outline-stroke-color);\n  stroke-width: 1px;\n}\n\n.djs-element.hover .djs-outline {\n  stroke: var(--element-hover-outline-fill-color);\n  stroke-width: 1px;\n}\n\n.djs-shape.connect-ok .djs-visual > :nth-child(1) {\n  fill: var(--shape-connect-allowed-fill-color) !important;\n}\n\n.djs-shape.connect-not-ok .djs-visual > :nth-child(1),\n.djs-shape.drop-not-ok .djs-visual > :nth-child(1) {\n  fill: var(--shape-drop-not-allowed-fill-color) !important;\n}\n\n.djs-shape.new-parent .djs-visual > :nth-child(1) {\n  fill: var(--shape-drop-allowed-fill-color) !important;\n}\n\nsvg.drop-not-ok {\n  background: var(--shape-drop-not-allowed-fill-color) !important;\n}\n\nsvg.new-parent {\n  background: var(--shape-drop-allowed-fill-color) !important;\n}\n\n.djs-connection.connect-ok .djs-visual > :nth-child(1),\n.djs-connection.drop-ok .djs-visual > :nth-child(1) {\n  stroke: var(--shape-drop-allowed-fill-color) !important;\n}\n\n.djs-connection.connect-not-ok .djs-visual > :nth-child(1),\n.djs-connection.drop-not-ok .djs-visual > :nth-child(1) {\n  stroke: var(--shape-drop-not-allowed-fill-color) !important;\n}\n\n.drop-not-ok,\n.connect-not-ok {\n  cursor: not-allowed;\n}\n\n.djs-element.attach-ok .djs-visual > :nth-child(1) {\n  stroke-width: 5px !important;\n  stroke: var(--shape-attach-allowed-stroke-color) !important;\n}\n\n.djs-frame.connect-not-ok .djs-visual > :nth-child(1),\n.djs-frame.drop-not-ok .djs-visual > :nth-child(1) {\n  stroke-width: 3px !important;\n  stroke: var(--shape-drop-not-allowed-fill-color) !important;\n  fill: none !important;\n}\n\n/**\n* Selection box style\n*\n*/\n.djs-lasso-overlay {\n  fill: var(--lasso-fill-color);\n\n  stroke-dasharray: 5 1 3 1;\n  stroke: var(--lasso-stroke-color);\n\n  shape-rendering: geometricPrecision;\n  pointer-events: none;\n}\n\n/**\n * Resize styles\n */\n.djs-resize-overlay {\n  fill: none;\n\n  stroke-dasharray: 5 1 3 1;\n  stroke: var(--shape-resize-preview-stroke-color);\n\n  pointer-events: none;\n}\n\n.djs-resizer-hit {\n  fill: none;\n  pointer-events: all;\n}\n\n.djs-resizer-visual {\n  fill: var(--resizer-fill-color);\n  stroke-width: 1px;\n  stroke-opacity: 0.5;\n  stroke: var(--resizer-stroke-color);\n  shape-rendering: geometricprecision;\n}\n\n.djs-resizer:hover .djs-resizer-visual {\n  stroke: var(--resizer-stroke-color);\n  stroke-opacity: 1;\n}\n\n.djs-cursor-resize-ns,\n.djs-resizer-n,\n.djs-resizer-s {\n  cursor: ns-resize;\n}\n\n.djs-cursor-resize-ew,\n.djs-resizer-e,\n.djs-resizer-w {\n  cursor: ew-resize;\n}\n\n.djs-cursor-resize-nwse,\n.djs-resizer-nw,\n.djs-resizer-se {\n  cursor: nwse-resize;\n}\n\n.djs-cursor-resize-nesw,\n.djs-resizer-ne,\n.djs-resizer-sw {\n  cursor: nesw-resize;\n}\n\n.djs-shape.djs-resizing > .djs-outline {\n  visibility: hidden !important;\n}\n\n.djs-shape.djs-resizing > .djs-resizer {\n  visibility: hidden;\n}\n\n.djs-dragger > .djs-resizer {\n  visibility: hidden;\n}\n\n/**\n * drag styles\n */\n.djs-dragger * {\n  fill: none !important;\n  stroke: var(--element-dragger-color) !important;\n}\n\n.djs-dragger tspan,\n.djs-dragger text {\n  fill: var(--element-dragger-color) !important;\n  stroke: none !important;\n}\n\nmarker.djs-dragger circle,\nmarker.djs-dragger path,\nmarker.djs-dragger polygon,\nmarker.djs-dragger polyline,\nmarker.djs-dragger rect {\n  fill: var(--element-dragger-color) !important;\n  stroke: none !important;\n}\n\nmarker.djs-dragger text,\nmarker.djs-dragger tspan {\n  fill: none !important;\n  stroke: var(--element-dragger-color) !important;\n}\n\n.djs-dragging {\n  opacity: 0.3;\n}\n\n.djs-dragging,\n.djs-dragging > * {\n  pointer-events: none !important;\n}\n\n.djs-dragging .djs-context-pad,\n.djs-dragging .djs-outline {\n  display: none !important;\n}\n\n/**\n * no pointer events for visual\n */\n.djs-visual,\n.djs-outline {\n  pointer-events: none;\n}\n\n.djs-element.attach-ok .djs-hit {\n  stroke-width: 60px !important;\n}\n\n/**\n * all pointer events for hit shape\n */\n.djs-element > .djs-hit-all {\n  pointer-events: all;\n}\n\n.djs-element > .djs-hit-stroke,\n.djs-element > .djs-hit-click-stroke {\n  pointer-events: stroke;\n}\n\n/**\n * all pointer events for hit shape\n */\n.djs-drag-active .djs-element > .djs-hit-click-stroke {\n  pointer-events: all;\n}\n\n/**\n * shape / connection basic styles\n */\n.djs-connection .djs-visual {\n  stroke-width: 2px;\n  fill: none;\n}\n\n.djs-cursor-grab {\n  cursor: -webkit-grab;\n  cursor: -moz-grab;\n  cursor: grab;\n}\n\n.djs-cursor-grabbing {\n  cursor: -webkit-grabbing;\n  cursor: -moz-grabbing;\n  cursor: grabbing;\n}\n\n.djs-cursor-crosshair {\n  cursor: crosshair;\n}\n\n.djs-cursor-move {\n  cursor: move;\n}\n\n.djs-cursor-resize-ns {\n  cursor: ns-resize;\n}\n\n.djs-cursor-resize-ew {\n  cursor: ew-resize;\n}\n\n\n/**\n * snapping\n */\n.djs-snap-line {\n  stroke: var(--snap-line-stroke-color);\n  stroke-linecap: round;\n  stroke-width: 2px;\n  pointer-events: none;\n}\n\n/**\n * snapping\n */\n.djs-crosshair {\n  stroke: var(--space-tool-crosshair-stroke-color);\n  stroke-linecap: round;\n  stroke-width: 1px;\n  pointer-events: none;\n  shape-rendering: crispEdges;\n  stroke-dasharray: 5, 5;\n}\n\n/**\n * palette\n */\n\n.djs-palette {\n  position: absolute;\n  left: 20px;\n  top: 20px;\n\n  box-sizing: border-box;\n  width: 48px;\n}\n\n.djs-palette .separator {\n  margin: 0 5px;\n  padding-top: 5px;\n\n  border: none;\n  border-bottom: solid 1px var(--palette-separator-color);\n\n  clear: both;\n}\n\n.djs-palette .entry:before {\n  vertical-align: text-bottom;\n}\n\n.djs-palette .djs-palette-toggle {\n  cursor: pointer;\n}\n\n.djs-palette .entry,\n.djs-palette .djs-palette-toggle {\n  color: var(--palette-entry-color);\n  font-size: 30px;\n\n  text-align: center;\n}\n\n.djs-palette .entry {\n  float: left;\n}\n\n.djs-palette .entry img {\n  max-width: 100%;\n}\n\n.djs-palette .djs-palette-entries:after {\n  content: '';\n  display: table;\n  clear: both;\n}\n\n.djs-palette .djs-palette-toggle:hover {\n  background: var(--palette-toggle-hover-background-color);\n}\n\n.djs-palette .entry:hover {\n  color: var(--palette-entry-hover-color);\n}\n\n.djs-palette .highlighted-entry {\n  color: var(--palette-entry-selected-color) !important;\n}\n\n.djs-palette .entry,\n.djs-palette .djs-palette-toggle {\n  width: 46px;\n  height: 46px;\n  line-height: 46px;\n  cursor: default;\n}\n\n/**\n * Palette open / two-column layout is controlled via\n * classes on the palette. Events to hook into palette\n * changed life-cycle are available in addition.\n */\n.djs-palette.two-column.open {\n  width: 94px;\n}\n\n.djs-palette:not(.open) .djs-palette-entries {\n  display: none;\n}\n\n.djs-palette:not(.open) {\n  overflow: hidden;\n}\n\n.djs-palette.open .djs-palette-toggle {\n  display: none;\n}\n\n/**\n * context-pad\n */\n.djs-overlay-context-pad {\n  width: 72px;\n  z-index: 100;\n}\n\n.djs-context-pad {\n  position: absolute;\n  display: none;\n  pointer-events: none;\n}\n\n.djs-context-pad .entry {\n  width: 22px;\n  height: 22px;\n  text-align: center;\n  display: inline-block;\n  font-size: 22px;\n  margin: 0 2px 2px 0;\n\n  border-radius: 3px;\n\n  cursor: default;\n\n  background-color: var(--context-pad-entry-background-color);\n  box-shadow: 0 0 2px 1px var(--context-pad-entry-background-color);\n  pointer-events: all;\n}\n\n.djs-context-pad .entry:before {\n  vertical-align: top;\n}\n\n.djs-context-pad .entry:hover {\n  background: var(--context-pad-entry-hover-background-color);\n}\n\n.djs-context-pad.open {\n  display: block;\n}\n\n/**\n * popup styles\n */\n.djs-popup .entry {\n  line-height: 20px;\n  white-space: nowrap;\n  cursor: default;\n}\n\n/* larger font for prefixed icons */\n.djs-popup .entry:before {\n  vertical-align: middle;\n  font-size: 20px;\n}\n\n.djs-popup .entry > span {\n  vertical-align: middle;\n  font-size: 14px;\n}\n\n.djs-popup .entry:hover,\n.djs-popup .entry.active:hover {\n  background: var(--popup-header-entry-selected-background-color);\n}\n\n.djs-popup .entry.disabled {\n  background: inherit;\n}\n\n.djs-popup .djs-popup-header .entry {\n  display: inline-block;\n  padding: 2px 3px 2px 3px;\n\n  border: solid 1px transparent;\n  border-radius: 3px;\n}\n\n.djs-popup .djs-popup-header .entry.active {\n  color: var(--popup-header-entry-selected-color);\n  border: solid 1px var(--popup-header-entry-selected-color);\n  background-color: var(--popup-header-entry-selected-background-color);\n}\n\n.djs-popup-body .entry {\n  padding: 4px 10px 4px 5px;\n}\n\n.djs-popup-body .entry > span {\n  margin-left: 5px;\n}\n\n.djs-popup-body {\n  background-color: var(--popup-body-background-color);\n}\n\n.djs-popup-header {\n  border-bottom: 1px solid var(--popup-header-separator-color);\n}\n\n.djs-popup-header .entry {\n  margin: 1px;\n  margin-left: 3px;\n}\n\n.djs-popup-header .entry:last-child {\n  margin-right: 3px;\n}\n\n/**\n * popup / palette styles\n */\n.djs-palette {\n  background: var(--palette-background-color);\n  border: solid 1px var(--palette-border-color);\n  border-radius: 2px;\n}\n\n.djs-popup {\n  background: var(--popup-background-color);\n  border: solid 1px var(--popup-border-color);\n  border-radius: 2px;\n}\n\n/**\n * touch\n */\n\n.djs-shape,\n.djs-connection {\n  touch-action: none;\n}\n\n.djs-segment-dragger,\n.djs-bendpoint {\n  display: none;\n}\n\n/**\n * bendpoints\n */\n.djs-segment-dragger .djs-visual {\n  display: none;\n\n  fill: var(--bendpoint-fill-color);\n  stroke: var(--bendpoint-stroke-color);\n  stroke-width: 1px;\n  stroke-opacity: 1;\n}\n\n.djs-segment-dragger:hover .djs-visual {\n  display: block;\n}\n\n.djs-bendpoint .djs-visual {\n  fill: var(--bendpoint-fill-color);\n  stroke: var(--bendpoint-stroke-color);\n  stroke-width: 1px;\n  stroke-opacity: 0.5;\n}\n\n.djs-segment-dragger:hover,\n.djs-bendpoints.hover .djs-segment-dragger,\n.djs-bendpoints.selected .djs-segment-dragger,\n.djs-bendpoint:hover,\n.djs-bendpoints.hover .djs-bendpoint,\n.djs-bendpoints.selected .djs-bendpoint {\n  display: block;\n}\n\n.djs-drag-active .djs-bendpoints * {\n  display: none;\n}\n\n.djs-bendpoints:not(.hover) .floating {\n  display: none;\n}\n\n.djs-segment-dragger:hover .djs-visual,\n.djs-segment-dragger.djs-dragging .djs-visual,\n.djs-bendpoint:hover .djs-visual,\n.djs-bendpoint.floating .djs-visual {\n  fill: var(--bendpoint-fill-color);\n  stroke: var(--bendpoint-stroke-color);\n  stroke-opacity: 1;\n}\n\n.djs-bendpoint.floating .djs-hit {\n  pointer-events: none;\n}\n\n.djs-segment-dragger .djs-hit,\n.djs-bendpoint .djs-hit {\n  fill: none;\n  pointer-events: all;\n}\n\n.djs-segment-dragger.horizontal .djs-hit {\n  cursor: ns-resize;\n}\n\n.djs-segment-dragger.vertical .djs-hit {\n  cursor: ew-resize;\n}\n\n.djs-segment-dragger.djs-dragging .djs-hit {\n  pointer-events: none;\n}\n\n.djs-updating,\n.djs-updating > * {\n  pointer-events: none !important;\n}\n\n.djs-updating .djs-context-pad,\n.djs-updating .djs-outline,\n.djs-updating .djs-bendpoint,\n.connect-ok .djs-bendpoint,\n.connect-not-ok .djs-bendpoint,\n.drop-ok .djs-bendpoint,\n.drop-not-ok .djs-bendpoint {\n  display: none !important;\n}\n\n.djs-segment-dragger.djs-dragging,\n.djs-bendpoint.djs-dragging {\n  display: block;\n  opacity: 1.0;\n}\n\n\n/**\n * tooltips\n */\n.djs-tooltip-error {\n  width: 160px;\n  padding: 6px;\n\n  background: var(--tooltip-error-background-color);\n  border: solid 1px var(--tooltip-error-border-color);\n  border-radius: 2px;\n  color: var(--tooltip-error-color);\n  font-size: 12px;\n  line-height: 16px;\n\n  opacity: 0.75;\n}\n\n.djs-tooltip-error:hover {\n  opacity: 1;\n}\n\n\n/**\n * search pad\n */\n.djs-search-container {\n  position: absolute;\n  top: 20px;\n  left: 0;\n  right: 0;\n  margin-left: auto;\n  margin-right: auto;\n\n  width: 25%;\n  min-width: 300px;\n  max-width: 400px;\n  z-index: 10;\n\n  font-size: 1.05em;\n  opacity: 0.9;\n  background: var(--search-container-background-color);\n  border: solid 1px var(--search-container-border-color);\n  border-radius: 2px;\n  box-shadow: 0 0 0 2px var(--search-container-box-shadow-color), 0 0 0 1px var(--search-container-box-shadow-inset-color) inset;\n}\n\n.djs-search-container:not(.open) {\n  display: none;\n}\n\n.djs-search-input input {\n  font-size: 1.05em;\n  width: 100%;\n  padding: 6px 10px;\n  border: 1px solid var(--search-input-border-color);\n  box-sizing: border-box;\n}\n\n.djs-search-input input:focus {\n  outline: none;\n  border-color: var(--search-input-border-color);\n}\n\n.djs-search-results {\n  position: relative;\n  overflow-y: auto;\n  max-height: 200px;\n}\n\n.djs-search-results:hover {\n  cursor: pointer;\n}\n\n.djs-search-result {\n  width: 100%;\n  padding: 6px 10px;\n  background: white;\n  border-bottom: solid 1px var(--search-result-border-color);\n  border-radius: 1px;\n}\n\n.djs-search-highlight {\n  color: var(--search-result-highlight-color);\n}\n\n.djs-search-result-primary {\n  margin: 0 0 10px;\n}\n\n.djs-search-result-secondary {\n  font-family: monospace;\n  margin: 0;\n}\n\n.djs-search-result:hover {\n  background: var(--search-result-selected-color);\n}\n\n.djs-search-result-selected {\n  background: var(--search-result-selected-color);\n}\n\n.djs-search-result-selected:hover {\n  background: var(--search-result-selected-color);\n}\n\n.djs-search-overlay {\n  background: var(--search-result-selected-color);\n}\n\n/**\n * hidden styles\n */\n.djs-element-hidden,\n.djs-element-hidden .djs-hit,\n.djs-element-hidden .djs-outline,\n.djs-label-hidden .djs-label {\n  display: none !important;\n}\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "/**\n * color definitions\n */\n.djs-container {\n  --color-grey-225-10-15: hsl(225, 10%, 15%);\n  --color-grey-225-10-35: hsl(225, 10%, 35%);\n  --color-grey-225-10-55: hsl(225, 10%, 55%);\n  --color-grey-225-10-75: hsl(225, 10%, 75%);\n  --color-grey-225-10-80: hsl(225, 10%, 80%);\n  --color-grey-225-10-85: hsl(225, 10%, 85%);\n  --color-grey-225-10-90: hsl(225, 10%, 90%);\n  --color-grey-225-10-95: hsl(225, 10%, 95%);\n  --color-grey-225-10-97: hsl(225, 10%, 97%);\n\n  --color-blue-205-100-45: hsl(205, 100%, 45%);\n  --color-blue-205-100-45-opacity-30: hsla(205, 100%, 45%, 30%);\n  --color-blue-205-100-50: hsl(205, 100%, 50%);\n  --color-blue-205-100-50-opacity-15: hsla(205, 100%, 50%, 15%);\n  --color-blue-205-100-70: hsl(205, 100%, 75%);\n  --color-blue-205-100-95: hsl(205, 100%, 95%);\n\n  --color-green-150-86-44: hsl(150, 86%, 44%);\n\n  --color-red-360-100-40: hsl(360, 100%, 40%);\n  --color-red-360-100-45: hsl(360, 100%, 45%);\n  --color-red-360-100-92: hsl(360, 100%, 92%);\n  --color-red-360-100-97: hsl(360, 100%, 97%);\n\n  --color-white: hsl(0, 0%, 100%);\n  --color-black: hsl(0, 0%, 0%);\n  --color-black-opacity-10: hsla(0, 0%, 0%, 10%);\n\n  --canvas-fill-color: var(--color-white);\n\n  --bendpoint-fill-color: var(--color-blue-205-100-45);\n  --bendpoint-stroke-color: var(--canvas-fill-color);\n\n  --context-pad-entry-background-color: var(--color-white);\n  --context-pad-entry-hover-background-color: var(--color-grey-225-10-95);\n\n  --element-dragger-color: var(--color-blue-205-100-50);\n  --element-hover-outline-fill-color: var(--color-blue-205-100-45);\n  --element-selected-outline-stroke-color: var(--color-blue-205-100-50);\n  --element-selected-outline-secondary-stroke-color: var(--color-blue-205-100-70);\n\n  --lasso-fill-color: var(--color-blue-205-100-50-opacity-15);\n  --lasso-stroke-color: var(--element-selected-outline-stroke-color);\n\n  --palette-entry-color: var(--color-grey-225-10-15);\n  --palette-entry-hover-color: var(--color-blue-205-100-45);\n  --palette-entry-selected-color: var(--color-blue-205-100-50);\n  --palette-separator-color: var(--color-grey-225-10-75);\n  --palette-toggle-hover-background-color: var(--color-grey-225-10-55);\n  --palette-background-color: var(--color-grey-225-10-97);\n  --palette-border-color: var(--color-grey-225-10-75);\n\n  --popup-body-background-color: var(--color-white);\n  --popup-header-entry-selected-color: var(--color-blue-205-100-50);\n  --popup-header-entry-selected-background-color: var(--color-black-opacity-10);\n  --popup-header-separator-color: var(--color-grey-225-10-75);\n  --popup-background-color: var(--color-grey-225-10-97);\n  --popup-border-color: var(--color-grey-225-10-75);\n\n  --resizer-fill-color: var(--color-blue-205-100-45);\n  --resizer-stroke-color: var(--canvas-fill-color);\n\n  --search-container-background-color: var(--color-grey-225-10-97);\n  --search-container-border-color: var(--color-blue-205-100-50);\n  --search-container-box-shadow-color: var(--color-blue-205-100-95);\n  --search-container-box-shadow-inset-color: var(--color-grey-225-10-80);\n  --search-input-border-color: var(--color-grey-225-10-75);\n  --search-result-border-color: var(--color-grey-225-10-75);\n  --search-result-highlight-color: var(--color-black);\n  --search-result-selected-color: var(--color-blue-205-100-45-opacity-30);\n\n  --shape-attach-allowed-stroke-color: var(--color-blue-205-100-50);\n  --shape-connect-allowed-fill-color: var(--color-grey-225-10-97);\n  --shape-drop-allowed-fill-color: var(--color-grey-225-10-97);\n  --shape-drop-not-allowed-fill-color: var(--color-red-360-100-97);\n  --shape-resize-preview-stroke-color: var(--color-blue-205-100-50);\n\n  --snap-line-stroke-color: var(--color-blue-205-100-45-opacity-30);\n\n  --space-tool-crosshair-stroke-color: var(--color-black);\n\n  --tooltip-error-background-color: var(--color-red-360-100-97);\n  --tooltip-error-border-color: var(--color-red-360-100-45);\n  --tooltip-error-color: var(--color-red-360-100-45);\n}\n\n/**\n * outline styles\n */\n\n.djs-outline,\n.djs-selection-outline {\n  fill: none;\n  shape-rendering: geometricPrecision;\n  stroke-width: 2px;\n}\n\n.djs-outline {\n  visibility: hidden;\n}\n\n.djs-selection-outline {\n  stroke: var(--element-selected-outline-stroke-color);\n}\n\n.djs-element.selected .djs-outline {\n  visibility: visible;\n\n  stroke: var(--element-selected-outline-stroke-color);\n}\n\n.djs-multi-select .djs-element.selected .djs-outline {\n  stroke: var(--element-selected-outline-secondary-stroke-color);\n}\n\n.djs-shape.connect-ok .djs-visual > :nth-child(1) {\n  fill: var(--shape-connect-allowed-fill-color) !important;\n}\n\n.djs-shape.connect-not-ok .djs-visual > :nth-child(1),\n.djs-shape.drop-not-ok .djs-visual > :nth-child(1) {\n  fill: var(--shape-drop-not-allowed-fill-color) !important;\n}\n\n.djs-shape.new-parent .djs-visual > :nth-child(1) {\n  fill: var(--shape-drop-allowed-fill-color) !important;\n}\n\nsvg.drop-not-ok {\n  background: var(--shape-drop-not-allowed-fill-color) !important;\n}\n\nsvg.new-parent {\n  background: var(--shape-drop-allowed-fill-color) !important;\n}\n\n\n/* Override move cursor during drop and connect */\n.drop-not-ok,\n.connect-not-ok,\n.drop-not-ok *,\n.connect-not-ok * {\n  cursor: not-allowed !important;\n}\n\n.drop-ok,\n.connect-ok,\n.drop-ok *,\n.connect-ok * {\n  cursor: default !important;\n}\n\n.djs-element.attach-ok .djs-visual > :nth-child(1) {\n  stroke-width: 5px !important;\n  stroke: var(--shape-attach-allowed-stroke-color) !important;\n}\n\n.djs-frame.connect-not-ok .djs-visual > :nth-child(1),\n.djs-frame.drop-not-ok .djs-visual > :nth-child(1) {\n  stroke-width: 3px !important;\n  stroke: var(--shape-drop-not-allowed-fill-color) !important;\n  fill: none !important;\n}\n\n/**\n* Selection box style\n*\n*/\n.djs-lasso-overlay {\n  fill: var(--lasso-fill-color);\n  stroke: var(--lasso-stroke-color);\n  stroke-width: 2px;\n  shape-rendering: geometricPrecision;\n  pointer-events: none;\n}\n\n/**\n * Resize styles\n */\n.djs-resize-overlay {\n  fill: none;\n\n  stroke-dasharray: 5 1 3 1;\n  stroke: var(--shape-resize-preview-stroke-color);\n\n  pointer-events: none;\n}\n\n.djs-resizer-hit {\n  fill: none;\n  pointer-events: all;\n}\n\n.djs-resizer-visual {\n  fill: var(--resizer-fill-color);\n  stroke-width: 1px;\n  stroke: var(--resizer-stroke-color);\n  shape-rendering: geometricPrecision;\n}\n\n.djs-resizer:hover .djs-resizer-visual {\n  stroke: var(--resizer-stroke-color);\n  stroke-opacity: 1;\n}\n\n.djs-cursor-resize-ns,\n.djs-resizer-n,\n.djs-resizer-s {\n  cursor: ns-resize;\n}\n\n.djs-cursor-resize-ew,\n.djs-resizer-e,\n.djs-resizer-w {\n  cursor: ew-resize;\n}\n\n.djs-cursor-resize-nwse,\n.djs-resizer-nw,\n.djs-resizer-se {\n  cursor: nwse-resize;\n}\n\n.djs-cursor-resize-nesw,\n.djs-resizer-ne,\n.djs-resizer-sw {\n  cursor: nesw-resize;\n}\n\n.djs-shape.djs-resizing > .djs-outline {\n  visibility: hidden !important;\n}\n\n.djs-shape.djs-resizing > .djs-resizer {\n  visibility: hidden;\n}\n\n.djs-dragger > .djs-resizer {\n  visibility: hidden;\n}\n\n/**\n * drag styles\n */\n.djs-dragger * {\n  fill: none !important;\n  stroke: var(--element-dragger-color) !important;\n}\n\n.djs-dragger tspan,\n.djs-dragger text {\n  fill: var(--element-dragger-color) !important;\n  stroke: none !important;\n}\n\nmarker.djs-dragger circle,\nmarker.djs-dragger path,\nmarker.djs-dragger polygon,\nmarker.djs-dragger polyline,\nmarker.djs-dragger rect {\n  fill: var(--element-dragger-color) !important;\n  stroke: none !important;\n}\n\nmarker.djs-dragger text,\nmarker.djs-dragger tspan {\n  fill: none !important;\n  stroke: var(--element-dragger-color) !important;\n}\n\n.djs-dragging {\n  opacity: 0.3;\n}\n\n.djs-dragging,\n.djs-dragging > * {\n  pointer-events: none !important;\n}\n\n.djs-dragging .djs-context-pad,\n.djs-dragging .djs-outline {\n  display: none !important;\n}\n\n/**\n * no pointer events for visual\n */\n.djs-visual,\n.djs-outline {\n  pointer-events: none;\n}\n\n.djs-element.attach-ok .djs-hit {\n  stroke-width: 60px !important;\n}\n\n/**\n * all pointer events for hit shape\n */\n.djs-element > .djs-hit-all,\n.djs-element > .djs-hit-no-move {\n  pointer-events: all;\n}\n\n.djs-element > .djs-hit-stroke,\n.djs-element > .djs-hit-click-stroke {\n  pointer-events: stroke;\n}\n\n/**\n * shape / connection basic styles\n */\n.djs-connection .djs-visual {\n  stroke-width: 2px;\n  fill: none;\n}\n\n.djs-cursor-grab {\n  cursor: -webkit-grab;\n  cursor: -moz-grab;\n  cursor: grab;\n}\n\n.djs-cursor-grabbing {\n  cursor: -webkit-grabbing;\n  cursor: -moz-grabbing;\n  cursor: grabbing;\n}\n\n.djs-cursor-crosshair {\n  cursor: crosshair;\n}\n\n.djs-cursor-move {\n  cursor: move;\n}\n\n.djs-cursor-resize-ns {\n  cursor: ns-resize;\n}\n\n.djs-cursor-resize-ew {\n  cursor: ew-resize;\n}\n\n\n/**\n * snapping\n */\n.djs-snap-line {\n  stroke: var(--snap-line-stroke-color);\n  stroke-linecap: round;\n  stroke-width: 2px;\n  pointer-events: none;\n}\n\n/**\n * snapping\n */\n.djs-crosshair {\n  stroke: var(--space-tool-crosshair-stroke-color);\n  stroke-linecap: round;\n  stroke-width: 1px;\n  pointer-events: none;\n  shape-rendering: geometricPrecision;\n  stroke-dasharray: 5, 5;\n}\n\n/**\n * palette\n */\n\n.djs-palette {\n  position: absolute;\n  left: 20px;\n  top: 20px;\n\n  box-sizing: border-box;\n  width: 48px;\n}\n\n.djs-palette .separator {\n  margin: 5px;\n  padding-top: 5px;\n\n  border: none;\n  border-bottom: solid 1px var(--palette-separator-color);\n\n  clear: both;\n}\n\n.djs-palette .entry:before {\n  vertical-align: initial;\n}\n\n.djs-palette .djs-palette-toggle {\n  cursor: pointer;\n}\n\n.djs-palette .entry,\n.djs-palette .djs-palette-toggle {\n  color: var(--palette-entry-color);\n  font-size: 30px;\n\n  text-align: center;\n}\n\n.djs-palette .entry {\n  float: left;\n}\n\n.djs-palette .entry img {\n  max-width: 100%;\n}\n\n.djs-palette .djs-palette-entries:after {\n  content: '';\n  display: table;\n  clear: both;\n}\n\n.djs-palette .djs-palette-toggle:hover {\n  background: var(--palette-toggle-hover-background-color);\n}\n\n.djs-palette .entry:hover {\n  color: var(--palette-entry-hover-color);\n}\n\n.djs-palette .highlighted-entry {\n  color: var(--palette-entry-selected-color) !important;\n}\n\n.djs-palette .entry,\n.djs-palette .djs-palette-toggle {\n  width: 46px;\n  height: 46px;\n  line-height: 46px;\n  cursor: default;\n}\n\n/**\n * Palette open / two-column layout is controlled via\n * classes on the palette. Events to hook into palette\n * changed life-cycle are available in addition.\n */\n.djs-palette.two-column.open {\n  width: 94px;\n}\n\n.djs-palette:not(.open) .djs-palette-entries {\n  display: none;\n}\n\n.djs-palette:not(.open) {\n  overflow: hidden;\n}\n\n.djs-palette.open .djs-palette-toggle {\n  display: none;\n}\n\n/**\n * context-pad\n */\n.djs-overlay-context-pad {\n  width: 72px;\n  z-index: 100;\n}\n\n.djs-context-pad {\n  position: absolute;\n  display: none;\n  pointer-events: none;\n  line-height: 1;\n}\n\n.djs-context-pad .entry {\n  width: 22px;\n  height: 22px;\n  text-align: center;\n  display: inline-block;\n  font-size: 22px;\n  margin: 0 2px 2px 0;\n\n  border-radius: 3px;\n\n  cursor: default;\n\n  background-color: var(--context-pad-entry-background-color);\n  box-shadow: 0 0 2px 1px var(--context-pad-entry-background-color);\n  pointer-events: all;\n  vertical-align: middle;\n}\n\n.djs-context-pad .entry:hover {\n  background: var(--context-pad-entry-hover-background-color);\n}\n\n.djs-context-pad.open {\n  display: block;\n}\n\n/**\n * popup styles\n */\n.djs-popup .entry {\n  line-height: 20px;\n  white-space: nowrap;\n  cursor: default;\n}\n\n/* larger font for prefixed icons */\n.djs-popup .entry:before {\n  vertical-align: middle;\n  font-size: 20px;\n}\n\n.djs-popup .entry > span {\n  vertical-align: middle;\n  font-size: 14px;\n}\n\n.djs-popup .entry:hover,\n.djs-popup .entry.active:hover {\n  background: var(--popup-header-entry-selected-background-color);\n}\n\n.djs-popup .entry.disabled {\n  background: inherit;\n}\n\n.djs-popup .djs-popup-header .entry {\n  display: inline-block;\n  padding: 2px 3px 2px 3px;\n\n  border: solid 1px transparent;\n  border-radius: 3px;\n}\n\n.djs-popup .djs-popup-header .entry.active {\n  color: var(--popup-header-entry-selected-color);\n  border: solid 1px var(--popup-header-entry-selected-color);\n  background-color: var(--popup-header-entry-selected-background-color);\n}\n\n.djs-popup-body .entry {\n  padding: 4px 5px;\n}\n\n.djs-popup-body .entry > span {\n  margin-left: 5px;\n}\n\n.djs-popup-body {\n  background-color: var(--popup-body-background-color);\n}\n\n.djs-popup-header {\n  border-bottom: 1px solid var(--popup-header-separator-color);\n}\n\n.djs-popup-header .entry {\n  margin: 1px;\n  margin-left: 3px;\n}\n\n.djs-popup-header .entry:last-child {\n  margin-right: 3px;\n}\n\n/**\n * popup / palette styles\n */\n.djs-palette {\n  background: var(--palette-background-color);\n  border: solid 1px var(--palette-border-color);\n  border-radius: 2px;\n}\n\n.djs-popup {\n  background: var(--popup-background-color);\n  border: solid 1px var(--popup-border-color);\n  border-radius: 2px;\n}\n\n/**\n * touch\n */\n\n.djs-shape,\n.djs-connection {\n  touch-action: none;\n}\n\n.djs-segment-dragger,\n.djs-bendpoint {\n  display: none;\n}\n\n/**\n * bendpoints\n */\n.djs-segment-dragger .djs-visual {\n  display: none;\n\n  fill: var(--bendpoint-fill-color);\n  stroke: var(--bendpoint-stroke-color);\n  stroke-width: 1px;\n  stroke-opacity: 1;\n}\n\n.djs-segment-dragger:hover .djs-visual {\n  display: block;\n}\n\n.djs-bendpoint .djs-visual {\n  fill: var(--bendpoint-fill-color);\n  stroke: var(--bendpoint-stroke-color);\n  stroke-width: 1px;\n}\n\n.djs-segment-dragger:hover,\n.djs-bendpoints.hover .djs-segment-dragger,\n.djs-bendpoints.selected .djs-segment-dragger,\n.djs-bendpoint:hover,\n.djs-bendpoints.hover .djs-bendpoint,\n.djs-bendpoints.selected .djs-bendpoint {\n  display: block;\n}\n\n.djs-drag-active .djs-bendpoints * {\n  display: none;\n}\n\n.djs-bendpoints:not(.hover) .floating {\n  display: none;\n}\n\n.djs-segment-dragger:hover .djs-visual,\n.djs-segment-dragger.djs-dragging .djs-visual,\n.djs-bendpoint:hover .djs-visual,\n.djs-bendpoint.floating .djs-visual {\n  fill: var(--bendpoint-fill-color);\n  stroke: var(--bendpoint-stroke-color);\n  stroke-opacity: 1;\n}\n\n.djs-bendpoint.floating .djs-hit {\n  pointer-events: none;\n}\n\n.djs-segment-dragger .djs-hit,\n.djs-bendpoint .djs-hit {\n  fill: none;\n  pointer-events: all;\n}\n\n.djs-segment-dragger.horizontal .djs-hit {\n  cursor: ns-resize;\n}\n\n.djs-segment-dragger.vertical .djs-hit {\n  cursor: ew-resize;\n}\n\n.djs-segment-dragger.djs-dragging .djs-hit {\n  pointer-events: none;\n}\n\n.djs-updating,\n.djs-updating > * {\n  pointer-events: none !important;\n}\n\n.djs-updating .djs-context-pad,\n.djs-updating .djs-outline,\n.djs-updating .djs-bendpoint,\n.djs-multi-select .djs-bendpoint,\n.djs-multi-select .djs-segment-dragger,\n.connect-ok .djs-bendpoint,\n.connect-not-ok .djs-bendpoint,\n.drop-ok .djs-bendpoint,\n.drop-not-ok .djs-bendpoint {\n  display: none !important;\n}\n\n.djs-segment-dragger.djs-dragging,\n.djs-bendpoint.djs-dragging {\n  display: block;\n  opacity: 1.0;\n}\n\n\n/**\n * tooltips\n */\n.djs-tooltip-error {\n  width: 160px;\n  padding: 6px;\n\n  background: var(--tooltip-error-background-color);\n  border: solid 1px var(--tooltip-error-border-color);\n  border-radius: 2px;\n  color: var(--tooltip-error-color);\n  font-size: 12px;\n  line-height: 16px;\n\n  opacity: 0.75;\n}\n\n.djs-tooltip-error:hover {\n  opacity: 1;\n}\n\n\n/**\n * search pad\n */\n.djs-search-container {\n  position: absolute;\n  top: 20px;\n  left: 0;\n  right: 0;\n  margin-left: auto;\n  margin-right: auto;\n\n  width: 25%;\n  min-width: 300px;\n  max-width: 400px;\n  z-index: 10;\n\n  font-size: 1.05em;\n  opacity: 0.9;\n  background: var(--search-container-background-color);\n  border: solid 1px var(--search-container-border-color);\n  border-radius: 2px;\n  box-shadow: 0 0 0 2px var(--search-container-box-shadow-color), 0 0 0 1px var(--search-container-box-shadow-inset-color) inset;\n}\n\n.djs-search-container:not(.open) {\n  display: none;\n}\n\n.djs-search-input input {\n  font-size: 1.05em;\n  width: 100%;\n  padding: 6px 10px;\n  border: 1px solid var(--search-input-border-color);\n  box-sizing: border-box;\n}\n\n.djs-search-input input:focus {\n  outline: none;\n  border-color: var(--search-input-border-color);\n}\n\n.djs-search-results {\n  position: relative;\n  overflow-y: auto;\n  max-height: 200px;\n}\n\n.djs-search-results:hover {\n  cursor: pointer;\n}\n\n.djs-search-result {\n  width: 100%;\n  padding: 6px 10px;\n  background: white;\n  border-bottom: solid 1px var(--search-result-border-color);\n  border-radius: 1px;\n}\n\n.djs-search-highlight {\n  color: var(--search-result-highlight-color);\n}\n\n.djs-search-result-primary {\n  margin: 0 0 10px;\n}\n\n.djs-search-result-secondary {\n  font-family: monospace;\n  margin: 0;\n}\n\n.djs-search-result:hover {\n  background: var(--search-result-selected-color);\n}\n\n.djs-search-result-selected {\n  background: var(--search-result-selected-color);\n}\n\n.djs-search-result-selected:hover {\n  background: var(--search-result-selected-color);\n}\n\n.djs-search-overlay {\n  background: var(--search-result-selected-color);\n}\n\n/**\n * hidden styles\n */\n.djs-element-hidden,\n.djs-element-hidden .djs-hit,\n.djs-element-hidden .djs-outline,\n.djs-label-hidden .djs-label {\n  display: none !important;\n}\n\n.djs-element .djs-hit-stroke,\n.djs-element .djs-hit-click-stroke,\n.djs-element .djs-hit-all {\n  cursor: move;\n}", "",{"version":3,"sources":["webpack://./../node_modules/diagram-js/assets/diagram-js.css"],"names":[],"mappings":"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","sourcesContent":["/**\n * color definitions\n */\n.djs-container {\n  --color-grey-225-10-15: hsl(225, 10%, 15%);\n  --color-grey-225-10-35: hsl(225, 10%, 35%);\n  --color-grey-225-10-55: hsl(225, 10%, 55%);\n  --color-grey-225-10-75: hsl(225, 10%, 75%);\n  --color-grey-225-10-80: hsl(225, 10%, 80%);\n  --color-grey-225-10-85: hsl(225, 10%, 85%);\n  --color-grey-225-10-90: hsl(225, 10%, 90%);\n  --color-grey-225-10-95: hsl(225, 10%, 95%);\n  --color-grey-225-10-97: hsl(225, 10%, 97%);\n\n  --color-blue-205-100-45: hsl(205, 100%, 45%);\n  --color-blue-205-100-45-opacity-30: hsla(205, 100%, 45%, 30%);\n  --color-blue-205-100-50: hsl(205, 100%, 50%);\n  --color-blue-205-100-50-opacity-15: hsla(205, 100%, 50%, 15%);\n  --color-blue-205-100-70: hsl(205, 100%, 75%);\n  --color-blue-205-100-95: hsl(205, 100%, 95%);\n\n  --color-green-150-86-44: hsl(150, 86%, 44%);\n\n  --color-red-360-100-40: hsl(360, 100%, 40%);\n  --color-red-360-100-45: hsl(360, 100%, 45%);\n  --color-red-360-100-92: hsl(360, 100%, 92%);\n  --color-red-360-100-97: hsl(360, 100%, 97%);\n\n  --color-white: hsl(0, 0%, 100%);\n  --color-black: hsl(0, 0%, 0%);\n  --color-black-opacity-10: hsla(0, 0%, 0%, 10%);\n\n  --canvas-fill-color: var(--color-white);\n\n  --bendpoint-fill-color: var(--color-blue-205-100-45);\n  --bendpoint-stroke-color: var(--canvas-fill-color);\n\n  --context-pad-entry-background-color: var(--color-white);\n  --context-pad-entry-hover-background-color: var(--color-grey-225-10-95);\n\n  --element-dragger-color: var(--color-blue-205-100-50);\n  --element-hover-outline-fill-color: var(--color-blue-205-100-45);\n  --element-selected-outline-stroke-color: var(--color-blue-205-100-50);\n  --element-selected-outline-secondary-stroke-color: var(--color-blue-205-100-70);\n\n  --lasso-fill-color: var(--color-blue-205-100-50-opacity-15);\n  --lasso-stroke-color: var(--element-selected-outline-stroke-color);\n\n  --palette-entry-color: var(--color-grey-225-10-15);\n  --palette-entry-hover-color: var(--color-blue-205-100-45);\n  --palette-entry-selected-color: var(--color-blue-205-100-50);\n  --palette-separator-color: var(--color-grey-225-10-75);\n  --palette-toggle-hover-background-color: var(--color-grey-225-10-55);\n  --palette-background-color: var(--color-grey-225-10-97);\n  --palette-border-color: var(--color-grey-225-10-75);\n\n  --popup-body-background-color: var(--color-white);\n  --popup-header-entry-selected-color: var(--color-blue-205-100-50);\n  --popup-header-entry-selected-background-color: var(--color-black-opacity-10);\n  --popup-header-separator-color: var(--color-grey-225-10-75);\n  --popup-background-color: var(--color-grey-225-10-97);\n  --popup-border-color: var(--color-grey-225-10-75);\n\n  --resizer-fill-color: var(--color-blue-205-100-45);\n  --resizer-stroke-color: var(--canvas-fill-color);\n\n  --search-container-background-color: var(--color-grey-225-10-97);\n  --search-container-border-color: var(--color-blue-205-100-50);\n  --search-container-box-shadow-color: var(--color-blue-205-100-95);\n  --search-container-box-shadow-inset-color: var(--color-grey-225-10-80);\n  --search-input-border-color: var(--color-grey-225-10-75);\n  --search-result-border-color: var(--color-grey-225-10-75);\n  --search-result-highlight-color: var(--color-black);\n  --search-result-selected-color: var(--color-blue-205-100-45-opacity-30);\n\n  --shape-attach-allowed-stroke-color: var(--color-blue-205-100-50);\n  --shape-connect-allowed-fill-color: var(--color-grey-225-10-97);\n  --shape-drop-allowed-fill-color: var(--color-grey-225-10-97);\n  --shape-drop-not-allowed-fill-color: var(--color-red-360-100-97);\n  --shape-resize-preview-stroke-color: var(--color-blue-205-100-50);\n\n  --snap-line-stroke-color: var(--color-blue-205-100-45-opacity-30);\n\n  --space-tool-crosshair-stroke-color: var(--color-black);\n\n  --tooltip-error-background-color: var(--color-red-360-100-97);\n  --tooltip-error-border-color: var(--color-red-360-100-45);\n  --tooltip-error-color: var(--color-red-360-100-45);\n}\n\n/**\n * outline styles\n */\n\n.djs-outline,\n.djs-selection-outline {\n  fill: none;\n  shape-rendering: geometricPrecision;\n  stroke-width: 2px;\n}\n\n.djs-outline {\n  visibility: hidden;\n}\n\n.djs-selection-outline {\n  stroke: var(--element-selected-outline-stroke-color);\n}\n\n.djs-element.selected .djs-outline {\n  visibility: visible;\n\n  stroke: var(--element-selected-outline-stroke-color);\n}\n\n.djs-multi-select .djs-element.selected .djs-outline {\n  stroke: var(--element-selected-outline-secondary-stroke-color);\n}\n\n.djs-shape.connect-ok .djs-visual > :nth-child(1) {\n  fill: var(--shape-connect-allowed-fill-color) !important;\n}\n\n.djs-shape.connect-not-ok .djs-visual > :nth-child(1),\n.djs-shape.drop-not-ok .djs-visual > :nth-child(1) {\n  fill: var(--shape-drop-not-allowed-fill-color) !important;\n}\n\n.djs-shape.new-parent .djs-visual > :nth-child(1) {\n  fill: var(--shape-drop-allowed-fill-color) !important;\n}\n\nsvg.drop-not-ok {\n  background: var(--shape-drop-not-allowed-fill-color) !important;\n}\n\nsvg.new-parent {\n  background: var(--shape-drop-allowed-fill-color) !important;\n}\n\n\n/* Override move cursor during drop and connect */\n.drop-not-ok,\n.connect-not-ok,\n.drop-not-ok *,\n.connect-not-ok * {\n  cursor: not-allowed !important;\n}\n\n.drop-ok,\n.connect-ok,\n.drop-ok *,\n.connect-ok * {\n  cursor: default !important;\n}\n\n.djs-element.attach-ok .djs-visual > :nth-child(1) {\n  stroke-width: 5px !important;\n  stroke: var(--shape-attach-allowed-stroke-color) !important;\n}\n\n.djs-frame.connect-not-ok .djs-visual > :nth-child(1),\n.djs-frame.drop-not-ok .djs-visual > :nth-child(1) {\n  stroke-width: 3px !important;\n  stroke: var(--shape-drop-not-allowed-fill-color) !important;\n  fill: none !important;\n}\n\n/**\n* Selection box style\n*\n*/\n.djs-lasso-overlay {\n  fill: var(--lasso-fill-color);\n  stroke: var(--lasso-stroke-color);\n  stroke-width: 2px;\n  shape-rendering: geometricPrecision;\n  pointer-events: none;\n}\n\n/**\n * Resize styles\n */\n.djs-resize-overlay {\n  fill: none;\n\n  stroke-dasharray: 5 1 3 1;\n  stroke: var(--shape-resize-preview-stroke-color);\n\n  pointer-events: none;\n}\n\n.djs-resizer-hit {\n  fill: none;\n  pointer-events: all;\n}\n\n.djs-resizer-visual {\n  fill: var(--resizer-fill-color);\n  stroke-width: 1px;\n  stroke: var(--resizer-stroke-color);\n  shape-rendering: geometricPrecision;\n}\n\n.djs-resizer:hover .djs-resizer-visual {\n  stroke: var(--resizer-stroke-color);\n  stroke-opacity: 1;\n}\n\n.djs-cursor-resize-ns,\n.djs-resizer-n,\n.djs-resizer-s {\n  cursor: ns-resize;\n}\n\n.djs-cursor-resize-ew,\n.djs-resizer-e,\n.djs-resizer-w {\n  cursor: ew-resize;\n}\n\n.djs-cursor-resize-nwse,\n.djs-resizer-nw,\n.djs-resizer-se {\n  cursor: nwse-resize;\n}\n\n.djs-cursor-resize-nesw,\n.djs-resizer-ne,\n.djs-resizer-sw {\n  cursor: nesw-resize;\n}\n\n.djs-shape.djs-resizing > .djs-outline {\n  visibility: hidden !important;\n}\n\n.djs-shape.djs-resizing > .djs-resizer {\n  visibility: hidden;\n}\n\n.djs-dragger > .djs-resizer {\n  visibility: hidden;\n}\n\n/**\n * drag styles\n */\n.djs-dragger * {\n  fill: none !important;\n  stroke: var(--element-dragger-color) !important;\n}\n\n.djs-dragger tspan,\n.djs-dragger text {\n  fill: var(--element-dragger-color) !important;\n  stroke: none !important;\n}\n\nmarker.djs-dragger circle,\nmarker.djs-dragger path,\nmarker.djs-dragger polygon,\nmarker.djs-dragger polyline,\nmarker.djs-dragger rect {\n  fill: var(--element-dragger-color) !important;\n  stroke: none !important;\n}\n\nmarker.djs-dragger text,\nmarker.djs-dragger tspan {\n  fill: none !important;\n  stroke: var(--element-dragger-color) !important;\n}\n\n.djs-dragging {\n  opacity: 0.3;\n}\n\n.djs-dragging,\n.djs-dragging > * {\n  pointer-events: none !important;\n}\n\n.djs-dragging .djs-context-pad,\n.djs-dragging .djs-outline {\n  display: none !important;\n}\n\n/**\n * no pointer events for visual\n */\n.djs-visual,\n.djs-outline {\n  pointer-events: none;\n}\n\n.djs-element.attach-ok .djs-hit {\n  stroke-width: 60px !important;\n}\n\n/**\n * all pointer events for hit shape\n */\n.djs-element > .djs-hit-all,\n.djs-element > .djs-hit-no-move {\n  pointer-events: all;\n}\n\n.djs-element > .djs-hit-stroke,\n.djs-element > .djs-hit-click-stroke {\n  pointer-events: stroke;\n}\n\n/**\n * shape / connection basic styles\n */\n.djs-connection .djs-visual {\n  stroke-width: 2px;\n  fill: none;\n}\n\n.djs-cursor-grab {\n  cursor: -webkit-grab;\n  cursor: -moz-grab;\n  cursor: grab;\n}\n\n.djs-cursor-grabbing {\n  cursor: -webkit-grabbing;\n  cursor: -moz-grabbing;\n  cursor: grabbing;\n}\n\n.djs-cursor-crosshair {\n  cursor: crosshair;\n}\n\n.djs-cursor-move {\n  cursor: move;\n}\n\n.djs-cursor-resize-ns {\n  cursor: ns-resize;\n}\n\n.djs-cursor-resize-ew {\n  cursor: ew-resize;\n}\n\n\n/**\n * snapping\n */\n.djs-snap-line {\n  stroke: var(--snap-line-stroke-color);\n  stroke-linecap: round;\n  stroke-width: 2px;\n  pointer-events: none;\n}\n\n/**\n * snapping\n */\n.djs-crosshair {\n  stroke: var(--space-tool-crosshair-stroke-color);\n  stroke-linecap: round;\n  stroke-width: 1px;\n  pointer-events: none;\n  shape-rendering: geometricPrecision;\n  stroke-dasharray: 5, 5;\n}\n\n/**\n * palette\n */\n\n.djs-palette {\n  position: absolute;\n  left: 20px;\n  top: 20px;\n\n  box-sizing: border-box;\n  width: 48px;\n}\n\n.djs-palette .separator {\n  margin: 5px;\n  padding-top: 5px;\n\n  border: none;\n  border-bottom: solid 1px var(--palette-separator-color);\n\n  clear: both;\n}\n\n.djs-palette .entry:before {\n  vertical-align: initial;\n}\n\n.djs-palette .djs-palette-toggle {\n  cursor: pointer;\n}\n\n.djs-palette .entry,\n.djs-palette .djs-palette-toggle {\n  color: var(--palette-entry-color);\n  font-size: 30px;\n\n  text-align: center;\n}\n\n.djs-palette .entry {\n  float: left;\n}\n\n.djs-palette .entry img {\n  max-width: 100%;\n}\n\n.djs-palette .djs-palette-entries:after {\n  content: '';\n  display: table;\n  clear: both;\n}\n\n.djs-palette .djs-palette-toggle:hover {\n  background: var(--palette-toggle-hover-background-color);\n}\n\n.djs-palette .entry:hover {\n  color: var(--palette-entry-hover-color);\n}\n\n.djs-palette .highlighted-entry {\n  color: var(--palette-entry-selected-color) !important;\n}\n\n.djs-palette .entry,\n.djs-palette .djs-palette-toggle {\n  width: 46px;\n  height: 46px;\n  line-height: 46px;\n  cursor: default;\n}\n\n/**\n * Palette open / two-column layout is controlled via\n * classes on the palette. Events to hook into palette\n * changed life-cycle are available in addition.\n */\n.djs-palette.two-column.open {\n  width: 94px;\n}\n\n.djs-palette:not(.open) .djs-palette-entries {\n  display: none;\n}\n\n.djs-palette:not(.open) {\n  overflow: hidden;\n}\n\n.djs-palette.open .djs-palette-toggle {\n  display: none;\n}\n\n/**\n * context-pad\n */\n.djs-overlay-context-pad {\n  width: 72px;\n  z-index: 100;\n}\n\n.djs-context-pad {\n  position: absolute;\n  display: none;\n  pointer-events: none;\n  line-height: 1;\n}\n\n.djs-context-pad .entry {\n  width: 22px;\n  height: 22px;\n  text-align: center;\n  display: inline-block;\n  font-size: 22px;\n  margin: 0 2px 2px 0;\n\n  border-radius: 3px;\n\n  cursor: default;\n\n  background-color: var(--context-pad-entry-background-color);\n  box-shadow: 0 0 2px 1px var(--context-pad-entry-background-color);\n  pointer-events: all;\n  vertical-align: middle;\n}\n\n.djs-context-pad .entry:hover {\n  background: var(--context-pad-entry-hover-background-color);\n}\n\n.djs-context-pad.open {\n  display: block;\n}\n\n/**\n * popup styles\n */\n.djs-popup .entry {\n  line-height: 20px;\n  white-space: nowrap;\n  cursor: default;\n}\n\n/* larger font for prefixed icons */\n.djs-popup .entry:before {\n  vertical-align: middle;\n  font-size: 20px;\n}\n\n.djs-popup .entry > span {\n  vertical-align: middle;\n  font-size: 14px;\n}\n\n.djs-popup .entry:hover,\n.djs-popup .entry.active:hover {\n  background: var(--popup-header-entry-selected-background-color);\n}\n\n.djs-popup .entry.disabled {\n  background: inherit;\n}\n\n.djs-popup .djs-popup-header .entry {\n  display: inline-block;\n  padding: 2px 3px 2px 3px;\n\n  border: solid 1px transparent;\n  border-radius: 3px;\n}\n\n.djs-popup .djs-popup-header .entry.active {\n  color: var(--popup-header-entry-selected-color);\n  border: solid 1px var(--popup-header-entry-selected-color);\n  background-color: var(--popup-header-entry-selected-background-color);\n}\n\n.djs-popup-body .entry {\n  padding: 4px 5px;\n}\n\n.djs-popup-body .entry > span {\n  margin-left: 5px;\n}\n\n.djs-popup-body {\n  background-color: var(--popup-body-background-color);\n}\n\n.djs-popup-header {\n  border-bottom: 1px solid var(--popup-header-separator-color);\n}\n\n.djs-popup-header .entry {\n  margin: 1px;\n  margin-left: 3px;\n}\n\n.djs-popup-header .entry:last-child {\n  margin-right: 3px;\n}\n\n/**\n * popup / palette styles\n */\n.djs-palette {\n  background: var(--palette-background-color);\n  border: solid 1px var(--palette-border-color);\n  border-radius: 2px;\n}\n\n.djs-popup {\n  background: var(--popup-background-color);\n  border: solid 1px var(--popup-border-color);\n  border-radius: 2px;\n}\n\n/**\n * touch\n */\n\n.djs-shape,\n.djs-connection {\n  touch-action: none;\n}\n\n.djs-segment-dragger,\n.djs-bendpoint {\n  display: none;\n}\n\n/**\n * bendpoints\n */\n.djs-segment-dragger .djs-visual {\n  display: none;\n\n  fill: var(--bendpoint-fill-color);\n  stroke: var(--bendpoint-stroke-color);\n  stroke-width: 1px;\n  stroke-opacity: 1;\n}\n\n.djs-segment-dragger:hover .djs-visual {\n  display: block;\n}\n\n.djs-bendpoint .djs-visual {\n  fill: var(--bendpoint-fill-color);\n  stroke: var(--bendpoint-stroke-color);\n  stroke-width: 1px;\n}\n\n.djs-segment-dragger:hover,\n.djs-bendpoints.hover .djs-segment-dragger,\n.djs-bendpoints.selected .djs-segment-dragger,\n.djs-bendpoint:hover,\n.djs-bendpoints.hover .djs-bendpoint,\n.djs-bendpoints.selected .djs-bendpoint {\n  display: block;\n}\n\n.djs-drag-active .djs-bendpoints * {\n  display: none;\n}\n\n.djs-bendpoints:not(.hover) .floating {\n  display: none;\n}\n\n.djs-segment-dragger:hover .djs-visual,\n.djs-segment-dragger.djs-dragging .djs-visual,\n.djs-bendpoint:hover .djs-visual,\n.djs-bendpoint.floating .djs-visual {\n  fill: var(--bendpoint-fill-color);\n  stroke: var(--bendpoint-stroke-color);\n  stroke-opacity: 1;\n}\n\n.djs-bendpoint.floating .djs-hit {\n  pointer-events: none;\n}\n\n.djs-segment-dragger .djs-hit,\n.djs-bendpoint .djs-hit {\n  fill: none;\n  pointer-events: all;\n}\n\n.djs-segment-dragger.horizontal .djs-hit {\n  cursor: ns-resize;\n}\n\n.djs-segment-dragger.vertical .djs-hit {\n  cursor: ew-resize;\n}\n\n.djs-segment-dragger.djs-dragging .djs-hit {\n  pointer-events: none;\n}\n\n.djs-updating,\n.djs-updating > * {\n  pointer-events: none !important;\n}\n\n.djs-updating .djs-context-pad,\n.djs-updating .djs-outline,\n.djs-updating .djs-bendpoint,\n.djs-multi-select .djs-bendpoint,\n.djs-multi-select .djs-segment-dragger,\n.connect-ok .djs-bendpoint,\n.connect-not-ok .djs-bendpoint,\n.drop-ok .djs-bendpoint,\n.drop-not-ok .djs-bendpoint {\n  display: none !important;\n}\n\n.djs-segment-dragger.djs-dragging,\n.djs-bendpoint.djs-dragging {\n  display: block;\n  opacity: 1.0;\n}\n\n\n/**\n * tooltips\n */\n.djs-tooltip-error {\n  width: 160px;\n  padding: 6px;\n\n  background: var(--tooltip-error-background-color);\n  border: solid 1px var(--tooltip-error-border-color);\n  border-radius: 2px;\n  color: var(--tooltip-error-color);\n  font-size: 12px;\n  line-height: 16px;\n\n  opacity: 0.75;\n}\n\n.djs-tooltip-error:hover {\n  opacity: 1;\n}\n\n\n/**\n * search pad\n */\n.djs-search-container {\n  position: absolute;\n  top: 20px;\n  left: 0;\n  right: 0;\n  margin-left: auto;\n  margin-right: auto;\n\n  width: 25%;\n  min-width: 300px;\n  max-width: 400px;\n  z-index: 10;\n\n  font-size: 1.05em;\n  opacity: 0.9;\n  background: var(--search-container-background-color);\n  border: solid 1px var(--search-container-border-color);\n  border-radius: 2px;\n  box-shadow: 0 0 0 2px var(--search-container-box-shadow-color), 0 0 0 1px var(--search-container-box-shadow-inset-color) inset;\n}\n\n.djs-search-container:not(.open) {\n  display: none;\n}\n\n.djs-search-input input {\n  font-size: 1.05em;\n  width: 100%;\n  padding: 6px 10px;\n  border: 1px solid var(--search-input-border-color);\n  box-sizing: border-box;\n}\n\n.djs-search-input input:focus {\n  outline: none;\n  border-color: var(--search-input-border-color);\n}\n\n.djs-search-results {\n  position: relative;\n  overflow-y: auto;\n  max-height: 200px;\n}\n\n.djs-search-results:hover {\n  cursor: pointer;\n}\n\n.djs-search-result {\n  width: 100%;\n  padding: 6px 10px;\n  background: white;\n  border-bottom: solid 1px var(--search-result-border-color);\n  border-radius: 1px;\n}\n\n.djs-search-highlight {\n  color: var(--search-result-highlight-color);\n}\n\n.djs-search-result-primary {\n  margin: 0 0 10px;\n}\n\n.djs-search-result-secondary {\n  font-family: monospace;\n  margin: 0;\n}\n\n.djs-search-result:hover {\n  background: var(--search-result-selected-color);\n}\n\n.djs-search-result-selected {\n  background: var(--search-result-selected-color);\n}\n\n.djs-search-result-selected:hover {\n  background: var(--search-result-selected-color);\n}\n\n.djs-search-overlay {\n  background: var(--search-result-selected-color);\n}\n\n/**\n * hidden styles\n */\n.djs-element-hidden,\n.djs-element-hidden .djs-hit,\n.djs-element-hidden .djs-outline,\n.djs-label-hidden .djs-label {\n  display: none !important;\n}\n\n.djs-element .djs-hit-stroke,\n.djs-element .djs-hit-click-stroke,\n.djs-element .djs-hit-all {\n  cursor: move;\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -59181,6 +60059,11 @@ module.exports = JSON.parse('{"name":"ODDI","uri":"http://tk/schema/odDi","prefi
 /******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
 /******/ 		scriptUrl = scriptUrl.replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
 /******/ 		__webpack_require__.p = scriptUrl;
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nc = undefined;
 /******/ 	})();
 /******/ 	
 /************************************************************************/
