@@ -49,7 +49,7 @@
   "dependencies": {
     "bpmn-font": "^0.10.0",
     "css.escape": "^1.5.1",
-    "diagram-js": "^7.8.2",
+    "diagram-js": "^8.7.1",
     "diagram-js-direct-editing": "^1.7.0",
     "elkjs": "^0.7.1",
     "ids": "^1.0.0",
