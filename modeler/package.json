@@ -25,7 +25,7 @@
     "@babel/preset-env": "^7.18.9",
     "chai": "^4.3.6",
     "chai-match": "^1.1.1",
-    "eslint": "^8.21.0",
+    "eslint": "^8.24.0",
     "eslint-plugin-bpmn-io": "^0.14.0",
     "eslint-plugin-import": "^2.26.0",
     "file-loader": "^6.2.0",
@@ -55,7 +55,7 @@
     "inherits": "^2.0.4",
     "min-dash": "^3.8.1",
     "min-dom": "^3.2.1",
-    "moddle": "^5.0.3",
+    "moddle": "^5.0.4",
     "moddle-xml": "^9.0.5",
     "object-refs": "^0.3.0",
     "tiny-svg": "^2.2.3"
