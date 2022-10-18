@@ -51,7 +51,7 @@
     "css.escape": "^1.5.1",
     "diagram-js": "^7.8.2",
     "diagram-js-direct-editing": "^1.7.0",
-    "elkjs": "^0.7.1",
+    "elkjs": "^0.8.2",
     "ids": "^1.0.0",
     "inherits": "^2.0.4",
     "min-dash": "^4.0.0",
