@@ -50,7 +50,7 @@
     "bpmn-font": "^0.10.0",
     "css.escape": "^1.5.1",
     "diagram-js": "^7.8.2",
-    "diagram-js-direct-editing": "^1.7.0",
+    "diagram-js-direct-editing": "^2.0.0",
     "ids": "^1.0.0",
     "inherits": "^2.0.4",
     "min-dash": "^4.0.0",
