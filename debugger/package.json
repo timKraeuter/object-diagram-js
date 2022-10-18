@@ -54,7 +54,7 @@
     "elkjs": "^0.7.1",
     "ids": "^1.0.0",
     "inherits": "^2.0.4",
-    "min-dash": "^3.8.1",
+    "min-dash": "^4.0.0",
     "min-dom": "^3.2.1",
     "moddle": "^6.0.0",
     "moddle-xml": "^10.0.0",
