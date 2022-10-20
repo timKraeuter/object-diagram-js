@@ -14,13 +14,13 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
     - name: Cache Node.js modules
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         # npm cache files are stored in `~/.npm` on Linux/macOS
         path: ~/.npm
@@ -30,7 +30,7 @@ jobs:
           ${{ runner.OS }}-
 
 #  Check debugger
-    - name: Install debugger depedencies
+    - name: Install debugger dependencies
       working-directory: ./debugger
       run: npm install
 
@@ -55,7 +55,7 @@ jobs:
         npm run all
 
 #  Check modeler
-    - name: Install modeler depedencies
+    - name: Install modeler dependencies
       working-directory: ./modeler
       run: npm install
 
