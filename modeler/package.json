@@ -23,7 +23,7 @@
   ],
   "devDependencies": {
     "@babel/preset-env": "^7.19.4",
-    "chai": "^4.3.6",
+    "chai": "^4.3.7",
     "chai-match": "^1.1.1",
     "eslint": "^8.26.0",
     "eslint-plugin-bpmn-io": "^0.16.0",
