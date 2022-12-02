@@ -7,6 +7,10 @@ This repository contains two related projects.
 2. An [object diagram modeler](https://timkraeuter.com/object-diagram-modeler/) based on **diagram-js** in the folder `modeler`.
 
 In the future, we plan to eliminate the duplicate code shared between the two projects.
+
+## Remark
+The update to npm 9 caused problems resolving assets. If this is the case for you downgrade to npm 8.19.2 (node 18.12.1).
+
 ## License
 
 MIT
