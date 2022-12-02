@@ -398,24 +398,24 @@ BaseViewer.prototype.saveXML = function(options) {
  */
 BaseViewer.prototype.saveSVG = function(options) {
 
-  var self = this;
+  const self = this;
 
   return new Promise(function(resolve, reject) {
 
     self._emit('saveSVG.start');
 
-    var svg, err;
+    let svg, err;
 
     try {
-      var canvas = self.get('canvas');
+      const canvas = self.get('canvas');
 
-      var contentNode = canvas.getDefaultLayer(),
-          defsNode = domQuery('defs', canvas._svg);
+      const contentNode = canvas.getActiveLayer(),
+            defsNode = domQuery('defs', canvas._svg);
 
-      var contents = innerSVG(contentNode),
-          defs = defsNode ? '<defs>' + innerSVG(defsNode) + '</defs>' : '';
+      const contents = innerSVG(contentNode),
+            defs = defsNode ? '<defs>' + innerSVG(defsNode) + '</defs>' : '';
 
-      var bbox = contentNode.getBBox();
+      const bbox = contentNode.getBBox();
 
       svg =
         '<?xml version="1.0" encoding="utf-8"?>\n' +
