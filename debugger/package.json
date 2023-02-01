@@ -27,7 +27,7 @@
     "chai-match": "^1.1.1",
     "eslint": "^8.31.0",
     "eslint-plugin-bpmn-io": "^0.16.0",
-    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-import": "^2.27.5",
     "file-loader": "^6.2.0",
     "karma": "^6.4.1",
     "karma-chrome-launcher": "^3.1.1",
