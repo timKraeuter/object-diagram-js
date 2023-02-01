@@ -12,10 +12,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ BaseModeler)
 /* harmony export */ });
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inherits */ "../node_modules/inherits/inherits_browser.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(inherits__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var ids__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ids */ "../node_modules/ids/dist/index.esm.js");
-/* harmony import */ var _BaseViewer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./BaseViewer */ "../lib/BaseViewer.js");
+/* harmony import */ var inherits_browser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! inherits-browser */ "../node_modules/inherits-browser/dist/index.es.js");
+/* harmony import */ var ids__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ids */ "../node_modules/ids/dist/index.esm.js");
+/* harmony import */ var _BaseViewer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BaseViewer */ "../lib/BaseViewer.js");
 
 
 
@@ -37,7 +36,7 @@ __webpack_require__.r(__webpack_exports__);
  * @param {Array<didi.Module>} [options.additionalModules] a list of modules to use with the default modules
  */
 function BaseModeler(options) {
-  _BaseViewer__WEBPACK_IMPORTED_MODULE_2__["default"].call(this, options);
+  _BaseViewer__WEBPACK_IMPORTED_MODULE_1__["default"].call(this, options);
 
   // hook ID collection into the modeler
   this.on('import.parse.complete', function(event) {
@@ -51,7 +50,7 @@ function BaseModeler(options) {
   }, this);
 }
 
-inherits__WEBPACK_IMPORTED_MODULE_0___default()(BaseModeler, _BaseViewer__WEBPACK_IMPORTED_MODULE_2__["default"]);
+(0,inherits_browser__WEBPACK_IMPORTED_MODULE_2__["default"])(BaseModeler, _BaseViewer__WEBPACK_IMPORTED_MODULE_1__["default"]);
 
 
 /**
@@ -60,12 +59,12 @@ inherits__WEBPACK_IMPORTED_MODULE_0___default()(BaseModeler, _BaseViewer__WEBPAC
  * @param {Object} options
  */
 BaseModeler.prototype._createModdle = function(options) {
-  var moddle = _BaseViewer__WEBPACK_IMPORTED_MODULE_2__["default"].prototype._createModdle.call(this, options);
+  var moddle = _BaseViewer__WEBPACK_IMPORTED_MODULE_1__["default"].prototype._createModdle.call(this, options);
 
   // attach ids to moddle to be able to track
   // and validated ids in the XML document
   // tree
-  moddle.ids = new ids__WEBPACK_IMPORTED_MODULE_1__["default"]([ 32, 36, 1 ]);
+  moddle.ids = new ids__WEBPACK_IMPORTED_MODULE_0__["default"]([ 32, 36, 1 ]);
 
   return moddle;
 };
@@ -104,13 +103,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ BaseViewer)
 /* harmony export */ });
-/* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
+/* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 /* harmony import */ var min_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! min-dom */ "../node_modules/min-dom/dist/index.esm.js");
 /* harmony import */ var tiny_svg__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! tiny-svg */ "../node_modules/tiny-svg/dist/index.esm.js");
 /* harmony import */ var diagram_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! diagram-js */ "../node_modules/diagram-js/lib/Diagram.js");
 /* harmony import */ var _moddle__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./moddle */ "../lib/moddle/index.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inherits */ "../node_modules/inherits/inherits_browser.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(inherits__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var inherits_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! inherits-browser */ "../node_modules/inherits-browser/dist/index.es.js");
 /* harmony import */ var _import_Importer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./import/Importer */ "../lib/import/Importer.js");
 /* harmony import */ var _util_PoweredByUtil__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./util/PoweredByUtil */ "../lib/util/PoweredByUtil.js");
 
@@ -145,7 +143,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 function BaseViewer(options) {
 
-  options = (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.assign)({}, DEFAULT_OPTIONS, options);
+  options = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.assign)({}, DEFAULT_OPTIONS, options);
 
   this._moddle = this._createModdle(options);
 
@@ -160,7 +158,7 @@ function BaseViewer(options) {
   this._init(this._container, this._moddle, options);
 }
 
-inherits__WEBPACK_IMPORTED_MODULE_0___default()(BaseViewer, diagram_js__WEBPACK_IMPORTED_MODULE_2__["default"]);
+(0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(BaseViewer, diagram_js__WEBPACK_IMPORTED_MODULE_2__["default"]);
 
 /**
 * The importXML result.
@@ -711,8 +709,8 @@ BaseViewer.prototype._init = function(container, moddle, options) {
 
   var diagramModules = [].concat(staticModules, baseModules, additionalModules);
 
-  var diagramOptions = (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.assign)((0,min_dash__WEBPACK_IMPORTED_MODULE_1__.omit)(options, [ 'additionalModules' ]), {
-    canvas: (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.assign)({}, options.canvas, { container: container }),
+  var diagramOptions = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.assign)((0,min_dash__WEBPACK_IMPORTED_MODULE_0__.omit)(options, [ 'additionalModules' ]), {
+    canvas: (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.assign)({}, options.canvas, { container: container }),
     modules: diagramModules
   });
 
@@ -740,7 +738,7 @@ BaseViewer.prototype._createContainer = function(options) {
 
   var container = (0,min_dom__WEBPACK_IMPORTED_MODULE_4__.domify)('<div class="pjs-container"></div>');
 
-  (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.assign)(container.style, {
+  (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.assign)(container.style, {
     width: ensureUnit(options.width),
     height: ensureUnit(options.height),
     position: options.position
@@ -750,7 +748,7 @@ BaseViewer.prototype._createContainer = function(options) {
 };
 
 BaseViewer.prototype._createModdle = function(options) {
-  var moddleOptions = (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.assign)({}, this._moddleExtensions, options.moddleExtensions);
+  var moddleOptions = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.assign)({}, this._moddleExtensions, options.moddleExtensions);
 
   return new _moddle__WEBPACK_IMPORTED_MODULE_6__["default"](moddleOptions);
 };
@@ -795,7 +793,7 @@ var DEFAULT_OPTIONS = {
  * Ensure the passed argument is a proper unit (defaulting to px)
  */
 function ensureUnit(val) {
-  return val + ((0,min_dash__WEBPACK_IMPORTED_MODULE_1__.isNumber)(val) ? 'px' : '');
+  return val + ((0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isNumber)(val) ? 'px' : '');
 }
 
 
@@ -812,7 +810,7 @@ function findRootBoard(definitions, boardId) {
     return null;
   }
 
-  return (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.find)(definitions.rootBoards, function(element) {
+  return (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.find)(definitions.rootBoards, function(element) {
     return element.id === boardId;
   }) || null;
 }
@@ -869,9 +867,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Modeler)
 /* harmony export */ });
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inherits */ "../node_modules/inherits/inherits_browser.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(inherits__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _BaseModeler__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BaseModeler */ "../lib/BaseModeler.js");
+/* harmony import */ var inherits_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! inherits-browser */ "../node_modules/inherits-browser/dist/index.es.js");
+/* harmony import */ var _BaseModeler__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseModeler */ "../lib/BaseModeler.js");
 /* harmony import */ var _Viewer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Viewer */ "../lib/Viewer.js");
 /* harmony import */ var _NavigatedViewer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./NavigatedViewer */ "../lib/NavigatedViewer.js");
 /* harmony import */ var diagram_js_lib_navigation_keyboard_move__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! diagram-js/lib/navigation/keyboard-move */ "../node_modules/diagram-js/lib/navigation/keyboard-move/index.js");
@@ -939,10 +936,10 @@ var initialDiagram =
 </od:definitions>`;
 
 function Modeler(options) {
-  _BaseModeler__WEBPACK_IMPORTED_MODULE_1__["default"].call(this, options);
+  _BaseModeler__WEBPACK_IMPORTED_MODULE_0__["default"].call(this, options);
 }
 
-inherits__WEBPACK_IMPORTED_MODULE_0___default()(Modeler, _BaseModeler__WEBPACK_IMPORTED_MODULE_1__["default"]);
+(0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(Modeler, _BaseModeler__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 
 Modeler.Viewer = _Viewer__WEBPACK_IMPORTED_MODULE_2__["default"];
@@ -1035,9 +1032,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ NavigatedViewer)
 /* harmony export */ });
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inherits */ "../node_modules/inherits/inherits_browser.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(inherits__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Viewer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Viewer */ "../lib/Viewer.js");
+/* harmony import */ var inherits_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! inherits-browser */ "../node_modules/inherits-browser/dist/index.es.js");
+/* harmony import */ var _Viewer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Viewer */ "../lib/Viewer.js");
 /* harmony import */ var diagram_js_lib_navigation_keyboard_move__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! diagram-js/lib/navigation/keyboard-move */ "../node_modules/diagram-js/lib/navigation/keyboard-move/index.js");
 /* harmony import */ var diagram_js_lib_navigation_movecanvas__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! diagram-js/lib/navigation/movecanvas */ "../node_modules/diagram-js/lib/navigation/movecanvas/index.js");
 /* harmony import */ var diagram_js_lib_navigation_zoomscroll__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! diagram-js/lib/navigation/zoomscroll */ "../node_modules/diagram-js/lib/navigation/zoomscroll/index.js");
@@ -1056,10 +1052,10 @@ __webpack_require__.r(__webpack_exports__);
  * @param {Object} options
  */
 function NavigatedViewer(options) {
-  _Viewer__WEBPACK_IMPORTED_MODULE_1__["default"].call(this, options);
+  _Viewer__WEBPACK_IMPORTED_MODULE_0__["default"].call(this, options);
 }
 
-inherits__WEBPACK_IMPORTED_MODULE_0___default()(NavigatedViewer, _Viewer__WEBPACK_IMPORTED_MODULE_1__["default"]);
+(0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(NavigatedViewer, _Viewer__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 
 NavigatedViewer.prototype._navigationModules = [
@@ -1069,7 +1065,7 @@ NavigatedViewer.prototype._navigationModules = [
 ];
 
 NavigatedViewer.prototype._modules = [].concat(
-  _Viewer__WEBPACK_IMPORTED_MODULE_1__["default"].prototype._modules,
+  _Viewer__WEBPACK_IMPORTED_MODULE_0__["default"].prototype._modules,
   NavigatedViewer.prototype._navigationModules
 );
 
@@ -1086,13 +1082,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Viewer)
 /* harmony export */ });
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inherits */ "../node_modules/inherits/inherits_browser.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(inherits__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var inherits_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! inherits-browser */ "../node_modules/inherits-browser/dist/index.es.js");
 /* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./core */ "../lib/core/index.js");
 /* harmony import */ var diagram_js_lib_i18n_translate__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! diagram-js/lib/i18n/translate */ "../node_modules/diagram-js/lib/i18n/translate/index.js");
 /* harmony import */ var diagram_js_lib_features_selection__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! diagram-js/lib/features/selection */ "../node_modules/diagram-js/lib/features/selection/index.js");
 /* harmony import */ var diagram_js_lib_features_overlays__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! diagram-js/lib/features/overlays */ "../node_modules/diagram-js/lib/features/overlays/index.js");
-/* harmony import */ var _BaseViewer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BaseViewer */ "../lib/BaseViewer.js");
+/* harmony import */ var _BaseViewer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseViewer */ "../lib/BaseViewer.js");
 
 
 
@@ -1103,10 +1098,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function Viewer(options) {
-  _BaseViewer__WEBPACK_IMPORTED_MODULE_1__["default"].call(this, options);
+  _BaseViewer__WEBPACK_IMPORTED_MODULE_0__["default"].call(this, options);
 }
 
-inherits__WEBPACK_IMPORTED_MODULE_0___default()(Viewer, _BaseViewer__WEBPACK_IMPORTED_MODULE_1__["default"]);
+(0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(Viewer, _BaseViewer__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 // modules the viewer is composed of
 Viewer.prototype._modules = [
@@ -1157,17 +1152,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ ODRenderer)
 /* harmony export */ });
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inherits */ "../node_modules/inherits/inherits_browser.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(inherits__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
-/* harmony import */ var tiny_svg__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! tiny-svg */ "../node_modules/tiny-svg/dist/index.esm.js");
-/* harmony import */ var diagram_js_lib_util_RenderUtil__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! diagram-js/lib/util/RenderUtil */ "../node_modules/diagram-js/lib/util/RenderUtil.js");
-/* harmony import */ var diagram_js_lib_draw_BaseRenderer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! diagram-js/lib/draw/BaseRenderer */ "../node_modules/diagram-js/lib/draw/BaseRenderer.js");
-/* harmony import */ var _features_label_editing_LabelUtil__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../features/label-editing/LabelUtil */ "../lib/features/label-editing/LabelUtil.js");
+/* harmony import */ var inherits_browser__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! inherits-browser */ "../node_modules/inherits-browser/dist/index.es.js");
+/* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
+/* harmony import */ var tiny_svg__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! tiny-svg */ "../node_modules/tiny-svg/dist/index.esm.js");
+/* harmony import */ var diagram_js_lib_util_RenderUtil__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! diagram-js/lib/util/RenderUtil */ "../node_modules/diagram-js/lib/util/RenderUtil.js");
+/* harmony import */ var diagram_js_lib_draw_BaseRenderer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! diagram-js/lib/draw/BaseRenderer */ "../node_modules/diagram-js/lib/draw/BaseRenderer.js");
+/* harmony import */ var _features_label_editing_LabelUtil__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../features/label-editing/LabelUtil */ "../lib/features/label-editing/LabelUtil.js");
 /* harmony import */ var _util_ModelUtil__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../util/ModelUtil */ "../lib/util/ModelUtil.js");
-/* harmony import */ var min_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! min-dom */ "../node_modules/min-dom/dist/index.esm.js");
-/* harmony import */ var _ODRendererUtil__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ODRendererUtil */ "../lib/draw/ODRendererUtil.js");
-/* harmony import */ var ids__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ids */ "../node_modules/ids/dist/index.esm.js");
+/* harmony import */ var min_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! min-dom */ "../node_modules/min-dom/dist/index.esm.js");
+/* harmony import */ var _ODRendererUtil__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ODRendererUtil */ "../lib/draw/ODRendererUtil.js");
+/* harmony import */ var ids__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ids */ "../node_modules/ids/dist/index.esm.js");
 
 
 
@@ -1185,7 +1179,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var RENDERER_IDS = new ids__WEBPACK_IMPORTED_MODULE_1__["default"]();
+var RENDERER_IDS = new ids__WEBPACK_IMPORTED_MODULE_0__["default"]();
 
 var HIGH_FILL_OPACITY = .35;
 
@@ -1196,7 +1190,7 @@ function ODRenderer(
     config, eventBus, styles,
     canvas, textRenderer, priority) {
 
-  diagram_js_lib_draw_BaseRenderer__WEBPACK_IMPORTED_MODULE_2__["default"].call(this, eventBus, priority);
+  diagram_js_lib_draw_BaseRenderer__WEBPACK_IMPORTED_MODULE_1__["default"].call(this, eventBus, priority);
 
   var defaultFillColor = config && config.defaultFillColor,
       defaultStrokeColor = config && config.defaultStrokeColor;
@@ -1207,7 +1201,7 @@ function ODRenderer(
 
   function drawRect(parentGfx, width, height, r, offset, attrs) {
 
-    if ((0,min_dash__WEBPACK_IMPORTED_MODULE_3__.isObject)(offset)) {
+    if ((0,min_dash__WEBPACK_IMPORTED_MODULE_2__.isObject)(offset)) {
       attrs = offset;
       offset = 0;
     }
@@ -1220,8 +1214,8 @@ function ODRenderer(
       fill: 'white'
     });
 
-    var rect = (0,tiny_svg__WEBPACK_IMPORTED_MODULE_4__.create)('rect');
-    (0,tiny_svg__WEBPACK_IMPORTED_MODULE_4__.attr)(rect, {
+    var rect = (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.create)('rect');
+    (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.attr)(rect, {
       x: offset,
       y: offset,
       width: width - offset * 2,
@@ -1229,9 +1223,9 @@ function ODRenderer(
       rx: r,
       ry: r
     });
-    (0,tiny_svg__WEBPACK_IMPORTED_MODULE_4__.attr)(rect, attrs);
+    (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.attr)(rect, attrs);
 
-    (0,tiny_svg__WEBPACK_IMPORTED_MODULE_4__.append)(parentGfx, rect);
+    (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.append)(parentGfx, rect);
 
     return rect;
   }
@@ -1243,18 +1237,18 @@ function ODRenderer(
       stroke: 'black'
     });
 
-    var path = (0,tiny_svg__WEBPACK_IMPORTED_MODULE_4__.create)('path');
-    (0,tiny_svg__WEBPACK_IMPORTED_MODULE_4__.attr)(path, { d: d });
-    (0,tiny_svg__WEBPACK_IMPORTED_MODULE_4__.attr)(path, attrs);
+    var path = (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.create)('path');
+    (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.attr)(path, { d: d });
+    (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.attr)(path, attrs);
 
-    (0,tiny_svg__WEBPACK_IMPORTED_MODULE_4__.append)(parentGfx, path);
+    (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.append)(parentGfx, path);
 
     return path;
   }
 
   function renderLabel(parentGfx, label, options) {
 
-    options = (0,min_dash__WEBPACK_IMPORTED_MODULE_3__.assign)({
+    options = (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)({
       size: {
         width: 100
       }
@@ -1262,15 +1256,15 @@ function ODRenderer(
 
     var text = textRenderer.createText(label || '', options);
 
-    (0,tiny_svg__WEBPACK_IMPORTED_MODULE_4__.classes)(text).add('djs-label');
+    (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.classes)(text).add('djs-label');
 
-    (0,tiny_svg__WEBPACK_IMPORTED_MODULE_4__.append)(parentGfx, text);
+    (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.append)(parentGfx, text);
 
     return text;
   }
 
   function renderEmbeddedLabel(parentGfx, element, align, fontSize) {
-    var semantic = (0,_ODRendererUtil__WEBPACK_IMPORTED_MODULE_5__.getSemantic)(element);
+    var semantic = (0,_ODRendererUtil__WEBPACK_IMPORTED_MODULE_4__.getSemantic)(element);
 
     return renderLabel(parentGfx, semantic.name, {
       box: element,
@@ -1292,10 +1286,10 @@ function ODRenderer(
       y: element.height / 2 + element.y
     };
 
-    return renderLabel(parentGfx, (0,_features_label_editing_LabelUtil__WEBPACK_IMPORTED_MODULE_6__.getLabel)(element), {
+    return renderLabel(parentGfx, (0,_features_label_editing_LabelUtil__WEBPACK_IMPORTED_MODULE_5__.getLabel)(element), {
       box: box,
       fitBox: true,
-      style: (0,min_dash__WEBPACK_IMPORTED_MODULE_3__.assign)(
+      style: (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)(
         {},
         textRenderer.getExternalStyle(),
         {
@@ -1306,7 +1300,7 @@ function ODRenderer(
   }
 
   function renderAttributes(parentGfx, element) {
-    var semantic = (0,_ODRendererUtil__WEBPACK_IMPORTED_MODULE_5__.getSemantic)(element);
+    var semantic = (0,_ODRendererUtil__WEBPACK_IMPORTED_MODULE_4__.getSemantic)(element);
     if (semantic.attributeValues) {
       renderLabel(parentGfx, semantic.attributeValues, {
         box: {
@@ -1327,7 +1321,7 @@ function ODRenderer(
       { x: 0, y: 30 },
       { x: element.width, y: 30 }
     ], {
-      stroke: (0,_ODRendererUtil__WEBPACK_IMPORTED_MODULE_5__.getStrokeColor)(element, defaultStrokeColor)
+      stroke: (0,_ODRendererUtil__WEBPACK_IMPORTED_MODULE_4__.getStrokeColor)(element, defaultStrokeColor)
     });
   }
 
@@ -1338,15 +1332,15 @@ function ODRenderer(
       fill: 'none'
     });
 
-    var line = (0,diagram_js_lib_util_RenderUtil__WEBPACK_IMPORTED_MODULE_7__.createLine)(waypoints, attrs);
+    var line = (0,diagram_js_lib_util_RenderUtil__WEBPACK_IMPORTED_MODULE_6__.createLine)(waypoints, attrs);
 
-    (0,tiny_svg__WEBPACK_IMPORTED_MODULE_4__.append)(parentGfx, line);
+    (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.append)(parentGfx, line);
 
     return line;
   }
 
   function renderTitelLabel(parentGfx, element) {
-    let semantic = (0,_ODRendererUtil__WEBPACK_IMPORTED_MODULE_5__.getSemantic)(element);
+    let semantic = (0,_ODRendererUtil__WEBPACK_IMPORTED_MODULE_4__.getSemantic)(element);
     let text = '';
     if (semantic.name) {
       text = semantic.name;
@@ -1386,7 +1380,7 @@ function ODRenderer(
   }
 
   function addMarker(id, options) {
-    var attrs = (0,min_dash__WEBPACK_IMPORTED_MODULE_3__.assign)({
+    var attrs = (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)({
       fill: 'black',
       strokeWidth: 1,
       strokeLinecap: 'round',
@@ -1403,13 +1397,13 @@ function ODRenderer(
       attrs.strokeDasharray = [ 10000, 1 ];
     }
 
-    var marker = (0,tiny_svg__WEBPACK_IMPORTED_MODULE_4__.create)('marker');
+    var marker = (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.create)('marker');
 
-    (0,tiny_svg__WEBPACK_IMPORTED_MODULE_4__.attr)(options.element, attrs);
+    (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.attr)(options.element, attrs);
 
-    (0,tiny_svg__WEBPACK_IMPORTED_MODULE_4__.append)(marker, options.element);
+    (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.append)(marker, options.element);
 
-    (0,tiny_svg__WEBPACK_IMPORTED_MODULE_4__.attr)(marker, {
+    (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.attr)(marker, {
       id: id,
       viewBox: '0 0 20 20',
       refX: ref.x,
@@ -1419,15 +1413,15 @@ function ODRenderer(
       orient: 'auto'
     });
 
-    var defs = (0,min_dom__WEBPACK_IMPORTED_MODULE_8__.query)('defs', canvas._svg);
+    var defs = (0,min_dom__WEBPACK_IMPORTED_MODULE_7__.query)('defs', canvas._svg);
 
     if (!defs) {
-      defs = (0,tiny_svg__WEBPACK_IMPORTED_MODULE_4__.create)('defs');
+      defs = (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.create)('defs');
 
-      (0,tiny_svg__WEBPACK_IMPORTED_MODULE_4__.append)(canvas._svg, defs);
+      (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.append)(canvas._svg, defs);
     }
 
-    (0,tiny_svg__WEBPACK_IMPORTED_MODULE_4__.append)(defs, marker);
+    (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.append)(defs, marker);
 
     markers[id] = marker;
   }
@@ -1439,8 +1433,8 @@ function ODRenderer(
   }
 
   function createMarker(id, type, fill, stroke) {
-    var linkEnd = (0,tiny_svg__WEBPACK_IMPORTED_MODULE_4__.create)('path');
-    (0,tiny_svg__WEBPACK_IMPORTED_MODULE_4__.attr)(linkEnd, { d: 'M 1 5 L 11 10 L 1 15 Z' });
+    var linkEnd = (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.create)('path');
+    (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.attr)(linkEnd, { d: 'M 1 5 L 11 10 L 1 15 Z' });
 
     addMarker(id, {
       element: linkEnd,
@@ -1455,10 +1449,10 @@ function ODRenderer(
 
   this.handlers = {
     'od:Object': function(parentGfx, element, attrs) {
-      var rect = drawRect(parentGfx, element.width, element.height, 0, (0,min_dash__WEBPACK_IMPORTED_MODULE_3__.assign)({
-        fill: (0,_ODRendererUtil__WEBPACK_IMPORTED_MODULE_5__.getFillColor)(element, defaultFillColor),
+      var rect = drawRect(parentGfx, element.width, element.height, 0, (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)({
+        fill: (0,_ODRendererUtil__WEBPACK_IMPORTED_MODULE_4__.getFillColor)(element, defaultFillColor),
         fillOpacity: HIGH_FILL_OPACITY,
-        stroke: (0,_ODRendererUtil__WEBPACK_IMPORTED_MODULE_5__.getStrokeColor)(element, defaultStrokeColor)
+        stroke: (0,_ODRendererUtil__WEBPACK_IMPORTED_MODULE_4__.getStrokeColor)(element, defaultStrokeColor)
       }, attrs));
 
       addDivider(parentGfx, element);
@@ -1472,13 +1466,13 @@ function ODRenderer(
     'od:Link': function(parentGfx, element) {
       var pathData = createPathFromConnection(element);
 
-      var fill = (0,_ODRendererUtil__WEBPACK_IMPORTED_MODULE_5__.getFillColor)(element, defaultFillColor),
-          stroke = (0,_ODRendererUtil__WEBPACK_IMPORTED_MODULE_5__.getStrokeColor)(element, defaultStrokeColor);
+      var fill = (0,_ODRendererUtil__WEBPACK_IMPORTED_MODULE_4__.getFillColor)(element, defaultFillColor),
+          stroke = (0,_ODRendererUtil__WEBPACK_IMPORTED_MODULE_4__.getStrokeColor)(element, defaultStrokeColor);
 
       var attrs = {
         strokeLinejoin: 'round',
         markerEnd: marker(fill, stroke),
-        stroke: (0,_ODRendererUtil__WEBPACK_IMPORTED_MODULE_5__.getStrokeColor)(element, defaultStrokeColor)
+        stroke: (0,_ODRendererUtil__WEBPACK_IMPORTED_MODULE_4__.getStrokeColor)(element, defaultStrokeColor)
       };
       return drawPath(parentGfx, pathData, attrs);
     },
@@ -1503,7 +1497,7 @@ function ODRenderer(
 }
 
 
-inherits__WEBPACK_IMPORTED_MODULE_0___default()(ODRenderer, diagram_js_lib_draw_BaseRenderer__WEBPACK_IMPORTED_MODULE_2__["default"]);
+(0,inherits_browser__WEBPACK_IMPORTED_MODULE_8__["default"])(ODRenderer, diagram_js_lib_draw_BaseRenderer__WEBPACK_IMPORTED_MODULE_1__["default"]);
 
 ODRenderer.$inject = [
   'config.odm',
@@ -1536,7 +1530,7 @@ ODRenderer.prototype.drawConnection = function(parentGfx, element) {
 
 ODRenderer.prototype.getShapePath = function(element) {
 
-  return (0,_ODRendererUtil__WEBPACK_IMPORTED_MODULE_5__.getRectPath)(element);
+  return (0,_ODRendererUtil__WEBPACK_IMPORTED_MODULE_4__.getRectPath)(element);
 };
 
 // helpers //////////
@@ -2679,9 +2673,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ ODEditorActions)
 /* harmony export */ });
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inherits */ "../node_modules/inherits/inherits_browser.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(inherits__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var diagram_js_lib_features_editor_actions_EditorActions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! diagram-js/lib/features/editor-actions/EditorActions */ "../node_modules/diagram-js/lib/features/editor-actions/EditorActions.js");
+/* harmony import */ var inherits_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! inherits-browser */ "../node_modules/inherits-browser/dist/index.es.js");
+/* harmony import */ var diagram_js_lib_features_editor_actions_EditorActions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! diagram-js/lib/features/editor-actions/EditorActions */ "../node_modules/diagram-js/lib/features/editor-actions/EditorActions.js");
 /* harmony import */ var diagram_js_lib_util_Elements__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! diagram-js/lib/util/Elements */ "../node_modules/diagram-js/lib/util/Elements.js");
 
 
@@ -2696,10 +2689,10 @@ __webpack_require__.r(__webpack_exports__);
  * @param {Injector} injector
  */
 function ODEditorActions(injector) {
-  injector.invoke(diagram_js_lib_features_editor_actions_EditorActions__WEBPACK_IMPORTED_MODULE_1__["default"], this);
+  injector.invoke(diagram_js_lib_features_editor_actions_EditorActions__WEBPACK_IMPORTED_MODULE_0__["default"], this);
 }
 
-inherits__WEBPACK_IMPORTED_MODULE_0___default()(ODEditorActions, diagram_js_lib_features_editor_actions_EditorActions__WEBPACK_IMPORTED_MODULE_1__["default"]);
+(0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(ODEditorActions, diagram_js_lib_features_editor_actions_EditorActions__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 ODEditorActions.$inject = [
   'injector'
@@ -2714,7 +2707,7 @@ ODEditorActions.prototype._registerDefaultActions = function(injector) {
 
   // (0) invoke super method
 
-  diagram_js_lib_features_editor_actions_EditorActions__WEBPACK_IMPORTED_MODULE_1__["default"].prototype._registerDefaultActions.call(this, injector);
+  diagram_js_lib_features_editor_actions_EditorActions__WEBPACK_IMPORTED_MODULE_0__["default"].prototype._registerDefaultActions.call(this, injector);
 
   // (1) retrieve optional components to integrate with
 
@@ -2960,9 +2953,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ LayoutConnectionBehavior)
 /* harmony export */ });
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inherits */ "../node_modules/inherits/inherits_browser.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(inherits__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! diagram-js/lib/command/CommandInterceptor */ "../node_modules/diagram-js/lib/command/CommandInterceptor.js");
+/* harmony import */ var inherits_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! inherits-browser */ "../node_modules/inherits-browser/dist/index.es.js");
+/* harmony import */ var diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! diagram-js/lib/command/CommandInterceptor */ "../node_modules/diagram-js/lib/command/CommandInterceptor.js");
 /* harmony import */ var diagram_js_lib_util_Geometry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! diagram-js/lib/util/Geometry */ "../node_modules/diagram-js/lib/util/Geometry.js");
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 
@@ -2980,7 +2972,7 @@ var HIGH_PRIORITY = 3000;
  * Snaps connections with Manhattan layout.
  */
 function LayoutConnectionBehavior(eventBus, gridSnapping, modeling) {
-  diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_1__["default"].call(this, eventBus);
+  diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"].call(this, eventBus);
 
   this._gridSnapping = gridSnapping;
 
@@ -3013,7 +3005,7 @@ LayoutConnectionBehavior.$inject = [
   'modeling'
 ];
 
-inherits__WEBPACK_IMPORTED_MODULE_0___default()(LayoutConnectionBehavior, diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_1__["default"]);
+(0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(LayoutConnectionBehavior, diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 /**
  * Snap middle segments of a given connection.
@@ -3178,9 +3170,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ ODKeyboardBindings)
 /* harmony export */ });
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inherits */ "../node_modules/inherits/inherits_browser.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(inherits__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var diagram_js_lib_features_keyboard_KeyboardBindings__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! diagram-js/lib/features/keyboard/KeyboardBindings */ "../node_modules/diagram-js/lib/features/keyboard/KeyboardBindings.js");
+/* harmony import */ var inherits_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! inherits-browser */ "../node_modules/inherits-browser/dist/index.es.js");
+/* harmony import */ var diagram_js_lib_features_keyboard_KeyboardBindings__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! diagram-js/lib/features/keyboard/KeyboardBindings */ "../node_modules/diagram-js/lib/features/keyboard/KeyboardBindings.js");
 
 
 
@@ -3192,10 +3183,10 @@ __webpack_require__.r(__webpack_exports__);
  * @param {Injector} injector
  */
 function ODKeyboardBindings(injector) {
-  injector.invoke(diagram_js_lib_features_keyboard_KeyboardBindings__WEBPACK_IMPORTED_MODULE_1__["default"], this);
+  injector.invoke(diagram_js_lib_features_keyboard_KeyboardBindings__WEBPACK_IMPORTED_MODULE_0__["default"], this);
 }
 
-inherits__WEBPACK_IMPORTED_MODULE_0___default()(ODKeyboardBindings, diagram_js_lib_features_keyboard_KeyboardBindings__WEBPACK_IMPORTED_MODULE_1__["default"]);
+(0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(ODKeyboardBindings, diagram_js_lib_features_keyboard_KeyboardBindings__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 ODKeyboardBindings.$inject = [
   'injector'
@@ -3211,7 +3202,7 @@ ODKeyboardBindings.$inject = [
 ODKeyboardBindings.prototype.registerBindings = function(keyboard, editorActions) {
 
   // inherit default bindings
-  diagram_js_lib_features_keyboard_KeyboardBindings__WEBPACK_IMPORTED_MODULE_1__["default"].prototype.registerBindings.call(this, keyboard, editorActions);
+  diagram_js_lib_features_keyboard_KeyboardBindings__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.registerBindings.call(this, keyboard, editorActions);
 
   /**
    * Add keyboard binding if respective editor action
@@ -3982,10 +3973,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ ElementFactory)
 /* harmony export */ });
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inherits */ "../node_modules/inherits/inherits_browser.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(inherits__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var inherits_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! inherits-browser */ "../node_modules/inherits-browser/dist/index.es.js");
 /* harmony import */ var _util_ModelUtil__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../util/ModelUtil */ "../lib/util/ModelUtil.js");
-/* harmony import */ var diagram_js_lib_core_ElementFactory__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! diagram-js/lib/core/ElementFactory */ "../node_modules/diagram-js/lib/core/ElementFactory.js");
+/* harmony import */ var diagram_js_lib_core_ElementFactory__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! diagram-js/lib/core/ElementFactory */ "../node_modules/diagram-js/lib/core/ElementFactory.js");
 /* harmony import */ var _util_LabelUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/LabelUtil */ "../lib/util/LabelUtil.js");
 
 
@@ -4002,14 +3992,14 @@ __webpack_require__.r(__webpack_exports__);
  * A od-aware factory for diagram-js shapes
  */
 function ElementFactory(odFactory, moddle, translate) {
-  diagram_js_lib_core_ElementFactory__WEBPACK_IMPORTED_MODULE_1__["default"].call(this);
+  diagram_js_lib_core_ElementFactory__WEBPACK_IMPORTED_MODULE_0__["default"].call(this);
 
   this._odFactory = odFactory;
   this._moddle = moddle;
   this._translate = translate;
 }
 
-inherits__WEBPACK_IMPORTED_MODULE_0___default()(ElementFactory, diagram_js_lib_core_ElementFactory__WEBPACK_IMPORTED_MODULE_1__["default"]);
+(0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(ElementFactory, diagram_js_lib_core_ElementFactory__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 ElementFactory.$inject = [
   'odFactory',
@@ -4017,7 +4007,7 @@ ElementFactory.$inject = [
   'translate'
 ];
 
-ElementFactory.prototype.baseCreate = diagram_js_lib_core_ElementFactory__WEBPACK_IMPORTED_MODULE_1__["default"].prototype.create;
+ElementFactory.prototype.baseCreate = diagram_js_lib_core_ElementFactory__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.create;
 
 ElementFactory.prototype.create = function(elementType, attrs) {
 
@@ -4143,9 +4133,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Modeling)
 /* harmony export */ });
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inherits */ "../node_modules/inherits/inherits_browser.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(inherits__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var diagram_js_lib_features_modeling_Modeling__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! diagram-js/lib/features/modeling/Modeling */ "../node_modules/diagram-js/lib/features/modeling/Modeling.js");
+/* harmony import */ var inherits_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! inherits-browser */ "../node_modules/inherits-browser/dist/index.es.js");
+/* harmony import */ var diagram_js_lib_features_modeling_Modeling__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! diagram-js/lib/features/modeling/Modeling */ "../node_modules/diagram-js/lib/features/modeling/Modeling.js");
 /* harmony import */ var _cmd_UpdatePropertiesHandler__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./cmd/UpdatePropertiesHandler */ "../lib/features/modeling/cmd/UpdatePropertiesHandler.js");
 /* harmony import */ var _cmd_UpdateCanvasRootHandler__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./cmd/UpdateCanvasRootHandler */ "../lib/features/modeling/cmd/UpdateCanvasRootHandler.js");
 /* harmony import */ var _cmd_IdClaimHandler__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./cmd/IdClaimHandler */ "../lib/features/modeling/cmd/IdClaimHandler.js");
@@ -4173,12 +4162,12 @@ function Modeling(
     eventBus, elementFactory, commandStack,
     odRules) {
 
-  diagram_js_lib_features_modeling_Modeling__WEBPACK_IMPORTED_MODULE_1__["default"].call(this, eventBus, elementFactory, commandStack);
+  diagram_js_lib_features_modeling_Modeling__WEBPACK_IMPORTED_MODULE_0__["default"].call(this, eventBus, elementFactory, commandStack);
 
   this._odRules = odRules;
 }
 
-inherits__WEBPACK_IMPORTED_MODULE_0___default()(Modeling, diagram_js_lib_features_modeling_Modeling__WEBPACK_IMPORTED_MODULE_1__["default"]);
+(0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(Modeling, diagram_js_lib_features_modeling_Modeling__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 Modeling.$inject = [
   'eventBus',
@@ -4189,7 +4178,7 @@ Modeling.$inject = [
 
 
 Modeling.prototype.getHandlers = function() {
-  var handlers = diagram_js_lib_features_modeling_Modeling__WEBPACK_IMPORTED_MODULE_1__["default"].prototype.getHandlers.call(this);
+  var handlers = diagram_js_lib_features_modeling_Modeling__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.getHandlers.call(this);
 
   handlers['element.updateProperties'] = _cmd_UpdatePropertiesHandler__WEBPACK_IMPORTED_MODULE_2__["default"];
   handlers['canvas.updateRoot'] = _cmd_UpdateCanvasRootHandler__WEBPACK_IMPORTED_MODULE_3__["default"];
@@ -4375,8 +4364,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ ODLayouter)
 /* harmony export */ });
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inherits */ "../node_modules/inherits/inherits_browser.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(inherits__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var inherits_browser__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inherits-browser */ "../node_modules/inherits-browser/dist/index.es.js");
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 /* harmony import */ var diagram_js_lib_layout_BaseLayouter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! diagram-js/lib/layout/BaseLayouter */ "../node_modules/diagram-js/lib/layout/BaseLayouter.js");
 /* harmony import */ var diagram_js_lib_layout_ManhattanLayout__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! diagram-js/lib/layout/ManhattanLayout */ "../node_modules/diagram-js/lib/layout/ManhattanLayout.js");
@@ -4396,7 +4384,7 @@ __webpack_require__.r(__webpack_exports__);
 
 function ODLayouter() {}
 
-inherits__WEBPACK_IMPORTED_MODULE_0___default()(ODLayouter, diagram_js_lib_layout_BaseLayouter__WEBPACK_IMPORTED_MODULE_1__["default"]);
+(0,inherits_browser__WEBPACK_IMPORTED_MODULE_0__["default"])(ODLayouter, diagram_js_lib_layout_BaseLayouter__WEBPACK_IMPORTED_MODULE_1__["default"]);
 
 
 ODLayouter.prototype.layoutConnection = function(connection, hints) {
@@ -4488,13 +4476,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ ODUpdater)
 /* harmony export */ });
-/* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inherits */ "../node_modules/inherits/inherits_browser.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(inherits__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
+/* harmony import */ var inherits_browser__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! inherits-browser */ "../node_modules/inherits-browser/dist/index.es.js");
 /* harmony import */ var diagram_js_lib_util_Collections__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! diagram-js/lib/util/Collections */ "../node_modules/diagram-js/lib/util/Collections.js");
 /* harmony import */ var diagram_js_lib_model__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! diagram-js/lib/model */ "../node_modules/diagram-js/lib/model/index.js");
-/* harmony import */ var _util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/ModelUtil */ "../lib/util/ModelUtil.js");
-/* harmony import */ var diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! diagram-js/lib/command/CommandInterceptor */ "../node_modules/diagram-js/lib/command/CommandInterceptor.js");
+/* harmony import */ var _util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/ModelUtil */ "../lib/util/ModelUtil.js");
+/* harmony import */ var diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! diagram-js/lib/command/CommandInterceptor */ "../node_modules/diagram-js/lib/command/CommandInterceptor.js");
 
 
 
@@ -4515,7 +4502,7 @@ function ODUpdater(
     eventBus, odFactory, connectionDocking,
     translate) {
 
-  diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_1__["default"].call(this, eventBus);
+  diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"].call(this, eventBus);
 
   this._odFactory = odFactory;
   this._translate = translate;
@@ -4599,8 +4586,8 @@ function ODUpdater(
         oldRoot = context.oldRoot,
         children = oldRoot.children;
 
-    (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.forEach)(children, function(child) {
-      if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__.is)(child, 'od:BoardElement')) {
+    (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.forEach)(children, function(child) {
+      if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.is)(child, 'od:BoardElement')) {
         self.updateParent(child);
       }
     });
@@ -4614,7 +4601,7 @@ function ODUpdater(
   function updateBounds(e) {
     var shape = e.context.shape;
 
-    if (!(0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__.is)(shape, 'od:BoardElement')) {
+    if (!(0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.is)(shape, 'od:BoardElement')) {
       return;
     }
 
@@ -4705,7 +4692,7 @@ function ODUpdater(
 }
 
 
-inherits__WEBPACK_IMPORTED_MODULE_0___default()(ODUpdater, diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_1__["default"]);
+(0,inherits_browser__WEBPACK_IMPORTED_MODULE_3__["default"])(ODUpdater, diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 ODUpdater.$inject = [
   'eventBus',
@@ -4758,7 +4745,7 @@ ODUpdater.prototype.updateBounds = function(shape) {
     target.set('bounds', bounds);
   }
 
-  (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)(bounds, {
+  (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.assign)(bounds, {
     x: shape.x,
     y: shape.y,
     width: shape.width,
@@ -4769,7 +4756,7 @@ ODUpdater.prototype.updateBounds = function(shape) {
 
 ODUpdater.prototype.updateDiParent = function(di, parentDi) {
 
-  if (parentDi && !(0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__.is)(parentDi, 'odDi:OdPlane')) {
+  if (parentDi && !(0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.is)(parentDi, 'odDi:OdPlane')) {
     parentDi = parentDi.$parent;
   }
 
@@ -4799,7 +4786,7 @@ ODUpdater.prototype.updateSemanticParent = function(businessObject, newParent, v
   }
 
 
-  if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__.is)(businessObject, 'od:BoardElement')) {
+  if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.is)(businessObject, 'od:BoardElement')) {
     containment = 'boardElements';
   }
 
@@ -4852,11 +4839,11 @@ ODUpdater.prototype.updateSemanticParent = function(businessObject, newParent, v
 ODUpdater.prototype.updateConnection = function(context) {
 
   var connection = context.connection,
-      businessObject = (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__.getBusinessObject)(connection),
-      newSource = (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__.getBusinessObject)(connection.source),
-      newTarget = (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__.getBusinessObject)(connection.target);
+      businessObject = (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.getBusinessObject)(connection),
+      newSource = (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.getBusinessObject)(connection.source),
+      newTarget = (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.getBusinessObject)(connection.target);
 
-  var inverseSet = (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__.is)(businessObject, 'od:Link');
+  var inverseSet = (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.is)(businessObject, 'od:Link');
 
   if (businessObject.sourceRef !== newSource) {
     if (inverseSet) {
@@ -4918,7 +4905,7 @@ function ifOd(fn) {
     var context = event.context,
         element = context.shape || context.connection;
 
-    if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__.is)(element, 'od:BoardElement')) {
+    if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.is)(element, 'od:BoardElement')) {
       fn(event);
     }
   };
@@ -4938,12 +4925,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ AdaptiveLabelPositioningBehavior)
 /* harmony export */ });
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inherits */ "../node_modules/inherits/inherits_browser.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(inherits__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! diagram-js/lib/layout/LayoutUtil */ "../node_modules/diagram-js/lib/layout/LayoutUtil.js");
-/* harmony import */ var diagram_js_lib_util_Math__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! diagram-js/lib/util/Math */ "../node_modules/diagram-js/lib/util/PositionUtil.js");
-/* harmony import */ var _util_LabelUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../util/LabelUtil */ "../lib/util/LabelUtil.js");
-/* harmony import */ var diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! diagram-js/lib/command/CommandInterceptor */ "../node_modules/diagram-js/lib/command/CommandInterceptor.js");
+/* harmony import */ var inherits_browser__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! inherits-browser */ "../node_modules/inherits-browser/dist/index.es.js");
+/* harmony import */ var diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! diagram-js/lib/layout/LayoutUtil */ "../node_modules/diagram-js/lib/layout/LayoutUtil.js");
+/* harmony import */ var diagram_js_lib_util_Math__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! diagram-js/lib/util/Math */ "../node_modules/diagram-js/lib/util/PositionUtil.js");
+/* harmony import */ var _util_LabelUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../util/LabelUtil */ "../lib/util/LabelUtil.js");
+/* harmony import */ var diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! diagram-js/lib/command/CommandInterceptor */ "../node_modules/diagram-js/lib/command/CommandInterceptor.js");
 
 
 
@@ -4973,7 +4959,7 @@ var ELEMENT_LABEL_DISTANCE = 10;
  */
 function AdaptiveLabelPositioningBehavior(eventBus, modeling) {
 
-  diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_1__["default"].call(this, eventBus);
+  diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"].call(this, eventBus);
 
   this.postExecuted([
     'connection.create',
@@ -5023,7 +5009,7 @@ function AdaptiveLabelPositioningBehavior(eventBus, modeling) {
   function checkLabelAdjustment(element) {
 
     // skip non-existing labels
-    if (!(0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_2__.hasExternalLabel)(element)) {
+    if (!(0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_1__.hasExternalLabel)(element)) {
       return;
     }
 
@@ -5039,16 +5025,16 @@ function AdaptiveLabelPositioningBehavior(eventBus, modeling) {
 
   function adjustLabelPosition(element, orientation) {
 
-    var elementMid = (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_3__.getMid)(element),
+    var elementMid = (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_2__.getMid)(element),
         label = element.label,
-        labelMid = (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_3__.getMid)(label);
+        labelMid = (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_2__.getMid)(label);
 
     // ignore labels that are being created
     if (!label.parent) {
       return;
     }
 
-    var elementTrbl = (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_3__.asTRBL)(element);
+    var elementTrbl = (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_2__.asTRBL)(element);
 
     var newLabelMid;
 
@@ -5089,14 +5075,14 @@ function AdaptiveLabelPositioningBehavior(eventBus, modeling) {
       break;
     }
 
-    var delta = (0,diagram_js_lib_util_Math__WEBPACK_IMPORTED_MODULE_4__.delta)(newLabelMid, labelMid);
+    var delta = (0,diagram_js_lib_util_Math__WEBPACK_IMPORTED_MODULE_3__.delta)(newLabelMid, labelMid);
 
     modeling.moveShape(label, delta);
   }
 
 }
 
-inherits__WEBPACK_IMPORTED_MODULE_0___default()(AdaptiveLabelPositioningBehavior, diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_1__["default"]);
+(0,inherits_browser__WEBPACK_IMPORTED_MODULE_4__["default"])(AdaptiveLabelPositioningBehavior, diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 AdaptiveLabelPositioningBehavior.$inject = [
   'eventBus',
@@ -5116,8 +5102,8 @@ AdaptiveLabelPositioningBehavior.$inject = [
 function getTakenHostAlignments(element) {
 
   var hostElement = element.host,
-      elementMid = (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_3__.getMid)(element),
-      hostOrientation = (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_3__.getOrientation)(elementMid, hostElement);
+      elementMid = (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_2__.getMid)(element),
+      hostOrientation = (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_2__.getOrientation)(elementMid, hostElement);
 
   var freeAlignments;
 
@@ -5146,7 +5132,7 @@ function getTakenHostAlignments(element) {
  */
 function getTakenConnectionAlignments(element) {
 
-  var elementMid = (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_3__.getMid)(element);
+  var elementMid = (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_2__.getMid)(element);
 
   var takenAlignments = [].concat(
     element.incoming.map(function(c) {
@@ -5172,9 +5158,9 @@ function getTakenConnectionAlignments(element) {
  */
 function getOptimalPosition(element) {
 
-  var labelMid = (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_3__.getMid)(element.label);
+  var labelMid = (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_2__.getMid)(element.label);
 
-  var elementMid = (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_3__.getMid)(element);
+  var elementMid = (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_2__.getMid)(element);
 
   var labelOrientation = getApproximateOrientation(elementMid, labelMid);
 
@@ -5204,7 +5190,7 @@ function getOptimalPosition(element) {
 }
 
 function getApproximateOrientation(p0, p1) {
-  return (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_3__.getOrientation)(p1, p0, 5);
+  return (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_2__.getOrientation)(p1, p0, 5);
 }
 
 function isAligned(orientation) {
@@ -5225,9 +5211,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ AppendBehavior)
 /* harmony export */ });
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inherits */ "../node_modules/inherits/inherits_browser.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(inherits__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! diagram-js/lib/command/CommandInterceptor */ "../node_modules/diagram-js/lib/command/CommandInterceptor.js");
+/* harmony import */ var inherits_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! inherits-browser */ "../node_modules/inherits-browser/dist/index.es.js");
+/* harmony import */ var diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! diagram-js/lib/command/CommandInterceptor */ "../node_modules/diagram-js/lib/command/CommandInterceptor.js");
 
 
 
@@ -5235,7 +5220,7 @@ __webpack_require__.r(__webpack_exports__);
 
 function AppendBehavior(eventBus) {
 
-  diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_1__["default"].call(this, eventBus);
+  diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"].call(this, eventBus);
 
   // assign correct shape position unless already set
 
@@ -5255,7 +5240,7 @@ function AppendBehavior(eventBus) {
   }, true);
 }
 
-inherits__WEBPACK_IMPORTED_MODULE_0___default()(AppendBehavior, diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_1__["default"]);
+(0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(AppendBehavior, diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 AppendBehavior.$inject = [
   'eventBus'
@@ -5274,10 +5259,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ EmptyTextBoxBehavior)
 /* harmony export */ });
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inherits */ "../node_modules/inherits/inherits_browser.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(inherits__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../util/ModelUtil */ "../lib/util/ModelUtil.js");
-/* harmony import */ var diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! diagram-js/lib/command/CommandInterceptor */ "../node_modules/diagram-js/lib/command/CommandInterceptor.js");
+/* harmony import */ var inherits_browser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! inherits-browser */ "../node_modules/inherits-browser/dist/index.es.js");
+/* harmony import */ var _util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../util/ModelUtil */ "../lib/util/ModelUtil.js");
+/* harmony import */ var diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! diagram-js/lib/command/CommandInterceptor */ "../node_modules/diagram-js/lib/command/CommandInterceptor.js");
 
 
 
@@ -5287,7 +5271,7 @@ __webpack_require__.r(__webpack_exports__);
 
 function EmptyTextBoxBehavior(eventBus, modeling, directEditing) {
 
-  diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_1__["default"].call(this, eventBus);
+  diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"].call(this, eventBus);
 
   // delete text box if it has no text
   this.postExecute('element.updateLabel', function(context) {
@@ -5295,7 +5279,7 @@ function EmptyTextBoxBehavior(eventBus, modeling, directEditing) {
     var element = context.element,
         newLabel = context.newLabel;
 
-    if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.is)(element, 'od:TextBox') && isEmpty(newLabel)) {
+    if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__.is)(element, 'od:TextBox') && isEmpty(newLabel)) {
       modeling.removeElements([ element ]);
     }
   }, true);
@@ -5304,14 +5288,14 @@ function EmptyTextBoxBehavior(eventBus, modeling, directEditing) {
     var active = event.active,
         element = active.element;
 
-    if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.is)(element, 'od:TextBox') && isEmpty((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.getBusinessObject)(element).name)) {
+    if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__.is)(element, 'od:TextBox') && isEmpty((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__.getBusinessObject)(element).name)) {
       directEditing._active = false;
       modeling.removeElements([ element ]);
     }
   });
 }
 
-inherits__WEBPACK_IMPORTED_MODULE_0___default()(EmptyTextBoxBehavior, diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_1__["default"]);
+(0,inherits_browser__WEBPACK_IMPORTED_MODULE_2__["default"])(EmptyTextBoxBehavior, diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 EmptyTextBoxBehavior.$inject = [
   'eventBus',
@@ -5491,16 +5475,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "getReferencePoint": () => (/* binding */ getReferencePoint),
 /* harmony export */   "getReferencePointDelta": () => (/* binding */ getReferencePointDelta)
 /* harmony export */ });
-/* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inherits */ "../node_modules/inherits/inherits_browser.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(inherits__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _util_ModelUtil__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../util/ModelUtil */ "../lib/util/ModelUtil.js");
-/* harmony import */ var _util_LabelUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../util/LabelUtil */ "../lib/util/LabelUtil.js");
-/* harmony import */ var _label_editing_LabelUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../label-editing/LabelUtil */ "../lib/features/label-editing/LabelUtil.js");
-/* harmony import */ var _util_LabelLayoutUtil__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./util/LabelLayoutUtil */ "../lib/features/modeling/behavior/util/LabelLayoutUtil.js");
-/* harmony import */ var diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! diagram-js/lib/command/CommandInterceptor */ "../node_modules/diagram-js/lib/command/CommandInterceptor.js");
+/* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
+/* harmony import */ var inherits_browser__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! inherits-browser */ "../node_modules/inherits-browser/dist/index.es.js");
+/* harmony import */ var _util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../util/ModelUtil */ "../lib/util/ModelUtil.js");
+/* harmony import */ var _util_LabelUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../util/LabelUtil */ "../lib/util/LabelUtil.js");
+/* harmony import */ var _label_editing_LabelUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../label-editing/LabelUtil */ "../lib/features/label-editing/LabelUtil.js");
+/* harmony import */ var _util_LabelLayoutUtil__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./util/LabelLayoutUtil */ "../lib/features/modeling/behavior/util/LabelLayoutUtil.js");
+/* harmony import */ var diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! diagram-js/lib/command/CommandInterceptor */ "../node_modules/diagram-js/lib/command/CommandInterceptor.js");
 /* harmony import */ var diagram_js_lib_util_AttachUtil__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! diagram-js/lib/util/AttachUtil */ "../node_modules/diagram-js/lib/util/AttachUtil.js");
-/* harmony import */ var diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! diagram-js/lib/layout/LayoutUtil */ "../node_modules/diagram-js/lib/layout/LayoutUtil.js");
+/* harmony import */ var diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! diagram-js/lib/layout/LayoutUtil */ "../node_modules/diagram-js/lib/layout/LayoutUtil.js");
 /* harmony import */ var diagram_js_lib_util_PositionUtil__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! diagram-js/lib/util/PositionUtil */ "../node_modules/diagram-js/lib/util/PositionUtil.js");
 /* harmony import */ var _util_GeometricUtil__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./util/GeometricUtil */ "../lib/features/modeling/behavior/util/GeometricUtil.js");
 
@@ -5548,7 +5531,7 @@ function LabelBehavior(
     eventBus, modeling, odFactory,
     textRenderer) {
 
-  diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_1__["default"].call(this, eventBus);
+  diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"].call(this, eventBus);
 
   // update label if name property was updated
   this.postExecute('element.updateProperties', function(e) {
@@ -5573,21 +5556,21 @@ function LabelBehavior(
     var element = context.shape || context.connection,
         businessObject = element.businessObject;
 
-    if ((0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_2__.isLabel)(element) || !(0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_2__.isLabelExternal)(element)) {
+    if ((0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_1__.isLabel)(element) || !(0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_1__.isLabelExternal)(element)) {
       return;
     }
 
     // only create label if attribute available
-    if (!(0,_label_editing_LabelUtil__WEBPACK_IMPORTED_MODULE_3__.getLabel)(element)) {
+    if (!(0,_label_editing_LabelUtil__WEBPACK_IMPORTED_MODULE_2__.getLabel)(element)) {
       return;
     }
 
-    var labelCenter = (0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_2__.getExternalLabelMid)(element);
+    var labelCenter = (0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_1__.getExternalLabelMid)(element);
 
     // we don't care about x and y
     var labelDimensions = textRenderer.getExternalLabelBounds(
       DEFAULT_LABEL_DIMENSIONS,
-      (0,_label_editing_LabelUtil__WEBPACK_IMPORTED_MODULE_3__.getLabel)(element)
+      (0,_label_editing_LabelUtil__WEBPACK_IMPORTED_MODULE_2__.getLabel)(element)
     );
 
     modeling.createLabel(element, labelCenter, {
@@ -5624,7 +5607,7 @@ function LabelBehavior(
     }
 
     // we want to trigger on board elements only
-    if (!(0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_4__.is)(element.labelTarget || element, 'od:BoardElement')) {
+    if (!(0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__.is)(element.labelTarget || element, 'od:BoardElement')) {
       return;
     }
 
@@ -5638,7 +5621,7 @@ function LabelBehavior(
       });
     }
 
-    (0,min_dash__WEBPACK_IMPORTED_MODULE_5__.assign)(di.label.bounds, {
+    (0,min_dash__WEBPACK_IMPORTED_MODULE_4__.assign)(di.label.bounds, {
       x: element.x,
       y: element.y,
       width: element.width,
@@ -5651,7 +5634,7 @@ function LabelBehavior(
     var context = event.context,
         connection = context.connection,
         label = connection.label,
-        hints = (0,min_dash__WEBPACK_IMPORTED_MODULE_5__.assign)({}, context.hints),
+        hints = (0,min_dash__WEBPACK_IMPORTED_MODULE_4__.assign)({}, context.hints),
         newWaypoints = context.newWaypoints || connection.waypoints,
         oldWaypoints = context.oldWaypoints;
 
@@ -5664,7 +5647,7 @@ function LabelBehavior(
       hints.endChanged = !!hints.connectionEnd;
     }
 
-    return (0,_util_LabelLayoutUtil__WEBPACK_IMPORTED_MODULE_6__.getLabelAdjustment)(label, newWaypoints, oldWaypoints, hints);
+    return (0,_util_LabelLayoutUtil__WEBPACK_IMPORTED_MODULE_5__.getLabelAdjustment)(label, newWaypoints, oldWaypoints, hints);
   }
 
   this.postExecute([
@@ -5703,10 +5686,10 @@ function LabelBehavior(
         newShape = context.newShape,
         oldShape = context.oldShape;
 
-    var businessObject = (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_4__.getBusinessObject)(newShape);
+    var businessObject = (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__.getBusinessObject)(newShape);
 
     if (businessObject
-      && (0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_2__.isLabelExternal)(businessObject)
+      && (0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_1__.isLabelExternal)(businessObject)
       && oldShape.label
       && newShape.label) {
       newShape.label.x = oldShape.label.x;
@@ -5723,10 +5706,10 @@ function LabelBehavior(
         newBounds = context.newBounds,
         oldBounds = context.oldBounds;
 
-    if ((0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_2__.hasExternalLabel)(shape)) {
+    if ((0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_1__.hasExternalLabel)(shape)) {
 
       var label = shape.label,
-          labelMid = (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_7__.getMid)(label),
+          labelMid = (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_6__.getMid)(label),
           edges = asEdges(oldBounds);
 
       // get nearest border point to label as reference point
@@ -5742,7 +5725,7 @@ function LabelBehavior(
 
 }
 
-inherits__WEBPACK_IMPORTED_MODULE_0___default()(LabelBehavior, diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_1__["default"]);
+(0,inherits_browser__WEBPACK_IMPORTED_MODULE_7__["default"])(LabelBehavior, diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 LabelBehavior.$inject = [
   'eventBus',
@@ -5767,7 +5750,7 @@ function getReferencePointDelta(referencePoint, oldBounds, newBounds) {
 
   var newReferencePoint = (0,diagram_js_lib_util_AttachUtil__WEBPACK_IMPORTED_MODULE_8__.getNewAttachPoint)(referencePoint, oldBounds, newBounds);
 
-  return (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_7__.roundPoint)((0,diagram_js_lib_util_PositionUtil__WEBPACK_IMPORTED_MODULE_9__.delta)(newReferencePoint, referencePoint));
+  return (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_6__.roundPoint)((0,diagram_js_lib_util_PositionUtil__WEBPACK_IMPORTED_MODULE_9__.delta)(newReferencePoint, referencePoint));
 }
 
 /**
@@ -5858,7 +5841,7 @@ function getNearestLine(point, lines) {
     };
   });
 
-  var sorted = (0,min_dash__WEBPACK_IMPORTED_MODULE_5__.sortBy)(distances, 'distance');
+  var sorted = (0,min_dash__WEBPACK_IMPORTED_MODULE_4__.sortBy)(distances, 'distance');
 
   return sorted[0].line;
 }
@@ -5877,10 +5860,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ UnclaimIdBehavior)
 /* harmony export */ });
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inherits */ "../node_modules/inherits/inherits_browser.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(inherits__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! diagram-js/lib/command/CommandInterceptor */ "../node_modules/diagram-js/lib/command/CommandInterceptor.js");
-/* harmony import */ var _util_LabelUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../util/LabelUtil */ "../lib/util/LabelUtil.js");
+/* harmony import */ var inherits_browser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! inherits-browser */ "../node_modules/inherits-browser/dist/index.es.js");
+/* harmony import */ var diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! diagram-js/lib/command/CommandInterceptor */ "../node_modules/diagram-js/lib/command/CommandInterceptor.js");
+/* harmony import */ var _util_LabelUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../util/LabelUtil */ "../lib/util/LabelUtil.js");
 
 
 
@@ -5897,14 +5879,14 @@ __webpack_require__.r(__webpack_exports__);
  * @param {Modeling} modeling
  */
 function UnclaimIdBehavior(canvas, injector, moddle, modeling) {
-  injector.invoke(diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_1__["default"], this);
+  injector.invoke(diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"], this);
 
   this.preExecute('shape.delete', function(event) {
     var context = event.context,
         shape = context.shape,
         shapeBo = shape.businessObject;
 
-    if ((0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_2__.isLabel)(shape)) {
+    if ((0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_1__.isLabel)(shape)) {
       return;
     }
 
@@ -5919,7 +5901,7 @@ function UnclaimIdBehavior(canvas, injector, moddle, modeling) {
   });
 }
 
-inherits__WEBPACK_IMPORTED_MODULE_0___default()(UnclaimIdBehavior, diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_1__["default"]);
+(0,inherits_browser__WEBPACK_IMPORTED_MODULE_2__["default"])(UnclaimIdBehavior, diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 UnclaimIdBehavior.$inject = [ 'canvas', 'injector', 'moddle', 'modeling' ];
 
@@ -7162,11 +7144,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ ODOrderingProvider)
 /* harmony export */ });
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inherits */ "../node_modules/inherits/inherits_browser.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(inherits__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var diagram_js_lib_features_ordering_OrderingProvider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! diagram-js/lib/features/ordering/OrderingProvider */ "../node_modules/diagram-js/lib/features/ordering/OrderingProvider.js");
-/* harmony import */ var _modeling_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../modeling/util/ModelingUtil */ "../lib/features/modeling/util/ModelingUtil.js");
-/* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
+/* harmony import */ var inherits_browser__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! inherits-browser */ "../node_modules/inherits-browser/dist/index.es.js");
+/* harmony import */ var diagram_js_lib_features_ordering_OrderingProvider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! diagram-js/lib/features/ordering/OrderingProvider */ "../node_modules/diagram-js/lib/features/ordering/OrderingProvider.js");
+/* harmony import */ var _modeling_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../modeling/util/ModelingUtil */ "../lib/features/modeling/util/ModelingUtil.js");
+/* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 
 
 
@@ -7184,7 +7165,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 function ODOrderingProvider(eventBus, canvas, translate) {
 
-  diagram_js_lib_features_ordering_OrderingProvider__WEBPACK_IMPORTED_MODULE_1__["default"].call(this, eventBus);
+  diagram_js_lib_features_ordering_OrderingProvider__WEBPACK_IMPORTED_MODULE_0__["default"].call(this, eventBus);
 
   var orders = [
     { type: 'od:Object', order: { level: 5 } },
@@ -7201,8 +7182,8 @@ function ODOrderingProvider(eventBus, canvas, translate) {
       return { level: 10 };
     }
 
-    var entry = (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.find)(orders, function(o) {
-      return (0,_modeling_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_3__.isAny)(element, [ o.type ]);
+    var entry = (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.find)(orders, function(o) {
+      return (0,_modeling_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_2__.isAny)(element, [ o.type ]);
     });
 
     return entry && entry.order || { level: 1 };
@@ -7229,7 +7210,7 @@ function ODOrderingProvider(eventBus, canvas, translate) {
 
     while (actualParent) {
 
-      if ((0,_modeling_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_3__.isAny)(actualParent, containers)) {
+      if ((0,_modeling_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_2__.isAny)(actualParent, containers)) {
         break;
       }
 
@@ -7266,7 +7247,7 @@ function ODOrderingProvider(eventBus, canvas, translate) {
 
     var currentIndex = newParent.children.indexOf(element);
 
-    var insertIndex = (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.findIndex)(newParent.children, function(child) {
+    var insertIndex = (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.findIndex)(newParent.children, function(child) {
 
       // do not compare with labels, they are created
       // in the wrong order (right after elements) during import and
@@ -7298,7 +7279,7 @@ function ODOrderingProvider(eventBus, canvas, translate) {
 
 ODOrderingProvider.$inject = [ 'eventBus', 'canvas', 'translate' ];
 
-inherits__WEBPACK_IMPORTED_MODULE_0___default()(ODOrderingProvider, diagram_js_lib_features_ordering_OrderingProvider__WEBPACK_IMPORTED_MODULE_1__["default"]);
+(0,inherits_browser__WEBPACK_IMPORTED_MODULE_3__["default"])(ODOrderingProvider, diagram_js_lib_features_ordering_OrderingProvider__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 /***/ }),
 
@@ -7527,11 +7508,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ ODRules)
 /* harmony export */ });
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inherits */ "../node_modules/inherits/inherits_browser.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(inherits__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var inherits_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! inherits-browser */ "../node_modules/inherits-browser/dist/index.es.js");
 /* harmony import */ var _util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/ModelUtil */ "../lib/util/ModelUtil.js");
 /* harmony import */ var _util_LabelUtil__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../util/LabelUtil */ "../lib/util/LabelUtil.js");
-/* harmony import */ var diagram_js_lib_features_rules_RuleProvider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! diagram-js/lib/features/rules/RuleProvider */ "../node_modules/diagram-js/lib/features/rules/RuleProvider.js");
+/* harmony import */ var diagram_js_lib_features_rules_RuleProvider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! diagram-js/lib/features/rules/RuleProvider */ "../node_modules/diagram-js/lib/features/rules/RuleProvider.js");
 /* harmony import */ var _modeling_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../modeling/util/ModelingUtil */ "../lib/features/modeling/util/ModelingUtil.js");
 
 
@@ -7549,10 +7529,10 @@ __webpack_require__.r(__webpack_exports__);
  * OD specific modeling rule
  */
 function ODRules(eventBus) {
-  diagram_js_lib_features_rules_RuleProvider__WEBPACK_IMPORTED_MODULE_1__["default"].call(this, eventBus);
+  diagram_js_lib_features_rules_RuleProvider__WEBPACK_IMPORTED_MODULE_0__["default"].call(this, eventBus);
 }
 
-inherits__WEBPACK_IMPORTED_MODULE_0___default()(ODRules, diagram_js_lib_features_rules_RuleProvider__WEBPACK_IMPORTED_MODULE_1__["default"]);
+(0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(ODRules, diagram_js_lib_features_rules_RuleProvider__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 ODRules.$inject = [ 'eventBus' ];
 
@@ -7879,9 +7859,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ ODCreateMoveSnapping)
 /* harmony export */ });
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inherits */ "../node_modules/inherits/inherits_browser.js");
-/* harmony import */ var inherits__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(inherits__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var diagram_js_lib_features_snapping_CreateMoveSnapping__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! diagram-js/lib/features/snapping/CreateMoveSnapping */ "../node_modules/diagram-js/lib/features/snapping/CreateMoveSnapping.js");
+/* harmony import */ var inherits_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! inherits-browser */ "../node_modules/inherits-browser/dist/index.es.js");
+/* harmony import */ var diagram_js_lib_features_snapping_CreateMoveSnapping__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! diagram-js/lib/features/snapping/CreateMoveSnapping */ "../node_modules/diagram-js/lib/features/snapping/CreateMoveSnapping.js");
 
 
 
@@ -7893,25 +7872,25 @@ __webpack_require__.r(__webpack_exports__);
  * @param {Injector} injector
  */
 function ODCreateMoveSnapping(injector) {
-  injector.invoke(diagram_js_lib_features_snapping_CreateMoveSnapping__WEBPACK_IMPORTED_MODULE_1__["default"], this);
+  injector.invoke(diagram_js_lib_features_snapping_CreateMoveSnapping__WEBPACK_IMPORTED_MODULE_0__["default"], this);
 }
 
-inherits__WEBPACK_IMPORTED_MODULE_0___default()(ODCreateMoveSnapping, diagram_js_lib_features_snapping_CreateMoveSnapping__WEBPACK_IMPORTED_MODULE_1__["default"]);
+(0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(ODCreateMoveSnapping, diagram_js_lib_features_snapping_CreateMoveSnapping__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 ODCreateMoveSnapping.$inject = [
   'injector'
 ];
 
 ODCreateMoveSnapping.prototype.initSnap = function(event) {
-  return diagram_js_lib_features_snapping_CreateMoveSnapping__WEBPACK_IMPORTED_MODULE_1__["default"].prototype.initSnap.call(this, event);
+  return diagram_js_lib_features_snapping_CreateMoveSnapping__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.initSnap.call(this, event);
 };
 
 ODCreateMoveSnapping.prototype.addSnapTargetPoints = function(snapPoints, shape, target) {
-  return diagram_js_lib_features_snapping_CreateMoveSnapping__WEBPACK_IMPORTED_MODULE_1__["default"].prototype.addSnapTargetPoints.call(this, snapPoints, shape, target);
+  return diagram_js_lib_features_snapping_CreateMoveSnapping__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.addSnapTargetPoints.call(this, snapPoints, shape, target);
 };
 
 ODCreateMoveSnapping.prototype.getSnapTargets = function(shape, target) {
-  return diagram_js_lib_features_snapping_CreateMoveSnapping__WEBPACK_IMPORTED_MODULE_1__["default"].prototype.getSnapTargets.call(this, shape, target);
+  return diagram_js_lib_features_snapping_CreateMoveSnapping__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.getSnapTargets.call(this, shape, target);
 };
 
 
@@ -24116,22 +24095,22 @@ AlignElements.prototype.preExecute = function(context) {
       y: 0
     };
 
-    if (alignment.left) {
+    if ((0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isDefined)(alignment.left)) {
       delta.x = alignment.left - element.x;
 
-    } else if (alignment.right) {
+    } else if ((0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isDefined)(alignment.right)) {
       delta.x = (alignment.right - element.width) - element.x;
 
-    } else if (alignment.center) {
+    } else if ((0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isDefined)(alignment.center)) {
       delta.x = (alignment.center - Math.round(element.width / 2)) - element.x;
 
-    } else if (alignment.top) {
+    } else if ((0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isDefined)(alignment.top)) {
       delta.y = alignment.top - element.y;
 
-    } else if (alignment.bottom) {
+    } else if ((0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isDefined)(alignment.bottom)) {
       delta.y = (alignment.bottom - element.height) - element.y;
 
-    } else if (alignment.middle) {
+    } else if ((0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isDefined)(alignment.middle)) {
       delta.y = (alignment.middle - Math.round(element.height / 2)) - element.y;
     }
 
@@ -28426,9 +28405,7 @@ Palette.prototype._update = function() {
  * @param  {Event} event
  */
 Palette.prototype.trigger = function(action, event, autoActivate) {
-  var entries = this._entries,
-      entry,
-      handler,
+  var entry,
       originalEvent,
       button = event.delegateTarget || event.target;
 
@@ -28436,7 +28413,18 @@ Palette.prototype.trigger = function(action, event, autoActivate) {
     return event.preventDefault();
   }
 
-  entry = entries[(0,min_dom__WEBPACK_IMPORTED_MODULE_0__.attr)(button, 'data-action')];
+  entry = (0,min_dom__WEBPACK_IMPORTED_MODULE_0__.attr)(button, 'data-action');
+  originalEvent = event.originalEvent || event;
+
+  return this.triggerEntry(entry, action, originalEvent, autoActivate);
+};
+
+Palette.prototype.triggerEntry = function(entryId, action, event, autoActivate) {
+  var entries = this._entries,
+      entry,
+      handler;
+
+  entry = entries[entryId];
 
   // when user clicks on the palette and not on an action
   if (!entry) {
@@ -28445,16 +28433,14 @@ Palette.prototype.trigger = function(action, event, autoActivate) {
 
   handler = entry.action;
 
-  originalEvent = event.originalEvent || event;
-
   // simple action (via callback function)
   if ((0,min_dash__WEBPACK_IMPORTED_MODULE_1__.isFunction)(handler)) {
     if (action === 'click') {
-      handler(originalEvent, autoActivate);
+      return handler(event, autoActivate);
     }
   } else {
     if (handler[action]) {
-      handler[action](originalEvent, autoActivate);
+      return handler[action](event, autoActivate);
     }
   }
 
@@ -40941,43 +40927,6 @@ function e(e,t){t&&(e.super_=t,e.prototype=Object.create(t.prototype,{constructo
 
 /***/ }),
 
-/***/ "../node_modules/inherits/inherits_browser.js":
-/*!****************************************************!*\
-  !*** ../node_modules/inherits/inherits_browser.js ***!
-  \****************************************************/
-/***/ ((module) => {
-
-if (typeof Object.create === 'function') {
-  // implementation from standard node.js 'util' module
-  module.exports = function inherits(ctor, superCtor) {
-    if (superCtor) {
-      ctor.super_ = superCtor
-      ctor.prototype = Object.create(superCtor.prototype, {
-        constructor: {
-          value: ctor,
-          enumerable: false,
-          writable: true,
-          configurable: true
-        }
-      })
-    }
-  };
-} else {
-  // old school shim for old browsers
-  module.exports = function inherits(ctor, superCtor) {
-    if (superCtor) {
-      ctor.super_ = superCtor
-      var TempCtor = function () {}
-      TempCtor.prototype = superCtor.prototype
-      ctor.prototype = new TempCtor()
-      ctor.prototype.constructor = ctor
-    }
-  }
-}
-
-
-/***/ }),
-
 /***/ "../node_modules/min-dom/dist/index.esm.js":
 /*!*************************************************!*\
   !*** ../node_modules/min-dom/dist/index.esm.js ***!
@@ -41326,9 +41275,13 @@ function closest(element, selector, checkYourSelf) {
 
 var componentEvent = {};
 
-var bind$1 = window.addEventListener ? 'addEventListener' : 'attachEvent',
-    unbind$1 = window.removeEventListener ? 'removeEventListener' : 'detachEvent',
-    prefix = bind$1 !== 'addEventListener' ? 'on' : '';
+var bind$1, unbind$1, prefix;
+
+function detect () {
+  bind$1 = window.addEventListener ? 'addEventListener' : 'attachEvent';
+  unbind$1 = window.removeEventListener ? 'removeEventListener' : 'detachEvent';
+  prefix = bind$1 !== 'addEventListener' ? 'on' : '';
+}
 
 /**
  * Bind `el` event `type` to `fn`.
@@ -41342,6 +41295,7 @@ var bind$1 = window.addEventListener ? 'addEventListener' : 'attachEvent',
  */
 
 var bind_1 = componentEvent.bind = function(el, type, fn, capture){
+  if (!bind$1) detect();
   el[bind$1](prefix + type, fn, capture || false);
   return fn;
 };
@@ -41358,6 +41312,7 @@ var bind_1 = componentEvent.bind = function(el, type, fn, capture){
  */
 
 var unbind_1 = componentEvent.unbind = function(el, type, fn, capture){
+  if (!unbind$1) detect();
   el[unbind$1](prefix + type, fn, capture || false);
   return fn;
 };
@@ -44879,11 +44834,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _starter_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_starter_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../starter/node_modules/css-loader/dist/runtime/getUrl.js */ "./node_modules/css-loader/dist/runtime/getUrl.js");
 /* harmony import */ var _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _font_bpmn_eot_26374340__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../font/bpmn.eot?26374340 */ "../node_modules/bpmn-font/dist/font/bpmn.eot?26374340");
-/* harmony import */ var _font_bpmn_woff2_26374340__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../font/bpmn.woff2?26374340 */ "../node_modules/bpmn-font/dist/font/bpmn.woff2?26374340");
-/* harmony import */ var _font_bpmn_woff_26374340__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../font/bpmn.woff?26374340 */ "../node_modules/bpmn-font/dist/font/bpmn.woff?26374340");
-/* harmony import */ var _font_bpmn_ttf_26374340__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../font/bpmn.ttf?26374340 */ "../node_modules/bpmn-font/dist/font/bpmn.ttf?26374340");
-/* harmony import */ var _font_bpmn_svg_26374340__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../font/bpmn.svg?26374340 */ "../node_modules/bpmn-font/dist/font/bpmn.svg?26374340");
+/* harmony import */ var _font_bpmn_eot_84292322__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../font/bpmn.eot?84292322 */ "../node_modules/bpmn-font/dist/font/bpmn.eot?84292322");
+/* harmony import */ var _font_bpmn_woff2_84292322__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../font/bpmn.woff2?84292322 */ "../node_modules/bpmn-font/dist/font/bpmn.woff2?84292322");
+/* harmony import */ var _font_bpmn_woff_84292322__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../font/bpmn.woff?84292322 */ "../node_modules/bpmn-font/dist/font/bpmn.woff?84292322");
+/* harmony import */ var _font_bpmn_ttf_84292322__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../font/bpmn.ttf?84292322 */ "../node_modules/bpmn-font/dist/font/bpmn.ttf?84292322");
+/* harmony import */ var _font_bpmn_svg_84292322__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../font/bpmn.svg?84292322 */ "../node_modules/bpmn-font/dist/font/bpmn.svg?84292322");
 // Imports
 
 
@@ -44894,14 +44849,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var ___CSS_LOADER_EXPORT___ = _starter_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_starter_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
-var ___CSS_LOADER_URL_REPLACEMENT_0___ = _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(_font_bpmn_eot_26374340__WEBPACK_IMPORTED_MODULE_3__["default"]);
-var ___CSS_LOADER_URL_REPLACEMENT_1___ = _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(_font_bpmn_eot_26374340__WEBPACK_IMPORTED_MODULE_3__["default"], { hash: "#iefix" });
-var ___CSS_LOADER_URL_REPLACEMENT_2___ = _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(_font_bpmn_woff2_26374340__WEBPACK_IMPORTED_MODULE_4__["default"]);
-var ___CSS_LOADER_URL_REPLACEMENT_3___ = _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(_font_bpmn_woff_26374340__WEBPACK_IMPORTED_MODULE_5__["default"]);
-var ___CSS_LOADER_URL_REPLACEMENT_4___ = _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(_font_bpmn_ttf_26374340__WEBPACK_IMPORTED_MODULE_6__["default"]);
-var ___CSS_LOADER_URL_REPLACEMENT_5___ = _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(_font_bpmn_svg_26374340__WEBPACK_IMPORTED_MODULE_7__["default"], { hash: "#bpmn" });
+var ___CSS_LOADER_URL_REPLACEMENT_0___ = _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(_font_bpmn_eot_84292322__WEBPACK_IMPORTED_MODULE_3__["default"]);
+var ___CSS_LOADER_URL_REPLACEMENT_1___ = _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(_font_bpmn_eot_84292322__WEBPACK_IMPORTED_MODULE_3__["default"], { hash: "#iefix" });
+var ___CSS_LOADER_URL_REPLACEMENT_2___ = _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(_font_bpmn_woff2_84292322__WEBPACK_IMPORTED_MODULE_4__["default"]);
+var ___CSS_LOADER_URL_REPLACEMENT_3___ = _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(_font_bpmn_woff_84292322__WEBPACK_IMPORTED_MODULE_5__["default"]);
+var ___CSS_LOADER_URL_REPLACEMENT_4___ = _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(_font_bpmn_ttf_84292322__WEBPACK_IMPORTED_MODULE_6__["default"]);
+var ___CSS_LOADER_URL_REPLACEMENT_5___ = _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(_font_bpmn_svg_84292322__WEBPACK_IMPORTED_MODULE_7__["default"], { hash: "#bpmn" });
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "@font-face {\n  font-family: 'bpmn';\n  src: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ");\n  src: url(" + ___CSS_LOADER_URL_REPLACEMENT_1___ + ") format('embedded-opentype'),\n       url(" + ___CSS_LOADER_URL_REPLACEMENT_2___ + ") format('woff2'),\n       url(" + ___CSS_LOADER_URL_REPLACEMENT_3___ + ") format('woff'),\n       url(" + ___CSS_LOADER_URL_REPLACEMENT_4___ + ") format('truetype'),\n       url(" + ___CSS_LOADER_URL_REPLACEMENT_5___ + ") format('svg');\n  font-weight: normal;\n  font-style: normal;\n}\n/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */\n/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */\n/*\n@media screen and (-webkit-min-device-pixel-ratio:0) {\n  @font-face {\n    font-family: 'bpmn';\n    src: url('../font/bpmn.svg?26374340#bpmn') format('svg');\n  }\n}\n*/\n\n [class^=\"bpmn-icon-\"]:before, [class*=\" bpmn-icon-\"]:before {\n  font-family: \"bpmn\";\n  font-style: normal;\n  font-weight: normal;\n  speak: never;\n\n  display: inline-block;\n  text-decoration: inherit;\n  width: 1em;\n  /* margin-right: .2em; */\n  text-align: center;\n  /* opacity: .8; */\n\n  /* For safety - reset parent styles, that can break glyph codes*/\n  font-variant: normal;\n  text-transform: none;\n\n  /* fix buttons height, for twitter bootstrap */\n  line-height: 1em;\n\n  /* Animation center compensation - margins should be symmetric */\n  /* remove if not needed */\n  /* margin-left: .2em; */\n\n  /* you can be more comfortable with increased icons size */\n  /* font-size: 120%; */\n\n  /* Font smoothing. That was taken from TWBS */\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n\n  /* Uncomment for 3D effect */\n  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */\n}\n\n.bpmn-icon-screw-wrench:before { content: '\\e800'; } /* '' */\n.bpmn-icon-trash:before { content: '\\e801'; } /* '' */\n.bpmn-icon-conditional-flow:before { content: '\\e802'; } /* '' */\n.bpmn-icon-default-flow:before { content: '\\e803'; } /* '' */\n.bpmn-icon-gateway-parallel:before { content: '\\e804'; } /* '' */\n.bpmn-icon-intermediate-event-catch-cancel:before { content: '\\e805'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-message:before { content: '\\e806'; } /* '' */\n.bpmn-icon-start-event-compensation:before { content: '\\e807'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-parallel-multiple:before { content: '\\e808'; } /* '' */\n.bpmn-icon-loop-marker:before { content: '\\e809'; } /* '' */\n.bpmn-icon-parallel-mi-marker:before { content: '\\e80a'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-signal:before { content: '\\e80b'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-timer:before { content: '\\e80c'; } /* '' */\n.bpmn-icon-intermediate-event-catch-parallel-multiple:before { content: '\\e80d'; } /* '' */\n.bpmn-icon-intermediate-event-catch-compensation:before { content: '\\e80e'; } /* '' */\n.bpmn-icon-gateway-xor:before { content: '\\e80f'; } /* '' */\n.bpmn-icon-connection:before { content: '\\e810'; } /* '' */\n.bpmn-icon-end-event-cancel:before { content: '\\e811'; } /* '' */\n.bpmn-icon-intermediate-event-catch-condition:before { content: '\\e812'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-parallel-multiple:before { content: '\\e813'; } /* '' */\n.bpmn-icon-start-event-condition:before { content: '\\e814'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-timer:before { content: '\\e815'; } /* '' */\n.bpmn-icon-sequential-mi-marker:before { content: '\\e816'; } /* '' */\n.bpmn-icon-user-task:before { content: '\\e817'; } /* '' */\n.bpmn-icon-business-rule:before { content: '\\e818'; } /* '' */\n.bpmn-icon-sub-process-marker:before { content: '\\e819'; } /* '' */\n.bpmn-icon-start-event-parallel-multiple:before { content: '\\e81a'; } /* '' */\n.bpmn-icon-start-event-error:before { content: '\\e81b'; } /* '' */\n.bpmn-icon-intermediate-event-catch-signal:before { content: '\\e81c'; } /* '' */\n.bpmn-icon-intermediate-event-catch-error:before { content: '\\e81d'; } /* '' */\n.bpmn-icon-end-event-compensation:before { content: '\\e81e'; } /* '' */\n.bpmn-icon-subprocess-collapsed:before { content: '\\e81f'; } /* '' */\n.bpmn-icon-subprocess-expanded:before { content: '\\e820'; } /* '' */\n.bpmn-icon-task:before { content: '\\e821'; } /* '' */\n.bpmn-icon-end-event-error:before { content: '\\e822'; } /* '' */\n.bpmn-icon-intermediate-event-catch-escalation:before { content: '\\e823'; } /* '' */\n.bpmn-icon-intermediate-event-catch-timer:before { content: '\\e824'; } /* '' */\n.bpmn-icon-start-event-escalation:before { content: '\\e825'; } /* '' */\n.bpmn-icon-start-event-signal:before { content: '\\e826'; } /* '' */\n.bpmn-icon-business-rule-task:before { content: '\\e827'; } /* '' */\n.bpmn-icon-manual:before { content: '\\e828'; } /* '' */\n.bpmn-icon-receive:before { content: '\\e829'; } /* '' */\n.bpmn-icon-call-activity:before { content: '\\e82a'; } /* '' */\n.bpmn-icon-start-event-timer:before { content: '\\e82b'; } /* '' */\n.bpmn-icon-start-event-message:before { content: '\\e82c'; } /* '' */\n.bpmn-icon-intermediate-event-none:before { content: '\\e82d'; } /* '' */\n.bpmn-icon-intermediate-event-catch-link:before { content: '\\e82e'; } /* '' */\n.bpmn-icon-end-event-escalation:before { content: '\\e82f'; } /* '' */\n.bpmn-icon-text-annotation:before { content: '\\e830'; } /* '' */\n.bpmn-icon-bpmn-io:before { content: '\\e831'; } /* '' */\n.bpmn-icon-gateway-complex:before { content: '\\e832'; } /* '' */\n.bpmn-icon-gateway-eventbased:before { content: '\\e833'; } /* '' */\n.bpmn-icon-gateway-none:before { content: '\\e834'; } /* '' */\n.bpmn-icon-gateway-or:before { content: '\\e835'; } /* '' */\n.bpmn-icon-end-event-terminate:before { content: '\\e836'; } /* '' */\n.bpmn-icon-end-event-signal:before { content: '\\e837'; } /* '' */\n.bpmn-icon-end-event-none:before { content: '\\e838'; } /* '' */\n.bpmn-icon-end-event-multiple:before { content: '\\e839'; } /* '' */\n.bpmn-icon-end-event-message:before { content: '\\e83a'; } /* '' */\n.bpmn-icon-end-event-link:before { content: '\\e83b'; } /* '' */\n.bpmn-icon-intermediate-event-catch-message:before { content: '\\e83c'; } /* '' */\n.bpmn-icon-intermediate-event-throw-compensation:before { content: '\\e83d'; } /* '' */\n.bpmn-icon-start-event-multiple:before { content: '\\e83e'; } /* '' */\n.bpmn-icon-script:before { content: '\\e83f'; } /* '' */\n.bpmn-icon-manual-task:before { content: '\\e840'; } /* '' */\n.bpmn-icon-send:before { content: '\\e841'; } /* '' */\n.bpmn-icon-service:before { content: '\\e842'; } /* '' */\n.bpmn-icon-receive-task:before { content: '\\e843'; } /* '' */\n.bpmn-icon-user:before { content: '\\e844'; } /* '' */\n.bpmn-icon-start-event-none:before { content: '\\e845'; } /* '' */\n.bpmn-icon-intermediate-event-throw-escalation:before { content: '\\e846'; } /* '' */\n.bpmn-icon-intermediate-event-catch-multiple:before { content: '\\e847'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-escalation:before { content: '\\e848'; } /* '' */\n.bpmn-icon-intermediate-event-throw-link:before { content: '\\e849'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-condition:before { content: '\\e84a'; } /* '' */\n.bpmn-icon-data-object:before { content: '\\e84b'; } /* '' */\n.bpmn-icon-script-task:before { content: '\\e84c'; } /* '' */\n.bpmn-icon-send-task:before { content: '\\e84d'; } /* '' */\n.bpmn-icon-data-store:before { content: '\\e84e'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-escalation:before { content: '\\e84f'; } /* '' */\n.bpmn-icon-intermediate-event-throw-message:before { content: '\\e850'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-multiple:before { content: '\\e851'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-signal:before { content: '\\e852'; } /* '' */\n.bpmn-icon-intermediate-event-throw-multiple:before { content: '\\e853'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-message:before { content: '\\e854'; } /* '' */\n.bpmn-icon-ad-hoc-marker:before { content: '\\e855'; } /* '' */\n.bpmn-icon-service-task:before { content: '\\e856'; } /* '' */\n.bpmn-icon-task-none:before { content: '\\e857'; } /* '' */\n.bpmn-icon-compensation-marker:before { content: '\\e858'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-multiple:before { content: '\\e859'; } /* '' */\n.bpmn-icon-intermediate-event-throw-signal:before { content: '\\e85a'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-condition:before { content: '\\e85b'; } /* '' */\n.bpmn-icon-participant:before { content: '\\e85c'; } /* '' */\n.bpmn-icon-event-subprocess-expanded:before { content: '\\e85d'; } /* '' */\n.bpmn-icon-lane-insert-below:before { content: '\\e85e'; } /* '' */\n.bpmn-icon-space-tool:before { content: '\\e85f'; } /* '' */\n.bpmn-icon-connection-multi:before { content: '\\e860'; } /* '' */\n.bpmn-icon-lane:before { content: '\\e861'; } /* '' */\n.bpmn-icon-lasso-tool:before { content: '\\e862'; } /* '' */\n.bpmn-icon-lane-insert-above:before { content: '\\e863'; } /* '' */\n.bpmn-icon-lane-divide-three:before { content: '\\e864'; } /* '' */\n.bpmn-icon-lane-divide-two:before { content: '\\e865'; } /* '' */\n.bpmn-icon-data-input:before { content: '\\e866'; } /* '' */\n.bpmn-icon-data-output:before { content: '\\e867'; } /* '' */\n.bpmn-icon-hand-tool:before { content: '\\e868'; } /* '' */\n.bpmn-icon-group:before { content: '\\e869'; } /* '' */\n.bpmn-icon-transaction:before { content: '\\e8c4'; } /* '' */", "",{"version":3,"sources":["webpack://./../node_modules/bpmn-font/dist/css/bpmn.css"],"names":[],"mappings":"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","sourcesContent":["@font-face {\n  font-family: 'bpmn';\n  src: url('../font/bpmn.eot?26374340');\n  src: url('../font/bpmn.eot?26374340#iefix') format('embedded-opentype'),\n       url('../font/bpmn.woff2?26374340') format('woff2'),\n       url('../font/bpmn.woff?26374340') format('woff'),\n       url('../font/bpmn.ttf?26374340') format('truetype'),\n       url('../font/bpmn.svg?26374340#bpmn') format('svg');\n  font-weight: normal;\n  font-style: normal;\n}\n/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */\n/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */\n/*\n@media screen and (-webkit-min-device-pixel-ratio:0) {\n  @font-face {\n    font-family: 'bpmn';\n    src: url('../font/bpmn.svg?26374340#bpmn') format('svg');\n  }\n}\n*/\n\n [class^=\"bpmn-icon-\"]:before, [class*=\" bpmn-icon-\"]:before {\n  font-family: \"bpmn\";\n  font-style: normal;\n  font-weight: normal;\n  speak: never;\n\n  display: inline-block;\n  text-decoration: inherit;\n  width: 1em;\n  /* margin-right: .2em; */\n  text-align: center;\n  /* opacity: .8; */\n\n  /* For safety - reset parent styles, that can break glyph codes*/\n  font-variant: normal;\n  text-transform: none;\n\n  /* fix buttons height, for twitter bootstrap */\n  line-height: 1em;\n\n  /* Animation center compensation - margins should be symmetric */\n  /* remove if not needed */\n  /* margin-left: .2em; */\n\n  /* you can be more comfortable with increased icons size */\n  /* font-size: 120%; */\n\n  /* Font smoothing. That was taken from TWBS */\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n\n  /* Uncomment for 3D effect */\n  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */\n}\n\n.bpmn-icon-screw-wrench:before { content: '\\e800'; } /* '' */\n.bpmn-icon-trash:before { content: '\\e801'; } /* '' */\n.bpmn-icon-conditional-flow:before { content: '\\e802'; } /* '' */\n.bpmn-icon-default-flow:before { content: '\\e803'; } /* '' */\n.bpmn-icon-gateway-parallel:before { content: '\\e804'; } /* '' */\n.bpmn-icon-intermediate-event-catch-cancel:before { content: '\\e805'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-message:before { content: '\\e806'; } /* '' */\n.bpmn-icon-start-event-compensation:before { content: '\\e807'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-parallel-multiple:before { content: '\\e808'; } /* '' */\n.bpmn-icon-loop-marker:before { content: '\\e809'; } /* '' */\n.bpmn-icon-parallel-mi-marker:before { content: '\\e80a'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-signal:before { content: '\\e80b'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-timer:before { content: '\\e80c'; } /* '' */\n.bpmn-icon-intermediate-event-catch-parallel-multiple:before { content: '\\e80d'; } /* '' */\n.bpmn-icon-intermediate-event-catch-compensation:before { content: '\\e80e'; } /* '' */\n.bpmn-icon-gateway-xor:before { content: '\\e80f'; } /* '' */\n.bpmn-icon-connection:before { content: '\\e810'; } /* '' */\n.bpmn-icon-end-event-cancel:before { content: '\\e811'; } /* '' */\n.bpmn-icon-intermediate-event-catch-condition:before { content: '\\e812'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-parallel-multiple:before { content: '\\e813'; } /* '' */\n.bpmn-icon-start-event-condition:before { content: '\\e814'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-timer:before { content: '\\e815'; } /* '' */\n.bpmn-icon-sequential-mi-marker:before { content: '\\e816'; } /* '' */\n.bpmn-icon-user-task:before { content: '\\e817'; } /* '' */\n.bpmn-icon-business-rule:before { content: '\\e818'; } /* '' */\n.bpmn-icon-sub-process-marker:before { content: '\\e819'; } /* '' */\n.bpmn-icon-start-event-parallel-multiple:before { content: '\\e81a'; } /* '' */\n.bpmn-icon-start-event-error:before { content: '\\e81b'; } /* '' */\n.bpmn-icon-intermediate-event-catch-signal:before { content: '\\e81c'; } /* '' */\n.bpmn-icon-intermediate-event-catch-error:before { content: '\\e81d'; } /* '' */\n.bpmn-icon-end-event-compensation:before { content: '\\e81e'; } /* '' */\n.bpmn-icon-subprocess-collapsed:before { content: '\\e81f'; } /* '' */\n.bpmn-icon-subprocess-expanded:before { content: '\\e820'; } /* '' */\n.bpmn-icon-task:before { content: '\\e821'; } /* '' */\n.bpmn-icon-end-event-error:before { content: '\\e822'; } /* '' */\n.bpmn-icon-intermediate-event-catch-escalation:before { content: '\\e823'; } /* '' */\n.bpmn-icon-intermediate-event-catch-timer:before { content: '\\e824'; } /* '' */\n.bpmn-icon-start-event-escalation:before { content: '\\e825'; } /* '' */\n.bpmn-icon-start-event-signal:before { content: '\\e826'; } /* '' */\n.bpmn-icon-business-rule-task:before { content: '\\e827'; } /* '' */\n.bpmn-icon-manual:before { content: '\\e828'; } /* '' */\n.bpmn-icon-receive:before { content: '\\e829'; } /* '' */\n.bpmn-icon-call-activity:before { content: '\\e82a'; } /* '' */\n.bpmn-icon-start-event-timer:before { content: '\\e82b'; } /* '' */\n.bpmn-icon-start-event-message:before { content: '\\e82c'; } /* '' */\n.bpmn-icon-intermediate-event-none:before { content: '\\e82d'; } /* '' */\n.bpmn-icon-intermediate-event-catch-link:before { content: '\\e82e'; } /* '' */\n.bpmn-icon-end-event-escalation:before { content: '\\e82f'; } /* '' */\n.bpmn-icon-text-annotation:before { content: '\\e830'; } /* '' */\n.bpmn-icon-bpmn-io:before { content: '\\e831'; } /* '' */\n.bpmn-icon-gateway-complex:before { content: '\\e832'; } /* '' */\n.bpmn-icon-gateway-eventbased:before { content: '\\e833'; } /* '' */\n.bpmn-icon-gateway-none:before { content: '\\e834'; } /* '' */\n.bpmn-icon-gateway-or:before { content: '\\e835'; } /* '' */\n.bpmn-icon-end-event-terminate:before { content: '\\e836'; } /* '' */\n.bpmn-icon-end-event-signal:before { content: '\\e837'; } /* '' */\n.bpmn-icon-end-event-none:before { content: '\\e838'; } /* '' */\n.bpmn-icon-end-event-multiple:before { content: '\\e839'; } /* '' */\n.bpmn-icon-end-event-message:before { content: '\\e83a'; } /* '' */\n.bpmn-icon-end-event-link:before { content: '\\e83b'; } /* '' */\n.bpmn-icon-intermediate-event-catch-message:before { content: '\\e83c'; } /* '' */\n.bpmn-icon-intermediate-event-throw-compensation:before { content: '\\e83d'; } /* '' */\n.bpmn-icon-start-event-multiple:before { content: '\\e83e'; } /* '' */\n.bpmn-icon-script:before { content: '\\e83f'; } /* '' */\n.bpmn-icon-manual-task:before { content: '\\e840'; } /* '' */\n.bpmn-icon-send:before { content: '\\e841'; } /* '' */\n.bpmn-icon-service:before { content: '\\e842'; } /* '' */\n.bpmn-icon-receive-task:before { content: '\\e843'; } /* '' */\n.bpmn-icon-user:before { content: '\\e844'; } /* '' */\n.bpmn-icon-start-event-none:before { content: '\\e845'; } /* '' */\n.bpmn-icon-intermediate-event-throw-escalation:before { content: '\\e846'; } /* '' */\n.bpmn-icon-intermediate-event-catch-multiple:before { content: '\\e847'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-escalation:before { content: '\\e848'; } /* '' */\n.bpmn-icon-intermediate-event-throw-link:before { content: '\\e849'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-condition:before { content: '\\e84a'; } /* '' */\n.bpmn-icon-data-object:before { content: '\\e84b'; } /* '' */\n.bpmn-icon-script-task:before { content: '\\e84c'; } /* '' */\n.bpmn-icon-send-task:before { content: '\\e84d'; } /* '' */\n.bpmn-icon-data-store:before { content: '\\e84e'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-escalation:before { content: '\\e84f'; } /* '' */\n.bpmn-icon-intermediate-event-throw-message:before { content: '\\e850'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-multiple:before { content: '\\e851'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-signal:before { content: '\\e852'; } /* '' */\n.bpmn-icon-intermediate-event-throw-multiple:before { content: '\\e853'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-message:before { content: '\\e854'; } /* '' */\n.bpmn-icon-ad-hoc-marker:before { content: '\\e855'; } /* '' */\n.bpmn-icon-service-task:before { content: '\\e856'; } /* '' */\n.bpmn-icon-task-none:before { content: '\\e857'; } /* '' */\n.bpmn-icon-compensation-marker:before { content: '\\e858'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-multiple:before { content: '\\e859'; } /* '' */\n.bpmn-icon-intermediate-event-throw-signal:before { content: '\\e85a'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-condition:before { content: '\\e85b'; } /* '' */\n.bpmn-icon-participant:before { content: '\\e85c'; } /* '' */\n.bpmn-icon-event-subprocess-expanded:before { content: '\\e85d'; } /* '' */\n.bpmn-icon-lane-insert-below:before { content: '\\e85e'; } /* '' */\n.bpmn-icon-space-tool:before { content: '\\e85f'; } /* '' */\n.bpmn-icon-connection-multi:before { content: '\\e860'; } /* '' */\n.bpmn-icon-lane:before { content: '\\e861'; } /* '' */\n.bpmn-icon-lasso-tool:before { content: '\\e862'; } /* '' */\n.bpmn-icon-lane-insert-above:before { content: '\\e863'; } /* '' */\n.bpmn-icon-lane-divide-three:before { content: '\\e864'; } /* '' */\n.bpmn-icon-lane-divide-two:before { content: '\\e865'; } /* '' */\n.bpmn-icon-data-input:before { content: '\\e866'; } /* '' */\n.bpmn-icon-data-output:before { content: '\\e867'; } /* '' */\n.bpmn-icon-hand-tool:before { content: '\\e868'; } /* '' */\n.bpmn-icon-group:before { content: '\\e869'; } /* '' */\n.bpmn-icon-transaction:before { content: '\\e8c4'; } /* '' */"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "@font-face {\n  font-family: 'bpmn';\n  src: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ");\n  src: url(" + ___CSS_LOADER_URL_REPLACEMENT_1___ + ") format('embedded-opentype'),\n       url(" + ___CSS_LOADER_URL_REPLACEMENT_2___ + ") format('woff2'),\n       url(" + ___CSS_LOADER_URL_REPLACEMENT_3___ + ") format('woff'),\n       url(" + ___CSS_LOADER_URL_REPLACEMENT_4___ + ") format('truetype'),\n       url(" + ___CSS_LOADER_URL_REPLACEMENT_5___ + ") format('svg');\n  font-weight: normal;\n  font-style: normal;\n}\n/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */\n/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */\n/*\n@media screen and (-webkit-min-device-pixel-ratio:0) {\n  @font-face {\n    font-family: 'bpmn';\n    src: url('../font/bpmn.svg?84292322#bpmn') format('svg');\n  }\n}\n*/\n[class^=\"bpmn-icon-\"]:before, [class*=\" bpmn-icon-\"]:before {\n  font-family: \"bpmn\";\n  font-style: normal;\n  font-weight: normal;\n  speak: never;\n\n  display: inline-block;\n  text-decoration: inherit;\n  width: 1em;\n  /* margin-right: .2em; */\n  text-align: center;\n  /* opacity: .8; */\n\n  /* For safety - reset parent styles, that can break glyph codes*/\n  font-variant: normal;\n  text-transform: none;\n\n  /* fix buttons height, for twitter bootstrap */\n  line-height: 1em;\n\n  /* Animation center compensation - margins should be symmetric */\n  /* remove if not needed */\n  /* margin-left: .2em; */\n\n  /* you can be more comfortable with increased icons size */\n  /* font-size: 120%; */\n\n  /* Font smoothing. That was taken from TWBS */\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n\n  /* Uncomment for 3D effect */\n  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */\n}\n\n.bpmn-icon-trash:before { content: '\\e801'; } /* '' */\n.bpmn-icon-conditional-flow:before { content: '\\e802'; } /* '' */\n.bpmn-icon-default-flow:before { content: '\\e803'; } /* '' */\n.bpmn-icon-gateway-parallel:before { content: '\\e804'; } /* '' */\n.bpmn-icon-intermediate-event-catch-cancel:before { content: '\\e805'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-message:before { content: '\\e806'; } /* '' */\n.bpmn-icon-start-event-compensation:before { content: '\\e807'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-parallel-multiple:before { content: '\\e808'; } /* '' */\n.bpmn-icon-loop-marker:before { content: '\\e809'; } /* '' */\n.bpmn-icon-parallel-mi-marker:before { content: '\\e80a'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-signal:before { content: '\\e80b'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-timer:before { content: '\\e80c'; } /* '' */\n.bpmn-icon-intermediate-event-catch-parallel-multiple:before { content: '\\e80d'; } /* '' */\n.bpmn-icon-intermediate-event-catch-compensation:before { content: '\\e80e'; } /* '' */\n.bpmn-icon-gateway-xor:before { content: '\\e80f'; } /* '' */\n.bpmn-icon-end-event-cancel:before { content: '\\e811'; } /* '' */\n.bpmn-icon-intermediate-event-catch-condition:before { content: '\\e812'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-parallel-multiple:before { content: '\\e813'; } /* '' */\n.bpmn-icon-start-event-condition:before { content: '\\e814'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-timer:before { content: '\\e815'; } /* '' */\n.bpmn-icon-sequential-mi-marker:before { content: '\\e816'; } /* '' */\n.bpmn-icon-user-task:before { content: '\\e817'; } /* '' */\n.bpmn-icon-business-rule:before { content: '\\e818'; } /* '' */\n.bpmn-icon-sub-process-marker:before { content: '\\e819'; } /* '' */\n.bpmn-icon-start-event-parallel-multiple:before { content: '\\e81a'; } /* '' */\n.bpmn-icon-start-event-error:before { content: '\\e81b'; } /* '' */\n.bpmn-icon-intermediate-event-catch-signal:before { content: '\\e81c'; } /* '' */\n.bpmn-icon-intermediate-event-catch-error:before { content: '\\e81d'; } /* '' */\n.bpmn-icon-end-event-compensation:before { content: '\\e81e'; } /* '' */\n.bpmn-icon-subprocess-collapsed:before { content: '\\e81f'; } /* '' */\n.bpmn-icon-subprocess-expanded:before { content: '\\e820'; } /* '' */\n.bpmn-icon-task:before { content: '\\e821'; } /* '' */\n.bpmn-icon-end-event-error:before { content: '\\e822'; } /* '' */\n.bpmn-icon-intermediate-event-catch-escalation:before { content: '\\e823'; } /* '' */\n.bpmn-icon-intermediate-event-catch-timer:before { content: '\\e824'; } /* '' */\n.bpmn-icon-start-event-escalation:before { content: '\\e825'; } /* '' */\n.bpmn-icon-start-event-signal:before { content: '\\e826'; } /* '' */\n.bpmn-icon-business-rule-task:before { content: '\\e827'; } /* '' */\n.bpmn-icon-manual:before { content: '\\e828'; } /* '' */\n.bpmn-icon-receive:before { content: '\\e829'; } /* '' */\n.bpmn-icon-call-activity:before { content: '\\e82a'; } /* '' */\n.bpmn-icon-start-event-timer:before { content: '\\e82b'; } /* '' */\n.bpmn-icon-start-event-message:before { content: '\\e82c'; } /* '' */\n.bpmn-icon-intermediate-event-none:before { content: '\\e82d'; } /* '' */\n.bpmn-icon-intermediate-event-catch-link:before { content: '\\e82e'; } /* '' */\n.bpmn-icon-end-event-escalation:before { content: '\\e82f'; } /* '' */\n.bpmn-icon-bpmn-io:before { content: '\\e831'; } /* '' */\n.bpmn-icon-gateway-complex:before { content: '\\e832'; } /* '' */\n.bpmn-icon-gateway-eventbased:before { content: '\\e833'; } /* '' */\n.bpmn-icon-gateway-none:before { content: '\\e834'; } /* '' */\n.bpmn-icon-gateway-or:before { content: '\\e835'; } /* '' */\n.bpmn-icon-end-event-terminate:before { content: '\\e836'; } /* '' */\n.bpmn-icon-end-event-signal:before { content: '\\e837'; } /* '' */\n.bpmn-icon-end-event-none:before { content: '\\e838'; } /* '' */\n.bpmn-icon-end-event-multiple:before { content: '\\e839'; } /* '' */\n.bpmn-icon-end-event-message:before { content: '\\e83a'; } /* '' */\n.bpmn-icon-end-event-link:before { content: '\\e83b'; } /* '' */\n.bpmn-icon-intermediate-event-catch-message:before { content: '\\e83c'; } /* '' */\n.bpmn-icon-intermediate-event-throw-compensation:before { content: '\\e83d'; } /* '' */\n.bpmn-icon-start-event-multiple:before { content: '\\e83e'; } /* '' */\n.bpmn-icon-script:before { content: '\\e83f'; } /* '' */\n.bpmn-icon-manual-task:before { content: '\\e840'; } /* '' */\n.bpmn-icon-send:before { content: '\\e841'; } /* '' */\n.bpmn-icon-service:before { content: '\\e842'; } /* '' */\n.bpmn-icon-receive-task:before { content: '\\e843'; } /* '' */\n.bpmn-icon-user:before { content: '\\e844'; } /* '' */\n.bpmn-icon-start-event-none:before { content: '\\e845'; } /* '' */\n.bpmn-icon-intermediate-event-throw-escalation:before { content: '\\e846'; } /* '' */\n.bpmn-icon-intermediate-event-catch-multiple:before { content: '\\e847'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-escalation:before { content: '\\e848'; } /* '' */\n.bpmn-icon-intermediate-event-throw-link:before { content: '\\e849'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-condition:before { content: '\\e84a'; } /* '' */\n.bpmn-icon-data-object:before { content: '\\e84b'; } /* '' */\n.bpmn-icon-script-task:before { content: '\\e84c'; } /* '' */\n.bpmn-icon-send-task:before { content: '\\e84d'; } /* '' */\n.bpmn-icon-data-store:before { content: '\\e84e'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-escalation:before { content: '\\e84f'; } /* '' */\n.bpmn-icon-intermediate-event-throw-message:before { content: '\\e850'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-multiple:before { content: '\\e851'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-signal:before { content: '\\e852'; } /* '' */\n.bpmn-icon-intermediate-event-throw-multiple:before { content: '\\e853'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-message:before { content: '\\e854'; } /* '' */\n.bpmn-icon-ad-hoc-marker:before { content: '\\e855'; } /* '' */\n.bpmn-icon-service-task:before { content: '\\e856'; } /* '' */\n.bpmn-icon-task-none:before { content: '\\e857'; } /* '' */\n.bpmn-icon-compensation-marker:before { content: '\\e858'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-multiple:before { content: '\\e859'; } /* '' */\n.bpmn-icon-intermediate-event-throw-signal:before { content: '\\e85a'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-condition:before { content: '\\e85b'; } /* '' */\n.bpmn-icon-participant:before { content: '\\e85c'; } /* '' */\n.bpmn-icon-event-subprocess-expanded:before { content: '\\e85d'; } /* '' */\n.bpmn-icon-lane-insert-below:before { content: '\\e85e'; } /* '' */\n.bpmn-icon-space-tool:before { content: '\\e85f'; } /* '' */\n.bpmn-icon-connection-multi:before { content: '\\e860'; } /* '' */\n.bpmn-icon-lane:before { content: '\\e861'; } /* '' */\n.bpmn-icon-lasso-tool:before { content: '\\e862'; } /* '' */\n.bpmn-icon-lane-insert-above:before { content: '\\e863'; } /* '' */\n.bpmn-icon-lane-divide-three:before { content: '\\e864'; } /* '' */\n.bpmn-icon-lane-divide-two:before { content: '\\e865'; } /* '' */\n.bpmn-icon-data-input:before { content: '\\e866'; } /* '' */\n.bpmn-icon-data-output:before { content: '\\e867'; } /* '' */\n.bpmn-icon-hand-tool:before { content: '\\e868'; } /* '' */\n.bpmn-icon-group:before { content: '\\e869'; } /* '' */\n.bpmn-icon-text-annotation:before { content: '\\e86b'; } /* '' */\n.bpmn-icon-transaction:before { content: '\\e8c4'; } /* '' */\n.bpmn-icon-connection:before { content: '\\e8d8'; } /* '' */\n.bpmn-icon-screw-wrench:before { content: '\\e8db'; } /* '' */\n", "",{"version":3,"sources":["webpack://./../node_modules/bpmn-font/dist/css/bpmn.css"],"names":[],"mappings":"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","sourcesContent":["@font-face {\n  font-family: 'bpmn';\n  src: url('../font/bpmn.eot?84292322');\n  src: url('../font/bpmn.eot?84292322#iefix') format('embedded-opentype'),\n       url('../font/bpmn.woff2?84292322') format('woff2'),\n       url('../font/bpmn.woff?84292322') format('woff'),\n       url('../font/bpmn.ttf?84292322') format('truetype'),\n       url('../font/bpmn.svg?84292322#bpmn') format('svg');\n  font-weight: normal;\n  font-style: normal;\n}\n/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */\n/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */\n/*\n@media screen and (-webkit-min-device-pixel-ratio:0) {\n  @font-face {\n    font-family: 'bpmn';\n    src: url('../font/bpmn.svg?84292322#bpmn') format('svg');\n  }\n}\n*/\n[class^=\"bpmn-icon-\"]:before, [class*=\" bpmn-icon-\"]:before {\n  font-family: \"bpmn\";\n  font-style: normal;\n  font-weight: normal;\n  speak: never;\n\n  display: inline-block;\n  text-decoration: inherit;\n  width: 1em;\n  /* margin-right: .2em; */\n  text-align: center;\n  /* opacity: .8; */\n\n  /* For safety - reset parent styles, that can break glyph codes*/\n  font-variant: normal;\n  text-transform: none;\n\n  /* fix buttons height, for twitter bootstrap */\n  line-height: 1em;\n\n  /* Animation center compensation - margins should be symmetric */\n  /* remove if not needed */\n  /* margin-left: .2em; */\n\n  /* you can be more comfortable with increased icons size */\n  /* font-size: 120%; */\n\n  /* Font smoothing. That was taken from TWBS */\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n\n  /* Uncomment for 3D effect */\n  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */\n}\n\n.bpmn-icon-trash:before { content: '\\e801'; } /* '' */\n.bpmn-icon-conditional-flow:before { content: '\\e802'; } /* '' */\n.bpmn-icon-default-flow:before { content: '\\e803'; } /* '' */\n.bpmn-icon-gateway-parallel:before { content: '\\e804'; } /* '' */\n.bpmn-icon-intermediate-event-catch-cancel:before { content: '\\e805'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-message:before { content: '\\e806'; } /* '' */\n.bpmn-icon-start-event-compensation:before { content: '\\e807'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-parallel-multiple:before { content: '\\e808'; } /* '' */\n.bpmn-icon-loop-marker:before { content: '\\e809'; } /* '' */\n.bpmn-icon-parallel-mi-marker:before { content: '\\e80a'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-signal:before { content: '\\e80b'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-timer:before { content: '\\e80c'; } /* '' */\n.bpmn-icon-intermediate-event-catch-parallel-multiple:before { content: '\\e80d'; } /* '' */\n.bpmn-icon-intermediate-event-catch-compensation:before { content: '\\e80e'; } /* '' */\n.bpmn-icon-gateway-xor:before { content: '\\e80f'; } /* '' */\n.bpmn-icon-end-event-cancel:before { content: '\\e811'; } /* '' */\n.bpmn-icon-intermediate-event-catch-condition:before { content: '\\e812'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-parallel-multiple:before { content: '\\e813'; } /* '' */\n.bpmn-icon-start-event-condition:before { content: '\\e814'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-timer:before { content: '\\e815'; } /* '' */\n.bpmn-icon-sequential-mi-marker:before { content: '\\e816'; } /* '' */\n.bpmn-icon-user-task:before { content: '\\e817'; } /* '' */\n.bpmn-icon-business-rule:before { content: '\\e818'; } /* '' */\n.bpmn-icon-sub-process-marker:before { content: '\\e819'; } /* '' */\n.bpmn-icon-start-event-parallel-multiple:before { content: '\\e81a'; } /* '' */\n.bpmn-icon-start-event-error:before { content: '\\e81b'; } /* '' */\n.bpmn-icon-intermediate-event-catch-signal:before { content: '\\e81c'; } /* '' */\n.bpmn-icon-intermediate-event-catch-error:before { content: '\\e81d'; } /* '' */\n.bpmn-icon-end-event-compensation:before { content: '\\e81e'; } /* '' */\n.bpmn-icon-subprocess-collapsed:before { content: '\\e81f'; } /* '' */\n.bpmn-icon-subprocess-expanded:before { content: '\\e820'; } /* '' */\n.bpmn-icon-task:before { content: '\\e821'; } /* '' */\n.bpmn-icon-end-event-error:before { content: '\\e822'; } /* '' */\n.bpmn-icon-intermediate-event-catch-escalation:before { content: '\\e823'; } /* '' */\n.bpmn-icon-intermediate-event-catch-timer:before { content: '\\e824'; } /* '' */\n.bpmn-icon-start-event-escalation:before { content: '\\e825'; } /* '' */\n.bpmn-icon-start-event-signal:before { content: '\\e826'; } /* '' */\n.bpmn-icon-business-rule-task:before { content: '\\e827'; } /* '' */\n.bpmn-icon-manual:before { content: '\\e828'; } /* '' */\n.bpmn-icon-receive:before { content: '\\e829'; } /* '' */\n.bpmn-icon-call-activity:before { content: '\\e82a'; } /* '' */\n.bpmn-icon-start-event-timer:before { content: '\\e82b'; } /* '' */\n.bpmn-icon-start-event-message:before { content: '\\e82c'; } /* '' */\n.bpmn-icon-intermediate-event-none:before { content: '\\e82d'; } /* '' */\n.bpmn-icon-intermediate-event-catch-link:before { content: '\\e82e'; } /* '' */\n.bpmn-icon-end-event-escalation:before { content: '\\e82f'; } /* '' */\n.bpmn-icon-bpmn-io:before { content: '\\e831'; } /* '' */\n.bpmn-icon-gateway-complex:before { content: '\\e832'; } /* '' */\n.bpmn-icon-gateway-eventbased:before { content: '\\e833'; } /* '' */\n.bpmn-icon-gateway-none:before { content: '\\e834'; } /* '' */\n.bpmn-icon-gateway-or:before { content: '\\e835'; } /* '' */\n.bpmn-icon-end-event-terminate:before { content: '\\e836'; } /* '' */\n.bpmn-icon-end-event-signal:before { content: '\\e837'; } /* '' */\n.bpmn-icon-end-event-none:before { content: '\\e838'; } /* '' */\n.bpmn-icon-end-event-multiple:before { content: '\\e839'; } /* '' */\n.bpmn-icon-end-event-message:before { content: '\\e83a'; } /* '' */\n.bpmn-icon-end-event-link:before { content: '\\e83b'; } /* '' */\n.bpmn-icon-intermediate-event-catch-message:before { content: '\\e83c'; } /* '' */\n.bpmn-icon-intermediate-event-throw-compensation:before { content: '\\e83d'; } /* '' */\n.bpmn-icon-start-event-multiple:before { content: '\\e83e'; } /* '' */\n.bpmn-icon-script:before { content: '\\e83f'; } /* '' */\n.bpmn-icon-manual-task:before { content: '\\e840'; } /* '' */\n.bpmn-icon-send:before { content: '\\e841'; } /* '' */\n.bpmn-icon-service:before { content: '\\e842'; } /* '' */\n.bpmn-icon-receive-task:before { content: '\\e843'; } /* '' */\n.bpmn-icon-user:before { content: '\\e844'; } /* '' */\n.bpmn-icon-start-event-none:before { content: '\\e845'; } /* '' */\n.bpmn-icon-intermediate-event-throw-escalation:before { content: '\\e846'; } /* '' */\n.bpmn-icon-intermediate-event-catch-multiple:before { content: '\\e847'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-escalation:before { content: '\\e848'; } /* '' */\n.bpmn-icon-intermediate-event-throw-link:before { content: '\\e849'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-condition:before { content: '\\e84a'; } /* '' */\n.bpmn-icon-data-object:before { content: '\\e84b'; } /* '' */\n.bpmn-icon-script-task:before { content: '\\e84c'; } /* '' */\n.bpmn-icon-send-task:before { content: '\\e84d'; } /* '' */\n.bpmn-icon-data-store:before { content: '\\e84e'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-escalation:before { content: '\\e84f'; } /* '' */\n.bpmn-icon-intermediate-event-throw-message:before { content: '\\e850'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-multiple:before { content: '\\e851'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-signal:before { content: '\\e852'; } /* '' */\n.bpmn-icon-intermediate-event-throw-multiple:before { content: '\\e853'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-message:before { content: '\\e854'; } /* '' */\n.bpmn-icon-ad-hoc-marker:before { content: '\\e855'; } /* '' */\n.bpmn-icon-service-task:before { content: '\\e856'; } /* '' */\n.bpmn-icon-task-none:before { content: '\\e857'; } /* '' */\n.bpmn-icon-compensation-marker:before { content: '\\e858'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-multiple:before { content: '\\e859'; } /* '' */\n.bpmn-icon-intermediate-event-throw-signal:before { content: '\\e85a'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-condition:before { content: '\\e85b'; } /* '' */\n.bpmn-icon-participant:before { content: '\\e85c'; } /* '' */\n.bpmn-icon-event-subprocess-expanded:before { content: '\\e85d'; } /* '' */\n.bpmn-icon-lane-insert-below:before { content: '\\e85e'; } /* '' */\n.bpmn-icon-space-tool:before { content: '\\e85f'; } /* '' */\n.bpmn-icon-connection-multi:before { content: '\\e860'; } /* '' */\n.bpmn-icon-lane:before { content: '\\e861'; } /* '' */\n.bpmn-icon-lasso-tool:before { content: '\\e862'; } /* '' */\n.bpmn-icon-lane-insert-above:before { content: '\\e863'; } /* '' */\n.bpmn-icon-lane-divide-three:before { content: '\\e864'; } /* '' */\n.bpmn-icon-lane-divide-two:before { content: '\\e865'; } /* '' */\n.bpmn-icon-data-input:before { content: '\\e866'; } /* '' */\n.bpmn-icon-data-output:before { content: '\\e867'; } /* '' */\n.bpmn-icon-hand-tool:before { content: '\\e868'; } /* '' */\n.bpmn-icon-group:before { content: '\\e869'; } /* '' */\n.bpmn-icon-text-annotation:before { content: '\\e86b'; } /* '' */\n.bpmn-icon-transaction:before { content: '\\e8c4'; } /* '' */\n.bpmn-icon-connection:before { content: '\\e8d8'; } /* '' */\n.bpmn-icon-screw-wrench:before { content: '\\e8db'; } /* '' */\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -44928,7 +44883,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _starter_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_starter_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "/**\n * color definitions\n */\n.djs-parent {\n  --color-grey-225-10-15: hsl(225, 10%, 15%);\n  --color-grey-225-10-35: hsl(225, 10%, 35%);\n  --color-grey-225-10-55: hsl(225, 10%, 55%);\n  --color-grey-225-10-75: hsl(225, 10%, 75%);\n  --color-grey-225-10-80: hsl(225, 10%, 80%);\n  --color-grey-225-10-85: hsl(225, 10%, 85%);\n  --color-grey-225-10-90: hsl(225, 10%, 90%);\n  --color-grey-225-10-95: hsl(225, 10%, 95%);\n  --color-grey-225-10-97: hsl(225, 10%, 97%);\n\n  --color-blue-205-100-45: hsl(205, 100%, 45%);\n  --color-blue-205-100-45-opacity-30: hsla(205, 100%, 45%, 30%);\n  --color-blue-205-100-50: hsl(205, 100%, 50%);\n  --color-blue-205-100-50-opacity-15: hsla(205, 100%, 50%, 15%);\n  --color-blue-205-100-70: hsl(205, 100%, 75%);\n  --color-blue-205-100-95: hsl(205, 100%, 95%);\n\n  --color-green-150-86-44: hsl(150, 86%, 44%);\n\n  --color-red-360-100-40: hsl(360, 100%, 40%);\n  --color-red-360-100-45: hsl(360, 100%, 45%);\n  --color-red-360-100-92: hsl(360, 100%, 92%);\n  --color-red-360-100-97: hsl(360, 100%, 97%);\n\n  --color-white: hsl(0, 0%, 100%);\n  --color-black: hsl(0, 0%, 0%);\n  --color-black-opacity-10: hsla(0, 0%, 0%, 10%);\n\n  --canvas-fill-color: var(--color-white);\n\n  --bendpoint-fill-color: var(--color-blue-205-100-45);\n  --bendpoint-stroke-color: var(--canvas-fill-color);\n\n  --context-pad-entry-background-color: var(--color-white);\n  --context-pad-entry-hover-background-color: var(--color-grey-225-10-95);\n\n  --element-dragger-color: var(--color-blue-205-100-50);\n  --element-hover-outline-fill-color: var(--color-blue-205-100-45);\n  --element-selected-outline-stroke-color: var(--color-blue-205-100-50);\n  --element-selected-outline-secondary-stroke-color: var(--color-blue-205-100-70);\n\n  --lasso-fill-color: var(--color-blue-205-100-50-opacity-15);\n  --lasso-stroke-color: var(--element-selected-outline-stroke-color);\n\n  --palette-entry-color: var(--color-grey-225-10-15);\n  --palette-entry-hover-color: var(--color-blue-205-100-45);\n  --palette-entry-selected-color: var(--color-blue-205-100-50);\n  --palette-separator-color: var(--color-grey-225-10-75);\n  --palette-toggle-hover-background-color: var(--color-grey-225-10-55);\n  --palette-background-color: var(--color-grey-225-10-97);\n  --palette-border-color: var(--color-grey-225-10-75);\n\n  --popup-font-size: 14px;\n  --popup-header-entry-selected-color: var(--color-blue-205-100-50);\n  --popup-header-font-weight: bolder;\n  --popup-background-color: var(--color-white);\n  --popup-border-color: var(--color-grey-225-10-75);\n  --popup-shadow-color: var(--color-grey-225-10-80);\n  --popup-description-color: var(--color-grey-225-10-55);\n  --popup-no-results-color: var(--color-grey-225-10-55);\n  --popup-entry-title-color: var(--color-grey-225-10-55);\n  --popup-entry-hover-color:  var(--color-grey-225-10-95);\n  --popup-search-border-color: var(--color-grey-225-10-75);\n  --popup-search-focus-border-color: var(--color-blue-205-100-50);\n  --popup-search-focus-background-color: var(--color-blue-205-100-95);\n\n  --resizer-fill-color: var(--color-blue-205-100-45);\n  --resizer-stroke-color: var(--canvas-fill-color);\n\n  --search-container-background-color: var(--color-grey-225-10-97);\n  --search-container-border-color: var(--color-blue-205-100-50);\n  --search-container-box-shadow-color: var(--color-blue-205-100-95);\n  --search-container-box-shadow-inset-color: var(--color-grey-225-10-80);\n  --search-input-border-color: var(--color-grey-225-10-75);\n  --search-result-border-color: var(--color-grey-225-10-75);\n  --search-result-highlight-color: var(--color-black);\n  --search-result-selected-color: var(--color-blue-205-100-45-opacity-30);\n\n  --shape-attach-allowed-stroke-color: var(--color-blue-205-100-50);\n  --shape-connect-allowed-fill-color: var(--color-grey-225-10-97);\n  --shape-drop-allowed-fill-color: var(--color-grey-225-10-97);\n  --shape-drop-not-allowed-fill-color: var(--color-red-360-100-97);\n  --shape-resize-preview-stroke-color: var(--color-blue-205-100-50);\n\n  --snap-line-stroke-color: var(--color-blue-205-100-45-opacity-30);\n\n  --space-tool-crosshair-stroke-color: var(--color-black);\n\n  --tooltip-error-background-color: var(--color-red-360-100-97);\n  --tooltip-error-border-color: var(--color-red-360-100-45);\n  --tooltip-error-color: var(--color-red-360-100-45);\n}\n\n/**\n * outline styles\n */\n\n.djs-outline,\n.djs-selection-outline {\n  fill: none;\n  shape-rendering: geometricPrecision;\n  stroke-width: 2px;\n}\n\n.djs-outline {\n  visibility: hidden;\n}\n\n.djs-selection-outline {\n  stroke: var(--element-selected-outline-stroke-color);\n}\n\n.djs-element.selected .djs-outline {\n  visibility: visible;\n\n  stroke: var(--element-selected-outline-stroke-color);\n}\n\n.djs-multi-select .djs-element.selected .djs-outline {\n  stroke: var(--element-selected-outline-secondary-stroke-color);\n}\n\n.djs-shape.connect-ok .djs-visual > :nth-child(1) {\n  fill: var(--shape-connect-allowed-fill-color) !important;\n}\n\n.djs-shape.connect-not-ok .djs-visual > :nth-child(1),\n.djs-shape.drop-not-ok .djs-visual > :nth-child(1) {\n  fill: var(--shape-drop-not-allowed-fill-color) !important;\n}\n\n.djs-shape.new-parent .djs-visual > :nth-child(1) {\n  fill: var(--shape-drop-allowed-fill-color) !important;\n}\n\nsvg.drop-not-ok {\n  background: var(--shape-drop-not-allowed-fill-color) !important;\n}\n\nsvg.new-parent {\n  background: var(--shape-drop-allowed-fill-color) !important;\n}\n\n\n/* Override move cursor during drop and connect */\n.drop-not-ok,\n.connect-not-ok,\n.drop-not-ok *,\n.connect-not-ok * {\n  cursor: not-allowed !important;\n}\n\n.drop-ok,\n.connect-ok,\n.drop-ok *,\n.connect-ok * {\n  cursor: default !important;\n}\n\n.djs-element.attach-ok .djs-visual > :nth-child(1) {\n  stroke-width: 5px !important;\n  stroke: var(--shape-attach-allowed-stroke-color) !important;\n}\n\n.djs-frame.connect-not-ok .djs-visual > :nth-child(1),\n.djs-frame.drop-not-ok .djs-visual > :nth-child(1) {\n  stroke-width: 3px !important;\n  stroke: var(--shape-drop-not-allowed-fill-color) !important;\n  fill: none !important;\n}\n\n/**\n* Selection box style\n*\n*/\n.djs-lasso-overlay {\n  fill: var(--lasso-fill-color);\n  stroke: var(--lasso-stroke-color);\n  stroke-width: 2px;\n  shape-rendering: geometricPrecision;\n  pointer-events: none;\n}\n\n/**\n * Resize styles\n */\n.djs-resize-overlay {\n  fill: none;\n\n  stroke-dasharray: 5 1 3 1;\n  stroke: var(--shape-resize-preview-stroke-color);\n\n  pointer-events: none;\n}\n\n.djs-resizer-hit {\n  fill: none;\n  pointer-events: all;\n}\n\n.djs-resizer-visual {\n  fill: var(--resizer-fill-color);\n  stroke-width: 1px;\n  stroke: var(--resizer-stroke-color);\n  shape-rendering: geometricPrecision;\n}\n\n.djs-resizer:hover .djs-resizer-visual {\n  stroke: var(--resizer-stroke-color);\n  stroke-opacity: 1;\n}\n\n.djs-cursor-resize-ns,\n.djs-resizer-n,\n.djs-resizer-s {\n  cursor: ns-resize;\n}\n\n.djs-cursor-resize-ew,\n.djs-resizer-e,\n.djs-resizer-w {\n  cursor: ew-resize;\n}\n\n.djs-cursor-resize-nwse,\n.djs-resizer-nw,\n.djs-resizer-se {\n  cursor: nwse-resize;\n}\n\n.djs-cursor-resize-nesw,\n.djs-resizer-ne,\n.djs-resizer-sw {\n  cursor: nesw-resize;\n}\n\n.djs-shape.djs-resizing > .djs-outline {\n  visibility: hidden !important;\n}\n\n.djs-shape.djs-resizing > .djs-resizer {\n  visibility: hidden;\n}\n\n.djs-dragger > .djs-resizer {\n  visibility: hidden;\n}\n\n/**\n * drag styles\n */\n.djs-dragger * {\n  fill: none !important;\n  stroke: var(--element-dragger-color) !important;\n}\n\n.djs-dragger tspan,\n.djs-dragger text {\n  fill: var(--element-dragger-color) !important;\n  stroke: none !important;\n}\n\nmarker.djs-dragger circle,\nmarker.djs-dragger path,\nmarker.djs-dragger polygon,\nmarker.djs-dragger polyline,\nmarker.djs-dragger rect {\n  fill: var(--element-dragger-color) !important;\n  stroke: none !important;\n}\n\nmarker.djs-dragger text,\nmarker.djs-dragger tspan {\n  fill: none !important;\n  stroke: var(--element-dragger-color) !important;\n}\n\n.djs-dragging {\n  opacity: 0.3;\n}\n\n.djs-dragging,\n.djs-dragging > * {\n  pointer-events: none !important;\n}\n\n.djs-dragging .djs-context-pad,\n.djs-dragging .djs-outline {\n  display: none !important;\n}\n\n/**\n * no pointer events for visual\n */\n.djs-visual,\n.djs-outline {\n  pointer-events: none;\n}\n\n.djs-element.attach-ok .djs-hit {\n  stroke-width: 60px !important;\n}\n\n/**\n * all pointer events for hit shape\n */\n.djs-element > .djs-hit-all,\n.djs-element > .djs-hit-no-move {\n  pointer-events: all;\n}\n\n.djs-element > .djs-hit-stroke,\n.djs-element > .djs-hit-click-stroke {\n  pointer-events: stroke;\n}\n\n/**\n * shape / connection basic styles\n */\n.djs-connection .djs-visual {\n  stroke-width: 2px;\n  fill: none;\n}\n\n.djs-cursor-grab {\n  cursor: -webkit-grab;\n  cursor: -moz-grab;\n  cursor: grab;\n}\n\n.djs-cursor-grabbing {\n  cursor: -webkit-grabbing;\n  cursor: -moz-grabbing;\n  cursor: grabbing;\n}\n\n.djs-cursor-crosshair {\n  cursor: crosshair;\n}\n\n.djs-cursor-move {\n  cursor: move;\n}\n\n.djs-cursor-resize-ns {\n  cursor: ns-resize;\n}\n\n.djs-cursor-resize-ew {\n  cursor: ew-resize;\n}\n\n\n/**\n * snapping\n */\n.djs-snap-line {\n  stroke: var(--snap-line-stroke-color);\n  stroke-linecap: round;\n  stroke-width: 2px;\n  pointer-events: none;\n}\n\n/**\n * snapping\n */\n.djs-crosshair {\n  stroke: var(--space-tool-crosshair-stroke-color);\n  stroke-linecap: round;\n  stroke-width: 1px;\n  pointer-events: none;\n  shape-rendering: geometricPrecision;\n  stroke-dasharray: 5, 5;\n}\n\n/**\n * palette\n */\n\n.djs-palette {\n  position: absolute;\n  left: 20px;\n  top: 20px;\n\n  box-sizing: border-box;\n  width: 48px;\n}\n\n.djs-palette .separator {\n  margin: 5px;\n  padding-top: 5px;\n\n  border: none;\n  border-bottom: solid 1px var(--palette-separator-color);\n\n  clear: both;\n}\n\n.djs-palette .entry:before {\n  vertical-align: initial;\n}\n\n.djs-palette .djs-palette-toggle {\n  cursor: pointer;\n}\n\n.djs-palette .entry,\n.djs-palette .djs-palette-toggle {\n  color: var(--palette-entry-color);\n  font-size: 30px;\n\n  text-align: center;\n}\n\n.djs-palette .entry {\n  float: left;\n}\n\n.djs-palette .entry img {\n  max-width: 100%;\n}\n\n.djs-palette .djs-palette-entries:after {\n  content: '';\n  display: table;\n  clear: both;\n}\n\n.djs-palette .djs-palette-toggle:hover {\n  background: var(--palette-toggle-hover-background-color);\n}\n\n.djs-palette .entry:hover {\n  color: var(--palette-entry-hover-color);\n}\n\n.djs-palette .highlighted-entry {\n  color: var(--palette-entry-selected-color) !important;\n}\n\n.djs-palette .entry,\n.djs-palette .djs-palette-toggle {\n  width: 46px;\n  height: 46px;\n  line-height: 46px;\n  cursor: default;\n}\n\n/**\n * Palette open / two-column layout is controlled via\n * classes on the palette. Events to hook into palette\n * changed life-cycle are available in addition.\n */\n.djs-palette.two-column.open {\n  width: 94px;\n}\n\n.djs-palette:not(.open) .djs-palette-entries {\n  display: none;\n}\n\n.djs-palette:not(.open) {\n  overflow: hidden;\n}\n\n.djs-palette.open .djs-palette-toggle {\n  display: none;\n}\n\n/**\n * context-pad\n */\n.djs-overlay-context-pad {\n  width: 72px;\n  z-index: 100;\n}\n\n.djs-context-pad {\n  position: absolute;\n  display: none;\n  pointer-events: none;\n  line-height: 1;\n}\n\n.djs-context-pad .entry {\n  width: 22px;\n  height: 22px;\n  text-align: center;\n  display: inline-block;\n  font-size: 22px;\n  margin: 0 2px 2px 0;\n\n  border-radius: 3px;\n\n  cursor: default;\n\n  background-color: var(--context-pad-entry-background-color);\n  box-shadow: 0 0 2px 1px var(--context-pad-entry-background-color);\n  pointer-events: all;\n  vertical-align: middle;\n}\n\n.djs-context-pad .entry:hover {\n  background: var(--context-pad-entry-hover-background-color);\n}\n\n.djs-context-pad.open {\n  display: block;\n}\n\n/**\n * popup styles\n */\n.djs-popup-backdrop {\n  position: fixed;\n  width: 100vw;\n  height: 100vh;\n  top: 0;\n  left: 0;\n  z-index: 200;\n  line-height: 1;\n  font-family: \"IBM Plex Sans\", sans-serif;\n  border: solid 1px var(--popup-border-color);\n  border-radius: 2px;\n}\n\n.djs-popup {\n  width: min-content;\n  background: var(--popup-background-color);\n  overflow: hidden;\n  position: absolute;\n\n  box-shadow: 0px 2px 10px var(--popup-shadow-color);\n  min-width: 120px;\n  outline: none;\n  font-size: var(--popup-font-size);\n}\n\n.djs-popup-search input {\n  width: 100%;\n  box-sizing: border-box;\n  font-size: var(--popup-font-size);\n  padding: 3px 6px;\n  border-radius: 2px;\n  border: solid 1px var(--popup-search-border-color);\n  line-height: 21px;\n}\n\n.djs-popup-search input:focus {\n  background-color: var(--popup-search-focus-background-color);\n  border: solid 1px var(--popup-search-focus-border-color);\n  outline: none;\n}\n\n.djs-popup-header {\n  display: flex;\n  align-items: stretch;\n  line-height: 20px;\n  margin: 10px 12px 10px 12px;\n}\n\n.djs-popup-header .entry {\n  border-radius: 2px;\n}\n\n.djs-popup-header .entry.active {\n  color: var(--popup-header-entry-selected-color);\n}\n\n.djs-popup-header .entry.disabled {\n  color: inherit;\n}\n\n.djs-popup-search {\n  margin: 10px 12px;\n}\n\n.djs-popup-title {\n  font-size: var(--popup-font-size);\n  font-weight: var(--popup-header-font-weight);\n  flex: 1;\n  margin: 0;\n}\n\n.djs-popup-search {\n  position: relative;\n  width: auto;\n}\n\n.djs-popup-search-icon {\n  position: absolute;\n  left: 8px;\n  top: 7px;\n}\n\n.djs-popup-search input {\n  padding-left: 25px;\n}\n\n.djs-popup-results {\n  margin: 7px 3px 7px 12px;\n  list-style: none;\n  max-height: 280px;\n  overflow: overlay;\n  padding-right: 9px;\n}\n\n.djs-popup-group {\n  margin: 0;\n  padding: 0;\n  width: 100%;\n}\n\n.djs-popup-body .entry,\n.djs-popup-body .entry-header {\n  padding: 5px 7px;\n  cursor: default;\n  border-radius: 4px;\n}\n\n.djs-popup-body .entry-header {\n  font-weight: var(--popup-header-font-weight);\n  color: var(--popup-entry-title-color);\n  padding-left: 0;\n}\n\n.djs-popup [class*=\"icon\"] .djs-popup-label,\n.djs-popup-label:not(:first-child) {\n  margin-left: .5em;\n}\n\n.djs-popup [class*=\"icon\"]:before,\n.djs-popup-entry-icon {\n  width: 1em;\n  height: 1em;\n  display: inline-block;\n  font-size: 1.4em;\n  vertical-align: middle;\n}\n\n.djs-popup-body .entry-header:not(:first-child) {\n  margin-top: 8px;\n  margin-bottom: 2px;\n}\n\n.djs-popup-body .entry {\n  display: flex;\n  flex-direction: row;\n  align-items: stretch;\n  height: min-content;\n}\n\n.djs-popup .entry.selected {\n  background-color: var(--popup-entry-hover-color);\n}\n\n.djs-popup-body .entry:not(:first-child) {\n  margin-top: 2px;\n}\n\n.djs-popup-entry-content {\n  display: flex;\n  flex-direction: column;\n  flex: 1;\n  overflow: hidden;\n}\n\n.djs-popup-entry-description {\n  color: var(--popup-description-color);\n}\n\n.djs-popup-label,\n.djs-popup-entry-description {\n  line-height: 1.4em;\n}\n\n.djs-popup-title,\n.djs-popup-label,\n.djs-popup-entry-description,\n.djs-popup .entry-header {\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.djs-popup-entry-name {\n  display: flex;\n}\n\n.entry-content {\n  display: flex;\n  flex-direction: column;\n  flex: 1;\n  overflow: hidden;\n}\n\n.djs-popup-body {\n  flex-direction: column;\n  width: auto;\n}\n\n.djs-popup *::-webkit-scrollbar {\n  width: 6px;\n}\n\n.djs-popup *::-webkit-scrollbar-thumb {\n  border-radius: 3px;\n  background-color: rgba(0, 0, 0, 0.2);\n}\n\n.djs-popup *::-webkit-scrollbar-track {\n  box-shadow: none;\n  background: transparent;\n  margin: 0;\n  padding: 5px;\n}\n\n.djs-popup-no-results {\n  padding: 0 12px 12px 12px;\n  color: var(--popup-no-results-color);\n}\n\n.djs-popup-entry-docs {\n  flex: 0;\n  flex-direction: row;\n  align-items: center;\n  padding-left: 5px;\n  display: none;\n}\n\n.djs-popup-body .entry:hover .djs-popup-entry-docs {\n  display: flex;\n}\n\n.djs-popup-entry-docs svg {\n  vertical-align: middle;\n  margin: auto 2px auto 5px;\n}\n\n/**\n *  palette styles\n */\n.djs-palette {\n  background: var(--palette-background-color);\n  border: solid 1px var(--palette-border-color);\n  border-radius: 2px;\n}\n\n/**\n * touch\n */\n\n.djs-shape,\n.djs-connection {\n  touch-action: none;\n}\n\n.djs-segment-dragger,\n.djs-bendpoint {\n  display: none;\n}\n\n/**\n * bendpoints\n */\n.djs-segment-dragger .djs-visual {\n  display: none;\n\n  fill: var(--bendpoint-fill-color);\n  stroke: var(--bendpoint-stroke-color);\n  stroke-width: 1px;\n  stroke-opacity: 1;\n}\n\n.djs-segment-dragger:hover .djs-visual {\n  display: block;\n}\n\n.djs-bendpoint .djs-visual {\n  fill: var(--bendpoint-fill-color);\n  stroke: var(--bendpoint-stroke-color);\n  stroke-width: 1px;\n}\n\n.djs-segment-dragger:hover,\n.djs-bendpoints.hover .djs-segment-dragger,\n.djs-bendpoints.selected .djs-segment-dragger,\n.djs-bendpoint:hover,\n.djs-bendpoints.hover .djs-bendpoint,\n.djs-bendpoints.selected .djs-bendpoint {\n  display: block;\n}\n\n.djs-drag-active .djs-bendpoints * {\n  display: none;\n}\n\n.djs-bendpoints:not(.hover) .floating {\n  display: none;\n}\n\n.djs-segment-dragger:hover .djs-visual,\n.djs-segment-dragger.djs-dragging .djs-visual,\n.djs-bendpoint:hover .djs-visual,\n.djs-bendpoint.floating .djs-visual {\n  fill: var(--bendpoint-fill-color);\n  stroke: var(--bendpoint-stroke-color);\n  stroke-opacity: 1;\n}\n\n.djs-bendpoint.floating .djs-hit {\n  pointer-events: none;\n}\n\n.djs-segment-dragger .djs-hit,\n.djs-bendpoint .djs-hit {\n  fill: none;\n  pointer-events: all;\n}\n\n.djs-segment-dragger.horizontal .djs-hit {\n  cursor: ns-resize;\n}\n\n.djs-segment-dragger.vertical .djs-hit {\n  cursor: ew-resize;\n}\n\n.djs-segment-dragger.djs-dragging .djs-hit {\n  pointer-events: none;\n}\n\n.djs-updating,\n.djs-updating > * {\n  pointer-events: none !important;\n}\n\n.djs-updating .djs-context-pad,\n.djs-updating .djs-outline,\n.djs-updating .djs-bendpoint,\n.djs-multi-select .djs-bendpoint,\n.djs-multi-select .djs-segment-dragger,\n.connect-ok .djs-bendpoint,\n.connect-not-ok .djs-bendpoint,\n.drop-ok .djs-bendpoint,\n.drop-not-ok .djs-bendpoint {\n  display: none !important;\n}\n\n.djs-segment-dragger.djs-dragging,\n.djs-bendpoint.djs-dragging {\n  display: block;\n  opacity: 1.0;\n}\n\n\n/**\n * tooltips\n */\n.djs-tooltip-error {\n  width: 160px;\n  padding: 6px;\n\n  background: var(--tooltip-error-background-color);\n  border: solid 1px var(--tooltip-error-border-color);\n  border-radius: 2px;\n  color: var(--tooltip-error-color);\n  font-size: 12px;\n  line-height: 16px;\n\n  opacity: 0.75;\n}\n\n.djs-tooltip-error:hover {\n  opacity: 1;\n}\n\n\n/**\n * search pad\n */\n.djs-search-container {\n  position: absolute;\n  top: 20px;\n  left: 0;\n  right: 0;\n  margin-left: auto;\n  margin-right: auto;\n\n  width: 25%;\n  min-width: 300px;\n  max-width: 400px;\n  z-index: 10;\n\n  font-size: 1.05em;\n  opacity: 0.9;\n  background: var(--search-container-background-color);\n  border: solid 1px var(--search-container-border-color);\n  border-radius: 2px;\n  box-shadow: 0 0 0 2px var(--search-container-box-shadow-color), 0 0 0 1px var(--search-container-box-shadow-inset-color) inset;\n}\n\n.djs-search-container:not(.open) {\n  display: none;\n}\n\n.djs-search-input input {\n  font-size: 1.05em;\n  width: 100%;\n  padding: 6px 10px;\n  border: 1px solid var(--search-input-border-color);\n  box-sizing: border-box;\n}\n\n.djs-search-input input:focus {\n  outline: none;\n  border-color: var(--search-input-border-color);\n}\n\n.djs-search-results {\n  position: relative;\n  overflow-y: auto;\n  max-height: 200px;\n}\n\n.djs-search-results:hover {\n  cursor: pointer;\n}\n\n.djs-search-result {\n  width: 100%;\n  padding: 6px 10px;\n  background: white;\n  border-bottom: solid 1px var(--search-result-border-color);\n  border-radius: 1px;\n}\n\n.djs-search-highlight {\n  color: var(--search-result-highlight-color);\n}\n\n.djs-search-result-primary {\n  margin: 0 0 10px;\n}\n\n.djs-search-result-secondary {\n  font-family: monospace;\n  margin: 0;\n}\n\n.djs-search-result:hover {\n  background: var(--search-result-selected-color);\n}\n\n.djs-search-result-selected {\n  background: var(--search-result-selected-color);\n}\n\n.djs-search-result-selected:hover {\n  background: var(--search-result-selected-color);\n}\n\n.djs-search-overlay {\n  background: var(--search-result-selected-color);\n}\n\n/**\n * hidden styles\n */\n.djs-element-hidden,\n.djs-element-hidden .djs-hit,\n.djs-element-hidden .djs-outline,\n.djs-label-hidden .djs-label {\n  display: none !important;\n}\n\n.djs-element .djs-hit-stroke,\n.djs-element .djs-hit-click-stroke,\n.djs-element .djs-hit-all {\n  cursor: move;\n}", "",{"version":3,"sources":["webpack://./../node_modules/diagram-js/assets/diagram-js.css"],"names":[],"mappings":"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","sourcesContent":["/**\n * color definitions\n */\n.djs-parent {\n  --color-grey-225-10-15: hsl(225, 10%, 15%);\n  --color-grey-225-10-35: hsl(225, 10%, 35%);\n  --color-grey-225-10-55: hsl(225, 10%, 55%);\n  --color-grey-225-10-75: hsl(225, 10%, 75%);\n  --color-grey-225-10-80: hsl(225, 10%, 80%);\n  --color-grey-225-10-85: hsl(225, 10%, 85%);\n  --color-grey-225-10-90: hsl(225, 10%, 90%);\n  --color-grey-225-10-95: hsl(225, 10%, 95%);\n  --color-grey-225-10-97: hsl(225, 10%, 97%);\n\n  --color-blue-205-100-45: hsl(205, 100%, 45%);\n  --color-blue-205-100-45-opacity-30: hsla(205, 100%, 45%, 30%);\n  --color-blue-205-100-50: hsl(205, 100%, 50%);\n  --color-blue-205-100-50-opacity-15: hsla(205, 100%, 50%, 15%);\n  --color-blue-205-100-70: hsl(205, 100%, 75%);\n  --color-blue-205-100-95: hsl(205, 100%, 95%);\n\n  --color-green-150-86-44: hsl(150, 86%, 44%);\n\n  --color-red-360-100-40: hsl(360, 100%, 40%);\n  --color-red-360-100-45: hsl(360, 100%, 45%);\n  --color-red-360-100-92: hsl(360, 100%, 92%);\n  --color-red-360-100-97: hsl(360, 100%, 97%);\n\n  --color-white: hsl(0, 0%, 100%);\n  --color-black: hsl(0, 0%, 0%);\n  --color-black-opacity-10: hsla(0, 0%, 0%, 10%);\n\n  --canvas-fill-color: var(--color-white);\n\n  --bendpoint-fill-color: var(--color-blue-205-100-45);\n  --bendpoint-stroke-color: var(--canvas-fill-color);\n\n  --context-pad-entry-background-color: var(--color-white);\n  --context-pad-entry-hover-background-color: var(--color-grey-225-10-95);\n\n  --element-dragger-color: var(--color-blue-205-100-50);\n  --element-hover-outline-fill-color: var(--color-blue-205-100-45);\n  --element-selected-outline-stroke-color: var(--color-blue-205-100-50);\n  --element-selected-outline-secondary-stroke-color: var(--color-blue-205-100-70);\n\n  --lasso-fill-color: var(--color-blue-205-100-50-opacity-15);\n  --lasso-stroke-color: var(--element-selected-outline-stroke-color);\n\n  --palette-entry-color: var(--color-grey-225-10-15);\n  --palette-entry-hover-color: var(--color-blue-205-100-45);\n  --palette-entry-selected-color: var(--color-blue-205-100-50);\n  --palette-separator-color: var(--color-grey-225-10-75);\n  --palette-toggle-hover-background-color: var(--color-grey-225-10-55);\n  --palette-background-color: var(--color-grey-225-10-97);\n  --palette-border-color: var(--color-grey-225-10-75);\n\n  --popup-font-size: 14px;\n  --popup-header-entry-selected-color: var(--color-blue-205-100-50);\n  --popup-header-font-weight: bolder;\n  --popup-background-color: var(--color-white);\n  --popup-border-color: var(--color-grey-225-10-75);\n  --popup-shadow-color: var(--color-grey-225-10-80);\n  --popup-description-color: var(--color-grey-225-10-55);\n  --popup-no-results-color: var(--color-grey-225-10-55);\n  --popup-entry-title-color: var(--color-grey-225-10-55);\n  --popup-entry-hover-color:  var(--color-grey-225-10-95);\n  --popup-search-border-color: var(--color-grey-225-10-75);\n  --popup-search-focus-border-color: var(--color-blue-205-100-50);\n  --popup-search-focus-background-color: var(--color-blue-205-100-95);\n\n  --resizer-fill-color: var(--color-blue-205-100-45);\n  --resizer-stroke-color: var(--canvas-fill-color);\n\n  --search-container-background-color: var(--color-grey-225-10-97);\n  --search-container-border-color: var(--color-blue-205-100-50);\n  --search-container-box-shadow-color: var(--color-blue-205-100-95);\n  --search-container-box-shadow-inset-color: var(--color-grey-225-10-80);\n  --search-input-border-color: var(--color-grey-225-10-75);\n  --search-result-border-color: var(--color-grey-225-10-75);\n  --search-result-highlight-color: var(--color-black);\n  --search-result-selected-color: var(--color-blue-205-100-45-opacity-30);\n\n  --shape-attach-allowed-stroke-color: var(--color-blue-205-100-50);\n  --shape-connect-allowed-fill-color: var(--color-grey-225-10-97);\n  --shape-drop-allowed-fill-color: var(--color-grey-225-10-97);\n  --shape-drop-not-allowed-fill-color: var(--color-red-360-100-97);\n  --shape-resize-preview-stroke-color: var(--color-blue-205-100-50);\n\n  --snap-line-stroke-color: var(--color-blue-205-100-45-opacity-30);\n\n  --space-tool-crosshair-stroke-color: var(--color-black);\n\n  --tooltip-error-background-color: var(--color-red-360-100-97);\n  --tooltip-error-border-color: var(--color-red-360-100-45);\n  --tooltip-error-color: var(--color-red-360-100-45);\n}\n\n/**\n * outline styles\n */\n\n.djs-outline,\n.djs-selection-outline {\n  fill: none;\n  shape-rendering: geometricPrecision;\n  stroke-width: 2px;\n}\n\n.djs-outline {\n  visibility: hidden;\n}\n\n.djs-selection-outline {\n  stroke: var(--element-selected-outline-stroke-color);\n}\n\n.djs-element.selected .djs-outline {\n  visibility: visible;\n\n  stroke: var(--element-selected-outline-stroke-color);\n}\n\n.djs-multi-select .djs-element.selected .djs-outline {\n  stroke: var(--element-selected-outline-secondary-stroke-color);\n}\n\n.djs-shape.connect-ok .djs-visual > :nth-child(1) {\n  fill: var(--shape-connect-allowed-fill-color) !important;\n}\n\n.djs-shape.connect-not-ok .djs-visual > :nth-child(1),\n.djs-shape.drop-not-ok .djs-visual > :nth-child(1) {\n  fill: var(--shape-drop-not-allowed-fill-color) !important;\n}\n\n.djs-shape.new-parent .djs-visual > :nth-child(1) {\n  fill: var(--shape-drop-allowed-fill-color) !important;\n}\n\nsvg.drop-not-ok {\n  background: var(--shape-drop-not-allowed-fill-color) !important;\n}\n\nsvg.new-parent {\n  background: var(--shape-drop-allowed-fill-color) !important;\n}\n\n\n/* Override move cursor during drop and connect */\n.drop-not-ok,\n.connect-not-ok,\n.drop-not-ok *,\n.connect-not-ok * {\n  cursor: not-allowed !important;\n}\n\n.drop-ok,\n.connect-ok,\n.drop-ok *,\n.connect-ok * {\n  cursor: default !important;\n}\n\n.djs-element.attach-ok .djs-visual > :nth-child(1) {\n  stroke-width: 5px !important;\n  stroke: var(--shape-attach-allowed-stroke-color) !important;\n}\n\n.djs-frame.connect-not-ok .djs-visual > :nth-child(1),\n.djs-frame.drop-not-ok .djs-visual > :nth-child(1) {\n  stroke-width: 3px !important;\n  stroke: var(--shape-drop-not-allowed-fill-color) !important;\n  fill: none !important;\n}\n\n/**\n* Selection box style\n*\n*/\n.djs-lasso-overlay {\n  fill: var(--lasso-fill-color);\n  stroke: var(--lasso-stroke-color);\n  stroke-width: 2px;\n  shape-rendering: geometricPrecision;\n  pointer-events: none;\n}\n\n/**\n * Resize styles\n */\n.djs-resize-overlay {\n  fill: none;\n\n  stroke-dasharray: 5 1 3 1;\n  stroke: var(--shape-resize-preview-stroke-color);\n\n  pointer-events: none;\n}\n\n.djs-resizer-hit {\n  fill: none;\n  pointer-events: all;\n}\n\n.djs-resizer-visual {\n  fill: var(--resizer-fill-color);\n  stroke-width: 1px;\n  stroke: var(--resizer-stroke-color);\n  shape-rendering: geometricPrecision;\n}\n\n.djs-resizer:hover .djs-resizer-visual {\n  stroke: var(--resizer-stroke-color);\n  stroke-opacity: 1;\n}\n\n.djs-cursor-resize-ns,\n.djs-resizer-n,\n.djs-resizer-s {\n  cursor: ns-resize;\n}\n\n.djs-cursor-resize-ew,\n.djs-resizer-e,\n.djs-resizer-w {\n  cursor: ew-resize;\n}\n\n.djs-cursor-resize-nwse,\n.djs-resizer-nw,\n.djs-resizer-se {\n  cursor: nwse-resize;\n}\n\n.djs-cursor-resize-nesw,\n.djs-resizer-ne,\n.djs-resizer-sw {\n  cursor: nesw-resize;\n}\n\n.djs-shape.djs-resizing > .djs-outline {\n  visibility: hidden !important;\n}\n\n.djs-shape.djs-resizing > .djs-resizer {\n  visibility: hidden;\n}\n\n.djs-dragger > .djs-resizer {\n  visibility: hidden;\n}\n\n/**\n * drag styles\n */\n.djs-dragger * {\n  fill: none !important;\n  stroke: var(--element-dragger-color) !important;\n}\n\n.djs-dragger tspan,\n.djs-dragger text {\n  fill: var(--element-dragger-color) !important;\n  stroke: none !important;\n}\n\nmarker.djs-dragger circle,\nmarker.djs-dragger path,\nmarker.djs-dragger polygon,\nmarker.djs-dragger polyline,\nmarker.djs-dragger rect {\n  fill: var(--element-dragger-color) !important;\n  stroke: none !important;\n}\n\nmarker.djs-dragger text,\nmarker.djs-dragger tspan {\n  fill: none !important;\n  stroke: var(--element-dragger-color) !important;\n}\n\n.djs-dragging {\n  opacity: 0.3;\n}\n\n.djs-dragging,\n.djs-dragging > * {\n  pointer-events: none !important;\n}\n\n.djs-dragging .djs-context-pad,\n.djs-dragging .djs-outline {\n  display: none !important;\n}\n\n/**\n * no pointer events for visual\n */\n.djs-visual,\n.djs-outline {\n  pointer-events: none;\n}\n\n.djs-element.attach-ok .djs-hit {\n  stroke-width: 60px !important;\n}\n\n/**\n * all pointer events for hit shape\n */\n.djs-element > .djs-hit-all,\n.djs-element > .djs-hit-no-move {\n  pointer-events: all;\n}\n\n.djs-element > .djs-hit-stroke,\n.djs-element > .djs-hit-click-stroke {\n  pointer-events: stroke;\n}\n\n/**\n * shape / connection basic styles\n */\n.djs-connection .djs-visual {\n  stroke-width: 2px;\n  fill: none;\n}\n\n.djs-cursor-grab {\n  cursor: -webkit-grab;\n  cursor: -moz-grab;\n  cursor: grab;\n}\n\n.djs-cursor-grabbing {\n  cursor: -webkit-grabbing;\n  cursor: -moz-grabbing;\n  cursor: grabbing;\n}\n\n.djs-cursor-crosshair {\n  cursor: crosshair;\n}\n\n.djs-cursor-move {\n  cursor: move;\n}\n\n.djs-cursor-resize-ns {\n  cursor: ns-resize;\n}\n\n.djs-cursor-resize-ew {\n  cursor: ew-resize;\n}\n\n\n/**\n * snapping\n */\n.djs-snap-line {\n  stroke: var(--snap-line-stroke-color);\n  stroke-linecap: round;\n  stroke-width: 2px;\n  pointer-events: none;\n}\n\n/**\n * snapping\n */\n.djs-crosshair {\n  stroke: var(--space-tool-crosshair-stroke-color);\n  stroke-linecap: round;\n  stroke-width: 1px;\n  pointer-events: none;\n  shape-rendering: geometricPrecision;\n  stroke-dasharray: 5, 5;\n}\n\n/**\n * palette\n */\n\n.djs-palette {\n  position: absolute;\n  left: 20px;\n  top: 20px;\n\n  box-sizing: border-box;\n  width: 48px;\n}\n\n.djs-palette .separator {\n  margin: 5px;\n  padding-top: 5px;\n\n  border: none;\n  border-bottom: solid 1px var(--palette-separator-color);\n\n  clear: both;\n}\n\n.djs-palette .entry:before {\n  vertical-align: initial;\n}\n\n.djs-palette .djs-palette-toggle {\n  cursor: pointer;\n}\n\n.djs-palette .entry,\n.djs-palette .djs-palette-toggle {\n  color: var(--palette-entry-color);\n  font-size: 30px;\n\n  text-align: center;\n}\n\n.djs-palette .entry {\n  float: left;\n}\n\n.djs-palette .entry img {\n  max-width: 100%;\n}\n\n.djs-palette .djs-palette-entries:after {\n  content: '';\n  display: table;\n  clear: both;\n}\n\n.djs-palette .djs-palette-toggle:hover {\n  background: var(--palette-toggle-hover-background-color);\n}\n\n.djs-palette .entry:hover {\n  color: var(--palette-entry-hover-color);\n}\n\n.djs-palette .highlighted-entry {\n  color: var(--palette-entry-selected-color) !important;\n}\n\n.djs-palette .entry,\n.djs-palette .djs-palette-toggle {\n  width: 46px;\n  height: 46px;\n  line-height: 46px;\n  cursor: default;\n}\n\n/**\n * Palette open / two-column layout is controlled via\n * classes on the palette. Events to hook into palette\n * changed life-cycle are available in addition.\n */\n.djs-palette.two-column.open {\n  width: 94px;\n}\n\n.djs-palette:not(.open) .djs-palette-entries {\n  display: none;\n}\n\n.djs-palette:not(.open) {\n  overflow: hidden;\n}\n\n.djs-palette.open .djs-palette-toggle {\n  display: none;\n}\n\n/**\n * context-pad\n */\n.djs-overlay-context-pad {\n  width: 72px;\n  z-index: 100;\n}\n\n.djs-context-pad {\n  position: absolute;\n  display: none;\n  pointer-events: none;\n  line-height: 1;\n}\n\n.djs-context-pad .entry {\n  width: 22px;\n  height: 22px;\n  text-align: center;\n  display: inline-block;\n  font-size: 22px;\n  margin: 0 2px 2px 0;\n\n  border-radius: 3px;\n\n  cursor: default;\n\n  background-color: var(--context-pad-entry-background-color);\n  box-shadow: 0 0 2px 1px var(--context-pad-entry-background-color);\n  pointer-events: all;\n  vertical-align: middle;\n}\n\n.djs-context-pad .entry:hover {\n  background: var(--context-pad-entry-hover-background-color);\n}\n\n.djs-context-pad.open {\n  display: block;\n}\n\n/**\n * popup styles\n */\n.djs-popup-backdrop {\n  position: fixed;\n  width: 100vw;\n  height: 100vh;\n  top: 0;\n  left: 0;\n  z-index: 200;\n  line-height: 1;\n  font-family: \"IBM Plex Sans\", sans-serif;\n  border: solid 1px var(--popup-border-color);\n  border-radius: 2px;\n}\n\n.djs-popup {\n  width: min-content;\n  background: var(--popup-background-color);\n  overflow: hidden;\n  position: absolute;\n\n  box-shadow: 0px 2px 10px var(--popup-shadow-color);\n  min-width: 120px;\n  outline: none;\n  font-size: var(--popup-font-size);\n}\n\n.djs-popup-search input {\n  width: 100%;\n  box-sizing: border-box;\n  font-size: var(--popup-font-size);\n  padding: 3px 6px;\n  border-radius: 2px;\n  border: solid 1px var(--popup-search-border-color);\n  line-height: 21px;\n}\n\n.djs-popup-search input:focus {\n  background-color: var(--popup-search-focus-background-color);\n  border: solid 1px var(--popup-search-focus-border-color);\n  outline: none;\n}\n\n.djs-popup-header {\n  display: flex;\n  align-items: stretch;\n  line-height: 20px;\n  margin: 10px 12px 10px 12px;\n}\n\n.djs-popup-header .entry {\n  border-radius: 2px;\n}\n\n.djs-popup-header .entry.active {\n  color: var(--popup-header-entry-selected-color);\n}\n\n.djs-popup-header .entry.disabled {\n  color: inherit;\n}\n\n.djs-popup-search {\n  margin: 10px 12px;\n}\n\n.djs-popup-title {\n  font-size: var(--popup-font-size);\n  font-weight: var(--popup-header-font-weight);\n  flex: 1;\n  margin: 0;\n}\n\n.djs-popup-search {\n  position: relative;\n  width: auto;\n}\n\n.djs-popup-search-icon {\n  position: absolute;\n  left: 8px;\n  top: 7px;\n}\n\n.djs-popup-search input {\n  padding-left: 25px;\n}\n\n.djs-popup-results {\n  margin: 7px 3px 7px 12px;\n  list-style: none;\n  max-height: 280px;\n  overflow: overlay;\n  padding-right: 9px;\n}\n\n.djs-popup-group {\n  margin: 0;\n  padding: 0;\n  width: 100%;\n}\n\n.djs-popup-body .entry,\n.djs-popup-body .entry-header {\n  padding: 5px 7px;\n  cursor: default;\n  border-radius: 4px;\n}\n\n.djs-popup-body .entry-header {\n  font-weight: var(--popup-header-font-weight);\n  color: var(--popup-entry-title-color);\n  padding-left: 0;\n}\n\n.djs-popup [class*=\"icon\"] .djs-popup-label,\n.djs-popup-label:not(:first-child) {\n  margin-left: .5em;\n}\n\n.djs-popup [class*=\"icon\"]:before,\n.djs-popup-entry-icon {\n  width: 1em;\n  height: 1em;\n  display: inline-block;\n  font-size: 1.4em;\n  vertical-align: middle;\n}\n\n.djs-popup-body .entry-header:not(:first-child) {\n  margin-top: 8px;\n  margin-bottom: 2px;\n}\n\n.djs-popup-body .entry {\n  display: flex;\n  flex-direction: row;\n  align-items: stretch;\n  height: min-content;\n}\n\n.djs-popup .entry.selected {\n  background-color: var(--popup-entry-hover-color);\n}\n\n.djs-popup-body .entry:not(:first-child) {\n  margin-top: 2px;\n}\n\n.djs-popup-entry-content {\n  display: flex;\n  flex-direction: column;\n  flex: 1;\n  overflow: hidden;\n}\n\n.djs-popup-entry-description {\n  color: var(--popup-description-color);\n}\n\n.djs-popup-label,\n.djs-popup-entry-description {\n  line-height: 1.4em;\n}\n\n.djs-popup-title,\n.djs-popup-label,\n.djs-popup-entry-description,\n.djs-popup .entry-header {\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.djs-popup-entry-name {\n  display: flex;\n}\n\n.entry-content {\n  display: flex;\n  flex-direction: column;\n  flex: 1;\n  overflow: hidden;\n}\n\n.djs-popup-body {\n  flex-direction: column;\n  width: auto;\n}\n\n.djs-popup *::-webkit-scrollbar {\n  width: 6px;\n}\n\n.djs-popup *::-webkit-scrollbar-thumb {\n  border-radius: 3px;\n  background-color: rgba(0, 0, 0, 0.2);\n}\n\n.djs-popup *::-webkit-scrollbar-track {\n  box-shadow: none;\n  background: transparent;\n  margin: 0;\n  padding: 5px;\n}\n\n.djs-popup-no-results {\n  padding: 0 12px 12px 12px;\n  color: var(--popup-no-results-color);\n}\n\n.djs-popup-entry-docs {\n  flex: 0;\n  flex-direction: row;\n  align-items: center;\n  padding-left: 5px;\n  display: none;\n}\n\n.djs-popup-body .entry:hover .djs-popup-entry-docs {\n  display: flex;\n}\n\n.djs-popup-entry-docs svg {\n  vertical-align: middle;\n  margin: auto 2px auto 5px;\n}\n\n/**\n *  palette styles\n */\n.djs-palette {\n  background: var(--palette-background-color);\n  border: solid 1px var(--palette-border-color);\n  border-radius: 2px;\n}\n\n/**\n * touch\n */\n\n.djs-shape,\n.djs-connection {\n  touch-action: none;\n}\n\n.djs-segment-dragger,\n.djs-bendpoint {\n  display: none;\n}\n\n/**\n * bendpoints\n */\n.djs-segment-dragger .djs-visual {\n  display: none;\n\n  fill: var(--bendpoint-fill-color);\n  stroke: var(--bendpoint-stroke-color);\n  stroke-width: 1px;\n  stroke-opacity: 1;\n}\n\n.djs-segment-dragger:hover .djs-visual {\n  display: block;\n}\n\n.djs-bendpoint .djs-visual {\n  fill: var(--bendpoint-fill-color);\n  stroke: var(--bendpoint-stroke-color);\n  stroke-width: 1px;\n}\n\n.djs-segment-dragger:hover,\n.djs-bendpoints.hover .djs-segment-dragger,\n.djs-bendpoints.selected .djs-segment-dragger,\n.djs-bendpoint:hover,\n.djs-bendpoints.hover .djs-bendpoint,\n.djs-bendpoints.selected .djs-bendpoint {\n  display: block;\n}\n\n.djs-drag-active .djs-bendpoints * {\n  display: none;\n}\n\n.djs-bendpoints:not(.hover) .floating {\n  display: none;\n}\n\n.djs-segment-dragger:hover .djs-visual,\n.djs-segment-dragger.djs-dragging .djs-visual,\n.djs-bendpoint:hover .djs-visual,\n.djs-bendpoint.floating .djs-visual {\n  fill: var(--bendpoint-fill-color);\n  stroke: var(--bendpoint-stroke-color);\n  stroke-opacity: 1;\n}\n\n.djs-bendpoint.floating .djs-hit {\n  pointer-events: none;\n}\n\n.djs-segment-dragger .djs-hit,\n.djs-bendpoint .djs-hit {\n  fill: none;\n  pointer-events: all;\n}\n\n.djs-segment-dragger.horizontal .djs-hit {\n  cursor: ns-resize;\n}\n\n.djs-segment-dragger.vertical .djs-hit {\n  cursor: ew-resize;\n}\n\n.djs-segment-dragger.djs-dragging .djs-hit {\n  pointer-events: none;\n}\n\n.djs-updating,\n.djs-updating > * {\n  pointer-events: none !important;\n}\n\n.djs-updating .djs-context-pad,\n.djs-updating .djs-outline,\n.djs-updating .djs-bendpoint,\n.djs-multi-select .djs-bendpoint,\n.djs-multi-select .djs-segment-dragger,\n.connect-ok .djs-bendpoint,\n.connect-not-ok .djs-bendpoint,\n.drop-ok .djs-bendpoint,\n.drop-not-ok .djs-bendpoint {\n  display: none !important;\n}\n\n.djs-segment-dragger.djs-dragging,\n.djs-bendpoint.djs-dragging {\n  display: block;\n  opacity: 1.0;\n}\n\n\n/**\n * tooltips\n */\n.djs-tooltip-error {\n  width: 160px;\n  padding: 6px;\n\n  background: var(--tooltip-error-background-color);\n  border: solid 1px var(--tooltip-error-border-color);\n  border-radius: 2px;\n  color: var(--tooltip-error-color);\n  font-size: 12px;\n  line-height: 16px;\n\n  opacity: 0.75;\n}\n\n.djs-tooltip-error:hover {\n  opacity: 1;\n}\n\n\n/**\n * search pad\n */\n.djs-search-container {\n  position: absolute;\n  top: 20px;\n  left: 0;\n  right: 0;\n  margin-left: auto;\n  margin-right: auto;\n\n  width: 25%;\n  min-width: 300px;\n  max-width: 400px;\n  z-index: 10;\n\n  font-size: 1.05em;\n  opacity: 0.9;\n  background: var(--search-container-background-color);\n  border: solid 1px var(--search-container-border-color);\n  border-radius: 2px;\n  box-shadow: 0 0 0 2px var(--search-container-box-shadow-color), 0 0 0 1px var(--search-container-box-shadow-inset-color) inset;\n}\n\n.djs-search-container:not(.open) {\n  display: none;\n}\n\n.djs-search-input input {\n  font-size: 1.05em;\n  width: 100%;\n  padding: 6px 10px;\n  border: 1px solid var(--search-input-border-color);\n  box-sizing: border-box;\n}\n\n.djs-search-input input:focus {\n  outline: none;\n  border-color: var(--search-input-border-color);\n}\n\n.djs-search-results {\n  position: relative;\n  overflow-y: auto;\n  max-height: 200px;\n}\n\n.djs-search-results:hover {\n  cursor: pointer;\n}\n\n.djs-search-result {\n  width: 100%;\n  padding: 6px 10px;\n  background: white;\n  border-bottom: solid 1px var(--search-result-border-color);\n  border-radius: 1px;\n}\n\n.djs-search-highlight {\n  color: var(--search-result-highlight-color);\n}\n\n.djs-search-result-primary {\n  margin: 0 0 10px;\n}\n\n.djs-search-result-secondary {\n  font-family: monospace;\n  margin: 0;\n}\n\n.djs-search-result:hover {\n  background: var(--search-result-selected-color);\n}\n\n.djs-search-result-selected {\n  background: var(--search-result-selected-color);\n}\n\n.djs-search-result-selected:hover {\n  background: var(--search-result-selected-color);\n}\n\n.djs-search-overlay {\n  background: var(--search-result-selected-color);\n}\n\n/**\n * hidden styles\n */\n.djs-element-hidden,\n.djs-element-hidden .djs-hit,\n.djs-element-hidden .djs-outline,\n.djs-label-hidden .djs-label {\n  display: none !important;\n}\n\n.djs-element .djs-hit-stroke,\n.djs-element .djs-hit-click-stroke,\n.djs-element .djs-hit-all {\n  cursor: move;\n}"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "/**\n * color definitions\n */\n.djs-parent {\n  --color-grey-225-10-15: hsl(225, 10%, 15%);\n  --color-grey-225-10-35: hsl(225, 10%, 35%);\n  --color-grey-225-10-55: hsl(225, 10%, 55%);\n  --color-grey-225-10-75: hsl(225, 10%, 75%);\n  --color-grey-225-10-80: hsl(225, 10%, 80%);\n  --color-grey-225-10-85: hsl(225, 10%, 85%);\n  --color-grey-225-10-90: hsl(225, 10%, 90%);\n  --color-grey-225-10-95: hsl(225, 10%, 95%);\n  --color-grey-225-10-97: hsl(225, 10%, 97%);\n\n  --color-blue-205-100-45: hsl(205, 100%, 45%);\n  --color-blue-205-100-45-opacity-30: hsla(205, 100%, 45%, 30%);\n  --color-blue-205-100-50: hsl(205, 100%, 50%);\n  --color-blue-205-100-50-opacity-15: hsla(205, 100%, 50%, 15%);\n  --color-blue-205-100-70: hsl(205, 100%, 75%);\n  --color-blue-205-100-95: hsl(205, 100%, 95%);\n\n  --color-green-150-86-44: hsl(150, 86%, 44%);\n\n  --color-red-360-100-40: hsl(360, 100%, 40%);\n  --color-red-360-100-45: hsl(360, 100%, 45%);\n  --color-red-360-100-92: hsl(360, 100%, 92%);\n  --color-red-360-100-97: hsl(360, 100%, 97%);\n\n  --color-white: hsl(0, 0%, 100%);\n  --color-black: hsl(0, 0%, 0%);\n  --color-black-opacity-10: hsla(0, 0%, 0%, 10%);\n  --color-black-opacity-30: hsla(0, 0%, 0%, 30%);\n\n  --canvas-fill-color: var(--color-white);\n\n  --bendpoint-fill-color: var(--color-blue-205-100-45);\n  --bendpoint-stroke-color: var(--canvas-fill-color);\n\n  --context-pad-entry-background-color: var(--color-white);\n  --context-pad-entry-hover-background-color: var(--color-grey-225-10-95);\n\n  --element-dragger-color: var(--color-blue-205-100-50);\n  --element-hover-outline-fill-color: var(--color-blue-205-100-45);\n  --element-selected-outline-stroke-color: var(--color-blue-205-100-50);\n  --element-selected-outline-secondary-stroke-color: var(--color-blue-205-100-70);\n\n  --lasso-fill-color: var(--color-blue-205-100-50-opacity-15);\n  --lasso-stroke-color: var(--element-selected-outline-stroke-color);\n\n  --palette-entry-color: var(--color-grey-225-10-15);\n  --palette-entry-hover-color: var(--color-blue-205-100-45);\n  --palette-entry-selected-color: var(--color-blue-205-100-50);\n  --palette-separator-color: var(--color-grey-225-10-75);\n  --palette-toggle-hover-background-color: var(--color-grey-225-10-55);\n  --palette-background-color: var(--color-grey-225-10-97);\n  --palette-border-color: var(--color-grey-225-10-75);\n\n  --popup-font-size: 14px;\n  --popup-header-entry-selected-color: var(--color-blue-205-100-50);\n  --popup-header-font-weight: bolder;\n  --popup-background-color: var(--color-white);\n  --popup-border-color: transparent;\n  --popup-shadow-color: var(--color-black-opacity-30);\n  --popup-description-color: var(--color-grey-225-10-55);\n  --popup-no-results-color: var(--color-grey-225-10-55);\n  --popup-entry-title-color: var(--color-grey-225-10-55);\n  --popup-entry-hover-color:  var(--color-grey-225-10-95);\n  --popup-search-border-color: var(--color-grey-225-10-75);\n  --popup-search-focus-border-color: var(--color-blue-205-100-50);\n  --popup-search-focus-background-color: var(--color-blue-205-100-95);\n\n  --resizer-fill-color: var(--color-blue-205-100-45);\n  --resizer-stroke-color: var(--canvas-fill-color);\n\n  --search-container-background-color: var(--color-grey-225-10-97);\n  --search-container-border-color: var(--color-blue-205-100-50);\n  --search-container-box-shadow-color: var(--color-blue-205-100-95);\n  --search-container-box-shadow-inset-color: var(--color-grey-225-10-80);\n  --search-input-border-color: var(--color-grey-225-10-75);\n  --search-result-border-color: var(--color-grey-225-10-75);\n  --search-result-highlight-color: var(--color-black);\n  --search-result-selected-color: var(--color-blue-205-100-45-opacity-30);\n\n  --shape-attach-allowed-stroke-color: var(--color-blue-205-100-50);\n  --shape-connect-allowed-fill-color: var(--color-grey-225-10-97);\n  --shape-drop-allowed-fill-color: var(--color-grey-225-10-97);\n  --shape-drop-not-allowed-fill-color: var(--color-red-360-100-97);\n  --shape-resize-preview-stroke-color: var(--color-blue-205-100-50);\n\n  --snap-line-stroke-color: var(--color-blue-205-100-45-opacity-30);\n\n  --space-tool-crosshair-stroke-color: var(--color-black);\n\n  --tooltip-error-background-color: var(--color-red-360-100-97);\n  --tooltip-error-border-color: var(--color-red-360-100-45);\n  --tooltip-error-color: var(--color-red-360-100-45);\n}\n\n/**\n * outline styles\n */\n\n.djs-outline,\n.djs-selection-outline {\n  fill: none;\n  shape-rendering: geometricPrecision;\n  stroke-width: 2px;\n}\n\n.djs-outline {\n  visibility: hidden;\n}\n\n.djs-selection-outline {\n  stroke: var(--element-selected-outline-stroke-color);\n}\n\n.djs-element.selected .djs-outline {\n  visibility: visible;\n\n  stroke: var(--element-selected-outline-stroke-color);\n}\n\n.djs-multi-select .djs-element.selected .djs-outline {\n  stroke: var(--element-selected-outline-secondary-stroke-color);\n}\n\n.djs-shape.connect-ok .djs-visual > :nth-child(1) {\n  fill: var(--shape-connect-allowed-fill-color) !important;\n}\n\n.djs-shape.connect-not-ok .djs-visual > :nth-child(1),\n.djs-shape.drop-not-ok .djs-visual > :nth-child(1) {\n  fill: var(--shape-drop-not-allowed-fill-color) !important;\n}\n\n.djs-shape.new-parent .djs-visual > :nth-child(1) {\n  fill: var(--shape-drop-allowed-fill-color) !important;\n}\n\nsvg.drop-not-ok {\n  background: var(--shape-drop-not-allowed-fill-color) !important;\n}\n\nsvg.new-parent {\n  background: var(--shape-drop-allowed-fill-color) !important;\n}\n\n\n/* Override move cursor during drop and connect */\n.drop-not-ok,\n.connect-not-ok,\n.drop-not-ok *,\n.connect-not-ok * {\n  cursor: not-allowed !important;\n}\n\n.drop-ok,\n.connect-ok,\n.drop-ok *,\n.connect-ok * {\n  cursor: default !important;\n}\n\n.djs-element.attach-ok .djs-visual > :nth-child(1) {\n  stroke-width: 5px !important;\n  stroke: var(--shape-attach-allowed-stroke-color) !important;\n}\n\n.djs-frame.connect-not-ok .djs-visual > :nth-child(1),\n.djs-frame.drop-not-ok .djs-visual > :nth-child(1) {\n  stroke-width: 3px !important;\n  stroke: var(--shape-drop-not-allowed-fill-color) !important;\n  fill: none !important;\n}\n\n/**\n* Selection box style\n*\n*/\n.djs-lasso-overlay {\n  fill: var(--lasso-fill-color);\n  stroke: var(--lasso-stroke-color);\n  stroke-width: 2px;\n  shape-rendering: geometricPrecision;\n  pointer-events: none;\n}\n\n/**\n * Resize styles\n */\n.djs-resize-overlay {\n  fill: none;\n\n  stroke-dasharray: 5 1 3 1;\n  stroke: var(--shape-resize-preview-stroke-color);\n\n  pointer-events: none;\n}\n\n.djs-resizer-hit {\n  fill: none;\n  pointer-events: all;\n}\n\n.djs-resizer-visual {\n  fill: var(--resizer-fill-color);\n  stroke-width: 1px;\n  stroke: var(--resizer-stroke-color);\n  shape-rendering: geometricPrecision;\n}\n\n.djs-resizer:hover .djs-resizer-visual {\n  stroke: var(--resizer-stroke-color);\n  stroke-opacity: 1;\n}\n\n.djs-cursor-resize-ns,\n.djs-resizer-n,\n.djs-resizer-s {\n  cursor: ns-resize;\n}\n\n.djs-cursor-resize-ew,\n.djs-resizer-e,\n.djs-resizer-w {\n  cursor: ew-resize;\n}\n\n.djs-cursor-resize-nwse,\n.djs-resizer-nw,\n.djs-resizer-se {\n  cursor: nwse-resize;\n}\n\n.djs-cursor-resize-nesw,\n.djs-resizer-ne,\n.djs-resizer-sw {\n  cursor: nesw-resize;\n}\n\n.djs-shape.djs-resizing > .djs-outline {\n  visibility: hidden !important;\n}\n\n.djs-shape.djs-resizing > .djs-resizer {\n  visibility: hidden;\n}\n\n.djs-dragger > .djs-resizer {\n  visibility: hidden;\n}\n\n/**\n * drag styles\n */\n.djs-dragger * {\n  fill: none !important;\n  stroke: var(--element-dragger-color) !important;\n}\n\n.djs-dragger tspan,\n.djs-dragger text {\n  fill: var(--element-dragger-color) !important;\n  stroke: none !important;\n}\n\nmarker.djs-dragger circle,\nmarker.djs-dragger path,\nmarker.djs-dragger polygon,\nmarker.djs-dragger polyline,\nmarker.djs-dragger rect {\n  fill: var(--element-dragger-color) !important;\n  stroke: none !important;\n}\n\nmarker.djs-dragger text,\nmarker.djs-dragger tspan {\n  fill: none !important;\n  stroke: var(--element-dragger-color) !important;\n}\n\n.djs-dragging {\n  opacity: 0.3;\n}\n\n.djs-dragging,\n.djs-dragging > * {\n  pointer-events: none !important;\n}\n\n.djs-dragging .djs-context-pad,\n.djs-dragging .djs-outline {\n  display: none !important;\n}\n\n/**\n * no pointer events for visual\n */\n.djs-visual,\n.djs-outline {\n  pointer-events: none;\n}\n\n.djs-element.attach-ok .djs-hit {\n  stroke-width: 60px !important;\n}\n\n/**\n * all pointer events for hit shape\n */\n.djs-element > .djs-hit-all,\n.djs-element > .djs-hit-no-move {\n  pointer-events: all;\n}\n\n.djs-element > .djs-hit-stroke,\n.djs-element > .djs-hit-click-stroke {\n  pointer-events: stroke;\n}\n\n/**\n * shape / connection basic styles\n */\n.djs-connection .djs-visual {\n  stroke-width: 2px;\n  fill: none;\n}\n\n.djs-cursor-grab {\n  cursor: -webkit-grab;\n  cursor: -moz-grab;\n  cursor: grab;\n}\n\n.djs-cursor-grabbing {\n  cursor: -webkit-grabbing;\n  cursor: -moz-grabbing;\n  cursor: grabbing;\n}\n\n.djs-cursor-crosshair {\n  cursor: crosshair;\n}\n\n.djs-cursor-move {\n  cursor: move;\n}\n\n.djs-cursor-resize-ns {\n  cursor: ns-resize;\n}\n\n.djs-cursor-resize-ew {\n  cursor: ew-resize;\n}\n\n\n/**\n * snapping\n */\n.djs-snap-line {\n  stroke: var(--snap-line-stroke-color);\n  stroke-linecap: round;\n  stroke-width: 2px;\n  pointer-events: none;\n}\n\n/**\n * snapping\n */\n.djs-crosshair {\n  stroke: var(--space-tool-crosshair-stroke-color);\n  stroke-linecap: round;\n  stroke-width: 1px;\n  pointer-events: none;\n  shape-rendering: geometricPrecision;\n  stroke-dasharray: 5, 5;\n}\n\n/**\n * palette\n */\n\n.djs-palette {\n  position: absolute;\n  left: 20px;\n  top: 20px;\n\n  box-sizing: border-box;\n  width: 48px;\n}\n\n.djs-palette .separator {\n  margin: 5px;\n  padding-top: 5px;\n\n  border: none;\n  border-bottom: solid 1px var(--palette-separator-color);\n\n  clear: both;\n}\n\n.djs-palette .entry:before {\n  vertical-align: initial;\n}\n\n.djs-palette .djs-palette-toggle {\n  cursor: pointer;\n}\n\n.djs-palette .entry,\n.djs-palette .djs-palette-toggle {\n  color: var(--palette-entry-color);\n  font-size: 30px;\n\n  text-align: center;\n}\n\n.djs-palette .entry {\n  float: left;\n}\n\n.djs-palette .entry img {\n  max-width: 100%;\n}\n\n.djs-palette .djs-palette-entries:after {\n  content: '';\n  display: table;\n  clear: both;\n}\n\n.djs-palette .djs-palette-toggle:hover {\n  background: var(--palette-toggle-hover-background-color);\n}\n\n.djs-palette .entry:hover {\n  color: var(--palette-entry-hover-color);\n}\n\n.djs-palette .highlighted-entry {\n  color: var(--palette-entry-selected-color) !important;\n}\n\n.djs-palette .entry,\n.djs-palette .djs-palette-toggle {\n  width: 46px;\n  height: 46px;\n  line-height: 46px;\n  cursor: default;\n}\n\n/**\n * Palette open / two-column layout is controlled via\n * classes on the palette. Events to hook into palette\n * changed life-cycle are available in addition.\n */\n.djs-palette.two-column.open {\n  width: 94px;\n}\n\n.djs-palette:not(.open) .djs-palette-entries {\n  display: none;\n}\n\n.djs-palette:not(.open) {\n  overflow: hidden;\n}\n\n.djs-palette.open .djs-palette-toggle {\n  display: none;\n}\n\n/**\n * context-pad\n */\n.djs-overlay-context-pad {\n  width: 72px;\n  z-index: 100;\n}\n\n.djs-context-pad {\n  position: absolute;\n  display: none;\n  pointer-events: none;\n  line-height: 1;\n}\n\n.djs-context-pad .entry {\n  width: 22px;\n  height: 22px;\n  text-align: center;\n  display: inline-block;\n  font-size: 22px;\n  margin: 0 2px 2px 0;\n\n  border-radius: 3px;\n\n  cursor: default;\n\n  background-color: var(--context-pad-entry-background-color);\n  box-shadow: 0 0 2px 1px var(--context-pad-entry-background-color);\n  pointer-events: all;\n  vertical-align: middle;\n}\n\n.djs-context-pad .entry:hover {\n  background: var(--context-pad-entry-hover-background-color);\n}\n\n.djs-context-pad.open {\n  display: block;\n}\n\n/**\n * popup styles\n */\n.djs-popup-backdrop {\n  position: fixed;\n  width: 100vw;\n  height: 100vh;\n  top: 0;\n  left: 0;\n  z-index: 200;\n  line-height: 1;\n  font-family: \"IBM Plex Sans\", sans-serif;\n}\n\n.djs-popup {\n  box-sizing: border-box;\n  width: min-content;\n  background: var(--popup-background-color);\n  overflow: hidden;\n  position: absolute;\n\n  box-shadow: 0px 2px 6px var(--popup-shadow-color);\n  border: solid 1px var(--popup-border-color);\n  min-width: 120px;\n  outline: none;\n  font-size: var(--popup-font-size);\n}\n\n.djs-popup-search input {\n  width: 100%;\n  box-sizing: border-box;\n  font-size: var(--popup-font-size);\n  padding: 3px 6px;\n  border-radius: 2px;\n  border: solid 1px var(--popup-search-border-color);\n  line-height: 21px;\n}\n\n.djs-popup-search input:focus {\n  background-color: var(--popup-search-focus-background-color);\n  border: solid 1px var(--popup-search-focus-border-color);\n  outline: none;\n}\n\n.djs-popup-header {\n  display: flex;\n  align-items: stretch;\n  line-height: 20px;\n  margin: 10px 12px 10px 12px;\n}\n\n.djs-popup-header .entry {\n  border-radius: 2px;\n}\n\n.djs-popup-header .entry.active {\n  color: var(--popup-header-entry-selected-color);\n}\n\n.djs-popup-header .entry.disabled {\n  color: inherit;\n}\n\n.djs-popup-search {\n  margin: 10px 12px;\n}\n\n.djs-popup-title {\n  font-size: var(--popup-font-size);\n  font-weight: var(--popup-header-font-weight);\n  flex: 1;\n  margin: 0;\n}\n\n.djs-popup-search {\n  position: relative;\n  width: auto;\n}\n\n.djs-popup-search-icon {\n  position: absolute;\n  left: 8px;\n  top: 7px;\n}\n\n.djs-popup-search input {\n  padding-left: 25px;\n}\n\n.djs-popup-results {\n  margin: 7px 3px 7px 12px;\n  list-style: none;\n  max-height: 280px;\n  overflow: auto;\n  padding-right: 9px;\n}\n\n.djs-popup-group {\n  margin: 0;\n  padding: 0;\n  width: 100%;\n}\n\n.djs-popup-body .entry,\n.djs-popup-body .entry-header {\n  padding: 5px 7px;\n  cursor: default;\n  border-radius: 4px;\n}\n\n.djs-popup-body .entry-header {\n  font-weight: var(--popup-header-font-weight);\n  color: var(--popup-entry-title-color);\n  padding-left: 0;\n}\n\n.djs-popup [class*=\"icon\"] .djs-popup-label,\n.djs-popup-label:not(:first-child) {\n  margin-left: .5em;\n}\n\n.djs-popup [class*=\"icon\"]:before,\n.djs-popup-entry-icon {\n  width: 1em;\n  height: 1em;\n  display: inline-block;\n  font-size: 1.4em;\n  vertical-align: middle;\n}\n\n.djs-popup-body .entry-header:not(:first-child) {\n  margin-top: 8px;\n  margin-bottom: 2px;\n}\n\n.djs-popup-body .entry {\n  display: flex;\n  flex-direction: row;\n  align-items: stretch;\n  height: min-content;\n}\n\n.djs-popup .entry.selected {\n  background-color: var(--popup-entry-hover-color);\n}\n\n.djs-popup-body .entry:not(:first-child) {\n  margin-top: 2px;\n}\n\n.djs-popup-entry-content {\n  display: flex;\n  flex-direction: column;\n  flex: 1;\n  overflow: hidden;\n}\n\n.djs-popup-entry-description {\n  color: var(--popup-description-color);\n}\n\n.djs-popup-label,\n.djs-popup-entry-description {\n  line-height: 1.4em;\n}\n\n.djs-popup-title,\n.djs-popup-label,\n.djs-popup-entry-description,\n.djs-popup .entry-header {\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.djs-popup-entry-name {\n  display: flex;\n}\n\n.entry-content {\n  display: flex;\n  flex-direction: column;\n  flex: 1;\n  overflow: hidden;\n}\n\n.djs-popup-body {\n  flex-direction: column;\n  width: auto;\n}\n\n.djs-popup *::-webkit-scrollbar {\n  width: 6px;\n}\n\n.djs-popup *::-webkit-scrollbar-thumb {\n  border-radius: 3px;\n  background-color: rgba(0, 0, 0, 0.2);\n}\n\n.djs-popup *::-webkit-scrollbar-track {\n  box-shadow: none;\n  background: transparent;\n  margin: 0;\n  padding: 5px;\n}\n\n.djs-popup-no-results {\n  padding: 0 12px 12px 12px;\n  color: var(--popup-no-results-color);\n}\n\n.djs-popup-entry-docs {\n  flex: 0;\n  flex-direction: row;\n  align-items: center;\n  padding-left: 5px;\n  display: none;\n}\n\n.djs-popup-body .entry:hover .djs-popup-entry-docs {\n  display: flex;\n}\n\n.djs-popup-entry-docs svg {\n  vertical-align: middle;\n  margin: auto 2px auto 5px;\n}\n\n/**\n *  palette styles\n */\n.djs-palette {\n  background: var(--palette-background-color);\n  border: solid 1px var(--palette-border-color);\n  border-radius: 2px;\n}\n\n/**\n * touch\n */\n\n.djs-shape,\n.djs-connection {\n  touch-action: none;\n}\n\n.djs-segment-dragger,\n.djs-bendpoint {\n  display: none;\n}\n\n/**\n * bendpoints\n */\n.djs-segment-dragger .djs-visual {\n  display: none;\n\n  fill: var(--bendpoint-fill-color);\n  stroke: var(--bendpoint-stroke-color);\n  stroke-width: 1px;\n  stroke-opacity: 1;\n}\n\n.djs-segment-dragger:hover .djs-visual {\n  display: block;\n}\n\n.djs-bendpoint .djs-visual {\n  fill: var(--bendpoint-fill-color);\n  stroke: var(--bendpoint-stroke-color);\n  stroke-width: 1px;\n}\n\n.djs-segment-dragger:hover,\n.djs-bendpoints.hover .djs-segment-dragger,\n.djs-bendpoints.selected .djs-segment-dragger,\n.djs-bendpoint:hover,\n.djs-bendpoints.hover .djs-bendpoint,\n.djs-bendpoints.selected .djs-bendpoint {\n  display: block;\n}\n\n.djs-drag-active .djs-bendpoints * {\n  display: none;\n}\n\n.djs-bendpoints:not(.hover) .floating {\n  display: none;\n}\n\n.djs-segment-dragger:hover .djs-visual,\n.djs-segment-dragger.djs-dragging .djs-visual,\n.djs-bendpoint:hover .djs-visual,\n.djs-bendpoint.floating .djs-visual {\n  fill: var(--bendpoint-fill-color);\n  stroke: var(--bendpoint-stroke-color);\n  stroke-opacity: 1;\n}\n\n.djs-bendpoint.floating .djs-hit {\n  pointer-events: none;\n}\n\n.djs-segment-dragger .djs-hit,\n.djs-bendpoint .djs-hit {\n  fill: none;\n  pointer-events: all;\n}\n\n.djs-segment-dragger.horizontal .djs-hit {\n  cursor: ns-resize;\n}\n\n.djs-segment-dragger.vertical .djs-hit {\n  cursor: ew-resize;\n}\n\n.djs-segment-dragger.djs-dragging .djs-hit {\n  pointer-events: none;\n}\n\n.djs-updating,\n.djs-updating > * {\n  pointer-events: none !important;\n}\n\n.djs-updating .djs-context-pad,\n.djs-updating .djs-outline,\n.djs-updating .djs-bendpoint,\n.djs-multi-select .djs-bendpoint,\n.djs-multi-select .djs-segment-dragger,\n.connect-ok .djs-bendpoint,\n.connect-not-ok .djs-bendpoint,\n.drop-ok .djs-bendpoint,\n.drop-not-ok .djs-bendpoint {\n  display: none !important;\n}\n\n.djs-segment-dragger.djs-dragging,\n.djs-bendpoint.djs-dragging {\n  display: block;\n  opacity: 1.0;\n}\n\n\n/**\n * tooltips\n */\n.djs-tooltip-error {\n  width: 160px;\n  padding: 6px;\n\n  background: var(--tooltip-error-background-color);\n  border: solid 1px var(--tooltip-error-border-color);\n  border-radius: 2px;\n  color: var(--tooltip-error-color);\n  font-size: 12px;\n  line-height: 16px;\n\n  opacity: 0.75;\n}\n\n.djs-tooltip-error:hover {\n  opacity: 1;\n}\n\n\n/**\n * search pad\n */\n.djs-search-container {\n  position: absolute;\n  top: 20px;\n  left: 0;\n  right: 0;\n  margin-left: auto;\n  margin-right: auto;\n\n  width: 25%;\n  min-width: 300px;\n  max-width: 400px;\n  z-index: 10;\n\n  font-size: 1.05em;\n  opacity: 0.9;\n  background: var(--search-container-background-color);\n  border: solid 1px var(--search-container-border-color);\n  border-radius: 2px;\n  box-shadow: 0 0 0 2px var(--search-container-box-shadow-color), 0 0 0 1px var(--search-container-box-shadow-inset-color) inset;\n}\n\n.djs-search-container:not(.open) {\n  display: none;\n}\n\n.djs-search-input input {\n  font-size: 1.05em;\n  width: 100%;\n  padding: 6px 10px;\n  border: 1px solid var(--search-input-border-color);\n  box-sizing: border-box;\n}\n\n.djs-search-input input:focus {\n  outline: none;\n  border-color: var(--search-input-border-color);\n}\n\n.djs-search-results {\n  position: relative;\n  overflow-y: auto;\n  max-height: 200px;\n}\n\n.djs-search-results:hover {\n  cursor: pointer;\n}\n\n.djs-search-result {\n  width: 100%;\n  padding: 6px 10px;\n  background: white;\n  border-bottom: solid 1px var(--search-result-border-color);\n  border-radius: 1px;\n}\n\n.djs-search-highlight {\n  color: var(--search-result-highlight-color);\n}\n\n.djs-search-result-primary {\n  margin: 0 0 10px;\n}\n\n.djs-search-result-secondary {\n  font-family: monospace;\n  margin: 0;\n}\n\n.djs-search-result:hover {\n  background: var(--search-result-selected-color);\n}\n\n.djs-search-result-selected {\n  background: var(--search-result-selected-color);\n}\n\n.djs-search-result-selected:hover {\n  background: var(--search-result-selected-color);\n}\n\n.djs-search-overlay {\n  background: var(--search-result-selected-color);\n}\n\n/**\n * hidden styles\n */\n.djs-element-hidden,\n.djs-element-hidden .djs-hit,\n.djs-element-hidden .djs-outline,\n.djs-label-hidden .djs-label {\n  display: none !important;\n}\n\n.djs-element .djs-hit-stroke,\n.djs-element .djs-hit-click-stroke,\n.djs-element .djs-hit-all {\n  cursor: move;\n}", "",{"version":3,"sources":["webpack://./../node_modules/diagram-js/assets/diagram-js.css"],"names":[],"mappings":"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","sourcesContent":["/**\n * color definitions\n */\n.djs-parent {\n  --color-grey-225-10-15: hsl(225, 10%, 15%);\n  --color-grey-225-10-35: hsl(225, 10%, 35%);\n  --color-grey-225-10-55: hsl(225, 10%, 55%);\n  --color-grey-225-10-75: hsl(225, 10%, 75%);\n  --color-grey-225-10-80: hsl(225, 10%, 80%);\n  --color-grey-225-10-85: hsl(225, 10%, 85%);\n  --color-grey-225-10-90: hsl(225, 10%, 90%);\n  --color-grey-225-10-95: hsl(225, 10%, 95%);\n  --color-grey-225-10-97: hsl(225, 10%, 97%);\n\n  --color-blue-205-100-45: hsl(205, 100%, 45%);\n  --color-blue-205-100-45-opacity-30: hsla(205, 100%, 45%, 30%);\n  --color-blue-205-100-50: hsl(205, 100%, 50%);\n  --color-blue-205-100-50-opacity-15: hsla(205, 100%, 50%, 15%);\n  --color-blue-205-100-70: hsl(205, 100%, 75%);\n  --color-blue-205-100-95: hsl(205, 100%, 95%);\n\n  --color-green-150-86-44: hsl(150, 86%, 44%);\n\n  --color-red-360-100-40: hsl(360, 100%, 40%);\n  --color-red-360-100-45: hsl(360, 100%, 45%);\n  --color-red-360-100-92: hsl(360, 100%, 92%);\n  --color-red-360-100-97: hsl(360, 100%, 97%);\n\n  --color-white: hsl(0, 0%, 100%);\n  --color-black: hsl(0, 0%, 0%);\n  --color-black-opacity-10: hsla(0, 0%, 0%, 10%);\n  --color-black-opacity-30: hsla(0, 0%, 0%, 30%);\n\n  --canvas-fill-color: var(--color-white);\n\n  --bendpoint-fill-color: var(--color-blue-205-100-45);\n  --bendpoint-stroke-color: var(--canvas-fill-color);\n\n  --context-pad-entry-background-color: var(--color-white);\n  --context-pad-entry-hover-background-color: var(--color-grey-225-10-95);\n\n  --element-dragger-color: var(--color-blue-205-100-50);\n  --element-hover-outline-fill-color: var(--color-blue-205-100-45);\n  --element-selected-outline-stroke-color: var(--color-blue-205-100-50);\n  --element-selected-outline-secondary-stroke-color: var(--color-blue-205-100-70);\n\n  --lasso-fill-color: var(--color-blue-205-100-50-opacity-15);\n  --lasso-stroke-color: var(--element-selected-outline-stroke-color);\n\n  --palette-entry-color: var(--color-grey-225-10-15);\n  --palette-entry-hover-color: var(--color-blue-205-100-45);\n  --palette-entry-selected-color: var(--color-blue-205-100-50);\n  --palette-separator-color: var(--color-grey-225-10-75);\n  --palette-toggle-hover-background-color: var(--color-grey-225-10-55);\n  --palette-background-color: var(--color-grey-225-10-97);\n  --palette-border-color: var(--color-grey-225-10-75);\n\n  --popup-font-size: 14px;\n  --popup-header-entry-selected-color: var(--color-blue-205-100-50);\n  --popup-header-font-weight: bolder;\n  --popup-background-color: var(--color-white);\n  --popup-border-color: transparent;\n  --popup-shadow-color: var(--color-black-opacity-30);\n  --popup-description-color: var(--color-grey-225-10-55);\n  --popup-no-results-color: var(--color-grey-225-10-55);\n  --popup-entry-title-color: var(--color-grey-225-10-55);\n  --popup-entry-hover-color:  var(--color-grey-225-10-95);\n  --popup-search-border-color: var(--color-grey-225-10-75);\n  --popup-search-focus-border-color: var(--color-blue-205-100-50);\n  --popup-search-focus-background-color: var(--color-blue-205-100-95);\n\n  --resizer-fill-color: var(--color-blue-205-100-45);\n  --resizer-stroke-color: var(--canvas-fill-color);\n\n  --search-container-background-color: var(--color-grey-225-10-97);\n  --search-container-border-color: var(--color-blue-205-100-50);\n  --search-container-box-shadow-color: var(--color-blue-205-100-95);\n  --search-container-box-shadow-inset-color: var(--color-grey-225-10-80);\n  --search-input-border-color: var(--color-grey-225-10-75);\n  --search-result-border-color: var(--color-grey-225-10-75);\n  --search-result-highlight-color: var(--color-black);\n  --search-result-selected-color: var(--color-blue-205-100-45-opacity-30);\n\n  --shape-attach-allowed-stroke-color: var(--color-blue-205-100-50);\n  --shape-connect-allowed-fill-color: var(--color-grey-225-10-97);\n  --shape-drop-allowed-fill-color: var(--color-grey-225-10-97);\n  --shape-drop-not-allowed-fill-color: var(--color-red-360-100-97);\n  --shape-resize-preview-stroke-color: var(--color-blue-205-100-50);\n\n  --snap-line-stroke-color: var(--color-blue-205-100-45-opacity-30);\n\n  --space-tool-crosshair-stroke-color: var(--color-black);\n\n  --tooltip-error-background-color: var(--color-red-360-100-97);\n  --tooltip-error-border-color: var(--color-red-360-100-45);\n  --tooltip-error-color: var(--color-red-360-100-45);\n}\n\n/**\n * outline styles\n */\n\n.djs-outline,\n.djs-selection-outline {\n  fill: none;\n  shape-rendering: geometricPrecision;\n  stroke-width: 2px;\n}\n\n.djs-outline {\n  visibility: hidden;\n}\n\n.djs-selection-outline {\n  stroke: var(--element-selected-outline-stroke-color);\n}\n\n.djs-element.selected .djs-outline {\n  visibility: visible;\n\n  stroke: var(--element-selected-outline-stroke-color);\n}\n\n.djs-multi-select .djs-element.selected .djs-outline {\n  stroke: var(--element-selected-outline-secondary-stroke-color);\n}\n\n.djs-shape.connect-ok .djs-visual > :nth-child(1) {\n  fill: var(--shape-connect-allowed-fill-color) !important;\n}\n\n.djs-shape.connect-not-ok .djs-visual > :nth-child(1),\n.djs-shape.drop-not-ok .djs-visual > :nth-child(1) {\n  fill: var(--shape-drop-not-allowed-fill-color) !important;\n}\n\n.djs-shape.new-parent .djs-visual > :nth-child(1) {\n  fill: var(--shape-drop-allowed-fill-color) !important;\n}\n\nsvg.drop-not-ok {\n  background: var(--shape-drop-not-allowed-fill-color) !important;\n}\n\nsvg.new-parent {\n  background: var(--shape-drop-allowed-fill-color) !important;\n}\n\n\n/* Override move cursor during drop and connect */\n.drop-not-ok,\n.connect-not-ok,\n.drop-not-ok *,\n.connect-not-ok * {\n  cursor: not-allowed !important;\n}\n\n.drop-ok,\n.connect-ok,\n.drop-ok *,\n.connect-ok * {\n  cursor: default !important;\n}\n\n.djs-element.attach-ok .djs-visual > :nth-child(1) {\n  stroke-width: 5px !important;\n  stroke: var(--shape-attach-allowed-stroke-color) !important;\n}\n\n.djs-frame.connect-not-ok .djs-visual > :nth-child(1),\n.djs-frame.drop-not-ok .djs-visual > :nth-child(1) {\n  stroke-width: 3px !important;\n  stroke: var(--shape-drop-not-allowed-fill-color) !important;\n  fill: none !important;\n}\n\n/**\n* Selection box style\n*\n*/\n.djs-lasso-overlay {\n  fill: var(--lasso-fill-color);\n  stroke: var(--lasso-stroke-color);\n  stroke-width: 2px;\n  shape-rendering: geometricPrecision;\n  pointer-events: none;\n}\n\n/**\n * Resize styles\n */\n.djs-resize-overlay {\n  fill: none;\n\n  stroke-dasharray: 5 1 3 1;\n  stroke: var(--shape-resize-preview-stroke-color);\n\n  pointer-events: none;\n}\n\n.djs-resizer-hit {\n  fill: none;\n  pointer-events: all;\n}\n\n.djs-resizer-visual {\n  fill: var(--resizer-fill-color);\n  stroke-width: 1px;\n  stroke: var(--resizer-stroke-color);\n  shape-rendering: geometricPrecision;\n}\n\n.djs-resizer:hover .djs-resizer-visual {\n  stroke: var(--resizer-stroke-color);\n  stroke-opacity: 1;\n}\n\n.djs-cursor-resize-ns,\n.djs-resizer-n,\n.djs-resizer-s {\n  cursor: ns-resize;\n}\n\n.djs-cursor-resize-ew,\n.djs-resizer-e,\n.djs-resizer-w {\n  cursor: ew-resize;\n}\n\n.djs-cursor-resize-nwse,\n.djs-resizer-nw,\n.djs-resizer-se {\n  cursor: nwse-resize;\n}\n\n.djs-cursor-resize-nesw,\n.djs-resizer-ne,\n.djs-resizer-sw {\n  cursor: nesw-resize;\n}\n\n.djs-shape.djs-resizing > .djs-outline {\n  visibility: hidden !important;\n}\n\n.djs-shape.djs-resizing > .djs-resizer {\n  visibility: hidden;\n}\n\n.djs-dragger > .djs-resizer {\n  visibility: hidden;\n}\n\n/**\n * drag styles\n */\n.djs-dragger * {\n  fill: none !important;\n  stroke: var(--element-dragger-color) !important;\n}\n\n.djs-dragger tspan,\n.djs-dragger text {\n  fill: var(--element-dragger-color) !important;\n  stroke: none !important;\n}\n\nmarker.djs-dragger circle,\nmarker.djs-dragger path,\nmarker.djs-dragger polygon,\nmarker.djs-dragger polyline,\nmarker.djs-dragger rect {\n  fill: var(--element-dragger-color) !important;\n  stroke: none !important;\n}\n\nmarker.djs-dragger text,\nmarker.djs-dragger tspan {\n  fill: none !important;\n  stroke: var(--element-dragger-color) !important;\n}\n\n.djs-dragging {\n  opacity: 0.3;\n}\n\n.djs-dragging,\n.djs-dragging > * {\n  pointer-events: none !important;\n}\n\n.djs-dragging .djs-context-pad,\n.djs-dragging .djs-outline {\n  display: none !important;\n}\n\n/**\n * no pointer events for visual\n */\n.djs-visual,\n.djs-outline {\n  pointer-events: none;\n}\n\n.djs-element.attach-ok .djs-hit {\n  stroke-width: 60px !important;\n}\n\n/**\n * all pointer events for hit shape\n */\n.djs-element > .djs-hit-all,\n.djs-element > .djs-hit-no-move {\n  pointer-events: all;\n}\n\n.djs-element > .djs-hit-stroke,\n.djs-element > .djs-hit-click-stroke {\n  pointer-events: stroke;\n}\n\n/**\n * shape / connection basic styles\n */\n.djs-connection .djs-visual {\n  stroke-width: 2px;\n  fill: none;\n}\n\n.djs-cursor-grab {\n  cursor: -webkit-grab;\n  cursor: -moz-grab;\n  cursor: grab;\n}\n\n.djs-cursor-grabbing {\n  cursor: -webkit-grabbing;\n  cursor: -moz-grabbing;\n  cursor: grabbing;\n}\n\n.djs-cursor-crosshair {\n  cursor: crosshair;\n}\n\n.djs-cursor-move {\n  cursor: move;\n}\n\n.djs-cursor-resize-ns {\n  cursor: ns-resize;\n}\n\n.djs-cursor-resize-ew {\n  cursor: ew-resize;\n}\n\n\n/**\n * snapping\n */\n.djs-snap-line {\n  stroke: var(--snap-line-stroke-color);\n  stroke-linecap: round;\n  stroke-width: 2px;\n  pointer-events: none;\n}\n\n/**\n * snapping\n */\n.djs-crosshair {\n  stroke: var(--space-tool-crosshair-stroke-color);\n  stroke-linecap: round;\n  stroke-width: 1px;\n  pointer-events: none;\n  shape-rendering: geometricPrecision;\n  stroke-dasharray: 5, 5;\n}\n\n/**\n * palette\n */\n\n.djs-palette {\n  position: absolute;\n  left: 20px;\n  top: 20px;\n\n  box-sizing: border-box;\n  width: 48px;\n}\n\n.djs-palette .separator {\n  margin: 5px;\n  padding-top: 5px;\n\n  border: none;\n  border-bottom: solid 1px var(--palette-separator-color);\n\n  clear: both;\n}\n\n.djs-palette .entry:before {\n  vertical-align: initial;\n}\n\n.djs-palette .djs-palette-toggle {\n  cursor: pointer;\n}\n\n.djs-palette .entry,\n.djs-palette .djs-palette-toggle {\n  color: var(--palette-entry-color);\n  font-size: 30px;\n\n  text-align: center;\n}\n\n.djs-palette .entry {\n  float: left;\n}\n\n.djs-palette .entry img {\n  max-width: 100%;\n}\n\n.djs-palette .djs-palette-entries:after {\n  content: '';\n  display: table;\n  clear: both;\n}\n\n.djs-palette .djs-palette-toggle:hover {\n  background: var(--palette-toggle-hover-background-color);\n}\n\n.djs-palette .entry:hover {\n  color: var(--palette-entry-hover-color);\n}\n\n.djs-palette .highlighted-entry {\n  color: var(--palette-entry-selected-color) !important;\n}\n\n.djs-palette .entry,\n.djs-palette .djs-palette-toggle {\n  width: 46px;\n  height: 46px;\n  line-height: 46px;\n  cursor: default;\n}\n\n/**\n * Palette open / two-column layout is controlled via\n * classes on the palette. Events to hook into palette\n * changed life-cycle are available in addition.\n */\n.djs-palette.two-column.open {\n  width: 94px;\n}\n\n.djs-palette:not(.open) .djs-palette-entries {\n  display: none;\n}\n\n.djs-palette:not(.open) {\n  overflow: hidden;\n}\n\n.djs-palette.open .djs-palette-toggle {\n  display: none;\n}\n\n/**\n * context-pad\n */\n.djs-overlay-context-pad {\n  width: 72px;\n  z-index: 100;\n}\n\n.djs-context-pad {\n  position: absolute;\n  display: none;\n  pointer-events: none;\n  line-height: 1;\n}\n\n.djs-context-pad .entry {\n  width: 22px;\n  height: 22px;\n  text-align: center;\n  display: inline-block;\n  font-size: 22px;\n  margin: 0 2px 2px 0;\n\n  border-radius: 3px;\n\n  cursor: default;\n\n  background-color: var(--context-pad-entry-background-color);\n  box-shadow: 0 0 2px 1px var(--context-pad-entry-background-color);\n  pointer-events: all;\n  vertical-align: middle;\n}\n\n.djs-context-pad .entry:hover {\n  background: var(--context-pad-entry-hover-background-color);\n}\n\n.djs-context-pad.open {\n  display: block;\n}\n\n/**\n * popup styles\n */\n.djs-popup-backdrop {\n  position: fixed;\n  width: 100vw;\n  height: 100vh;\n  top: 0;\n  left: 0;\n  z-index: 200;\n  line-height: 1;\n  font-family: \"IBM Plex Sans\", sans-serif;\n}\n\n.djs-popup {\n  box-sizing: border-box;\n  width: min-content;\n  background: var(--popup-background-color);\n  overflow: hidden;\n  position: absolute;\n\n  box-shadow: 0px 2px 6px var(--popup-shadow-color);\n  border: solid 1px var(--popup-border-color);\n  min-width: 120px;\n  outline: none;\n  font-size: var(--popup-font-size);\n}\n\n.djs-popup-search input {\n  width: 100%;\n  box-sizing: border-box;\n  font-size: var(--popup-font-size);\n  padding: 3px 6px;\n  border-radius: 2px;\n  border: solid 1px var(--popup-search-border-color);\n  line-height: 21px;\n}\n\n.djs-popup-search input:focus {\n  background-color: var(--popup-search-focus-background-color);\n  border: solid 1px var(--popup-search-focus-border-color);\n  outline: none;\n}\n\n.djs-popup-header {\n  display: flex;\n  align-items: stretch;\n  line-height: 20px;\n  margin: 10px 12px 10px 12px;\n}\n\n.djs-popup-header .entry {\n  border-radius: 2px;\n}\n\n.djs-popup-header .entry.active {\n  color: var(--popup-header-entry-selected-color);\n}\n\n.djs-popup-header .entry.disabled {\n  color: inherit;\n}\n\n.djs-popup-search {\n  margin: 10px 12px;\n}\n\n.djs-popup-title {\n  font-size: var(--popup-font-size);\n  font-weight: var(--popup-header-font-weight);\n  flex: 1;\n  margin: 0;\n}\n\n.djs-popup-search {\n  position: relative;\n  width: auto;\n}\n\n.djs-popup-search-icon {\n  position: absolute;\n  left: 8px;\n  top: 7px;\n}\n\n.djs-popup-search input {\n  padding-left: 25px;\n}\n\n.djs-popup-results {\n  margin: 7px 3px 7px 12px;\n  list-style: none;\n  max-height: 280px;\n  overflow: auto;\n  padding-right: 9px;\n}\n\n.djs-popup-group {\n  margin: 0;\n  padding: 0;\n  width: 100%;\n}\n\n.djs-popup-body .entry,\n.djs-popup-body .entry-header {\n  padding: 5px 7px;\n  cursor: default;\n  border-radius: 4px;\n}\n\n.djs-popup-body .entry-header {\n  font-weight: var(--popup-header-font-weight);\n  color: var(--popup-entry-title-color);\n  padding-left: 0;\n}\n\n.djs-popup [class*=\"icon\"] .djs-popup-label,\n.djs-popup-label:not(:first-child) {\n  margin-left: .5em;\n}\n\n.djs-popup [class*=\"icon\"]:before,\n.djs-popup-entry-icon {\n  width: 1em;\n  height: 1em;\n  display: inline-block;\n  font-size: 1.4em;\n  vertical-align: middle;\n}\n\n.djs-popup-body .entry-header:not(:first-child) {\n  margin-top: 8px;\n  margin-bottom: 2px;\n}\n\n.djs-popup-body .entry {\n  display: flex;\n  flex-direction: row;\n  align-items: stretch;\n  height: min-content;\n}\n\n.djs-popup .entry.selected {\n  background-color: var(--popup-entry-hover-color);\n}\n\n.djs-popup-body .entry:not(:first-child) {\n  margin-top: 2px;\n}\n\n.djs-popup-entry-content {\n  display: flex;\n  flex-direction: column;\n  flex: 1;\n  overflow: hidden;\n}\n\n.djs-popup-entry-description {\n  color: var(--popup-description-color);\n}\n\n.djs-popup-label,\n.djs-popup-entry-description {\n  line-height: 1.4em;\n}\n\n.djs-popup-title,\n.djs-popup-label,\n.djs-popup-entry-description,\n.djs-popup .entry-header {\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.djs-popup-entry-name {\n  display: flex;\n}\n\n.entry-content {\n  display: flex;\n  flex-direction: column;\n  flex: 1;\n  overflow: hidden;\n}\n\n.djs-popup-body {\n  flex-direction: column;\n  width: auto;\n}\n\n.djs-popup *::-webkit-scrollbar {\n  width: 6px;\n}\n\n.djs-popup *::-webkit-scrollbar-thumb {\n  border-radius: 3px;\n  background-color: rgba(0, 0, 0, 0.2);\n}\n\n.djs-popup *::-webkit-scrollbar-track {\n  box-shadow: none;\n  background: transparent;\n  margin: 0;\n  padding: 5px;\n}\n\n.djs-popup-no-results {\n  padding: 0 12px 12px 12px;\n  color: var(--popup-no-results-color);\n}\n\n.djs-popup-entry-docs {\n  flex: 0;\n  flex-direction: row;\n  align-items: center;\n  padding-left: 5px;\n  display: none;\n}\n\n.djs-popup-body .entry:hover .djs-popup-entry-docs {\n  display: flex;\n}\n\n.djs-popup-entry-docs svg {\n  vertical-align: middle;\n  margin: auto 2px auto 5px;\n}\n\n/**\n *  palette styles\n */\n.djs-palette {\n  background: var(--palette-background-color);\n  border: solid 1px var(--palette-border-color);\n  border-radius: 2px;\n}\n\n/**\n * touch\n */\n\n.djs-shape,\n.djs-connection {\n  touch-action: none;\n}\n\n.djs-segment-dragger,\n.djs-bendpoint {\n  display: none;\n}\n\n/**\n * bendpoints\n */\n.djs-segment-dragger .djs-visual {\n  display: none;\n\n  fill: var(--bendpoint-fill-color);\n  stroke: var(--bendpoint-stroke-color);\n  stroke-width: 1px;\n  stroke-opacity: 1;\n}\n\n.djs-segment-dragger:hover .djs-visual {\n  display: block;\n}\n\n.djs-bendpoint .djs-visual {\n  fill: var(--bendpoint-fill-color);\n  stroke: var(--bendpoint-stroke-color);\n  stroke-width: 1px;\n}\n\n.djs-segment-dragger:hover,\n.djs-bendpoints.hover .djs-segment-dragger,\n.djs-bendpoints.selected .djs-segment-dragger,\n.djs-bendpoint:hover,\n.djs-bendpoints.hover .djs-bendpoint,\n.djs-bendpoints.selected .djs-bendpoint {\n  display: block;\n}\n\n.djs-drag-active .djs-bendpoints * {\n  display: none;\n}\n\n.djs-bendpoints:not(.hover) .floating {\n  display: none;\n}\n\n.djs-segment-dragger:hover .djs-visual,\n.djs-segment-dragger.djs-dragging .djs-visual,\n.djs-bendpoint:hover .djs-visual,\n.djs-bendpoint.floating .djs-visual {\n  fill: var(--bendpoint-fill-color);\n  stroke: var(--bendpoint-stroke-color);\n  stroke-opacity: 1;\n}\n\n.djs-bendpoint.floating .djs-hit {\n  pointer-events: none;\n}\n\n.djs-segment-dragger .djs-hit,\n.djs-bendpoint .djs-hit {\n  fill: none;\n  pointer-events: all;\n}\n\n.djs-segment-dragger.horizontal .djs-hit {\n  cursor: ns-resize;\n}\n\n.djs-segment-dragger.vertical .djs-hit {\n  cursor: ew-resize;\n}\n\n.djs-segment-dragger.djs-dragging .djs-hit {\n  pointer-events: none;\n}\n\n.djs-updating,\n.djs-updating > * {\n  pointer-events: none !important;\n}\n\n.djs-updating .djs-context-pad,\n.djs-updating .djs-outline,\n.djs-updating .djs-bendpoint,\n.djs-multi-select .djs-bendpoint,\n.djs-multi-select .djs-segment-dragger,\n.connect-ok .djs-bendpoint,\n.connect-not-ok .djs-bendpoint,\n.drop-ok .djs-bendpoint,\n.drop-not-ok .djs-bendpoint {\n  display: none !important;\n}\n\n.djs-segment-dragger.djs-dragging,\n.djs-bendpoint.djs-dragging {\n  display: block;\n  opacity: 1.0;\n}\n\n\n/**\n * tooltips\n */\n.djs-tooltip-error {\n  width: 160px;\n  padding: 6px;\n\n  background: var(--tooltip-error-background-color);\n  border: solid 1px var(--tooltip-error-border-color);\n  border-radius: 2px;\n  color: var(--tooltip-error-color);\n  font-size: 12px;\n  line-height: 16px;\n\n  opacity: 0.75;\n}\n\n.djs-tooltip-error:hover {\n  opacity: 1;\n}\n\n\n/**\n * search pad\n */\n.djs-search-container {\n  position: absolute;\n  top: 20px;\n  left: 0;\n  right: 0;\n  margin-left: auto;\n  margin-right: auto;\n\n  width: 25%;\n  min-width: 300px;\n  max-width: 400px;\n  z-index: 10;\n\n  font-size: 1.05em;\n  opacity: 0.9;\n  background: var(--search-container-background-color);\n  border: solid 1px var(--search-container-border-color);\n  border-radius: 2px;\n  box-shadow: 0 0 0 2px var(--search-container-box-shadow-color), 0 0 0 1px var(--search-container-box-shadow-inset-color) inset;\n}\n\n.djs-search-container:not(.open) {\n  display: none;\n}\n\n.djs-search-input input {\n  font-size: 1.05em;\n  width: 100%;\n  padding: 6px 10px;\n  border: 1px solid var(--search-input-border-color);\n  box-sizing: border-box;\n}\n\n.djs-search-input input:focus {\n  outline: none;\n  border-color: var(--search-input-border-color);\n}\n\n.djs-search-results {\n  position: relative;\n  overflow-y: auto;\n  max-height: 200px;\n}\n\n.djs-search-results:hover {\n  cursor: pointer;\n}\n\n.djs-search-result {\n  width: 100%;\n  padding: 6px 10px;\n  background: white;\n  border-bottom: solid 1px var(--search-result-border-color);\n  border-radius: 1px;\n}\n\n.djs-search-highlight {\n  color: var(--search-result-highlight-color);\n}\n\n.djs-search-result-primary {\n  margin: 0 0 10px;\n}\n\n.djs-search-result-secondary {\n  font-family: monospace;\n  margin: 0;\n}\n\n.djs-search-result:hover {\n  background: var(--search-result-selected-color);\n}\n\n.djs-search-result-selected {\n  background: var(--search-result-selected-color);\n}\n\n.djs-search-result-selected:hover {\n  background: var(--search-result-selected-color);\n}\n\n.djs-search-overlay {\n  background: var(--search-result-selected-color);\n}\n\n/**\n * hidden styles\n */\n.djs-element-hidden,\n.djs-element-hidden .djs-hit,\n.djs-element-hidden .djs-outline,\n.djs-label-hidden .djs-label {\n  display: none !important;\n}\n\n.djs-element .djs-hit-stroke,\n.djs-element .djs-hit-click-stroke,\n.djs-element .djs-hit-all {\n  cursor: move;\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -45266,9 +45221,9 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "../node_modules/bpmn-font/dist/font/bpmn.eot?26374340":
+/***/ "../node_modules/bpmn-font/dist/font/bpmn.eot?84292322":
 /*!*************************************************************!*\
-  !*** ../node_modules/bpmn-font/dist/font/bpmn.eot?26374340 ***!
+  !*** ../node_modules/bpmn-font/dist/font/bpmn.eot?84292322 ***!
   \*************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -45277,13 +45232,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "4d005733f9a667c4e6b945d8e60c4ae5.eot");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "b1d963e70b6f5fd75881a8c068c9e980.eot");
 
 /***/ }),
 
-/***/ "../node_modules/bpmn-font/dist/font/bpmn.svg?26374340":
+/***/ "../node_modules/bpmn-font/dist/font/bpmn.svg?84292322":
 /*!*************************************************************!*\
-  !*** ../node_modules/bpmn-font/dist/font/bpmn.svg?26374340 ***!
+  !*** ../node_modules/bpmn-font/dist/font/bpmn.svg?84292322 ***!
   \*************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -45292,13 +45247,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "cfe117edcfdead8ecb8fec9b82b01a1d.svg");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "b179b5ac8a23644512962544eddc12ef.svg");
 
 /***/ }),
 
-/***/ "../node_modules/bpmn-font/dist/font/bpmn.ttf?26374340":
+/***/ "../node_modules/bpmn-font/dist/font/bpmn.ttf?84292322":
 /*!*************************************************************!*\
-  !*** ../node_modules/bpmn-font/dist/font/bpmn.ttf?26374340 ***!
+  !*** ../node_modules/bpmn-font/dist/font/bpmn.ttf?84292322 ***!
   \*************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -45307,13 +45262,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "127b9cbf6fbf03a31da45c1a751e5909.ttf");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "aa0b12a1fa7ace28edbc5f9104d6e4a7.ttf");
 
 /***/ }),
 
-/***/ "../node_modules/bpmn-font/dist/font/bpmn.woff2?26374340":
+/***/ "../node_modules/bpmn-font/dist/font/bpmn.woff2?84292322":
 /*!***************************************************************!*\
-  !*** ../node_modules/bpmn-font/dist/font/bpmn.woff2?26374340 ***!
+  !*** ../node_modules/bpmn-font/dist/font/bpmn.woff2?84292322 ***!
   \***************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -45322,13 +45277,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "34cd3c536889c5da8c74c22de373a2bf.woff2");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "5a349fc9e9ef257b6cd69635ad050d44.woff2");
 
 /***/ }),
 
-/***/ "../node_modules/bpmn-font/dist/font/bpmn.woff?26374340":
+/***/ "../node_modules/bpmn-font/dist/font/bpmn.woff?84292322":
 /*!**************************************************************!*\
-  !*** ../node_modules/bpmn-font/dist/font/bpmn.woff?26374340 ***!
+  !*** ../node_modules/bpmn-font/dist/font/bpmn.woff?84292322 ***!
   \**************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -45337,7 +45292,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "a7ab98ab4861f196e64fa4e62ea3fb45.woff");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "d3ab105879bbeb5eb003cb4a35e05fb6.woff");
 
 /***/ }),
 
@@ -59695,6 +59650,17 @@ DescriptorBuilder.prototype.setIdProperty = function(p, validate) {
   this.idProperty = p;
 };
 
+DescriptorBuilder.prototype.assertNotTrait = function(typeDescriptor) {
+
+  const _extends = typeDescriptor.extends || [];
+
+  if (_extends.length) {
+    throw new Error(
+      `cannot create <${ typeDescriptor.name }> extending <${ typeDescriptor.extends }>`
+    );
+  }
+};
+
 DescriptorBuilder.prototype.assertNotDefined = function(p, name) {
   var propertyName = p.name,
       definedProperty = this.propertiesByName[propertyName];
@@ -59712,6 +59678,10 @@ DescriptorBuilder.prototype.hasProperty = function(name) {
 };
 
 DescriptorBuilder.prototype.addTrait = function(t, inherited) {
+
+  if (inherited) {
+    this.assertNotTrait(t);
+  }
 
   var typesByName = this.allTypesByName,
       types = this.allTypes;
@@ -59876,23 +59846,32 @@ Registry.prototype.mapTypes = function(nsName, iterator, trait) {
   var self = this;
 
   /**
-   * Traverse the selected trait.
-   *
-   * @param {String} cls
-   */
-  function traverseTrait(cls) {
-    return traverseSuper(cls, true);
-  }
-
-  /**
    * Traverse the selected super type or trait
    *
    * @param {String} cls
    * @param {Boolean} [trait=false]
    */
-  function traverseSuper(cls, trait) {
+  function traverse(cls, trait) {
     var parentNs = parseName(cls, isBuiltIn(cls) ? '' : nsName.prefix);
     self.mapTypes(parentNs, iterator, trait);
+  }
+
+  /**
+   * Traverse the selected trait.
+   *
+   * @param {String} cls
+   */
+  function traverseTrait(cls) {
+    return traverse(cls, true);
+  }
+
+  /**
+   * Traverse the selected super type
+   *
+   * @param {String} cls
+   */
+  function traverseSuper(cls) {
+    return traverse(cls, false);
   }
 
   if (!type) {
@@ -59975,7 +59954,7 @@ Properties.prototype.set = function(target, name, value) {
     throw new TypeError('property name must be a non-empty string');
   }
 
-  var property = this.model.getPropertyDescriptor(target, name);
+  var property = this.getProperty(target, name);
 
   var propertyName = property && property.name;
 
@@ -59986,7 +59965,7 @@ Properties.prototype.set = function(target, name, value) {
     if (property) {
       delete target[propertyName];
     } else {
-      delete target.$attrs[name];
+      delete target.$attrs[stripGlobal(name)];
     }
   } else {
 
@@ -59999,7 +59978,7 @@ Properties.prototype.set = function(target, name, value) {
         defineProperty(target, property, value);
       }
     } else {
-      target.$attrs[name] = value;
+      target.$attrs[stripGlobal(name)] = value;
     }
   }
 };
@@ -60014,10 +59993,10 @@ Properties.prototype.set = function(target, name, value) {
  */
 Properties.prototype.get = function(target, name) {
 
-  var property = this.model.getPropertyDescriptor(target, name);
+  var property = this.getProperty(target, name);
 
   if (!property) {
-    return target.$attrs[name];
+    return target.$attrs[stripGlobal(name)];
   }
 
   var propertyName = property.name;
@@ -60071,6 +60050,44 @@ Properties.prototype.defineModel = function(target, model) {
   this.define(target, '$model', { value: model });
 };
 
+/**
+ * Return property with the given name on the element.
+ *
+ * @param {any} target
+ * @param {string} name
+ *
+ * @return {object | null} property
+ */
+Properties.prototype.getProperty = function(target, name) {
+
+  var model = this.model;
+
+  var property = model.getPropertyDescriptor(target, name);
+
+  if (property) {
+    return property;
+  }
+
+  if (name.includes(':')) {
+    return null;
+  }
+
+  const strict = model.config.strict;
+
+  if (typeof strict !== 'undefined') {
+    const error = new TypeError(`unknown property <${ name }> on <${ target.$type }>`);
+
+    if (strict) {
+      throw error;
+    } else {
+
+      // eslint-disable-next-line no-undef
+      typeof console !== 'undefined' && console.warn(error);
+    }
+  }
+
+  return null;
+};
 
 function isUndefined(val) {
   return typeof val === 'undefined';
@@ -60083,6 +60100,10 @@ function defineProperty(target, property, value) {
     value: value,
     configurable: true
   });
+}
+
+function stripGlobal(name) {
+  return name.replace(/^:/, '');
 }
 
 // Moddle implementation /////////////////////////////////////////////////
@@ -60107,8 +60128,10 @@ function defineProperty(target, property, value) {
  * var moddle = new Moddle([pkg]);
  *
  * @param {Array<Package>} packages the packages to contain
+ *
+ * @param { { strict?: boolean } } [config] moddle configuration
  */
-function Moddle(packages) {
+function Moddle(packages, config = {}) {
 
   this.properties = new Properties(this);
 
@@ -60116,6 +60139,8 @@ function Moddle(packages) {
   this.registry = new Registry(packages, this.properties);
 
   this.typeCache = {};
+
+  this.config = config;
 }
 
 
