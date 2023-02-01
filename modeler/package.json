@@ -54,7 +54,7 @@
     "ids": "^1.0.0",
     "inherits": "^2.0.4",
     "min-dash": "^4.0.0",
-    "min-dom": "^4.0.2",
+    "min-dom": "^4.1.0",
     "moddle": "^6.0.0",
     "moddle-xml": "^10.1.0",
     "object-refs": "^0.3.0",
