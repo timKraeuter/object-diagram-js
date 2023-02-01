@@ -18,7 +18,7 @@ import {
 import Diagram from 'diagram-js';
 import Moddle from './moddle';
 
-import inherits from 'inherits';
+import inherits from 'inherits-browser';
 
 import {
   importOdDiagram
