@@ -8,9 +8,6 @@ This repository contains two related projects.
 
 In the future, we plan to eliminate the duplicate code shared between the two projects.
 
-## Remark
-The update to npm 9 caused problems resolving assets. If this is the case for you downgrade to npm 8.19.2 (node 18.12.1).
-
 ## License
 
 MIT

@@ -16910,7 +16910,7 @@ __webpack_require__.r(__webpack_exports__);
  * Returns the length of a vector
  *
  * @param {Vector}
- * @return {Float}
+ * @return {number}
  */
 function vectorLength(v) {
   return Math.sqrt(Math.pow(v.x, 2) + Math.pow(v.y, 2));
@@ -16921,7 +16921,7 @@ function vectorLength(v) {
  * Calculates the angle between a line a the yAxis
  *
  * @param {Array}
- * @return {Float}
+ * @return {number}
  */
 function getAngle(line) {
 
@@ -16935,7 +16935,7 @@ function getAngle(line) {
  * Rotates a vector by a given angle
  *
  * @param {Vector}
- * @param {Float} Angle in radians
+ * @param {number} Angle in radians
  * @return {Vector}
  */
 function rotateVector(vector, angle) {
@@ -16953,7 +16953,7 @@ function rotateVector(vector, angle) {
  * @param {Vector}
  * @param {Vector}
  * @param {Vector}
- * @return {Float}
+ * @return {number}
  */
 function solveLambaSystem(a, b, c) {
 
@@ -16975,7 +16975,7 @@ function solveLambaSystem(a, b, c) {
  * Position of perpendicular foot
  *
  * @param {Point}
- * @param [ {Point}, {Point} ] line defined through two points
+ * @param {[ Point, Point ]} line defined through two points
  * @return {Point} the perpendicular foot position
  */
 function perpendicularFoot(point, line) {
@@ -16995,9 +16995,10 @@ function perpendicularFoot(point, line) {
 /**
  * Calculates the distance between a point and a line
  *
- * @param {Point}
- * @param [ {Point}, {Point} ] line defined through two points
- * @return {Float} distance
+ * @param { Point }
+ * @param { [ Point, Point ] } line defined through two points
+ *
+ * @return { number } distance
  */
 function getDistancePointLine(point, line) {
 
@@ -17018,7 +17019,8 @@ function getDistancePointLine(point, line) {
  *
  * @param {Point}
  * @param {Point}
- * @return {Float} distance
+ *
+ * @return {number} distance
  */
 function getDistancePointPoint(point1, point2) {
 
@@ -17545,8 +17547,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ ConnectionPreview)
 /* harmony export */ });
 /* harmony import */ var tiny_svg__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tiny-svg */ "../node_modules/tiny-svg/dist/index.esm.js");
-/* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
+/* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 /* harmony import */ var _layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../layout/LayoutUtil */ "../node_modules/diagram-js/lib/layout/LayoutUtil.js");
+/* harmony import */ var _util_RenderUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/RenderUtil */ "../node_modules/diagram-js/lib/util/RenderUtil.js");
+
 
 
 
@@ -17772,18 +17776,12 @@ ConnectionPreview.prototype.createConnectionPreviewGfx = function() {
  * @returns {SVGElement}
  */
 ConnectionPreview.prototype.createNoopConnection = function(start, end) {
-  var connection = (0,tiny_svg__WEBPACK_IMPORTED_MODULE_0__.create)('polyline');
-
-  (0,tiny_svg__WEBPACK_IMPORTED_MODULE_0__.attr)(connection, {
+  return (0,_util_RenderUtil__WEBPACK_IMPORTED_MODULE_2__.createLine)([ start, end ], {
     'stroke': '#333',
     'strokeDasharray': [ 1 ],
     'strokeWidth': 2,
     'pointer-events': 'none'
   });
-
-  (0,tiny_svg__WEBPACK_IMPORTED_MODULE_0__.attr)(connection, { 'points': [ start.x, start.y, end.x, end.y ] });
-
-  return connection;
 };
 
 // helpers //////////
@@ -17824,7 +17822,7 @@ function cacheReturnValues(fn) {
  * @returns {Object}
  */
 function ensureConnectionAttrs(canConnect) {
-  if ((0,min_dash__WEBPACK_IMPORTED_MODULE_2__.isObject)(canConnect)) {
+  if ((0,min_dash__WEBPACK_IMPORTED_MODULE_3__.isObject)(canConnect)) {
     return canConnect;
   } else {
     return {};
@@ -22700,21 +22698,19 @@ function isInput(target) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "KEYS_COPY": () => (/* binding */ KEYS_COPY),
-/* harmony export */   "KEYS_PASTE": () => (/* binding */ KEYS_PASTE),
-/* harmony export */   "KEYS_REDO": () => (/* binding */ KEYS_REDO),
-/* harmony export */   "KEYS_UNDO": () => (/* binding */ KEYS_UNDO),
+/* harmony export */   "KEYS_COPY": () => (/* reexport safe */ _KeyboardUtil__WEBPACK_IMPORTED_MODULE_0__.KEYS_COPY),
+/* harmony export */   "KEYS_PASTE": () => (/* reexport safe */ _KeyboardUtil__WEBPACK_IMPORTED_MODULE_0__.KEYS_PASTE),
+/* harmony export */   "KEYS_REDO": () => (/* reexport safe */ _KeyboardUtil__WEBPACK_IMPORTED_MODULE_0__.KEYS_REDO),
+/* harmony export */   "KEYS_UNDO": () => (/* reexport safe */ _KeyboardUtil__WEBPACK_IMPORTED_MODULE_0__.KEYS_UNDO),
 /* harmony export */   "default": () => (/* binding */ KeyboardBindings)
 /* harmony export */ });
 /* harmony import */ var _KeyboardUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./KeyboardUtil */ "../node_modules/diagram-js/lib/features/keyboard/KeyboardUtil.js");
 
 
-var LOW_PRIORITY = 500;
 
-var KEYS_COPY = [ 'c', 'C', 'KeyC' ];
-var KEYS_PASTE = [ 'v', 'V', 'KeyV' ];
-var KEYS_REDO = [ 'y', 'Y', 'KeyY' ];
-var KEYS_UNDO = [ 'z', 'Z', 'KeyZ' ];
+
+
+var LOW_PRIORITY = 500;
 
 
 /**
@@ -22886,6 +22882,10 @@ KeyboardBindings.prototype.registerBindings = function(keyboard, editorActions) 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "KEYS_COPY": () => (/* binding */ KEYS_COPY),
+/* harmony export */   "KEYS_PASTE": () => (/* binding */ KEYS_PASTE),
+/* harmony export */   "KEYS_REDO": () => (/* binding */ KEYS_REDO),
+/* harmony export */   "KEYS_UNDO": () => (/* binding */ KEYS_UNDO),
 /* harmony export */   "hasModifier": () => (/* binding */ hasModifier),
 /* harmony export */   "isCmd": () => (/* binding */ isCmd),
 /* harmony export */   "isCopy": () => (/* binding */ isCopy),
@@ -22898,10 +22898,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 
 
-var KEYS_COPY = [ 'c', 'C', 'KeyC' ];
-var KEYS_PASTE = [ 'v', 'V', 'KeyV' ];
-var KEYS_REDO = [ 'y', 'Y', 'KeyY' ];
-var KEYS_UNDO = [ 'z', 'Z', 'KeyZ' ];
+var KEYS_COPY = [ 'c', 'C' ];
+var KEYS_PASTE = [ 'v', 'V' ];
+var KEYS_REDO = [ 'y', 'Y' ];
+var KEYS_UNDO = [ 'z', 'Z' ];
 
 /**
  * Returns true if event was triggered with any modifier
@@ -27315,7 +27315,7 @@ function Outline(eventBus, styles, elementRegistry) {
     (0,tiny_svg__WEBPACK_IMPORTED_MODULE_0__.attr)(outline, (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.assign)({
       x: 10,
       y: 10,
-      rx: 3,
+      rx: 4,
       width: 100,
       height: 100
     }, OUTLINE_STYLE));
@@ -28659,6 +28659,7 @@ var NODES_CAN_HAVE_MARKER = [
   'path',
   'polygon',
   'polyline',
+  'path',
   'rect'
 ];
 
@@ -36518,8 +36519,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "pointDistance": () => (/* binding */ pointDistance),
 /* harmony export */   "pointInRect": () => (/* binding */ pointInRect),
 /* harmony export */   "pointsAligned": () => (/* binding */ pointsAligned),
-/* harmony export */   "pointsAlignedHorizontally": () => (/* binding */ pointsAlignedHorizontally),
-/* harmony export */   "pointsAlignedVertically": () => (/* binding */ pointsAlignedVertically),
+/* harmony export */   "pointsAlignedOnAxis": () => (/* binding */ pointsAlignedOnAxis),
 /* harmony export */   "pointsOnLine": () => (/* binding */ pointsOnLine)
 /* harmony export */ });
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
@@ -36578,64 +36578,41 @@ var ALIGNED_THRESHOLD = 2;
 /**
  * Check whether two points are horizontally or vertically aligned.
  *
- * @param {Array<Point>|Point}
- * @param {Point}
+ * @param {Point[]|Point} a
+ * @param {Point} [b]
  *
- * @return {string|boolean}
+ * @return {'h'|'v'|false} axis or false
  */
 function pointsAligned(a, b) {
-  var points;
+  var points = Array.from(arguments).flat();
 
-  if ((0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isArray)(a)) {
-    points = a;
-  } else {
-    points = [ a, b ];
-  }
+  const axisMap = {
+    'x': 'v',
+    'y': 'h'
+  };
 
-  if (pointsAlignedHorizontally(points)) {
-    return 'h';
-  }
-
-  if (pointsAlignedVertically(points)) {
-    return 'v';
+  for (const [ axis, orientation ] of Object.entries(axisMap)) {
+    if (pointsAlignedOnAxis(axis, points)) {
+      return orientation;
+    }
   }
 
   return false;
 }
 
-function pointsAlignedHorizontally(a, b) {
-  var points;
-
-  if ((0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isArray)(a)) {
-    points = a;
-  } else {
-    points = [ a, b ];
-  }
-
-  var firstPoint = points.slice().shift();
+/**
+ * @param { 'x' | 'y' } axis
+ * @param { Point[] } points
+ *
+ * @return {boolean}
+ */
+function pointsAlignedOnAxis(axis, points) {
+  const referencePoint = points[0];
 
   return (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.every)(points, function(point) {
-    return Math.abs(firstPoint.y - point.y) <= ALIGNED_THRESHOLD;
+    return Math.abs(referencePoint[axis] - point[axis]) <= ALIGNED_THRESHOLD;
   });
 }
-
-function pointsAlignedVertically(a, b) {
-  var points;
-
-  if ((0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isArray)(a)) {
-    points = a;
-  } else {
-    points = [ a, b ];
-  }
-
-  var firstPoint = points.slice().shift();
-
-  return (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.every)(points, function(point) {
-    return Math.abs(firstPoint.x - point.x) <= ALIGNED_THRESHOLD;
-  });
-}
-
-
 
 /**
  * Returns true if the point p is inside the rectangle rect
@@ -37093,12 +37070,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "toSVGPoints": () => (/* binding */ toSVGPoints),
 /* harmony export */   "updateLine": () => (/* binding */ updateLine)
 /* harmony export */ });
-/* harmony import */ var tiny_svg__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tiny-svg */ "../node_modules/tiny-svg/dist/index.esm.js");
+/* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
+/* harmony import */ var tiny_svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tiny-svg */ "../node_modules/tiny-svg/dist/index.esm.js");
 
 
 
+
+
+/**
+ * @param { [ string, ...any[] ][] } elements
+ *
+ * @return { string }
+ */
 function componentsToPath(elements) {
-  return elements.join(',').replace(/,?([A-z]),?/g, '$1');
+  return elements.flat().join(',').replace(/,?([A-z]),?/g, '$1');
 }
 
 function toSVGPoints(points) {
@@ -37111,20 +37096,119 @@ function toSVGPoints(points) {
   return result;
 }
 
-function createLine(points, attrs) {
-
-  var line = (0,tiny_svg__WEBPACK_IMPORTED_MODULE_0__.create)('polyline');
-  (0,tiny_svg__WEBPACK_IMPORTED_MODULE_0__.attr)(line, { points: toSVGPoints(points) });
-
-  if (attrs) {
-    (0,tiny_svg__WEBPACK_IMPORTED_MODULE_0__.attr)(line, attrs);
-  }
-
-  return line;
+function move(point) {
+  return [ 'M', point.x, point.y ];
 }
 
+function lineTo(point) {
+  return [ 'L', point.x, point.y ];
+}
+
+function curveTo(p1, p2, p3) {
+  return [ 'C', p1.x, p1.y, p2.x, p2.y, p3.x, p3.y ];
+}
+
+function drawPath(waypoints, cornerRadius) {
+  const pointCount = waypoints.length;
+
+  const path = [ move(waypoints[0]) ];
+
+  for (let i = 1; i < pointCount; i++) {
+
+    const pointBefore = waypoints[i - 1];
+    const point = waypoints[i];
+    const pointAfter = waypoints[i + 1];
+
+    if (!pointAfter || !cornerRadius) {
+      path.push(lineTo(point));
+
+      continue;
+    }
+
+    const effectiveRadius = Math.min(
+      cornerRadius,
+      vectorLength(point.x - pointBefore.x, point.y - pointBefore.y),
+      vectorLength(pointAfter.x - point.x, pointAfter.y - point.y)
+    );
+
+    if (!effectiveRadius) {
+      path.push(lineTo(point));
+
+      continue;
+    }
+
+    const beforePoint = getPointAtLength(point, pointBefore, effectiveRadius);
+    const beforePoint2 = getPointAtLength(point, pointBefore, effectiveRadius * .5);
+
+    const afterPoint = getPointAtLength(point, pointAfter, effectiveRadius);
+    const afterPoint2 = getPointAtLength(point, pointAfter, effectiveRadius * .5);
+
+    path.push(lineTo(beforePoint));
+    path.push(curveTo(beforePoint2, afterPoint2, afterPoint));
+  }
+
+  return path;
+}
+
+function getPointAtLength(start, end, length) {
+
+  const deltaX = end.x - start.x;
+  const deltaY = end.y - start.y;
+
+  const totalLength = vectorLength(deltaX, deltaY);
+
+  const percent = length / totalLength;
+
+  return {
+    x: start.x + deltaX * percent,
+    y: start.y + deltaY * percent
+  };
+}
+
+function vectorLength(x, y) {
+  return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+}
+
+/**
+ * @param { { x: number, y: number }[] } points
+ * @param { any } [attrs]
+ * @param { number } [radius]
+ *
+ * @return {SVGElement}
+ */
+function createLine(points, attrs, radius) {
+
+  if ((0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isNumber)(attrs)) {
+    radius = attrs;
+    attrs = null;
+  }
+
+  if (!attrs) {
+    attrs = {};
+  }
+
+  const line = (0,tiny_svg__WEBPACK_IMPORTED_MODULE_1__.create)('path', attrs);
+
+  if ((0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isNumber)(radius)) {
+    line.dataset.cornerRadius = String(radius);
+  }
+
+  return updateLine(line, points);
+}
+
+/**
+ * @param { SVGElement } gfx
+ * @param { { x: number, y: number }[]} points
+ *
+ * @return {SVGElement}
+ */
 function updateLine(gfx, points) {
-  (0,tiny_svg__WEBPACK_IMPORTED_MODULE_0__.attr)(gfx, { points: toSVGPoints(points) });
+
+  const cornerRadius = parseInt(gfx.dataset.cornerRadius, 10) || 0;
+
+  (0,tiny_svg__WEBPACK_IMPORTED_MODULE_1__.attr)(gfx, {
+    d: componentsToPath(drawPath(points, cornerRadius))
+  });
 
   return gfx;
 }
@@ -44834,11 +44918,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _starter_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_starter_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../starter/node_modules/css-loader/dist/runtime/getUrl.js */ "./node_modules/css-loader/dist/runtime/getUrl.js");
 /* harmony import */ var _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _font_bpmn_eot_84292322__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../font/bpmn.eot?84292322 */ "../node_modules/bpmn-font/dist/font/bpmn.eot?84292322");
-/* harmony import */ var _font_bpmn_woff2_84292322__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../font/bpmn.woff2?84292322 */ "../node_modules/bpmn-font/dist/font/bpmn.woff2?84292322");
-/* harmony import */ var _font_bpmn_woff_84292322__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../font/bpmn.woff?84292322 */ "../node_modules/bpmn-font/dist/font/bpmn.woff?84292322");
-/* harmony import */ var _font_bpmn_ttf_84292322__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../font/bpmn.ttf?84292322 */ "../node_modules/bpmn-font/dist/font/bpmn.ttf?84292322");
-/* harmony import */ var _font_bpmn_svg_84292322__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../font/bpmn.svg?84292322 */ "../node_modules/bpmn-font/dist/font/bpmn.svg?84292322");
+/* harmony import */ var _font_bpmn_eot_21877404__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../font/bpmn.eot?21877404 */ "../node_modules/bpmn-font/dist/font/bpmn.eot?21877404");
+/* harmony import */ var _font_bpmn_woff2_21877404__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../font/bpmn.woff2?21877404 */ "../node_modules/bpmn-font/dist/font/bpmn.woff2?21877404");
+/* harmony import */ var _font_bpmn_woff_21877404__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../font/bpmn.woff?21877404 */ "../node_modules/bpmn-font/dist/font/bpmn.woff?21877404");
+/* harmony import */ var _font_bpmn_ttf_21877404__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../font/bpmn.ttf?21877404 */ "../node_modules/bpmn-font/dist/font/bpmn.ttf?21877404");
+/* harmony import */ var _font_bpmn_svg_21877404__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../font/bpmn.svg?21877404 */ "../node_modules/bpmn-font/dist/font/bpmn.svg?21877404");
 // Imports
 
 
@@ -44849,14 +44933,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var ___CSS_LOADER_EXPORT___ = _starter_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_starter_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
-var ___CSS_LOADER_URL_REPLACEMENT_0___ = _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(_font_bpmn_eot_84292322__WEBPACK_IMPORTED_MODULE_3__["default"]);
-var ___CSS_LOADER_URL_REPLACEMENT_1___ = _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(_font_bpmn_eot_84292322__WEBPACK_IMPORTED_MODULE_3__["default"], { hash: "#iefix" });
-var ___CSS_LOADER_URL_REPLACEMENT_2___ = _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(_font_bpmn_woff2_84292322__WEBPACK_IMPORTED_MODULE_4__["default"]);
-var ___CSS_LOADER_URL_REPLACEMENT_3___ = _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(_font_bpmn_woff_84292322__WEBPACK_IMPORTED_MODULE_5__["default"]);
-var ___CSS_LOADER_URL_REPLACEMENT_4___ = _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(_font_bpmn_ttf_84292322__WEBPACK_IMPORTED_MODULE_6__["default"]);
-var ___CSS_LOADER_URL_REPLACEMENT_5___ = _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(_font_bpmn_svg_84292322__WEBPACK_IMPORTED_MODULE_7__["default"], { hash: "#bpmn" });
+var ___CSS_LOADER_URL_REPLACEMENT_0___ = _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(_font_bpmn_eot_21877404__WEBPACK_IMPORTED_MODULE_3__["default"]);
+var ___CSS_LOADER_URL_REPLACEMENT_1___ = _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(_font_bpmn_eot_21877404__WEBPACK_IMPORTED_MODULE_3__["default"], { hash: "#iefix" });
+var ___CSS_LOADER_URL_REPLACEMENT_2___ = _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(_font_bpmn_woff2_21877404__WEBPACK_IMPORTED_MODULE_4__["default"]);
+var ___CSS_LOADER_URL_REPLACEMENT_3___ = _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(_font_bpmn_woff_21877404__WEBPACK_IMPORTED_MODULE_5__["default"]);
+var ___CSS_LOADER_URL_REPLACEMENT_4___ = _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(_font_bpmn_ttf_21877404__WEBPACK_IMPORTED_MODULE_6__["default"]);
+var ___CSS_LOADER_URL_REPLACEMENT_5___ = _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(_font_bpmn_svg_21877404__WEBPACK_IMPORTED_MODULE_7__["default"], { hash: "#bpmn" });
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "@font-face {\n  font-family: 'bpmn';\n  src: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ");\n  src: url(" + ___CSS_LOADER_URL_REPLACEMENT_1___ + ") format('embedded-opentype'),\n       url(" + ___CSS_LOADER_URL_REPLACEMENT_2___ + ") format('woff2'),\n       url(" + ___CSS_LOADER_URL_REPLACEMENT_3___ + ") format('woff'),\n       url(" + ___CSS_LOADER_URL_REPLACEMENT_4___ + ") format('truetype'),\n       url(" + ___CSS_LOADER_URL_REPLACEMENT_5___ + ") format('svg');\n  font-weight: normal;\n  font-style: normal;\n}\n/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */\n/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */\n/*\n@media screen and (-webkit-min-device-pixel-ratio:0) {\n  @font-face {\n    font-family: 'bpmn';\n    src: url('../font/bpmn.svg?84292322#bpmn') format('svg');\n  }\n}\n*/\n[class^=\"bpmn-icon-\"]:before, [class*=\" bpmn-icon-\"]:before {\n  font-family: \"bpmn\";\n  font-style: normal;\n  font-weight: normal;\n  speak: never;\n\n  display: inline-block;\n  text-decoration: inherit;\n  width: 1em;\n  /* margin-right: .2em; */\n  text-align: center;\n  /* opacity: .8; */\n\n  /* For safety - reset parent styles, that can break glyph codes*/\n  font-variant: normal;\n  text-transform: none;\n\n  /* fix buttons height, for twitter bootstrap */\n  line-height: 1em;\n\n  /* Animation center compensation - margins should be symmetric */\n  /* remove if not needed */\n  /* margin-left: .2em; */\n\n  /* you can be more comfortable with increased icons size */\n  /* font-size: 120%; */\n\n  /* Font smoothing. That was taken from TWBS */\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n\n  /* Uncomment for 3D effect */\n  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */\n}\n\n.bpmn-icon-trash:before { content: '\\e801'; } /* '' */\n.bpmn-icon-conditional-flow:before { content: '\\e802'; } /* '' */\n.bpmn-icon-default-flow:before { content: '\\e803'; } /* '' */\n.bpmn-icon-gateway-parallel:before { content: '\\e804'; } /* '' */\n.bpmn-icon-intermediate-event-catch-cancel:before { content: '\\e805'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-message:before { content: '\\e806'; } /* '' */\n.bpmn-icon-start-event-compensation:before { content: '\\e807'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-parallel-multiple:before { content: '\\e808'; } /* '' */\n.bpmn-icon-loop-marker:before { content: '\\e809'; } /* '' */\n.bpmn-icon-parallel-mi-marker:before { content: '\\e80a'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-signal:before { content: '\\e80b'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-timer:before { content: '\\e80c'; } /* '' */\n.bpmn-icon-intermediate-event-catch-parallel-multiple:before { content: '\\e80d'; } /* '' */\n.bpmn-icon-intermediate-event-catch-compensation:before { content: '\\e80e'; } /* '' */\n.bpmn-icon-gateway-xor:before { content: '\\e80f'; } /* '' */\n.bpmn-icon-end-event-cancel:before { content: '\\e811'; } /* '' */\n.bpmn-icon-intermediate-event-catch-condition:before { content: '\\e812'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-parallel-multiple:before { content: '\\e813'; } /* '' */\n.bpmn-icon-start-event-condition:before { content: '\\e814'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-timer:before { content: '\\e815'; } /* '' */\n.bpmn-icon-sequential-mi-marker:before { content: '\\e816'; } /* '' */\n.bpmn-icon-user-task:before { content: '\\e817'; } /* '' */\n.bpmn-icon-business-rule:before { content: '\\e818'; } /* '' */\n.bpmn-icon-sub-process-marker:before { content: '\\e819'; } /* '' */\n.bpmn-icon-start-event-parallel-multiple:before { content: '\\e81a'; } /* '' */\n.bpmn-icon-start-event-error:before { content: '\\e81b'; } /* '' */\n.bpmn-icon-intermediate-event-catch-signal:before { content: '\\e81c'; } /* '' */\n.bpmn-icon-intermediate-event-catch-error:before { content: '\\e81d'; } /* '' */\n.bpmn-icon-end-event-compensation:before { content: '\\e81e'; } /* '' */\n.bpmn-icon-subprocess-collapsed:before { content: '\\e81f'; } /* '' */\n.bpmn-icon-subprocess-expanded:before { content: '\\e820'; } /* '' */\n.bpmn-icon-task:before { content: '\\e821'; } /* '' */\n.bpmn-icon-end-event-error:before { content: '\\e822'; } /* '' */\n.bpmn-icon-intermediate-event-catch-escalation:before { content: '\\e823'; } /* '' */\n.bpmn-icon-intermediate-event-catch-timer:before { content: '\\e824'; } /* '' */\n.bpmn-icon-start-event-escalation:before { content: '\\e825'; } /* '' */\n.bpmn-icon-start-event-signal:before { content: '\\e826'; } /* '' */\n.bpmn-icon-business-rule-task:before { content: '\\e827'; } /* '' */\n.bpmn-icon-manual:before { content: '\\e828'; } /* '' */\n.bpmn-icon-receive:before { content: '\\e829'; } /* '' */\n.bpmn-icon-call-activity:before { content: '\\e82a'; } /* '' */\n.bpmn-icon-start-event-timer:before { content: '\\e82b'; } /* '' */\n.bpmn-icon-start-event-message:before { content: '\\e82c'; } /* '' */\n.bpmn-icon-intermediate-event-none:before { content: '\\e82d'; } /* '' */\n.bpmn-icon-intermediate-event-catch-link:before { content: '\\e82e'; } /* '' */\n.bpmn-icon-end-event-escalation:before { content: '\\e82f'; } /* '' */\n.bpmn-icon-bpmn-io:before { content: '\\e831'; } /* '' */\n.bpmn-icon-gateway-complex:before { content: '\\e832'; } /* '' */\n.bpmn-icon-gateway-eventbased:before { content: '\\e833'; } /* '' */\n.bpmn-icon-gateway-none:before { content: '\\e834'; } /* '' */\n.bpmn-icon-gateway-or:before { content: '\\e835'; } /* '' */\n.bpmn-icon-end-event-terminate:before { content: '\\e836'; } /* '' */\n.bpmn-icon-end-event-signal:before { content: '\\e837'; } /* '' */\n.bpmn-icon-end-event-none:before { content: '\\e838'; } /* '' */\n.bpmn-icon-end-event-multiple:before { content: '\\e839'; } /* '' */\n.bpmn-icon-end-event-message:before { content: '\\e83a'; } /* '' */\n.bpmn-icon-end-event-link:before { content: '\\e83b'; } /* '' */\n.bpmn-icon-intermediate-event-catch-message:before { content: '\\e83c'; } /* '' */\n.bpmn-icon-intermediate-event-throw-compensation:before { content: '\\e83d'; } /* '' */\n.bpmn-icon-start-event-multiple:before { content: '\\e83e'; } /* '' */\n.bpmn-icon-script:before { content: '\\e83f'; } /* '' */\n.bpmn-icon-manual-task:before { content: '\\e840'; } /* '' */\n.bpmn-icon-send:before { content: '\\e841'; } /* '' */\n.bpmn-icon-service:before { content: '\\e842'; } /* '' */\n.bpmn-icon-receive-task:before { content: '\\e843'; } /* '' */\n.bpmn-icon-user:before { content: '\\e844'; } /* '' */\n.bpmn-icon-start-event-none:before { content: '\\e845'; } /* '' */\n.bpmn-icon-intermediate-event-throw-escalation:before { content: '\\e846'; } /* '' */\n.bpmn-icon-intermediate-event-catch-multiple:before { content: '\\e847'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-escalation:before { content: '\\e848'; } /* '' */\n.bpmn-icon-intermediate-event-throw-link:before { content: '\\e849'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-condition:before { content: '\\e84a'; } /* '' */\n.bpmn-icon-data-object:before { content: '\\e84b'; } /* '' */\n.bpmn-icon-script-task:before { content: '\\e84c'; } /* '' */\n.bpmn-icon-send-task:before { content: '\\e84d'; } /* '' */\n.bpmn-icon-data-store:before { content: '\\e84e'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-escalation:before { content: '\\e84f'; } /* '' */\n.bpmn-icon-intermediate-event-throw-message:before { content: '\\e850'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-multiple:before { content: '\\e851'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-signal:before { content: '\\e852'; } /* '' */\n.bpmn-icon-intermediate-event-throw-multiple:before { content: '\\e853'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-message:before { content: '\\e854'; } /* '' */\n.bpmn-icon-ad-hoc-marker:before { content: '\\e855'; } /* '' */\n.bpmn-icon-service-task:before { content: '\\e856'; } /* '' */\n.bpmn-icon-task-none:before { content: '\\e857'; } /* '' */\n.bpmn-icon-compensation-marker:before { content: '\\e858'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-multiple:before { content: '\\e859'; } /* '' */\n.bpmn-icon-intermediate-event-throw-signal:before { content: '\\e85a'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-condition:before { content: '\\e85b'; } /* '' */\n.bpmn-icon-participant:before { content: '\\e85c'; } /* '' */\n.bpmn-icon-event-subprocess-expanded:before { content: '\\e85d'; } /* '' */\n.bpmn-icon-lane-insert-below:before { content: '\\e85e'; } /* '' */\n.bpmn-icon-space-tool:before { content: '\\e85f'; } /* '' */\n.bpmn-icon-connection-multi:before { content: '\\e860'; } /* '' */\n.bpmn-icon-lane:before { content: '\\e861'; } /* '' */\n.bpmn-icon-lasso-tool:before { content: '\\e862'; } /* '' */\n.bpmn-icon-lane-insert-above:before { content: '\\e863'; } /* '' */\n.bpmn-icon-lane-divide-three:before { content: '\\e864'; } /* '' */\n.bpmn-icon-lane-divide-two:before { content: '\\e865'; } /* '' */\n.bpmn-icon-data-input:before { content: '\\e866'; } /* '' */\n.bpmn-icon-data-output:before { content: '\\e867'; } /* '' */\n.bpmn-icon-hand-tool:before { content: '\\e868'; } /* '' */\n.bpmn-icon-group:before { content: '\\e869'; } /* '' */\n.bpmn-icon-text-annotation:before { content: '\\e86b'; } /* '' */\n.bpmn-icon-transaction:before { content: '\\e8c4'; } /* '' */\n.bpmn-icon-connection:before { content: '\\e8d8'; } /* '' */\n.bpmn-icon-screw-wrench:before { content: '\\e8db'; } /* '' */\n", "",{"version":3,"sources":["webpack://./../node_modules/bpmn-font/dist/css/bpmn.css"],"names":[],"mappings":"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","sourcesContent":["@font-face {\n  font-family: 'bpmn';\n  src: url('../font/bpmn.eot?84292322');\n  src: url('../font/bpmn.eot?84292322#iefix') format('embedded-opentype'),\n       url('../font/bpmn.woff2?84292322') format('woff2'),\n       url('../font/bpmn.woff?84292322') format('woff'),\n       url('../font/bpmn.ttf?84292322') format('truetype'),\n       url('../font/bpmn.svg?84292322#bpmn') format('svg');\n  font-weight: normal;\n  font-style: normal;\n}\n/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */\n/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */\n/*\n@media screen and (-webkit-min-device-pixel-ratio:0) {\n  @font-face {\n    font-family: 'bpmn';\n    src: url('../font/bpmn.svg?84292322#bpmn') format('svg');\n  }\n}\n*/\n[class^=\"bpmn-icon-\"]:before, [class*=\" bpmn-icon-\"]:before {\n  font-family: \"bpmn\";\n  font-style: normal;\n  font-weight: normal;\n  speak: never;\n\n  display: inline-block;\n  text-decoration: inherit;\n  width: 1em;\n  /* margin-right: .2em; */\n  text-align: center;\n  /* opacity: .8; */\n\n  /* For safety - reset parent styles, that can break glyph codes*/\n  font-variant: normal;\n  text-transform: none;\n\n  /* fix buttons height, for twitter bootstrap */\n  line-height: 1em;\n\n  /* Animation center compensation - margins should be symmetric */\n  /* remove if not needed */\n  /* margin-left: .2em; */\n\n  /* you can be more comfortable with increased icons size */\n  /* font-size: 120%; */\n\n  /* Font smoothing. That was taken from TWBS */\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n\n  /* Uncomment for 3D effect */\n  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */\n}\n\n.bpmn-icon-trash:before { content: '\\e801'; } /* '' */\n.bpmn-icon-conditional-flow:before { content: '\\e802'; } /* '' */\n.bpmn-icon-default-flow:before { content: '\\e803'; } /* '' */\n.bpmn-icon-gateway-parallel:before { content: '\\e804'; } /* '' */\n.bpmn-icon-intermediate-event-catch-cancel:before { content: '\\e805'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-message:before { content: '\\e806'; } /* '' */\n.bpmn-icon-start-event-compensation:before { content: '\\e807'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-parallel-multiple:before { content: '\\e808'; } /* '' */\n.bpmn-icon-loop-marker:before { content: '\\e809'; } /* '' */\n.bpmn-icon-parallel-mi-marker:before { content: '\\e80a'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-signal:before { content: '\\e80b'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-timer:before { content: '\\e80c'; } /* '' */\n.bpmn-icon-intermediate-event-catch-parallel-multiple:before { content: '\\e80d'; } /* '' */\n.bpmn-icon-intermediate-event-catch-compensation:before { content: '\\e80e'; } /* '' */\n.bpmn-icon-gateway-xor:before { content: '\\e80f'; } /* '' */\n.bpmn-icon-end-event-cancel:before { content: '\\e811'; } /* '' */\n.bpmn-icon-intermediate-event-catch-condition:before { content: '\\e812'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-parallel-multiple:before { content: '\\e813'; } /* '' */\n.bpmn-icon-start-event-condition:before { content: '\\e814'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-timer:before { content: '\\e815'; } /* '' */\n.bpmn-icon-sequential-mi-marker:before { content: '\\e816'; } /* '' */\n.bpmn-icon-user-task:before { content: '\\e817'; } /* '' */\n.bpmn-icon-business-rule:before { content: '\\e818'; } /* '' */\n.bpmn-icon-sub-process-marker:before { content: '\\e819'; } /* '' */\n.bpmn-icon-start-event-parallel-multiple:before { content: '\\e81a'; } /* '' */\n.bpmn-icon-start-event-error:before { content: '\\e81b'; } /* '' */\n.bpmn-icon-intermediate-event-catch-signal:before { content: '\\e81c'; } /* '' */\n.bpmn-icon-intermediate-event-catch-error:before { content: '\\e81d'; } /* '' */\n.bpmn-icon-end-event-compensation:before { content: '\\e81e'; } /* '' */\n.bpmn-icon-subprocess-collapsed:before { content: '\\e81f'; } /* '' */\n.bpmn-icon-subprocess-expanded:before { content: '\\e820'; } /* '' */\n.bpmn-icon-task:before { content: '\\e821'; } /* '' */\n.bpmn-icon-end-event-error:before { content: '\\e822'; } /* '' */\n.bpmn-icon-intermediate-event-catch-escalation:before { content: '\\e823'; } /* '' */\n.bpmn-icon-intermediate-event-catch-timer:before { content: '\\e824'; } /* '' */\n.bpmn-icon-start-event-escalation:before { content: '\\e825'; } /* '' */\n.bpmn-icon-start-event-signal:before { content: '\\e826'; } /* '' */\n.bpmn-icon-business-rule-task:before { content: '\\e827'; } /* '' */\n.bpmn-icon-manual:before { content: '\\e828'; } /* '' */\n.bpmn-icon-receive:before { content: '\\e829'; } /* '' */\n.bpmn-icon-call-activity:before { content: '\\e82a'; } /* '' */\n.bpmn-icon-start-event-timer:before { content: '\\e82b'; } /* '' */\n.bpmn-icon-start-event-message:before { content: '\\e82c'; } /* '' */\n.bpmn-icon-intermediate-event-none:before { content: '\\e82d'; } /* '' */\n.bpmn-icon-intermediate-event-catch-link:before { content: '\\e82e'; } /* '' */\n.bpmn-icon-end-event-escalation:before { content: '\\e82f'; } /* '' */\n.bpmn-icon-bpmn-io:before { content: '\\e831'; } /* '' */\n.bpmn-icon-gateway-complex:before { content: '\\e832'; } /* '' */\n.bpmn-icon-gateway-eventbased:before { content: '\\e833'; } /* '' */\n.bpmn-icon-gateway-none:before { content: '\\e834'; } /* '' */\n.bpmn-icon-gateway-or:before { content: '\\e835'; } /* '' */\n.bpmn-icon-end-event-terminate:before { content: '\\e836'; } /* '' */\n.bpmn-icon-end-event-signal:before { content: '\\e837'; } /* '' */\n.bpmn-icon-end-event-none:before { content: '\\e838'; } /* '' */\n.bpmn-icon-end-event-multiple:before { content: '\\e839'; } /* '' */\n.bpmn-icon-end-event-message:before { content: '\\e83a'; } /* '' */\n.bpmn-icon-end-event-link:before { content: '\\e83b'; } /* '' */\n.bpmn-icon-intermediate-event-catch-message:before { content: '\\e83c'; } /* '' */\n.bpmn-icon-intermediate-event-throw-compensation:before { content: '\\e83d'; } /* '' */\n.bpmn-icon-start-event-multiple:before { content: '\\e83e'; } /* '' */\n.bpmn-icon-script:before { content: '\\e83f'; } /* '' */\n.bpmn-icon-manual-task:before { content: '\\e840'; } /* '' */\n.bpmn-icon-send:before { content: '\\e841'; } /* '' */\n.bpmn-icon-service:before { content: '\\e842'; } /* '' */\n.bpmn-icon-receive-task:before { content: '\\e843'; } /* '' */\n.bpmn-icon-user:before { content: '\\e844'; } /* '' */\n.bpmn-icon-start-event-none:before { content: '\\e845'; } /* '' */\n.bpmn-icon-intermediate-event-throw-escalation:before { content: '\\e846'; } /* '' */\n.bpmn-icon-intermediate-event-catch-multiple:before { content: '\\e847'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-escalation:before { content: '\\e848'; } /* '' */\n.bpmn-icon-intermediate-event-throw-link:before { content: '\\e849'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-condition:before { content: '\\e84a'; } /* '' */\n.bpmn-icon-data-object:before { content: '\\e84b'; } /* '' */\n.bpmn-icon-script-task:before { content: '\\e84c'; } /* '' */\n.bpmn-icon-send-task:before { content: '\\e84d'; } /* '' */\n.bpmn-icon-data-store:before { content: '\\e84e'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-escalation:before { content: '\\e84f'; } /* '' */\n.bpmn-icon-intermediate-event-throw-message:before { content: '\\e850'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-multiple:before { content: '\\e851'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-signal:before { content: '\\e852'; } /* '' */\n.bpmn-icon-intermediate-event-throw-multiple:before { content: '\\e853'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-message:before { content: '\\e854'; } /* '' */\n.bpmn-icon-ad-hoc-marker:before { content: '\\e855'; } /* '' */\n.bpmn-icon-service-task:before { content: '\\e856'; } /* '' */\n.bpmn-icon-task-none:before { content: '\\e857'; } /* '' */\n.bpmn-icon-compensation-marker:before { content: '\\e858'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-multiple:before { content: '\\e859'; } /* '' */\n.bpmn-icon-intermediate-event-throw-signal:before { content: '\\e85a'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-condition:before { content: '\\e85b'; } /* '' */\n.bpmn-icon-participant:before { content: '\\e85c'; } /* '' */\n.bpmn-icon-event-subprocess-expanded:before { content: '\\e85d'; } /* '' */\n.bpmn-icon-lane-insert-below:before { content: '\\e85e'; } /* '' */\n.bpmn-icon-space-tool:before { content: '\\e85f'; } /* '' */\n.bpmn-icon-connection-multi:before { content: '\\e860'; } /* '' */\n.bpmn-icon-lane:before { content: '\\e861'; } /* '' */\n.bpmn-icon-lasso-tool:before { content: '\\e862'; } /* '' */\n.bpmn-icon-lane-insert-above:before { content: '\\e863'; } /* '' */\n.bpmn-icon-lane-divide-three:before { content: '\\e864'; } /* '' */\n.bpmn-icon-lane-divide-two:before { content: '\\e865'; } /* '' */\n.bpmn-icon-data-input:before { content: '\\e866'; } /* '' */\n.bpmn-icon-data-output:before { content: '\\e867'; } /* '' */\n.bpmn-icon-hand-tool:before { content: '\\e868'; } /* '' */\n.bpmn-icon-group:before { content: '\\e869'; } /* '' */\n.bpmn-icon-text-annotation:before { content: '\\e86b'; } /* '' */\n.bpmn-icon-transaction:before { content: '\\e8c4'; } /* '' */\n.bpmn-icon-connection:before { content: '\\e8d8'; } /* '' */\n.bpmn-icon-screw-wrench:before { content: '\\e8db'; } /* '' */\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "@font-face {\n  font-family: 'bpmn';\n  src: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ");\n  src: url(" + ___CSS_LOADER_URL_REPLACEMENT_1___ + ") format('embedded-opentype'),\n       url(" + ___CSS_LOADER_URL_REPLACEMENT_2___ + ") format('woff2'),\n       url(" + ___CSS_LOADER_URL_REPLACEMENT_3___ + ") format('woff'),\n       url(" + ___CSS_LOADER_URL_REPLACEMENT_4___ + ") format('truetype'),\n       url(" + ___CSS_LOADER_URL_REPLACEMENT_5___ + ") format('svg');\n  font-weight: normal;\n  font-style: normal;\n}\n/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */\n/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */\n/*\n@media screen and (-webkit-min-device-pixel-ratio:0) {\n  @font-face {\n    font-family: 'bpmn';\n    src: url('../font/bpmn.svg?21877404#bpmn') format('svg');\n  }\n}\n*/\n[class^=\"bpmn-icon-\"]:before, [class*=\" bpmn-icon-\"]:before {\n  font-family: \"bpmn\";\n  font-style: normal;\n  font-weight: normal;\n  speak: never;\n\n  display: inline-block;\n  text-decoration: inherit;\n  width: 1em;\n  /* margin-right: .2em; */\n  text-align: center;\n  /* opacity: .8; */\n\n  /* For safety - reset parent styles, that can break glyph codes*/\n  font-variant: normal;\n  text-transform: none;\n\n  /* fix buttons height, for twitter bootstrap */\n  line-height: 1em;\n\n  /* Animation center compensation - margins should be symmetric */\n  /* remove if not needed */\n  /* margin-left: .2em; */\n\n  /* you can be more comfortable with increased icons size */\n  /* font-size: 120%; */\n\n  /* Font smoothing. That was taken from TWBS */\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n\n  /* Uncomment for 3D effect */\n  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */\n}\n\n.bpmn-icon-trash:before { content: '\\e801'; } /* '' */\n.bpmn-icon-gateway-parallel:before { content: '\\e804'; } /* '' */\n.bpmn-icon-intermediate-event-catch-cancel:before { content: '\\e805'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-message:before { content: '\\e806'; } /* '' */\n.bpmn-icon-start-event-compensation:before { content: '\\e807'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-parallel-multiple:before { content: '\\e808'; } /* '' */\n.bpmn-icon-loop-marker:before { content: '\\e809'; } /* '' */\n.bpmn-icon-parallel-mi-marker:before { content: '\\e80a'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-signal:before { content: '\\e80b'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-timer:before { content: '\\e80c'; } /* '' */\n.bpmn-icon-intermediate-event-catch-parallel-multiple:before { content: '\\e80d'; } /* '' */\n.bpmn-icon-intermediate-event-catch-compensation:before { content: '\\e80e'; } /* '' */\n.bpmn-icon-gateway-xor:before { content: '\\e80f'; } /* '' */\n.bpmn-icon-end-event-cancel:before { content: '\\e811'; } /* '' */\n.bpmn-icon-intermediate-event-catch-condition:before { content: '\\e812'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-parallel-multiple:before { content: '\\e813'; } /* '' */\n.bpmn-icon-start-event-condition:before { content: '\\e814'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-timer:before { content: '\\e815'; } /* '' */\n.bpmn-icon-sequential-mi-marker:before { content: '\\e816'; } /* '' */\n.bpmn-icon-user-task:before { content: '\\e817'; } /* '' */\n.bpmn-icon-business-rule:before { content: '\\e818'; } /* '' */\n.bpmn-icon-sub-process-marker:before { content: '\\e819'; } /* '' */\n.bpmn-icon-start-event-parallel-multiple:before { content: '\\e81a'; } /* '' */\n.bpmn-icon-start-event-error:before { content: '\\e81b'; } /* '' */\n.bpmn-icon-intermediate-event-catch-signal:before { content: '\\e81c'; } /* '' */\n.bpmn-icon-intermediate-event-catch-error:before { content: '\\e81d'; } /* '' */\n.bpmn-icon-end-event-compensation:before { content: '\\e81e'; } /* '' */\n.bpmn-icon-subprocess-collapsed:before { content: '\\e81f'; } /* '' */\n.bpmn-icon-subprocess-expanded:before { content: '\\e820'; } /* '' */\n.bpmn-icon-task:before { content: '\\e821'; } /* '' */\n.bpmn-icon-end-event-error:before { content: '\\e822'; } /* '' */\n.bpmn-icon-intermediate-event-catch-escalation:before { content: '\\e823'; } /* '' */\n.bpmn-icon-intermediate-event-catch-timer:before { content: '\\e824'; } /* '' */\n.bpmn-icon-start-event-escalation:before { content: '\\e825'; } /* '' */\n.bpmn-icon-start-event-signal:before { content: '\\e826'; } /* '' */\n.bpmn-icon-business-rule-task:before { content: '\\e827'; } /* '' */\n.bpmn-icon-manual:before { content: '\\e828'; } /* '' */\n.bpmn-icon-receive:before { content: '\\e829'; } /* '' */\n.bpmn-icon-call-activity:before { content: '\\e82a'; } /* '' */\n.bpmn-icon-start-event-timer:before { content: '\\e82b'; } /* '' */\n.bpmn-icon-start-event-message:before { content: '\\e82c'; } /* '' */\n.bpmn-icon-intermediate-event-none:before { content: '\\e82d'; } /* '' */\n.bpmn-icon-intermediate-event-catch-link:before { content: '\\e82e'; } /* '' */\n.bpmn-icon-end-event-escalation:before { content: '\\e82f'; } /* '' */\n.bpmn-icon-bpmn-io:before { content: '\\e831'; } /* '' */\n.bpmn-icon-gateway-complex:before { content: '\\e832'; } /* '' */\n.bpmn-icon-gateway-eventbased:before { content: '\\e833'; } /* '' */\n.bpmn-icon-gateway-none:before { content: '\\e834'; } /* '' */\n.bpmn-icon-gateway-or:before { content: '\\e835'; } /* '' */\n.bpmn-icon-end-event-terminate:before { content: '\\e836'; } /* '' */\n.bpmn-icon-end-event-signal:before { content: '\\e837'; } /* '' */\n.bpmn-icon-end-event-none:before { content: '\\e838'; } /* '' */\n.bpmn-icon-end-event-multiple:before { content: '\\e839'; } /* '' */\n.bpmn-icon-end-event-message:before { content: '\\e83a'; } /* '' */\n.bpmn-icon-end-event-link:before { content: '\\e83b'; } /* '' */\n.bpmn-icon-intermediate-event-catch-message:before { content: '\\e83c'; } /* '' */\n.bpmn-icon-intermediate-event-throw-compensation:before { content: '\\e83d'; } /* '' */\n.bpmn-icon-start-event-multiple:before { content: '\\e83e'; } /* '' */\n.bpmn-icon-script:before { content: '\\e83f'; } /* '' */\n.bpmn-icon-manual-task:before { content: '\\e840'; } /* '' */\n.bpmn-icon-send:before { content: '\\e841'; } /* '' */\n.bpmn-icon-service:before { content: '\\e842'; } /* '' */\n.bpmn-icon-receive-task:before { content: '\\e843'; } /* '' */\n.bpmn-icon-user:before { content: '\\e844'; } /* '' */\n.bpmn-icon-start-event-none:before { content: '\\e845'; } /* '' */\n.bpmn-icon-intermediate-event-throw-escalation:before { content: '\\e846'; } /* '' */\n.bpmn-icon-intermediate-event-catch-multiple:before { content: '\\e847'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-escalation:before { content: '\\e848'; } /* '' */\n.bpmn-icon-intermediate-event-throw-link:before { content: '\\e849'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-condition:before { content: '\\e84a'; } /* '' */\n.bpmn-icon-data-object:before { content: '\\e84b'; } /* '' */\n.bpmn-icon-script-task:before { content: '\\e84c'; } /* '' */\n.bpmn-icon-send-task:before { content: '\\e84d'; } /* '' */\n.bpmn-icon-data-store:before { content: '\\e84e'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-escalation:before { content: '\\e84f'; } /* '' */\n.bpmn-icon-intermediate-event-throw-message:before { content: '\\e850'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-multiple:before { content: '\\e851'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-signal:before { content: '\\e852'; } /* '' */\n.bpmn-icon-intermediate-event-throw-multiple:before { content: '\\e853'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-message:before { content: '\\e854'; } /* '' */\n.bpmn-icon-ad-hoc-marker:before { content: '\\e855'; } /* '' */\n.bpmn-icon-service-task:before { content: '\\e856'; } /* '' */\n.bpmn-icon-task-none:before { content: '\\e857'; } /* '' */\n.bpmn-icon-compensation-marker:before { content: '\\e858'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-multiple:before { content: '\\e859'; } /* '' */\n.bpmn-icon-intermediate-event-throw-signal:before { content: '\\e85a'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-condition:before { content: '\\e85b'; } /* '' */\n.bpmn-icon-participant:before { content: '\\e85c'; } /* '' */\n.bpmn-icon-event-subprocess-expanded:before { content: '\\e85d'; } /* '' */\n.bpmn-icon-lane-insert-below:before { content: '\\e85e'; } /* '' */\n.bpmn-icon-space-tool:before { content: '\\e85f'; } /* '' */\n.bpmn-icon-connection-multi:before { content: '\\e860'; } /* '' */\n.bpmn-icon-lane:before { content: '\\e861'; } /* '' */\n.bpmn-icon-lasso-tool:before { content: '\\e862'; } /* '' */\n.bpmn-icon-lane-insert-above:before { content: '\\e863'; } /* '' */\n.bpmn-icon-lane-divide-three:before { content: '\\e864'; } /* '' */\n.bpmn-icon-lane-divide-two:before { content: '\\e865'; } /* '' */\n.bpmn-icon-data-input:before { content: '\\e866'; } /* '' */\n.bpmn-icon-data-output:before { content: '\\e867'; } /* '' */\n.bpmn-icon-hand-tool:before { content: '\\e868'; } /* '' */\n.bpmn-icon-group:before { content: '\\e869'; } /* '' */\n.bpmn-icon-text-annotation:before { content: '\\e86b'; } /* '' */\n.bpmn-icon-transaction:before { content: '\\e8c4'; } /* '' */\n.bpmn-icon-screw-wrench:before { content: '\\e8db'; } /* '' */\n.bpmn-icon-connection:before { content: '\\e8dc'; } /* '' */\n.bpmn-icon-conditional-flow:before { content: '\\e8e0'; } /* '' */\n.bpmn-icon-default-flow:before { content: '\\e8e1'; } /* '' */\n", "",{"version":3,"sources":["webpack://./../node_modules/bpmn-font/dist/css/bpmn.css"],"names":[],"mappings":"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","sourcesContent":["@font-face {\n  font-family: 'bpmn';\n  src: url('../font/bpmn.eot?21877404');\n  src: url('../font/bpmn.eot?21877404#iefix') format('embedded-opentype'),\n       url('../font/bpmn.woff2?21877404') format('woff2'),\n       url('../font/bpmn.woff?21877404') format('woff'),\n       url('../font/bpmn.ttf?21877404') format('truetype'),\n       url('../font/bpmn.svg?21877404#bpmn') format('svg');\n  font-weight: normal;\n  font-style: normal;\n}\n/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */\n/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */\n/*\n@media screen and (-webkit-min-device-pixel-ratio:0) {\n  @font-face {\n    font-family: 'bpmn';\n    src: url('../font/bpmn.svg?21877404#bpmn') format('svg');\n  }\n}\n*/\n[class^=\"bpmn-icon-\"]:before, [class*=\" bpmn-icon-\"]:before {\n  font-family: \"bpmn\";\n  font-style: normal;\n  font-weight: normal;\n  speak: never;\n\n  display: inline-block;\n  text-decoration: inherit;\n  width: 1em;\n  /* margin-right: .2em; */\n  text-align: center;\n  /* opacity: .8; */\n\n  /* For safety - reset parent styles, that can break glyph codes*/\n  font-variant: normal;\n  text-transform: none;\n\n  /* fix buttons height, for twitter bootstrap */\n  line-height: 1em;\n\n  /* Animation center compensation - margins should be symmetric */\n  /* remove if not needed */\n  /* margin-left: .2em; */\n\n  /* you can be more comfortable with increased icons size */\n  /* font-size: 120%; */\n\n  /* Font smoothing. That was taken from TWBS */\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n\n  /* Uncomment for 3D effect */\n  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */\n}\n\n.bpmn-icon-trash:before { content: '\\e801'; } /* '' */\n.bpmn-icon-gateway-parallel:before { content: '\\e804'; } /* '' */\n.bpmn-icon-intermediate-event-catch-cancel:before { content: '\\e805'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-message:before { content: '\\e806'; } /* '' */\n.bpmn-icon-start-event-compensation:before { content: '\\e807'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-parallel-multiple:before { content: '\\e808'; } /* '' */\n.bpmn-icon-loop-marker:before { content: '\\e809'; } /* '' */\n.bpmn-icon-parallel-mi-marker:before { content: '\\e80a'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-signal:before { content: '\\e80b'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-timer:before { content: '\\e80c'; } /* '' */\n.bpmn-icon-intermediate-event-catch-parallel-multiple:before { content: '\\e80d'; } /* '' */\n.bpmn-icon-intermediate-event-catch-compensation:before { content: '\\e80e'; } /* '' */\n.bpmn-icon-gateway-xor:before { content: '\\e80f'; } /* '' */\n.bpmn-icon-end-event-cancel:before { content: '\\e811'; } /* '' */\n.bpmn-icon-intermediate-event-catch-condition:before { content: '\\e812'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-parallel-multiple:before { content: '\\e813'; } /* '' */\n.bpmn-icon-start-event-condition:before { content: '\\e814'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-timer:before { content: '\\e815'; } /* '' */\n.bpmn-icon-sequential-mi-marker:before { content: '\\e816'; } /* '' */\n.bpmn-icon-user-task:before { content: '\\e817'; } /* '' */\n.bpmn-icon-business-rule:before { content: '\\e818'; } /* '' */\n.bpmn-icon-sub-process-marker:before { content: '\\e819'; } /* '' */\n.bpmn-icon-start-event-parallel-multiple:before { content: '\\e81a'; } /* '' */\n.bpmn-icon-start-event-error:before { content: '\\e81b'; } /* '' */\n.bpmn-icon-intermediate-event-catch-signal:before { content: '\\e81c'; } /* '' */\n.bpmn-icon-intermediate-event-catch-error:before { content: '\\e81d'; } /* '' */\n.bpmn-icon-end-event-compensation:before { content: '\\e81e'; } /* '' */\n.bpmn-icon-subprocess-collapsed:before { content: '\\e81f'; } /* '' */\n.bpmn-icon-subprocess-expanded:before { content: '\\e820'; } /* '' */\n.bpmn-icon-task:before { content: '\\e821'; } /* '' */\n.bpmn-icon-end-event-error:before { content: '\\e822'; } /* '' */\n.bpmn-icon-intermediate-event-catch-escalation:before { content: '\\e823'; } /* '' */\n.bpmn-icon-intermediate-event-catch-timer:before { content: '\\e824'; } /* '' */\n.bpmn-icon-start-event-escalation:before { content: '\\e825'; } /* '' */\n.bpmn-icon-start-event-signal:before { content: '\\e826'; } /* '' */\n.bpmn-icon-business-rule-task:before { content: '\\e827'; } /* '' */\n.bpmn-icon-manual:before { content: '\\e828'; } /* '' */\n.bpmn-icon-receive:before { content: '\\e829'; } /* '' */\n.bpmn-icon-call-activity:before { content: '\\e82a'; } /* '' */\n.bpmn-icon-start-event-timer:before { content: '\\e82b'; } /* '' */\n.bpmn-icon-start-event-message:before { content: '\\e82c'; } /* '' */\n.bpmn-icon-intermediate-event-none:before { content: '\\e82d'; } /* '' */\n.bpmn-icon-intermediate-event-catch-link:before { content: '\\e82e'; } /* '' */\n.bpmn-icon-end-event-escalation:before { content: '\\e82f'; } /* '' */\n.bpmn-icon-bpmn-io:before { content: '\\e831'; } /* '' */\n.bpmn-icon-gateway-complex:before { content: '\\e832'; } /* '' */\n.bpmn-icon-gateway-eventbased:before { content: '\\e833'; } /* '' */\n.bpmn-icon-gateway-none:before { content: '\\e834'; } /* '' */\n.bpmn-icon-gateway-or:before { content: '\\e835'; } /* '' */\n.bpmn-icon-end-event-terminate:before { content: '\\e836'; } /* '' */\n.bpmn-icon-end-event-signal:before { content: '\\e837'; } /* '' */\n.bpmn-icon-end-event-none:before { content: '\\e838'; } /* '' */\n.bpmn-icon-end-event-multiple:before { content: '\\e839'; } /* '' */\n.bpmn-icon-end-event-message:before { content: '\\e83a'; } /* '' */\n.bpmn-icon-end-event-link:before { content: '\\e83b'; } /* '' */\n.bpmn-icon-intermediate-event-catch-message:before { content: '\\e83c'; } /* '' */\n.bpmn-icon-intermediate-event-throw-compensation:before { content: '\\e83d'; } /* '' */\n.bpmn-icon-start-event-multiple:before { content: '\\e83e'; } /* '' */\n.bpmn-icon-script:before { content: '\\e83f'; } /* '' */\n.bpmn-icon-manual-task:before { content: '\\e840'; } /* '' */\n.bpmn-icon-send:before { content: '\\e841'; } /* '' */\n.bpmn-icon-service:before { content: '\\e842'; } /* '' */\n.bpmn-icon-receive-task:before { content: '\\e843'; } /* '' */\n.bpmn-icon-user:before { content: '\\e844'; } /* '' */\n.bpmn-icon-start-event-none:before { content: '\\e845'; } /* '' */\n.bpmn-icon-intermediate-event-throw-escalation:before { content: '\\e846'; } /* '' */\n.bpmn-icon-intermediate-event-catch-multiple:before { content: '\\e847'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-escalation:before { content: '\\e848'; } /* '' */\n.bpmn-icon-intermediate-event-throw-link:before { content: '\\e849'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-condition:before { content: '\\e84a'; } /* '' */\n.bpmn-icon-data-object:before { content: '\\e84b'; } /* '' */\n.bpmn-icon-script-task:before { content: '\\e84c'; } /* '' */\n.bpmn-icon-send-task:before { content: '\\e84d'; } /* '' */\n.bpmn-icon-data-store:before { content: '\\e84e'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-escalation:before { content: '\\e84f'; } /* '' */\n.bpmn-icon-intermediate-event-throw-message:before { content: '\\e850'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-multiple:before { content: '\\e851'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-signal:before { content: '\\e852'; } /* '' */\n.bpmn-icon-intermediate-event-throw-multiple:before { content: '\\e853'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-message:before { content: '\\e854'; } /* '' */\n.bpmn-icon-ad-hoc-marker:before { content: '\\e855'; } /* '' */\n.bpmn-icon-service-task:before { content: '\\e856'; } /* '' */\n.bpmn-icon-task-none:before { content: '\\e857'; } /* '' */\n.bpmn-icon-compensation-marker:before { content: '\\e858'; } /* '' */\n.bpmn-icon-start-event-non-interrupting-multiple:before { content: '\\e859'; } /* '' */\n.bpmn-icon-intermediate-event-throw-signal:before { content: '\\e85a'; } /* '' */\n.bpmn-icon-intermediate-event-catch-non-interrupting-condition:before { content: '\\e85b'; } /* '' */\n.bpmn-icon-participant:before { content: '\\e85c'; } /* '' */\n.bpmn-icon-event-subprocess-expanded:before { content: '\\e85d'; } /* '' */\n.bpmn-icon-lane-insert-below:before { content: '\\e85e'; } /* '' */\n.bpmn-icon-space-tool:before { content: '\\e85f'; } /* '' */\n.bpmn-icon-connection-multi:before { content: '\\e860'; } /* '' */\n.bpmn-icon-lane:before { content: '\\e861'; } /* '' */\n.bpmn-icon-lasso-tool:before { content: '\\e862'; } /* '' */\n.bpmn-icon-lane-insert-above:before { content: '\\e863'; } /* '' */\n.bpmn-icon-lane-divide-three:before { content: '\\e864'; } /* '' */\n.bpmn-icon-lane-divide-two:before { content: '\\e865'; } /* '' */\n.bpmn-icon-data-input:before { content: '\\e866'; } /* '' */\n.bpmn-icon-data-output:before { content: '\\e867'; } /* '' */\n.bpmn-icon-hand-tool:before { content: '\\e868'; } /* '' */\n.bpmn-icon-group:before { content: '\\e869'; } /* '' */\n.bpmn-icon-text-annotation:before { content: '\\e86b'; } /* '' */\n.bpmn-icon-transaction:before { content: '\\e8c4'; } /* '' */\n.bpmn-icon-screw-wrench:before { content: '\\e8db'; } /* '' */\n.bpmn-icon-connection:before { content: '\\e8dc'; } /* '' */\n.bpmn-icon-conditional-flow:before { content: '\\e8e0'; } /* '' */\n.bpmn-icon-default-flow:before { content: '\\e8e1'; } /* '' */\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -45221,9 +45305,9 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "../node_modules/bpmn-font/dist/font/bpmn.eot?84292322":
+/***/ "../node_modules/bpmn-font/dist/font/bpmn.eot?21877404":
 /*!*************************************************************!*\
-  !*** ../node_modules/bpmn-font/dist/font/bpmn.eot?84292322 ***!
+  !*** ../node_modules/bpmn-font/dist/font/bpmn.eot?21877404 ***!
   \*************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -45232,13 +45316,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "b1d963e70b6f5fd75881a8c068c9e980.eot");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "1e08c7f04f4855050724fe7a2122a5b5.eot");
 
 /***/ }),
 
-/***/ "../node_modules/bpmn-font/dist/font/bpmn.svg?84292322":
+/***/ "../node_modules/bpmn-font/dist/font/bpmn.svg?21877404":
 /*!*************************************************************!*\
-  !*** ../node_modules/bpmn-font/dist/font/bpmn.svg?84292322 ***!
+  !*** ../node_modules/bpmn-font/dist/font/bpmn.svg?21877404 ***!
   \*************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -45247,13 +45331,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "b179b5ac8a23644512962544eddc12ef.svg");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "cb4be0230caf509ac4757cca74970df8.svg");
 
 /***/ }),
 
-/***/ "../node_modules/bpmn-font/dist/font/bpmn.ttf?84292322":
+/***/ "../node_modules/bpmn-font/dist/font/bpmn.ttf?21877404":
 /*!*************************************************************!*\
-  !*** ../node_modules/bpmn-font/dist/font/bpmn.ttf?84292322 ***!
+  !*** ../node_modules/bpmn-font/dist/font/bpmn.ttf?21877404 ***!
   \*************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -45262,13 +45346,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "aa0b12a1fa7ace28edbc5f9104d6e4a7.ttf");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "2185c437d9db3238642592f6f0f63b2e.ttf");
 
 /***/ }),
 
-/***/ "../node_modules/bpmn-font/dist/font/bpmn.woff2?84292322":
+/***/ "../node_modules/bpmn-font/dist/font/bpmn.woff2?21877404":
 /*!***************************************************************!*\
-  !*** ../node_modules/bpmn-font/dist/font/bpmn.woff2?84292322 ***!
+  !*** ../node_modules/bpmn-font/dist/font/bpmn.woff2?21877404 ***!
   \***************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -45277,13 +45361,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "5a349fc9e9ef257b6cd69635ad050d44.woff2");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "9c989372615cb2cfbaa64a9cc23052cb.woff2");
 
 /***/ }),
 
-/***/ "../node_modules/bpmn-font/dist/font/bpmn.woff?84292322":
+/***/ "../node_modules/bpmn-font/dist/font/bpmn.woff?21877404":
 /*!**************************************************************!*\
-  !*** ../node_modules/bpmn-font/dist/font/bpmn.woff?84292322 ***!
+  !*** ../node_modules/bpmn-font/dist/font/bpmn.woff?21877404 ***!
   \**************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -45292,7 +45376,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "d3ab105879bbeb5eb003cb4a35e05fb6.woff");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "8809b45a3f056691179911dbb6f71066.woff");
 
 /***/ }),
 
@@ -59816,7 +59900,9 @@ Registry.prototype.registerType = function(type, pkg) {
   });
 
   (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.forEach)(type.extends, (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.bind)(function(extendsName) {
-    var extended = this.typeMap[extendsName];
+    var extendsNameNs = parseName(extendsName, ns.prefix);
+
+    var extended = this.typeMap[extendsNameNs.name];
 
     extended.traits = extended.traits || [];
     extended.traits.push(name);
