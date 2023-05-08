@@ -10,13 +10,13 @@ import {
 } from 'diagram-js/lib/util/Collections';
 
 import {
-  Label
-} from 'diagram-js/lib/model';
-
-import {
   getBusinessObject,
   is
 } from '../../util/ModelUtil';
+
+import {
+  isLabel
+} from '../../util/LabelUtil';
 
 import CommandInterceptor from 'diagram-js/lib/command/CommandInterceptor';
 
@@ -242,7 +242,7 @@ ODUpdater.prototype.updateAttachment = function(context) {
 ODUpdater.prototype.updateParent = function(element, oldParent) {
 
   // do not update label parent
-  if (element instanceof Label) {
+  if (isLabel(element)) {
     return;
   }
 
@@ -262,7 +262,7 @@ ODUpdater.prototype.updateBounds = function(shape) {
 
   var di = shape.businessObject.di;
 
-  var target = (shape instanceof Label) ? this._getLabel(di) : di;
+  var target = isLabel(shape) ? this._getLabel(di) : di;
 
   var bounds = target.bounds;
 
