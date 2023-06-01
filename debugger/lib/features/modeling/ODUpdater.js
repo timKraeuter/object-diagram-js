@@ -6,10 +6,6 @@ import {
 import inherits from 'inherits-browser';
 
 import {
-  isLabel,
-} from '../../util/LabelUtil';
-
-import {
   remove as collectionRemove
 } from 'diagram-js/lib/util/Collections';
 
@@ -17,6 +13,10 @@ import {
   getBusinessObject,
   is
 } from '../../util/ModelUtil';
+
+import {
+  isLabel
+} from '../../util/LabelUtil';
 
 import CommandInterceptor from 'diagram-js/lib/command/CommandInterceptor';
 
@@ -262,7 +262,7 @@ ODUpdater.prototype.updateBounds = function(shape) {
 
   var di = shape.businessObject.di;
 
-  var target = (isLabel(shape)) ? this._getLabel(di) : di;
+  var target = isLabel(shape) ? this._getLabel(di) : di;
 
   var bounds = target.bounds;
 
@@ -318,11 +318,11 @@ ODUpdater.prototype.updateSemanticParent = function(businessObject, newParent, v
 
   if (!containment) {
     throw new Error(translate(
-        'no parent for {element} in {parent}',
-        {
-          element: businessObject.id,
-          parent: newParent.id
-        }
+      'no parent for {element} in {parent}',
+      {
+        element: businessObject.id,
+        parent: newParent.id
+      }
     ));
   }
 
