@@ -1553,11 +1553,11 @@ function getColor(element) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getDi": () => (/* binding */ getDi),
-/* harmony export */   "getFillColor": () => (/* binding */ getFillColor),
-/* harmony export */   "getRectPath": () => (/* binding */ getRectPath),
-/* harmony export */   "getSemantic": () => (/* binding */ getSemantic),
-/* harmony export */   "getStrokeColor": () => (/* binding */ getStrokeColor)
+/* harmony export */   getDi: () => (/* binding */ getDi),
+/* harmony export */   getFillColor: () => (/* binding */ getFillColor),
+/* harmony export */   getRectPath: () => (/* binding */ getRectPath),
+/* harmony export */   getSemantic: () => (/* binding */ getSemantic),
+/* harmony export */   getStrokeColor: () => (/* binding */ getStrokeColor)
 /* harmony export */ });
 /* harmony import */ var diagram_js_lib_util_RenderUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! diagram-js/lib/util/RenderUtil */ "../node_modules/diagram-js/lib/util/RenderUtil.js");
 /* harmony import */ var _util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/ModelUtil */ "../lib/util/ModelUtil.js");
@@ -1799,8 +1799,8 @@ AutoPlace.$inject = [ 'eventBus' ];
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getFlowNodePosition": () => (/* binding */ getFlowNodePosition),
-/* harmony export */   "getNewShapePosition": () => (/* binding */ getNewShapePosition)
+/* harmony export */   getFlowNodePosition: () => (/* binding */ getFlowNodePosition),
+/* harmony export */   getNewShapePosition: () => (/* binding */ getNewShapePosition)
 /* harmony export */ });
 /* harmony import */ var _util_ModelUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../util/ModelUtil */ "../lib/util/ModelUtil.js");
 /* harmony import */ var diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! diagram-js/lib/layout/LayoutUtil */ "../node_modules/diagram-js/lib/layout/LayoutUtil.js");
@@ -2153,7 +2153,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ ModdleCopy),
-/* harmony export */   "getPropertyNames": () => (/* binding */ getPropertyNames)
+/* harmony export */   getPropertyNames: () => (/* binding */ getPropertyNames)
 /* harmony export */ });
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 
@@ -3741,8 +3741,8 @@ function isEmptyText(label) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getLabel": () => (/* binding */ getLabel),
-/* harmony export */   "setLabel": () => (/* binding */ setLabel)
+/* harmony export */   getLabel: () => (/* binding */ getLabel),
+/* harmony export */   setLabel: () => (/* binding */ setLabel)
 /* harmony export */ });
 /* harmony import */ var _modeling_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../modeling/util/ModelingUtil */ "../lib/features/modeling/util/ModelingUtil.js");
 
@@ -4478,8 +4478,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 /* harmony import */ var inherits_browser__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! inherits-browser */ "../node_modules/inherits-browser/dist/index.es.js");
+/* harmony import */ var _util_LabelUtil__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../util/LabelUtil */ "../lib/util/LabelUtil.js");
 /* harmony import */ var diagram_js_lib_util_Collections__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! diagram-js/lib/util/Collections */ "../node_modules/diagram-js/lib/util/Collections.js");
-/* harmony import */ var diagram_js_lib_model__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! diagram-js/lib/model */ "../node_modules/diagram-js/lib/model/index.js");
 /* harmony import */ var _util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/ModelUtil */ "../lib/util/ModelUtil.js");
 /* harmony import */ var diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! diagram-js/lib/command/CommandInterceptor */ "../node_modules/diagram-js/lib/command/CommandInterceptor.js");
 
@@ -4716,7 +4716,7 @@ ODUpdater.prototype.updateAttachment = function(context) {
 ODUpdater.prototype.updateParent = function(element, oldParent) {
 
   // do not update label parent
-  if (element instanceof diagram_js_lib_model__WEBPACK_IMPORTED_MODULE_4__.Label) {
+  if ((0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_4__.isLabel)(element)) {
     return;
   }
 
@@ -4736,7 +4736,7 @@ ODUpdater.prototype.updateBounds = function(shape) {
 
   var di = shape.businessObject.di;
 
-  var target = (shape instanceof diagram_js_lib_model__WEBPACK_IMPORTED_MODULE_4__.Label) ? this._getLabel(di) : di;
+  var target = ((0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_4__.isLabel)(shape)) ? this._getLabel(di) : di;
 
   var bounds = target.bounds;
 
@@ -5470,10 +5470,10 @@ function getDistance(p1, p2) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "asEdges": () => (/* binding */ asEdges),
+/* harmony export */   asEdges: () => (/* binding */ asEdges),
 /* harmony export */   "default": () => (/* binding */ LabelBehavior),
-/* harmony export */   "getReferencePoint": () => (/* binding */ getReferencePoint),
-/* harmony export */   "getReferencePointDelta": () => (/* binding */ getReferencePointDelta)
+/* harmony export */   getReferencePoint: () => (/* binding */ getReferencePoint),
+/* harmony export */   getReferencePointDelta: () => (/* binding */ getReferencePointDelta)
 /* harmony export */ });
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 /* harmony import */ var inherits_browser__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! inherits-browser */ "../node_modules/inherits-browser/dist/index.es.js");
@@ -5964,12 +5964,12 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getAngle": () => (/* binding */ getAngle),
-/* harmony export */   "getDistancePointLine": () => (/* binding */ getDistancePointLine),
-/* harmony export */   "getDistancePointPoint": () => (/* binding */ getDistancePointPoint),
-/* harmony export */   "perpendicularFoot": () => (/* binding */ perpendicularFoot),
-/* harmony export */   "rotateVector": () => (/* binding */ rotateVector),
-/* harmony export */   "vectorLength": () => (/* binding */ vectorLength)
+/* harmony export */   getAngle: () => (/* binding */ getAngle),
+/* harmony export */   getDistancePointLine: () => (/* binding */ getDistancePointLine),
+/* harmony export */   getDistancePointPoint: () => (/* binding */ getDistancePointPoint),
+/* harmony export */   perpendicularFoot: () => (/* binding */ perpendicularFoot),
+/* harmony export */   rotateVector: () => (/* binding */ rotateVector),
+/* harmony export */   vectorLength: () => (/* binding */ vectorLength)
 /* harmony export */ });
 /**
  * Returns the length of a vector
@@ -6104,8 +6104,8 @@ function getDistancePointPoint(point1, point2) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "findNewLabelLineStartIndex": () => (/* binding */ findNewLabelLineStartIndex),
-/* harmony export */   "getLabelAdjustment": () => (/* binding */ getLabelAdjustment)
+/* harmony export */   findNewLabelLineStartIndex: () => (/* binding */ findNewLabelLineStartIndex),
+/* harmony export */   getLabelAdjustment: () => (/* binding */ getLabelAdjustment)
 /* harmony export */ });
 /* harmony import */ var _GeometricUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GeometricUtil */ "../lib/features/modeling/behavior/util/GeometricUtil.js");
 /* harmony import */ var _LineAttachmentUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LineAttachmentUtil */ "../lib/features/modeling/behavior/util/LineAttachmentUtil.js");
@@ -6337,7 +6337,7 @@ function getRelativeFootPosition(line, foot) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getAttachment": () => (/* binding */ getAttachment)
+/* harmony export */   getAttachment: () => (/* binding */ getAttachment)
 /* harmony export */ });
 var sqrt = Math.sqrt,
     min = Math.min,
@@ -7083,8 +7083,8 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getParent": () => (/* binding */ getParent),
-/* harmony export */   "isAny": () => (/* binding */ isAny)
+/* harmony export */   getParent: () => (/* binding */ getParent),
+/* harmony export */   isAny: () => (/* binding */ isAny)
 /* harmony export */ });
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 /* harmony import */ var _util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../util/ModelUtil */ "../lib/util/ModelUtil.js");
@@ -8063,7 +8063,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "importOdDiagram": () => (/* binding */ importOdDiagram)
+/* harmony export */   importOdDiagram: () => (/* binding */ importOdDiagram)
 /* harmony export */ });
 /* harmony import */ var _OdTreeWalker__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./OdTreeWalker */ "../lib/import/OdTreeWalker.js");
 
@@ -8730,7 +8730,7 @@ function OdTreeWalker(handler, translate) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "elementToString": () => (/* binding */ elementToString)
+/* harmony export */   elementToString: () => (/* binding */ elementToString)
 /* harmony export */ });
 function elementToString(e) {
   if (!e) {
@@ -8928,15 +8928,15 @@ var packages = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "DEFAULT_LABEL_SIZE": () => (/* binding */ DEFAULT_LABEL_SIZE),
-/* harmony export */   "FLOW_LABEL_INDENT": () => (/* binding */ FLOW_LABEL_INDENT),
-/* harmony export */   "getExternalLabelBounds": () => (/* binding */ getExternalLabelBounds),
-/* harmony export */   "getExternalLabelMid": () => (/* binding */ getExternalLabelMid),
-/* harmony export */   "getFlowLabelPosition": () => (/* binding */ getFlowLabelPosition),
-/* harmony export */   "getWaypointsMid": () => (/* binding */ getWaypointsMid),
-/* harmony export */   "hasExternalLabel": () => (/* binding */ hasExternalLabel),
-/* harmony export */   "isLabel": () => (/* binding */ isLabel),
-/* harmony export */   "isLabelExternal": () => (/* binding */ isLabelExternal)
+/* harmony export */   DEFAULT_LABEL_SIZE: () => (/* binding */ DEFAULT_LABEL_SIZE),
+/* harmony export */   FLOW_LABEL_INDENT: () => (/* binding */ FLOW_LABEL_INDENT),
+/* harmony export */   getExternalLabelBounds: () => (/* binding */ getExternalLabelBounds),
+/* harmony export */   getExternalLabelMid: () => (/* binding */ getExternalLabelMid),
+/* harmony export */   getFlowLabelPosition: () => (/* binding */ getFlowLabelPosition),
+/* harmony export */   getWaypointsMid: () => (/* binding */ getWaypointsMid),
+/* harmony export */   hasExternalLabel: () => (/* binding */ hasExternalLabel),
+/* harmony export */   isLabel: () => (/* binding */ isLabel),
+/* harmony export */   isLabelExternal: () => (/* binding */ isLabelExternal)
 /* harmony export */ });
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 /* harmony import */ var _ModelUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ModelUtil */ "../lib/util/ModelUtil.js");
@@ -9093,8 +9093,8 @@ function isLabel(element) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getBusinessObject": () => (/* binding */ getBusinessObject),
-/* harmony export */   "is": () => (/* binding */ is)
+/* harmony export */   getBusinessObject: () => (/* binding */ getBusinessObject),
+/* harmony export */   is: () => (/* binding */ is)
 /* harmony export */ });
 /**
  * Is an element of the given od type?
@@ -9133,8 +9133,8 @@ function getBusinessObject(element) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "BPMNIO_IMG": () => (/* binding */ BPMNIO_IMG),
-/* harmony export */   "open": () => (/* binding */ open)
+/* harmony export */   BPMNIO_IMG: () => (/* binding */ BPMNIO_IMG),
+/* harmony export */   open: () => (/* binding */ open)
 /* harmony export */ });
 /* harmony import */ var min_dom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dom */ "../node_modules/min-dom/dist/index.esm.js");
 /**
@@ -9213,116 +9213,6 @@ function open() {
 
   document.body.appendChild(lightbox);
 }
-
-/***/ }),
-
-/***/ "../node_modules/css.escape/css.escape.js":
-/*!************************************************!*\
-  !*** ../node_modules/css.escape/css.escape.js ***!
-  \************************************************/
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
-
-/*! https://mths.be/cssescape v1.5.1 by @mathias | MIT license */
-;(function(root, factory) {
-	// https://github.com/umdjs/umd/blob/master/returnExports.js
-	if (true) {
-		// For Node.js.
-		module.exports = factory(root);
-	} else {}
-}(typeof __webpack_require__.g != 'undefined' ? __webpack_require__.g : this, function(root) {
-
-	if (root.CSS && root.CSS.escape) {
-		return root.CSS.escape;
-	}
-
-	// https://drafts.csswg.org/cssom/#serialize-an-identifier
-	var cssEscape = function(value) {
-		if (arguments.length == 0) {
-			throw new TypeError('`CSS.escape` requires an argument.');
-		}
-		var string = String(value);
-		var length = string.length;
-		var index = -1;
-		var codeUnit;
-		var result = '';
-		var firstCodeUnit = string.charCodeAt(0);
-		while (++index < length) {
-			codeUnit = string.charCodeAt(index);
-			// Note: there’s no need to special-case astral symbols, surrogate
-			// pairs, or lone surrogates.
-
-			// If the character is NULL (U+0000), then the REPLACEMENT CHARACTER
-			// (U+FFFD).
-			if (codeUnit == 0x0000) {
-				result += '\uFFFD';
-				continue;
-			}
-
-			if (
-				// If the character is in the range [\1-\1F] (U+0001 to U+001F) or is
-				// U+007F, […]
-				(codeUnit >= 0x0001 && codeUnit <= 0x001F) || codeUnit == 0x007F ||
-				// If the character is the first character and is in the range [0-9]
-				// (U+0030 to U+0039), […]
-				(index == 0 && codeUnit >= 0x0030 && codeUnit <= 0x0039) ||
-				// If the character is the second character and is in the range [0-9]
-				// (U+0030 to U+0039) and the first character is a `-` (U+002D), […]
-				(
-					index == 1 &&
-					codeUnit >= 0x0030 && codeUnit <= 0x0039 &&
-					firstCodeUnit == 0x002D
-				)
-			) {
-				// https://drafts.csswg.org/cssom/#escape-a-character-as-code-point
-				result += '\\' + codeUnit.toString(16) + ' ';
-				continue;
-			}
-
-			if (
-				// If the character is the first character and is a `-` (U+002D), and
-				// there is no second character, […]
-				index == 0 &&
-				length == 1 &&
-				codeUnit == 0x002D
-			) {
-				result += '\\' + string.charAt(index);
-				continue;
-			}
-
-			// If the character is not handled by one of the above rules and is
-			// greater than or equal to U+0080, is `-` (U+002D) or `_` (U+005F), or
-			// is in one of the ranges [0-9] (U+0030 to U+0039), [A-Z] (U+0041 to
-			// U+005A), or [a-z] (U+0061 to U+007A), […]
-			if (
-				codeUnit >= 0x0080 ||
-				codeUnit == 0x002D ||
-				codeUnit == 0x005F ||
-				codeUnit >= 0x0030 && codeUnit <= 0x0039 ||
-				codeUnit >= 0x0041 && codeUnit <= 0x005A ||
-				codeUnit >= 0x0061 && codeUnit <= 0x007A
-			) {
-				// the character itself
-				result += string.charAt(index);
-				continue;
-			}
-
-			// Otherwise, the escaped character.
-			// https://drafts.csswg.org/cssom/#escape-a-character
-			result += '\\' + string.charAt(index);
-
-		}
-		return result;
-	};
-
-	if (!root.CSS) {
-		root.CSS = {};
-	}
-
-	root.CSS.escape = cssEscape;
-	return cssEscape;
-
-}));
-
 
 /***/ }),
 
@@ -10044,13 +9934,19 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /**
- * @typedef { import('didi').ModuleDeclaration } Module
+ * @typedef {import('didi').InjectionContext} InjectionContext
+ * @typedef {import('didi').LocalsMap} LocalsMap
+ * @typedef {import('didi').ModuleDeclaration} ModuleDeclaration
+ *
+ * @typedef { {
+ *   modules?: ModuleDeclaration[];
+ * } & Record<string, any> } DiagramOptions
  */
 
 /**
  * Bootstrap an injector from a list of modules, instantiating a number of default components
  *
- * @param {Array<Module>} modules
+ * @param {ModuleDeclaration[]} modules
  *
  * @return {Injector} a injector to use to access the components
  */
@@ -10065,13 +9961,17 @@ function bootstrap(modules) {
 /**
  * Creates an injector from passed options.
  *
- * @param {Object} options
+ * @param {DiagramOptions} [options]
+ *
  * @return {Injector}
  */
 function createInjector(options) {
 
   options = options || {};
 
+  /**
+   * @type { ModuleDeclaration }
+   */
   var configModule = {
     'config': [ 'value', options ]
   };
@@ -10088,15 +9988,13 @@ function createInjector(options) {
  *
  * To register extensions with the diagram, pass them as Array<Module> to the constructor.
  *
- * @class djs.Diagram
- * @memberOf djs
+ * @class
  * @constructor
  *
- * @example
+ * @example Creating a plug-in that logs whenever a shape is added to the canvas.
  *
- * <caption>Creating a plug-in that logs whenever a shape is added to the canvas.</caption>
- *
- * // plug-in implemenentation
+ * ```javascript
+ * // plug-in implementation
  * function MyLoggingPlugin(eventBus) {
  *   eventBus.on('shape.added', function(event) {
  *     console.log('shape ', event.shape, ' was added to the diagram');
@@ -10108,10 +10006,11 @@ function createInjector(options) {
  *   __init__: [ 'myLoggingPlugin' ],
  *     myLoggingPlugin: [ 'type', MyLoggingPlugin ]
  * };
+ * ```
  *
+ * Use the plug-in in a Diagram instance:
  *
- * // instantiate the diagram with the new plug-in
- *
+ * ```javascript
  * import MyLoggingModule from 'path-to-my-logging-plugin';
  *
  * var diagram = new Diagram({
@@ -10126,35 +10025,39 @@ function createInjector(options) {
  * });
  *
  * // 'shape ... was added to the diagram' logged to console
+ * ```
  *
- * @param {Object} options
- * @param {Array<Module>} [options.modules] external modules to instantiate with the diagram
- * @param {Injector} [injector] an (optional) injector to bootstrap the diagram with
+ * @param {DiagramOptions} [options]
+ * @param {Injector} [injector] An (optional) injector to bootstrap the diagram with.
  */
 function Diagram(options, injector) {
 
-  // create injector unless explicitly specified
-  this.injector = injector = injector || createInjector(options);
+  this._injector = injector = injector || createInjector(options);
 
   // API
 
   /**
-   * Resolves a diagram service
+   * Resolves a diagram service.
    *
-   * @method Diagram#get
+   * @template T
    *
-   * @param {string} name the name of the diagram service to be retrieved
-   * @param {boolean} [strict=true] if false, resolve missing services to null
+   * @param {string} name The name of the service to get.
+   * @param {boolean} [strict=true] If false, resolve missing services to null.
+   *
+   * @return {T|null}
    */
   this.get = injector.get;
 
   /**
-   * Executes a function into which diagram services are injected
+   * Executes a function with its dependencies injected.
    *
-   * @method Diagram#invoke
+   * @template T
    *
-   * @param {Function|Object[]} fn the function to resolve
-   * @param {Object} locals a number of locals to use to resolve certain dependencies
+   * @param {Function} func function to be invoked
+   * @param {InjectionContext} [context] context of the invocation
+   * @param {LocalsMap} [locals] locals provided
+   *
+   * @return {T|null}
    */
   this.invoke = injector.invoke;
 
@@ -10174,9 +10077,11 @@ function Diagram(options, injector) {
    *
    * @example
    *
+   * ```javascript
    * eventBus.on('diagram.init', function() {
    *   eventBus.fire('my-custom-event', { foo: 'BAR' });
    * });
+   * ```
    *
    * @type {Object}
    */
@@ -10186,8 +10091,6 @@ function Diagram(options, injector) {
 
 /**
  * Destroys the diagram
- *
- * @method  Diagram#destroy
  */
 Diagram.prototype.destroy = function() {
   this.get('eventBus').fire('diagram.destroy');
@@ -10217,33 +10120,47 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 
 
+/**
+ * @typedef {import('../core/Types').ElementLike} ElementLike
+ * @typedef {import('../core/EventBus').default} EventBus
+ * @typedef {import('./CommandStack').CommandContext} CommandContext
+ *
+ * @typedef {string|string[]} Events
+ * @typedef { (context: CommandContext) => ElementLike[] | void } HandlerFunction
+ * @typedef { (context: CommandContext) => void } ComposeHandlerFunction
+ */
 
 var DEFAULT_PRIORITY = 1000;
 
 /**
- * A utility that can be used to plug-in into the command execution for
+ * A utility that can be used to plug into the command execution for
  * extension and/or validation.
  *
- * @param {EventBus} eventBus
+ * @class
+ * @constructor
  *
  * @example
  *
- * import inherits from 'inherits-browser';
- *
+ * ```javascript
  * import CommandInterceptor from 'diagram-js/lib/command/CommandInterceptor';
  *
- * function CommandLogger(eventBus) {
- *   CommandInterceptor.call(this, eventBus);
+ * class CommandLogger extends CommandInterceptor {
+ *   constructor(eventBus) {
+ *     super(eventBus);
  *
- *   this.preExecute(function(event) {
- *     console.log('command pre-execute', event);
+ *   this.preExecute('shape.create', (event) => {
+ *     console.log('commandStack.shape-create.preExecute', event);
  *   });
  * }
+ * ```
  *
- * inherits(CommandLogger, CommandInterceptor);
- *
+ * @param {EventBus} eventBus
  */
 function CommandInterceptor(eventBus) {
+
+  /**
+   * @type {EventBus}
+   */
   this._eventBus = eventBus;
 }
 
@@ -10255,16 +10172,16 @@ function unwrapEvent(fn, that) {
   };
 }
 
+
 /**
- * Register an interceptor for a command execution
+ * Intercept a command during one of the phases.
  *
- * @param {string|Array<string>} [events] list of commands to register on
- * @param {string} [hook] command hook, i.e. preExecute, executed to listen on
- * @param {number} [priority] the priority on which to hook into the execution
- * @param {Function} handlerFn interceptor to be invoked with (event)
- * @param {boolean} unwrap if true, unwrap the event and pass (context, command, event) to the
- *                          listener instead
- * @param {Object} [that] Pass context (`this`) to the handler function
+ * @param {Events} [events] command(s) to intercept
+ * @param {string} [hook] phase to intercept
+ * @param {number} [priority]
+ * @param {ComposeHandlerFunction|HandlerFunction} handlerFn
+ * @param {boolean} [unwrap] whether the event should be unwrapped
+ * @param {any} [that]
  */
 CommandInterceptor.prototype.on = function(events, hook, priority, handlerFn, unwrap, that) {
 
@@ -10307,40 +10224,130 @@ CommandInterceptor.prototype.on = function(events, hook, priority, handlerFn, un
   });
 };
 
+/**
+ * Add a <canExecute> phase of command interceptor.
+ *
+ * @param {Events} [events] command(s) to intercept
+ * @param {number} [priority]
+ * @param {ComposeHandlerFunction|HandlerFunction} handlerFn
+ * @param {boolean} [unwrap] whether the event should be unwrapped
+ * @param {any} [that]
+ */
+CommandInterceptor.prototype.canExecute = createHook('canExecute');
 
-var hooks = [
-  'canExecute',
-  'preExecute',
-  'preExecuted',
-  'execute',
-  'executed',
-  'postExecute',
-  'postExecuted',
-  'revert',
-  'reverted'
-];
+/**
+ * Add a <preExecute> phase of command interceptor.
+ *
+ * @param {Events} [events] command(s) to intercept
+ * @param {number} [priority]
+ * @param {ComposeHandlerFunction|HandlerFunction} handlerFn
+ * @param {boolean} [unwrap] whether the event should be unwrapped
+ * @param {any} [that]
+ */
+CommandInterceptor.prototype.preExecute = createHook('preExecute');
+
+/**
+ * Add a <preExecuted> phase of command interceptor.
+ *
+ * @param {Events} [events] command(s) to intercept
+ * @param {number} [priority]
+ * @param {ComposeHandlerFunction|HandlerFunction} handlerFn
+ * @param {boolean} [unwrap] whether the event should be unwrapped
+ * @param {any} [that]
+ */
+CommandInterceptor.prototype.preExecuted = createHook('preExecuted');
+
+/**
+ * Add a <execute> phase of command interceptor.
+ *
+ * @param {Events} [events] command(s) to intercept
+ * @param {number} [priority]
+ * @param {ComposeHandlerFunction|HandlerFunction} handlerFn
+ * @param {boolean} [unwrap] whether the event should be unwrapped
+ * @param {any} [that]
+ */
+CommandInterceptor.prototype.execute = createHook('execute');
+
+/**
+ * Add a <executed> phase of command interceptor.
+ *
+ * @param {Events} [events] command(s) to intercept
+ * @param {number} [priority]
+ * @param {ComposeHandlerFunction|HandlerFunction} handlerFn
+ * @param {boolean} [unwrap] whether the event should be unwrapped
+ * @param {any} [that]
+ */
+CommandInterceptor.prototype.executed = createHook('executed');
+
+/**
+ * Add a <postExecute> phase of command interceptor.
+ *
+ * @param {Events} [events] command(s) to intercept
+ * @param {number} [priority]
+ * @param {ComposeHandlerFunction|HandlerFunction} handlerFn
+ * @param {boolean} [unwrap] whether the event should be unwrapped
+ * @param {any} [that]
+ */
+CommandInterceptor.prototype.postExecute = createHook('postExecute');
+
+/**
+ * Add a <postExecuted> phase of command interceptor.
+ *
+ * @param {Events} [events] command(s) to intercept
+ * @param {number} [priority]
+ * @param {ComposeHandlerFunction|HandlerFunction} handlerFn
+ * @param {boolean} [unwrap] whether the event should be unwrapped
+ * @param {any} [that]
+ */
+CommandInterceptor.prototype.postExecuted = createHook('postExecuted');
+
+/**
+ * Add a <revert> phase of command interceptor.
+ *
+ * @param {Events} [events] command(s) to intercept
+ * @param {number} [priority]
+ * @param {ComposeHandlerFunction|HandlerFunction} handlerFn
+ * @param {boolean} [unwrap] whether the event should be unwrapped
+ * @param {any} [that]
+ */
+CommandInterceptor.prototype.revert = createHook('revert');
+
+/**
+ * Add a <reverted> phase of command interceptor.
+ *
+ * @param {Events} [events] command(s) to intercept
+ * @param {number} [priority]
+ * @param {ComposeHandlerFunction|HandlerFunction} handlerFn
+ * @param {boolean} [unwrap] whether the event should be unwrapped
+ * @param {any} [that]
+ */
+CommandInterceptor.prototype.reverted = createHook('reverted');
 
 /*
- * Install hook shortcuts
+ * Add prototype methods for each phase of command execution (e.g. execute,
+ * revert).
  *
- * This will generate the CommandInterceptor#(preExecute|...|reverted) methods
- * which will in term forward to CommandInterceptor#on.
+ * @param {string} hook
+ *
+ * @return { (
+ *   events?: Events,
+ *   priority?: number,
+ *   handlerFn: ComposeHandlerFunction|HandlerFunction,
+ *   unwrap?: boolean
+ * ) => any }
  */
-(0,min_dash__WEBPACK_IMPORTED_MODULE_0__.forEach)(hooks, function(hook) {
+function createHook(hook) {
 
   /**
-   * {canExecute|preExecute|preExecuted|execute|executed|postExecute|postExecuted|revert|reverted}
+   * @this {CommandInterceptor}
    *
-   * A named hook for plugging into the command execution
-   *
-   * @param {string|Array<string>} [events] list of commands to register on
-   * @param {number} [priority] the priority on which to hook into the execution
-   * @param {Function} handlerFn interceptor to be invoked with (event)
-   * @param {boolean} [unwrap=false] if true, unwrap the event and pass (context, command, event) to the
-   *                          listener instead
-   * @param {Object} [that] Pass context (`this`) to the handler function
+   * @param {Events} [events]
+   * @param {number} [priority]
+   * @param {ComposeHandlerFunction|HandlerFunction} handlerFn
+   * @param {boolean} [unwrap]
+   * @param {any} [that]
    */
-  CommandInterceptor.prototype[hook] = function(events, priority, handlerFn, unwrap, that) {
+  const hookFn = function(events, priority, handlerFn, unwrap, that) {
 
     if ((0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isFunction)(events) || (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isNumber)(events)) {
       that = unwrap;
@@ -10352,7 +10359,9 @@ var hooks = [
 
     this.on(events, hook, priority, handlerFn, unwrap, that);
   };
-});
+
+  return hookFn;
+}
 
 
 /***/ }),
@@ -10371,6 +10380,33 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 
 
+/**
+ * @typedef {import('didi').Injector} Injector
+ *
+ * @typedef {import('../core/Types').ElementLike} ElementLike
+ *
+ * @typedef {import('../core/EventBus').default} EventBus
+ * @typedef {import('./CommandHandler').default} CommandHandler
+ *
+ * @typedef { any } CommandContext
+ * @typedef { {
+ *   new (...args: any[]) : CommandHandler
+ * } } CommandHandlerConstructor
+ * @typedef { {
+ *   [key: string]: CommandHandler;
+ * } } CommandHandlerMap
+ * @typedef { {
+ *   command: string;
+ *   context: any;
+ *   id?: any;
+ * } } CommandStackAction
+ * @typedef { {
+ *   actions: CommandStackAction[];
+ *   dirty: ElementLike[];
+ *   trigger: 'execute' | 'undo' | 'redo' | 'clear' | null;
+ *   atomic?: boolean;
+ * } } CurrentExecution
+ */
 
 /**
  * A service that offers un- and redoable execution of commands.
@@ -10422,7 +10458,7 @@ __webpack_require__.r(__webpack_exports__);
  * got changed during the `execute` and `revert` operations.
  *
  * Command handlers may execute other modeling operations (and thus
- * commands) in their `preExecute` and `postExecute` phases. The command
+ * commands) in their `preExecute(d)` and `postExecute(d)` phases. The command
  * stack will properly group all commands together into a logical unit
  * that may be re- and undone atomically.
  *
@@ -10453,14 +10489,14 @@ function CommandStack(eventBus, injector) {
   /**
    * A map of all registered command handlers.
    *
-   * @type {Object}
+   * @type {CommandHandlerMap}
    */
   this._handlerMap = {};
 
   /**
    * A stack containing all re/undoable actions on the diagram
    *
-   * @type {Array<Object>}
+   * @type {CommandStackAction[]}
    */
   this._stack = [];
 
@@ -10474,10 +10510,7 @@ function CommandStack(eventBus, injector) {
   /**
    * Current active commandStack execution
    *
-   * @type {Object}
-   * @property {Object[]} actions
-   * @property {Object[]} dirty
-   * @property { 'undo' | 'redo' | 'clear' | 'execute' | null } trigger the cause of the current excecution
+   * @type {CurrentExecution}
    */
   this._currentExecution = {
     actions: [],
@@ -10485,10 +10518,19 @@ function CommandStack(eventBus, injector) {
     trigger: null
   };
 
-
+  /**
+   * @type {Injector}
+   */
   this._injector = injector;
+
+  /**
+   * @type EventBus
+   */
   this._eventBus = eventBus;
 
+  /**
+   * @type { number }
+   */
   this._uid = 1;
 
   eventBus.on([
@@ -10503,10 +10545,10 @@ CommandStack.$inject = [ 'eventBus', 'injector' ];
 
 
 /**
- * Execute a command
+ * Execute a command.
  *
- * @param {string} command the command to execute
- * @param {Object} context the environment to execute the command in
+ * @param {string} command The command to execute.
+ * @param {CommandContext} context The context with which to execute the command.
  */
 CommandStack.prototype.execute = function(command, context) {
   if (!command) {
@@ -10519,12 +10561,12 @@ CommandStack.prototype.execute = function(command, context) {
 
   this._pushAction(action);
   this._internalExecute(action);
-  this._popAction(action);
+  this._popAction();
 };
 
 
 /**
- * Ask whether a given command can be executed.
+ * Check whether a command can be executed.
  *
  * Implementors may hook into the mechanism on two ways:
  *
@@ -10538,10 +10580,10 @@ CommandStack.prototype.execute = function(command, context) {
  *     If the method {@link CommandHandler#canExecute} is implemented in a handler
  *     it will be called to figure out whether the execution is allowed.
  *
- * @param  {string} command the command to execute
- * @param  {Object} context the environment to execute the command in
+ * @param {string} command The command to execute.
+ * @param {CommandContext} context The context with which to execute the command.
  *
- * @return {boolean} true if the command can be executed
+ * @return {boolean} Whether the command can be executed with the given context.
  */
 CommandStack.prototype.canExecute = function(command, context) {
 
@@ -10568,7 +10610,9 @@ CommandStack.prototype.canExecute = function(command, context) {
 
 
 /**
- * Clear the command stack, erasing all undo / redo history
+ * Clear the command stack, erasing all undo / redo history.
+ *
+ * @param {boolean} [emit=true] Whether to fire an event. Defaults to `true`.
  */
 CommandStack.prototype.clear = function(emit) {
   this._stack.length = 0;
@@ -10637,10 +10681,10 @@ CommandStack.prototype.redo = function() {
 
 
 /**
- * Register a handler instance with the command stack
+ * Register a handler instance with the command stack.
  *
- * @param {string} command
- * @param {CommandHandler} handler
+ * @param {string} command Command to be executed.
+ * @param {CommandHandler} handler Handler to execute the command.
  */
 CommandStack.prototype.register = function(command, handler) {
   this._setHandler(command, handler);
@@ -10648,11 +10692,11 @@ CommandStack.prototype.register = function(command, handler) {
 
 
 /**
- * Register a handler type with the command stack
- * by instantiating it and injecting its dependencies.
+ * Register a handler type with the command stack  by instantiating it and
+ * injecting its dependencies.
  *
- * @param {string} command
- * @param {Function} a constructor for a {@link CommandHandler}
+ * @param {string} command Command to be executed.
+ * @param {CommandHandlerConstructor} handlerCls Constructor to instantiate a {@link CommandHandler}.
  */
 CommandStack.prototype.registerHandler = function(command, handlerCls) {
 
@@ -10664,10 +10708,16 @@ CommandStack.prototype.registerHandler = function(command, handlerCls) {
   this.register(command, handler);
 };
 
+/**
+ * @return {boolean}
+ */
 CommandStack.prototype.canUndo = function() {
   return !!this._getUndoAction();
 };
 
+/**
+ * @return {boolean}
+ */
 CommandStack.prototype.canRedo = function() {
   return !!this._getRedoAction();
 };
@@ -10795,7 +10845,7 @@ CommandStack.prototype._internalExecute = function(action, redo) {
     this._fire(command, 'postExecuted', action);
   }
 
-  this._popAction(action);
+  this._popAction();
 };
 
 
@@ -10898,6 +10948,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _CommandStack__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CommandStack */ "../node_modules/diagram-js/lib/command/CommandStack.js");
 
 
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   commandStack: [ 'type', _CommandStack__WEBPACK_IMPORTED_MODULE_0__["default"] ]
 });
@@ -10937,6 +10990,46 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @typedef {import('./Types').ConnectionLike} ConnectionLike
+ * @typedef {import('./Types').RootLike} RootLike
+ * @typedef {import('./Types').ParentLike } ParentLike
+ * @typedef {import('./Types').ShapeLike} ShapeLike
+ *
+ * @typedef { {
+ *   container?: HTMLElement;
+ *   deferUpdate?: boolean;
+ *   width?: number;
+ *   height?: number;
+ * } } CanvasConfig
+ * @typedef { {
+ *   group: SVGElement;
+ *   index: number;
+ *   visible: boolean;
+ * } } CanvasLayer
+ * @typedef { {
+ *   [key: string]: CanvasLayer;
+ * } } CanvasLayers
+ * @typedef { {
+ *   rootElement: ShapeLike;
+ *   layer: CanvasLayer;
+ * } } CanvasPlane
+ * @typedef { {
+ *   scale: number;
+ *   inner: Rect;
+ *   outer: Dimensions;
+ * } & Rect } CanvasViewbox
+ *
+ * @typedef {import('./ElementRegistry').default} ElementRegistry
+ * @typedef {import('./EventBus').default} EventBus
+ * @typedef {import('./GraphicsFactory').default} GraphicsFactory
+ *
+ * @typedef {import('../util/Types').Dimensions} Dimensions
+ * @typedef {import('../util/Types').Point} Point
+ * @typedef {import('../util/Types').Rect} Rect
+ * @typedef {import('../util/Types').RectTRBL} RectTRBL
+ */
+
 function round(number, resolution) {
   return Math.round(number * resolution) / resolution;
 }
@@ -10957,7 +11050,8 @@ function findRoot(element) {
  * Creates a HTML container element for a SVG element with
  * the given configuration
  *
- * @param  {Object} options
+ * @param {CanvasConfig} options
+ *
  * @return {HTMLElement} the container element
  */
 function createContainer(options) {
@@ -11017,21 +11111,34 @@ const REQUIRED_MODEL_ATTRS = {
  *
  * @emits Canvas#canvas.init
  *
- * @param {Object} config
+ * @param {CanvasConfig|null} config
  * @param {EventBus} eventBus
  * @param {GraphicsFactory} graphicsFactory
  * @param {ElementRegistry} elementRegistry
  */
 function Canvas(config, eventBus, graphicsFactory, elementRegistry) {
-
   this._eventBus = eventBus;
   this._elementRegistry = elementRegistry;
   this._graphicsFactory = graphicsFactory;
 
+  /**
+   * @type {number}
+   */
   this._rootsIdx = 0;
 
+  /**
+   * @type {CanvasLayers}
+   */
   this._layers = {};
+
+  /**
+   * @type {CanvasPlane[]}
+   */
   this._planes = [];
+
+  /**
+   * @type {RootLike|null}
+   */
   this._rootElement = null;
 
   this._init(config || {});
@@ -11056,6 +11163,8 @@ Canvas.$inject = [
  *    ...
  *   </svg>
  * </div>
+ *
+ * @param {CanvasConfig} config
  */
 Canvas.prototype._init = function(config) {
 
@@ -11077,7 +11186,7 @@ Canvas.prototype._init = function(config) {
     this._viewboxChanged = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.debounce)((0,min_dash__WEBPACK_IMPORTED_MODULE_0__.bind)(this._viewboxChanged, this), 300);
   }
 
-  eventBus.on('diagram.init', function() {
+  eventBus.on('diagram.init', () => {
 
     /**
      * An event indicating that the canvas is ready to be drawn on.
@@ -11095,7 +11204,7 @@ Canvas.prototype._init = function(config) {
       viewport: viewport
     });
 
-  }, this);
+  });
 
   // reset viewbox on shape changes to
   // recompute the viewbox
@@ -11106,15 +11215,15 @@ Canvas.prototype._init = function(config) {
     'connection.removed',
     'elements.changed',
     'root.set'
-  ], function() {
+  ], () => {
     delete this._cachedViewbox;
-  }, this);
+  });
 
   eventBus.on('diagram.destroy', 500, this._destroy, this);
   eventBus.on('diagram.clear', 500, this._clear, this);
 };
 
-Canvas.prototype._destroy = function(emit) {
+Canvas.prototype._destroy = function() {
   this._eventBus.fire('canvas.destroy', {
     svg: this._svg,
     viewport: this._viewport
@@ -11161,7 +11270,7 @@ Canvas.prototype._clear = function() {
  * Returns the default layer on which
  * all elements are drawn.
  *
- * @returns {SVGElement}
+ * @return {SVGElement}  The SVG element of the layer.
  */
 Canvas.prototype.getDefaultLayer = function() {
   return this.getLayer(BASE_LAYER, PLANE_LAYER_INDEX);
@@ -11177,10 +11286,10 @@ Canvas.prototype.getDefaultLayer = function() {
  * A layer with a certain index is always created above all
  * existing layers with the same index.
  *
- * @param {string} name
- * @param {number} index
+ * @param {string} name The name of the layer.
+ * @param {number} [index] The index of the layer.
  *
- * @returns {SVGElement}
+ * @return {SVGElement} The SVG element of the layer.
  */
 Canvas.prototype.getLayer = function(name, index) {
 
@@ -11209,8 +11318,9 @@ Canvas.prototype.getLayer = function(name, index) {
  *
  * This is used to determine the node a layer should be inserted at.
  *
- * @param {Number} index
- * @returns {Number}
+ * @param {number} index
+ *
+ * @return {number}
  */
 Canvas.prototype._getChildIndex = function(index) {
   return (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.reduce)(this._layers, function(childIndex, layer) {
@@ -11228,7 +11338,7 @@ Canvas.prototype._getChildIndex = function(index) {
  * @param {string} name
  * @param {number} [index=0]
  *
- * @return {Object} layer descriptor with { index, group: SVGGroup }
+ * @return {CanvasLayer}
  */
 Canvas.prototype._createLayer = function(name, index) {
 
@@ -11249,8 +11359,9 @@ Canvas.prototype._createLayer = function(name, index) {
 /**
  * Shows a given layer.
  *
- * @param {String} layer
- * @returns {SVGElement}
+ * @param {string} name The name of the layer.
+ *
+ * @return {SVGElement} The SVG element of the layer.
  */
 Canvas.prototype.showLayer = function(name) {
 
@@ -11284,8 +11395,9 @@ Canvas.prototype.showLayer = function(name) {
 /**
  * Hides a given layer.
  *
- * @param {String} layer
- * @returns {SVGElement}
+ * @param {string} name The name of the layer.
+ *
+ * @return {SVGElement} The SVG element of the layer.
  */
 Canvas.prototype.hideLayer = function(name) {
 
@@ -11327,7 +11439,7 @@ Canvas.prototype._removeLayer = function(name) {
 /**
  * Returns the currently active layer. Can be null.
  *
- * @returns {SVGElement|null}
+ * @return {CanvasLayer|null} The active layer of `null`.
  */
 Canvas.prototype.getActiveLayer = function() {
   const plane = this._findPlaneForRoot(this.getRootElement());
@@ -11343,9 +11455,9 @@ Canvas.prototype.getActiveLayer = function() {
 /**
  * Returns the plane which contains the given element.
  *
- * @param {string|djs.model.Base} element
+ * @param {ShapeLike|ConnectionLike|string} element The element or its ID.
  *
- * @return {djs.model.Base} root for element
+ * @return {RootLike|undefined} The root of the element.
  */
 Canvas.prototype.findRoot = function(element) {
   if (typeof element === 'string') {
@@ -11366,7 +11478,7 @@ Canvas.prototype.findRoot = function(element) {
 /**
  * Return a list of all root elements on the diagram.
  *
- * @return {djs.model.Root[]}
+ * @return {(RootLike)[]} The list of root elements.
  */
 Canvas.prototype.getRootElements = function() {
   return this._planes.map(function(plane) {
@@ -11385,7 +11497,7 @@ Canvas.prototype._findPlaneForRoot = function(rootElement) {
  * Returns the html element that encloses the
  * drawing canvas.
  *
- * @return {DOMNode}
+ * @return {HTMLElement} The HTML element of the container.
  */
 Canvas.prototype.getContainer = function() {
   return this._container;
@@ -11425,8 +11537,8 @@ Canvas.prototype._updateMarker = function(element, marker, add) {
    *
    * @event element.marker.update
    * @type {Object}
-   * @property {djs.model.Element} element the shape
-   * @property {Object} gfx the graphical representation of the shape
+   * @property {Element} element the shape
+   * @property {SVGElement} gfx the graphical representation of the shape
    * @property {string} marker
    * @property {boolean} add true if the marker was added, false if it got removed
    */
@@ -11441,14 +11553,17 @@ Canvas.prototype._updateMarker = function(element, marker, add) {
  * integrate extension into the marker life-cycle, too.
  *
  * @example
+ *
+ * ```javascript
  * canvas.addMarker('foo', 'some-marker');
  *
  * const fooGfx = canvas.getGraphics('foo');
  *
  * fooGfx; // <g class="... some-marker"> ... </g>
+ * ```
  *
- * @param {string|djs.model.Base} element
- * @param {string} marker
+ * @param {ShapeLike|ConnectionLike|string} element The element or its ID.
+ * @param {string} marker The marker.
  */
 Canvas.prototype.addMarker = function(element, marker) {
   this._updateMarker(element, marker, true);
@@ -11461,18 +11576,18 @@ Canvas.prototype.addMarker = function(element, marker) {
  * Fires the element.marker.update event, making it possible to
  * integrate extension into the marker life-cycle, too.
  *
- * @param  {string|djs.model.Base} element
- * @param  {string} marker
+ * @param {ShapeLike|ConnectionLike|string} element The element or its ID.
+ * @param {string} marker The marker.
  */
 Canvas.prototype.removeMarker = function(element, marker) {
   this._updateMarker(element, marker, false);
 };
 
 /**
- * Check the existence of a marker on element.
+ * Check whether an element has a given marker.
  *
- * @param  {string|djs.model.Base} element
- * @param  {string} marker
+ * @param {ShapeLike|ConnectionLike|string} element The element or its ID.
+ * @param {string} marker The marker.
  */
 Canvas.prototype.hasMarker = function(element, marker) {
   if (!element.id) {
@@ -11490,8 +11605,8 @@ Canvas.prototype.hasMarker = function(element, marker) {
  * Fires the element.marker.update event, making it possible to
  * integrate extension into the marker life-cycle, too.
  *
- * @param  {string|djs.model.Base} element
- * @param  {string} marker
+ * @param {ShapeLike|ConnectionLike|string} element The element or its ID.
+ * @param {string} marker The marker.
  */
 Canvas.prototype.toggleMarker = function(element, marker) {
   if (this.hasMarker(element, marker)) {
@@ -11514,7 +11629,7 @@ Canvas.prototype.toggleMarker = function(element, marker) {
  * root elements can be null. This is used for applications that want to manage
  * root elements themselves.
  *
- * @returns {Object|djs.model.Root|null} rootElement.
+ * @return {RootLike} The current root element.
  */
 Canvas.prototype.getRootElement = function() {
   const rootElement = this._rootElement;
@@ -11530,11 +11645,10 @@ Canvas.prototype.getRootElement = function() {
 /**
  * Adds a given root element and returns it.
  *
- * @param {Object|djs.model.Root} rootElement
+ * @param {RootLike} [rootElement] The root element to be added.
  *
- * @return {Object|djs.model.Root} rootElement
+ * @return {RootLike} The added root element or an implicit root element.
  */
-
 Canvas.prototype.addRootElement = function(rootElement) {
   const idx = this._rootsIdx++;
 
@@ -11565,11 +11679,11 @@ Canvas.prototype.addRootElement = function(rootElement) {
 };
 
 /**
- * Removes a given rootElement and returns it.
+ * Removes a given root element and returns it.
  *
- * @param {djs.model.Root|String} rootElement
+ * @param {RootLike|string} rootElement element or element ID
  *
- * @return {Object|djs.model.Root} rootElement
+ * @return {RootLike|undefined} removed element
  */
 Canvas.prototype.removeRootElement = function(rootElement) {
 
@@ -11603,21 +11717,15 @@ Canvas.prototype.removeRootElement = function(rootElement) {
 };
 
 
-// root element handling //////////////////////
-
 /**
  * Sets a given element as the new root element for the canvas
  * and returns the new root element.
  *
- * @param {Object|djs.model.Root} rootElement
+ * @param {RootLike} rootElement The root element to be set.
  *
- * @return {Object|djs.model.Root} new root element
+ * @return {RootLike} The set root element.
  */
-Canvas.prototype.setRootElement = function(rootElement, override) {
-
-  if ((0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isDefined)(override)) {
-    throw new Error('override not supported');
-  }
+Canvas.prototype.setRootElement = function(rootElement) {
 
   if (rootElement === this._rootElement) {
     return;
@@ -11698,8 +11806,6 @@ Canvas.prototype._setRoot = function(rootElement, layer) {
   this._eventBus.fire('root.set', { element: rootElement });
 };
 
-// add functionality //////////////////////
-
 Canvas.prototype._ensureValid = function(type, element) {
   if (!element.id) {
     throw new Error('element must have an id');
@@ -11740,11 +11846,11 @@ Canvas.prototype._setParent = function(element, parent, parentIndex) {
  * Extensions may hook into these events to perform their magic.
  *
  * @param {string} type
- * @param {Object|djs.model.Base} element
- * @param {Object|djs.model.Base} [parent]
+ * @param {ConnectionLike|ShapeLike} element
+ * @param {ShapeLike} [parent]
  * @param {number} [parentIndex]
  *
- * @return {Object|djs.model.Base} the added element
+ * @return {ConnectionLike|ShapeLike} The added element.
  */
 Canvas.prototype._addElement = function(type, element, parent, parentIndex) {
 
@@ -11773,26 +11879,26 @@ Canvas.prototype._addElement = function(type, element, parent, parentIndex) {
 };
 
 /**
- * Adds a shape to the canvas
+ * Adds a shape to the canvas.
  *
- * @param {Object|djs.model.Shape} shape to add to the diagram
- * @param {djs.model.Base} [parent]
- * @param {number} [parentIndex]
+ * @param {ShapeLike} shape The shape to be added
+ * @param {ParentLike} [parent] The shape's parent.
+ * @param {number} [parentIndex] The index at which to add the shape to the parent's children.
  *
- * @return {djs.model.Shape} the added shape
+ * @return {ShapeLike} The added shape.
  */
 Canvas.prototype.addShape = function(shape, parent, parentIndex) {
   return this._addElement('shape', shape, parent, parentIndex);
 };
 
 /**
- * Adds a connection to the canvas
+ * Adds a connection to the canvas.
  *
- * @param {Object|djs.model.Connection} connection to add to the diagram
- * @param {djs.model.Base} [parent]
- * @param {number} [parentIndex]
+ * @param {ConnectionLike} connection The connection to be added.
+ * @param {ParentLike} [parent] The connection's parent.
+ * @param {number} [parentIndex] The index at which to add the connection to the parent's children.
  *
- * @return {djs.model.Connection} the added connection
+ * @return {ConnectionLike} The added connection.
  */
 Canvas.prototype.addConnection = function(connection, parent, parentIndex) {
   return this._addElement('connection', connection, parent, parentIndex);
@@ -11833,11 +11939,14 @@ Canvas.prototype._removeElement = function(element, type) {
 
 
 /**
- * Removes a shape from the canvas
+ * Removes a shape from the canvas.
  *
- * @param {string|djs.model.Shape} shape or shape id to be removed
+ * @fires ShapeRemoveEvent
+ * @fires ShapeRemovedEvent
  *
- * @return {djs.model.Shape} the removed shape
+ * @param {ShapeLike|string} shape The shape or its ID.
+ *
+ * @return {ShapeLike} The removed shape.
  */
 Canvas.prototype.removeShape = function(shape) {
 
@@ -11846,10 +11955,10 @@ Canvas.prototype.removeShape = function(shape) {
    *
    * @memberOf Canvas
    *
-   * @event shape.remove
+   * @event ShapeRemoveEvent
    * @type {Object}
-   * @property {djs.model.Shape} element the shape descriptor
-   * @property {Object} gfx the graphical representation of the shape
+   * @property {ShapeLike} element The shape.
+   * @property {SVGElement} gfx The graphical element.
    */
 
   /**
@@ -11857,21 +11966,24 @@ Canvas.prototype.removeShape = function(shape) {
    *
    * @memberOf Canvas
    *
-   * @event shape.removed
+   * @event ShapeRemovedEvent
    * @type {Object}
-   * @property {djs.model.Shape} element the shape descriptor
-   * @property {Object} gfx the graphical representation of the shape
+   * @property {ShapeLike} element The shape.
+   * @property {SVGElement} gfx The graphical element.
    */
   return this._removeElement(shape, 'shape');
 };
 
 
 /**
- * Removes a connection from the canvas
+ * Removes a connection from the canvas.
  *
- * @param {string|djs.model.Connection} connection or connection id to be removed
+ * @fires ConnectionRemoveEvent
+ * @fires ConnectionRemovedEvent
  *
- * @return {djs.model.Connection} the removed connection
+ * @param {ConnectionLike|string} connection The connection or its ID.
+ *
+ * @return {ConnectionLike} The removed connection.
  */
 Canvas.prototype.removeConnection = function(connection) {
 
@@ -11880,10 +11992,10 @@ Canvas.prototype.removeConnection = function(connection) {
    *
    * @memberOf Canvas
    *
-   * @event connection.remove
+   * @event ConnectionRemoveEvent
    * @type {Object}
-   * @property {djs.model.Connection} element the connection descriptor
-   * @property {Object} gfx the graphical representation of the connection
+   * @property {ConnectionLike} element The connection.
+   * @property {SVGElement} gfx The graphical element.
    */
 
   /**
@@ -11891,22 +12003,22 @@ Canvas.prototype.removeConnection = function(connection) {
    *
    * @memberOf Canvas
    *
-   * @event connection.removed
+   * @event ConnectionRemovedEvent
    * @type {Object}
-   * @property {djs.model.Connection} element the connection descriptor
-   * @property {Object} gfx the graphical representation of the connection
+   * @property {ConnectionLike} element The connection.
+   * @property {SVGElement} gfx The graphical element.
    */
   return this._removeElement(connection, 'connection');
 };
 
 
 /**
- * Return the graphical object underlaying a certain diagram element
+ * Returns the graphical element of an element.
  *
- * @param {string|djs.model.Base} element descriptor of the element
- * @param {boolean} [secondary=false] whether to return the secondary connected element
+ * @param {ShapeLike|ConnectionLike|string} element The element or its ID.
+ * @param {boolean} [secondary=false] Whether to return the secondary graphical element.
  *
- * @return {SVGElement}
+ * @return {SVGElement} The graphical element.
  */
 Canvas.prototype.getGraphics = function(element, secondary) {
   return this._elementRegistry.getGraphics(element, secondary);
@@ -11950,6 +12062,7 @@ Canvas.prototype._viewboxChanged = function() {
  *
  * @example
  *
+ * ```javascript
  * canvas.viewbox({ x: 100, y: 100, width: 500, height: 500 })
  *
  * // sets the visible area of the diagram to (100|100) -> (600|100)
@@ -11977,14 +12090,11 @@ Canvas.prototype._viewboxChanged = function() {
  *   width: zoomedAndScrolledViewbox.outer.width,
  *   height: zoomedAndScrolledViewbox.outer.height
  * });
+ * ```
  *
- * @param  {Object} [box] the new view box to set
- * @param  {number} box.x the top left X coordinate of the canvas visible in view box
- * @param  {number} box.y the top left Y coordinate of the canvas visible in view box
- * @param  {number} box.width the visible width
- * @param  {number} box.height
+ * @param {Rect} [box] The viewbox to be set.
  *
- * @return {Object} the current view box
+ * @return {CanvasViewbox} The set viewbox.
  */
 Canvas.prototype.viewbox = function(box) {
 
@@ -12053,10 +12163,9 @@ Canvas.prototype.viewbox = function(box) {
 /**
  * Gets or sets the scroll of the canvas.
  *
- * @param {Object} [delta] the new scroll to apply.
+ * @param {Point} [delta] The scroll to be set.
  *
- * @param {number} [delta.dx]
- * @param {number} [delta.dy]
+ * @return {Point}
  */
 Canvas.prototype.scroll = function(delta) {
 
@@ -12080,9 +12189,8 @@ Canvas.prototype.scroll = function(delta) {
  * Scrolls the viewbox to contain the given element.
  * Optionally specify a padding to be applied to the edges.
  *
- * @param {Object|String} [element] the element to scroll to.
- * @param {Object|Number} [padding=100] the padding to be applied. Can also specify top, bottom, left and right.
- *
+ * @param {ShapeLike|ConnectionLike|string} element The element to scroll to or its ID.
+ * @param {RectTRBL|number} [padding=100] The padding to be applied. Can also specify top, bottom, left and right.
  */
 Canvas.prototype.scrollToElement = function(element, padding) {
   let defaultPadding = 100;
@@ -12150,17 +12258,17 @@ Canvas.prototype.scrollToElement = function(element, padding) {
 };
 
 /**
- * Gets or sets the current zoom of the canvas, optionally zooming
- * to the specified position.
+ * Gets or sets the current zoom of the canvas, optionally zooming to the
+ * specified position.
  *
- * The getter may return a cached zoom level. Call it with `false` as
- * the first argument to force recomputation of the current level.
+ * The getter may return a cached zoom level. Call it with `false` as the first
+ * argument to force recomputation of the current level.
  *
- * @param {string|number} [newScale] the new zoom level, either a number, i.e. 0.9,
- *                                   or `fit-viewport` to adjust the size to fit the current viewport
- * @param {string|Point} [center] the reference point { x: .., y: ..} to zoom to, 'auto' to zoom into mid or null
+ * @param {number|'fit-viewport'} [newScale] The new zoom level, either a number,
+ * i.e. 0.9, or `fit-viewport` to adjust the size to fit the current viewport.
+ * @param {Point} [center] The reference point { x: ..., y: ...} to zoom to.
  *
- * @return {number} the current scale
+ * @return {number} The set zoom level.
  */
 Canvas.prototype.zoom = function(newScale, center) {
 
@@ -12283,9 +12391,9 @@ Canvas.prototype._setZoom = function(scale, center) {
 
 
 /**
- * Returns the size of the canvas
+ * Returns the size of the canvas.
  *
- * @return {Dimensions}
+ * @return {Dimensions} The size of the canvas.
  */
 Canvas.prototype.getSize = function() {
   return {
@@ -12296,14 +12404,14 @@ Canvas.prototype.getSize = function() {
 
 
 /**
- * Return the absolute bounding box for the given element
+ * Returns the absolute bounding box of an element.
  *
- * The absolute bounding box may be used to display overlays in the
- * callers (browser) coordinate system rather than the zoomed in/out
- * canvas coordinates.
+ * The absolute bounding box may be used to display overlays in the callers
+ * (browser) coordinate system rather than the zoomed in/out canvas coordinates.
  *
- * @param  {ElementDescriptor} element
- * @return {Bounds} the absolute bounding box
+ * @param {ShapeLike|ConnectionLike} element The element.
+ *
+ * @return {Rect} The element's absolute bounding box.
  */
 Canvas.prototype.getAbsoluteBBox = function(element) {
   const vbox = this.viewbox();
@@ -12338,8 +12446,7 @@ Canvas.prototype.getAbsoluteBBox = function(element) {
 };
 
 /**
- * Fires an event in order other modules can react to the
- * canvas resizing
+ * Fires an event so other modules can react to the canvas resizing.
  */
 Canvas.prototype.resized = function() {
 
@@ -12370,36 +12477,99 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /**
- * A factory for diagram-js shapes
+ * @typedef {import('../model/Types').Element} Element
+ * @typedef {import('../model/Types').Connection} Connection
+ * @typedef {import('../model/Types').Label} Label
+ * @typedef {import('../model/Types').Root} Root
+ * @typedef {import('../model/Types').Shape} Shape
+ */
+
+/**
+ * A factory for model elements.
+ *
+ * @template {Connection} [T=Connection]
+ * @template {Label} [U=Label]
+ * @template {Root} [V=Root]
+ * @template {Shape} [W=Shape]
  */
 function ElementFactory() {
   this._uid = 12;
 }
 
-
+/**
+ * Create a root element.
+ *
+ * @param {Partial<Root>} [attrs]
+ *
+ * @return {V} The created root element.
+ */
 ElementFactory.prototype.createRoot = function(attrs) {
   return this.create('root', attrs);
 };
 
+/**
+ * Create a label.
+ *
+ * @param {Partial<Label>} [attrs]
+ *
+ * @return {U} The created label.
+ */
 ElementFactory.prototype.createLabel = function(attrs) {
   return this.create('label', attrs);
 };
 
+/**
+ * Create a shape.
+ *
+ * @param {Partial<Shape>} [attrs]
+ *
+ * @return {W} The created shape.
+ */
 ElementFactory.prototype.createShape = function(attrs) {
   return this.create('shape', attrs);
 };
 
+/**
+ * Create a connection.
+ *
+ * @param {Partial<Connection>} [attrs]
+ *
+ * @return {T} The created connection.
+ */
 ElementFactory.prototype.createConnection = function(attrs) {
   return this.create('connection', attrs);
 };
 
 /**
- * Create a model element with the given type and
- * a number of pre-set attributes.
+ * Create a root element.
  *
- * @param  {string} type
- * @param  {Object} attrs
- * @return {djs.model.Base} the newly created model instance
+ * @overlord
+ * @param {'root'} type
+ * @param {Partial<Root>} [attrs]
+ * @return {V}
+ */
+/**
+ * Create a shape.
+ *
+ * @overlord
+ * @param {'shape'} type
+ * @param {Partial<Shape>} [attrs]
+ * @return {W}
+ */
+/**
+ * Create a connection.
+ *
+ * @overlord
+ * @param {'connection'} type
+ * @param {Partial<Connection>} [attrs]
+ * @return {T}
+ */
+/**
+ * Create a label.
+ *
+ * @param {'label'} type
+ * @param {Partial<Label>} [attrs]
+ * @return {U}
  */
 ElementFactory.prototype.create = function(type, attrs) {
 
@@ -12430,13 +12600,34 @@ var ELEMENT_ID = 'data-element-id';
 
 
 
+/**
+ * @typedef {import('./Types').ElementLike} ElementLike
+ *
+ * @typedef {import('./EventBus').default} EventBus
+ *
+ * @typedef { (element: ElementLike, gfx: SVGElement) => boolean|any } ElementRegistryFilterCallback
+ * @typedef { (element: ElementLike, gfx: SVGElement) => any } ElementRegistryForEachCallback
+ */
 
 /**
- * @class
- *
  * A registry that keeps track of all shapes in the diagram.
+ *
+ * @class
+ * @constructor
+ *
+ * @param {EventBus} eventBus
  */
 function ElementRegistry(eventBus) {
+
+  /**
+   * @type { {
+   *   [id: string]: {
+   *     element: ElementLike;
+   *     gfx?: SVGElement;
+   *     secondaryGfx?: SVGElement;
+   *   }
+   * } }
+   */
   this._elements = {};
 
   this._eventBus = eventBus;
@@ -12445,11 +12636,11 @@ function ElementRegistry(eventBus) {
 ElementRegistry.$inject = [ 'eventBus' ];
 
 /**
- * Register a pair of (element, gfx, (secondaryGfx)).
+ * Add an element and its graphical representation(s) to the registry.
  *
- * @param {djs.model.Base} element
- * @param {SVGElement} gfx
- * @param {SVGElement} [secondaryGfx] optional other element to register, too
+ * @param {ElementLike} element The element to be added.
+ * @param {SVGElement} gfx The primary graphical representation.
+ * @param {SVGElement} [secondaryGfx] The secondary graphical representation.
  */
 ElementRegistry.prototype.add = function(element, gfx, secondaryGfx) {
 
@@ -12468,9 +12659,9 @@ ElementRegistry.prototype.add = function(element, gfx, secondaryGfx) {
 };
 
 /**
- * Removes an element from the registry.
+ * Remove an element from the registry.
  *
- * @param {string|djs.model.Base} element
+ * @param {ElementLike|string} element
  */
 ElementRegistry.prototype.remove = function(element) {
   var elements = this._elements,
@@ -12491,10 +12682,10 @@ ElementRegistry.prototype.remove = function(element) {
 };
 
 /**
- * Update the id of an element
+ * Update an elements ID.
  *
- * @param {string|djs.model.Base} element
- * @param {string} newId
+ * @param {ElementLike|string} element The element or its ID.
+ * @param {string} newId The new ID.
  */
 ElementRegistry.prototype.updateId = function(element, newId) {
 
@@ -12520,11 +12711,11 @@ ElementRegistry.prototype.updateId = function(element, newId) {
 };
 
 /**
- * Update the graphics of an element
+ * Update the graphical representation of an element.
  *
- * @param {string|djs.model.Base} element
- * @param {SVGElement} gfx
- * @param {boolean} [secondary=false] whether to update the secondary connected element
+ * @param {ElementLike|string} filter The element or its ID.
+ * @param {SVGElement} gfx The new graphical representation.
+ * @param {boolean} [secondary=false] Whether to update the secondary graphical representation.
  */
 ElementRegistry.prototype.updateGraphics = function(filter, gfx, secondary) {
   var id = filter.id || filter;
@@ -12545,17 +12736,19 @@ ElementRegistry.prototype.updateGraphics = function(filter, gfx, secondary) {
 };
 
 /**
- * Return the model element for a given id or graphics.
+ * Get the element with the given ID or graphical representation.
  *
  * @example
  *
+ * ```javascript
  * elementRegistry.get('SomeElementId_1');
+ *
  * elementRegistry.get(gfx);
+ * ```
  *
+ * @param {string|SVGElement} filter The elements ID or graphical representation.
  *
- * @param {string|SVGElement} filter for selecting the element
- *
- * @return {djs.model.Base}
+ * @return {ElementLike|undefined} The element.
  */
 ElementRegistry.prototype.get = function(filter) {
   var id;
@@ -12573,9 +12766,9 @@ ElementRegistry.prototype.get = function(filter) {
 /**
  * Return all elements that match a given filter function.
  *
- * @param {Function} fn
+ * @param {ElementRegistryFilterCallback} fn The filter function.
  *
- * @return {Array<djs.model.Base>}
+ * @return {ElementLike[]} The matching elements.
  */
 ElementRegistry.prototype.filter = function(fn) {
 
@@ -12591,11 +12784,11 @@ ElementRegistry.prototype.filter = function(fn) {
 };
 
 /**
- * Return the first element that satisfies the provided testing function.
+ * Return the first element that matches the given filter function.
  *
- * @param {Function} fn
+ * @param {ElementRegistryFilterCallback} fn The filter function.
  *
- * @return {djs.model.Base}
+ * @return {ElementLike|undefined} The matching element.
  */
 ElementRegistry.prototype.find = function(fn) {
   var map = this._elements,
@@ -12614,18 +12807,18 @@ ElementRegistry.prototype.find = function(fn) {
 };
 
 /**
- * Return all rendered model elements.
+ * Get all elements.
  *
- * @return {Array<djs.model.Base>}
+ * @return {ElementLike[]} All elements.
  */
 ElementRegistry.prototype.getAll = function() {
   return this.filter(function(e) { return e; });
 };
 
 /**
- * Iterate over all diagram elements.
+ * Execute a given function for each element.
  *
- * @param {Function} fn
+ * @param {ElementRegistryForEachCallback} fn The function to execute.
  */
 ElementRegistry.prototype.forEach = function(fn) {
 
@@ -12641,19 +12834,22 @@ ElementRegistry.prototype.forEach = function(fn) {
 };
 
 /**
- * Return the graphical representation of an element or its id.
+ * Return the graphical representation of an element.
  *
  * @example
+ *
+ * ```javascript
  * elementRegistry.getGraphics('SomeElementId_1');
+ *
  * elementRegistry.getGraphics(rootElement); // <g ...>
  *
  * elementRegistry.getGraphics(rootElement, true); // <svg ...>
+ * ```
  *
+ * @param {ElementLike|string} filter The element or its ID.
+ * @param {boolean} [secondary=false] Whether to return the secondary graphical representation.
  *
- * @param {string|djs.model.Base} filter
- * @param {boolean} [secondary=false] whether to return the secondary connected element
- *
- * @return {SVGElement}
+ * @return {SVGElement} The graphical representation.
  */
 ElementRegistry.prototype.getGraphics = function(filter, secondary) {
   var id = filter.id || filter;
@@ -12663,12 +12859,11 @@ ElementRegistry.prototype.getGraphics = function(filter, secondary) {
 };
 
 /**
- * Validate the suitability of the given id and signals a problem
- * with an exception.
+ * Validate an ID and throw an error if invalid.
  *
  * @param {string} id
  *
- * @throws {Error} if id is empty or already assigned
+ * @throws {Error} Error indicating that the ID is invalid or already assigned.
  */
 ElementRegistry.prototype._validateId = function(id) {
   if (!id) {
@@ -12702,6 +12897,30 @@ var FN_REF = '__fn';
 var DEFAULT_PRIORITY = 1000;
 
 var slice = Array.prototype.slice;
+
+/**
+ * @typedef { {
+ *   stopPropagation(): void;
+ *   preventDefault(): void;
+ *   cancelBubble: boolean;
+ *   defaultPrevented: boolean;
+ *   returnValue: any;
+ * } } Event
+ */
+
+/**
+ * @template E
+ *
+ * @typedef { (event: E & Event, ...any) => any } EventBusEventCallback
+ */
+
+/**
+ * @typedef { {
+ *  priority: number;
+ *  next: EventBusListener | null;
+ *  callback: EventBusEventCallback<any>;
+ * } } EventBusListener
+ */
 
 /**
  * A general purpose event bus.
@@ -12787,6 +13006,10 @@ var slice = Array.prototype.slice;
  * ```
  */
 function EventBus() {
+
+  /**
+   * @type { Record<string, EventBusListener> }
+   */
   this._listeners = {};
 
   // cleanup on destroy on lowest priority to allow
@@ -12807,10 +13030,12 @@ function EventBus() {
  *
  * Returning anything but `undefined` from a listener will stop the listener propagation.
  *
- * @param {string|Array<string>} events
- * @param {number} [priority=1000] the priority in which this listener is called, larger is higher
- * @param {Function} callback
- * @param {Object} [that] Pass context (`this`) to the callback
+ * @template T
+ *
+ * @param {string|string[]} events to subscribe to
+ * @param {number} [priority=1000] listen priority
+ * @param {EventBusEventCallback<T>} callback
+ * @param {any} [that] callback context
  */
 EventBus.prototype.on = function(events, priority, callback, that) {
 
@@ -12848,16 +13073,17 @@ EventBus.prototype.on = function(events, priority, callback, that) {
   });
 };
 
-
 /**
- * Register an event listener that is executed only once.
+ * Register an event listener that is called only once.
  *
- * @param {string} event the event name to register for
- * @param {number} [priority=1000] the priority in which this listener is called, larger is higher
- * @param {Function} callback the callback to execute
- * @param {Object} [that] Pass context (`this`) to the callback
+ * @template T
+ *
+ * @param {string|string[]} events to subscribe to
+ * @param {number} [priority=1000] the listen priority
+ * @param {EventBusEventCallback<T>} callback
+ * @param {any} [that] callback context
  */
-EventBus.prototype.once = function(event, priority, callback, that) {
+EventBus.prototype.once = function(events, priority, callback, that) {
   var self = this;
 
   if ((0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isFunction)(priority)) {
@@ -12875,7 +13101,7 @@ EventBus.prototype.once = function(event, priority, callback, that) {
 
     var result = callback.apply(that, arguments);
 
-    self.off(event, wrappedCallback);
+    self.off(events, wrappedCallback);
 
     return result;
   }
@@ -12885,7 +13111,7 @@ EventBus.prototype.once = function(event, priority, callback, that) {
   // callback
   wrappedCallback[FN_REF] = callback;
 
-  this.on(event, priority, wrappedCallback);
+  this.on(events, priority, wrappedCallback);
 };
 
 
@@ -12894,8 +13120,8 @@ EventBus.prototype.once = function(event, priority, callback, that) {
  *
  * If no callback is given, all listeners for a given event name are being removed.
  *
- * @param {string|Array<string>} events
- * @param {Function} [callback]
+ * @param {string|string[]} events
+ * @param {EventBusEventCallback} [callback]
  */
 EventBus.prototype.off = function(events, callback) {
 
@@ -12911,11 +13137,11 @@ EventBus.prototype.off = function(events, callback) {
 
 
 /**
- * Create an EventBus event.
+ * Create an event recognized be the event bus.
  *
- * @param {Object} data
+ * @param {Object} data Event data.
  *
- * @return {Object} event, recognized by the eventBus
+ * @return {Event} An event that will be recognized by the event bus.
  */
 EventBus.prototype.createEvent = function(data) {
   var event = new InternalEvent();
@@ -12927,10 +13153,11 @@ EventBus.prototype.createEvent = function(data) {
 
 
 /**
- * Fires a named event.
+ * Fires an event.
  *
  * @example
  *
+ * ```javascript
  * // fire event by name
  * events.fire('foo');
  *
@@ -12948,13 +13175,13 @@ EventBus.prototype.createEvent = function(data) {
  * });
  *
  * events.fire({ type: 'foo' }, 'I am bar!');
+ * ```
  *
- * @param {string} [name] the optional event name
- * @param {Object} [event] the event object
- * @param {...Object} additional arguments to be passed to the callback functions
+ * @param {string} [type] event type
+ * @param {Object} [data] event or event data
+ * @param {...any} [args] additional arguments the callback will be called with.
  *
- * @return {boolean} the events return value, if specified or false if the
- *                   default action was prevented by listeners
+ * @return {any} The return value. Will be set to `false` if the default was prevented.
  */
 EventBus.prototype.fire = function(type, data) {
   var event,
@@ -13019,7 +13246,13 @@ EventBus.prototype.fire = function(type, data) {
   return returnValue;
 };
 
-
+/**
+ * Handle an error by firing an event.
+ *
+ * @param {Error} error The error to be handled.
+ *
+ * @return {boolean} Whether the error was handled.
+ */
 EventBus.prototype.handleError = function(error) {
   return this.fire('error', { error: error }) === false;
 };
@@ -13029,6 +13262,13 @@ EventBus.prototype._destroy = function() {
   this._listeners = {};
 };
 
+/**
+ * @param {Event} event
+ * @param {any[]} args
+ * @param {EventBusListener} listener
+ *
+ * @return {any}
+ */
 EventBus.prototype._invokeListeners = function(event, args, listener) {
 
   var returnValue;
@@ -13048,6 +13288,13 @@ EventBus.prototype._invokeListeners = function(event, args, listener) {
   return returnValue;
 };
 
+/**
+ * @param {Event} event
+ * @param {any[]} args
+ * @param {EventBusListener} listener
+ *
+ * @return {any}
+ */
 EventBus.prototype._invokeListener = function(event, args, listener) {
 
   var returnValue;
@@ -13082,7 +13329,7 @@ EventBus.prototype._invokeListener = function(event, args, listener) {
   return returnValue;
 };
 
-/*
+/**
  * Add new listener with a certain priority to the list
  * of listeners (for the given event).
  *
@@ -13096,7 +13343,7 @@ EventBus.prototype._invokeListener = function(event, args, listener) {
  *    * after: [ 1500, 1500, (new=1300), 1000, 1000, (new=1000) ]
  *
  * @param {string} event
- * @param {Object} listener { priority, callback }
+ * @param {EventBusListener} newListener
  */
 EventBus.prototype._addListener = function(event, newListener) {
 
@@ -13136,10 +13383,19 @@ EventBus.prototype._addListener = function(event, newListener) {
 };
 
 
+/**
+ * @param {string} name
+ *
+ * @return {EventBusListener}
+ */
 EventBus.prototype._getListeners = function(name) {
   return this._listeners[name];
 };
 
+/**
+ * @param {string} name
+ * @param {EventBusListener} listener
+ */
 EventBus.prototype._setListeners = function(name, listener) {
   this._listeners[name] = listener;
 };
@@ -13202,9 +13458,9 @@ InternalEvent.prototype.init = function(data) {
  * Invoke function. Be fast...
  *
  * @param {Function} fn
- * @param {Array<Object>} args
+ * @param {any[]} args
  *
- * @return {Any}
+ * @return {any}
  */
 function invokeFunction(fn, args) {
   return fn.apply(null, args);
@@ -13243,7 +13499,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /**
- * A factory that creates graphical elements
+ * @typedef {import('./Types').ConnectionLike} ConnectionLike
+ * @typedef {import('./Types').ElementLike} ElementLike
+ * @typedef {import('./Types').ShapeLike} ShapeLike
+ *
+ * @typedef {import('./ElementRegistry').default} ElementRegistry
+ * @typedef {import('./EventBus').default} EventBus
+ */
+
+/**
+ * A factory that creates graphical elements.
  *
  * @param {EventBus} eventBus
  * @param {ElementRegistry} elementRegistry
@@ -13255,7 +13520,10 @@ function GraphicsFactory(eventBus, elementRegistry) {
 
 GraphicsFactory.$inject = [ 'eventBus' , 'elementRegistry' ];
 
-
+/**
+ * @param { { parent?: any } } element
+ * @return {SVGElement}
+ */
 GraphicsFactory.prototype._getChildrenContainer = function(element) {
 
   var gfx = this._elementRegistry.getGraphics(element);
@@ -13311,7 +13579,7 @@ GraphicsFactory.prototype._clear = function(gfx) {
  * </g>
  *
  * @param {string} type the type of the element, i.e. shape | connection
- * @param {SVGElement} [childrenGfx]
+ * @param {SVGElement} childrenGfx
  * @param {number} [parentIndex] position to create container in parent
  * @param {boolean} [isFrame] is frame element
  *
@@ -13349,11 +13617,25 @@ GraphicsFactory.prototype._createContainer = function(
   return gfx;
 };
 
+/**
+ * Create a graphical element.
+ *
+ * @param { 'shape' | 'connection' | 'label' | 'root' } type The type of the element.
+ * @param {ElementLike} element The element.
+ * @param {number} [parentIndex] The index at which to add the graphical element to its parent's children.
+ *
+ * @return {SVGElement} The graphical element.
+ */
 GraphicsFactory.prototype.create = function(type, element, parentIndex) {
   var childrenGfx = this._getChildrenContainer(element.parent);
   return this._createContainer(type, childrenGfx, parentIndex, (0,_util_Elements__WEBPACK_IMPORTED_MODULE_3__.isFrameElement)(element));
 };
 
+/**
+ * Update the containments of the given elements.
+ *
+ * @param {ElementLike[]} elements The elements.
+ */
 GraphicsFactory.prototype.updateContainments = function(elements) {
 
   var self = this,
@@ -13389,30 +13671,67 @@ GraphicsFactory.prototype.updateContainments = function(elements) {
   });
 };
 
+/**
+ * Draw a shape.
+ *
+ * @param {SVGElement} visual The graphical element.
+ * @param {ShapeLike} element The shape.
+ *
+ * @return {SVGElement}
+ */
 GraphicsFactory.prototype.drawShape = function(visual, element) {
   var eventBus = this._eventBus;
 
   return eventBus.fire('render.shape', { gfx: visual, element: element });
 };
 
+/**
+ * Get the path of a shape.
+ *
+ * @param {ShapeLike} element The shape.
+ *
+ * @return {string} The path of the shape.
+ */
 GraphicsFactory.prototype.getShapePath = function(element) {
   var eventBus = this._eventBus;
 
   return eventBus.fire('render.getShapePath', element);
 };
 
+/**
+ * Draw a connection.
+ *
+ * @param {SVGElement} visual The graphical element.
+ * @param {ConnectionLike} element The connection.
+ *
+ * @return {SVGElement}
+ */
 GraphicsFactory.prototype.drawConnection = function(visual, element) {
   var eventBus = this._eventBus;
 
   return eventBus.fire('render.connection', { gfx: visual, element: element });
 };
 
-GraphicsFactory.prototype.getConnectionPath = function(waypoints) {
+/**
+ * Get the path of a connection.
+ *
+ * @param {ConnectionLike} connection The connection.
+ *
+ * @return {string} The path of the connection.
+ */
+GraphicsFactory.prototype.getConnectionPath = function(connection) {
   var eventBus = this._eventBus;
 
-  return eventBus.fire('render.getConnectionPath', waypoints);
+  return eventBus.fire('render.getConnectionPath', connection);
 };
 
+/**
+ * Update an elements graphical representation.
+ *
+ * @param {'shape'|'connection'} type
+ * @param {ElementLike} element
+ * @param {SVGElement} gfx
+ */
 GraphicsFactory.prototype.update = function(type, element, gfx) {
 
   // do NOT update root element
@@ -13442,6 +13761,11 @@ GraphicsFactory.prototype.update = function(type, element, gfx) {
   }
 };
 
+/**
+ * Remove a graphical element.
+ *
+ * @param {ElementLike} element The element.
+ */
 GraphicsFactory.prototype.remove = function(element) {
   var gfx = this._elementRegistry.getGraphics(element);
 
@@ -13492,6 +13816,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __depends__: [ _draw__WEBPACK_IMPORTED_MODULE_0__["default"] ],
   __init__: [ 'canvas' ],
@@ -13516,6 +13843,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ BaseRenderer)
 /* harmony export */ });
 var DEFAULT_RENDER_PRIORITY = 1000;
+
+/**
+ * @typedef {import('../core/Types').ElementLike} Element
+ * @typedef {import('../core/Types').ConnectionLike} Connection
+ * @typedef {import('../core/Types').ShapeLike} Shape
+ *
+ * @typedef {import('../core/EventBus').default} EventBus
+ */
 
 /**
  * The base implementation of shape and connection renderers.
@@ -13555,52 +13890,51 @@ function BaseRenderer(eventBus, renderPriority) {
 }
 
 /**
- * Should check whether *this* renderer can render
- * the element/connection.
+ * Checks whether an element can be rendered.
  *
- * @param {element} element
+ * @param {Element} element The element to be rendered.
  *
- * @returns {boolean}
+ * @return {boolean} Whether the element can be rendered.
  */
-BaseRenderer.prototype.canRender = function() {};
+BaseRenderer.prototype.canRender = function(element) {};
 
 /**
- * Provides the shape's snap svg element to be drawn on the `canvas`.
+ * Draws a shape.
  *
- * @param {djs.Graphics} visuals
- * @param {Shape} shape
+ * @param {SVGElement} visuals The SVG element to draw the shape into.
+ * @param {Shape} shape The shape to be drawn.
  *
- * @returns {Snap.svg} [returns a Snap.svg paper element ]
+ * @return {SVGElement} The SVG element of the shape drawn.
  */
-BaseRenderer.prototype.drawShape = function() {};
+BaseRenderer.prototype.drawShape = function(visuals, shape) {};
 
 /**
- * Provides the shape's snap svg element to be drawn on the `canvas`.
+ * Draws a connection.
  *
- * @param {djs.Graphics} visuals
- * @param {Connection} connection
+ * @param {SVGElement} visuals The SVG element to draw the connection into.
+ * @param {Connection} connection The connection to be drawn.
  *
- * @returns {Snap.svg} [returns a Snap.svg paper element ]
+ * @return {SVGElement} The SVG element of the connection drawn.
  */
-BaseRenderer.prototype.drawConnection = function() {};
+BaseRenderer.prototype.drawConnection = function(visuals, connection) {};
 
 /**
- * Gets the SVG path of a shape that represents it's visual bounds.
+ * Gets the SVG path of the graphical representation of a shape.
  *
- * @param {Shape} shape
+ * @param {Shape} shape The shape.
  *
- * @return {string} svg path
+ * @return {string} The SVG path of the shape.
  */
-BaseRenderer.prototype.getShapePath = function() {};
+BaseRenderer.prototype.getShapePath = function(shape) {};
 
 /**
- * Gets the SVG path of a connection that represents it's visual bounds.
+ * Gets the SVG path of the graphical representation of a connection.
  *
- * @param {Connection} connection
+ * @param {Connection} connection The connection.
  *
- * @return {string} svg path
+ * @return {string} The SVG path of the connection.
  */
-BaseRenderer.prototype.getConnectionPath = function() {};
+BaseRenderer.prototype.getConnectionPath = function(connection) {};
 
 
 /***/ }),
@@ -13634,6 +13968,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @typedef {import('../core/EventBus').default} EventBus
+ * @typedef {import('./Styles').default} Styles
+ */
+
 // apply default renderer with lowest possible priority
 // so that it only kicks in if noone else could render
 var DEFAULT_RENDER_PRIORITY = 1;
@@ -13646,7 +13985,6 @@ var DEFAULT_RENDER_PRIORITY = 1;
  */
 function DefaultRenderer(eventBus, styles) {
 
-  //
   _BaseRenderer__WEBPACK_IMPORTED_MODULE_0__["default"].call(this, eventBus, DEFAULT_RENDER_PRIORITY);
 
   this.CONNECTION_STYLE = styles.style([ 'no-fill' ], { strokeWidth: 5, stroke: 'fuchsia' });
@@ -13657,10 +13995,16 @@ function DefaultRenderer(eventBus, styles) {
 (0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(DefaultRenderer, _BaseRenderer__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 
+/**
+ * @private
+ */
 DefaultRenderer.prototype.canRender = function() {
   return true;
 };
 
+/**
+ * @private
+ */
 DefaultRenderer.prototype.drawShape = function drawShape(visuals, element, attrs) {
   var rect = (0,tiny_svg__WEBPACK_IMPORTED_MODULE_2__.create)('rect');
 
@@ -13682,6 +14026,9 @@ DefaultRenderer.prototype.drawShape = function drawShape(visuals, element, attrs
   return rect;
 };
 
+/**
+ * @private
+ */
 DefaultRenderer.prototype.drawConnection = function drawConnection(visuals, connection, attrs) {
 
   var line = (0,_util_RenderUtil__WEBPACK_IMPORTED_MODULE_5__.createLine)(connection.waypoints, (0,min_dash__WEBPACK_IMPORTED_MODULE_4__.assign)({}, this.CONNECTION_STYLE, attrs || {}));
@@ -13690,6 +14037,9 @@ DefaultRenderer.prototype.drawConnection = function drawConnection(visuals, conn
   return line;
 };
 
+/**
+ * @private
+ */
 DefaultRenderer.prototype.getShapePath = function getShapePath(shape) {
 
   var x = shape.x,
@@ -13708,6 +14058,9 @@ DefaultRenderer.prototype.getShapePath = function getShapePath(shape) {
   return (0,_util_RenderUtil__WEBPACK_IMPORTED_MODULE_5__.componentsToPath)(shapePath);
 };
 
+/**
+ * @private
+ */
 DefaultRenderer.prototype.getConnectionPath = function getConnectionPath(connection) {
   var waypoints = connection.waypoints;
 
@@ -13724,7 +14077,6 @@ DefaultRenderer.prototype.getConnectionPath = function getConnectionPath(connect
 
   return (0,_util_RenderUtil__WEBPACK_IMPORTED_MODULE_5__.componentsToPath)(connectionPath);
 };
-
 
 DefaultRenderer.$inject = [ 'eventBus', 'styles' ];
 
@@ -13767,13 +14119,14 @@ function Styles() {
   var self = this;
 
   /**
-   * Builds a style definition from a className, a list of traits and an object of additional attributes.
+   * Builds a style definition from a className, a list of traits and an object
+   * of additional attributes.
    *
-   * @param  {string} className
-   * @param  {Array<string>} traits
-   * @param  {Object} additionalAttrs
+   * @param {string} className
+   * @param {string[]} [traits]
+   * @param {Object} [additionalAttrs]
    *
-   * @return {Object} the style defintion
+   * @return {Object} the style definition
    */
   this.cls = function(className, traits, additionalAttrs) {
     var attrs = this.style(traits, additionalAttrs);
@@ -13782,12 +14135,13 @@ function Styles() {
   };
 
   /**
-   * Builds a style definition from a list of traits and an object of additional attributes.
+   * Builds a style definition from a list of traits and an object of additional
+   * attributes.
    *
-   * @param  {Array<string>} traits
-   * @param  {Object} additionalAttrs
+   * @param {string[]} [traits]
+   * @param {Object} additionalAttrs
    *
-   * @return {Object} the style defintion
+   * @return {Object} the style definition
    */
   this.style = function(traits, additionalAttrs) {
 
@@ -13803,6 +14157,17 @@ function Styles() {
     return additionalAttrs ? (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.assign)(attrs, additionalAttrs) : attrs;
   };
 
+
+  /**
+   * Computes a style definition from a list of traits and an object of
+   * additional attributes, with custom style definition object.
+   *
+   * @param {Object} custom
+   * @param {string[]} [traits]
+   * @param {Object} defaultStyles
+   *
+   * @return {Object} the style definition
+   */
   this.computeStyle = function(custom, traits, defaultStyles) {
     if (!(0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isArray)(traits)) {
       defaultStyles = traits;
@@ -13832,6 +14197,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __init__: [ 'defaultRenderer' ],
   defaultRenderer: [ 'type', _DefaultRenderer__WEBPACK_IMPORTED_MODULE_0__["default"] ],
@@ -13855,6 +14223,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 
 
+/**
+ * @typedef {import('../../model/Types').Element} Element
+ *
+ * @typedef {import('../modeling/Modeling').default} Modeling
+ * @typedef {import('../rules/Rules').default} Rules
+ *
+ * @typedef {import('../../util/Types').Axis} Axis
+ * @typedef {import('../../util/Types').Dimension} Dimension
+ *
+ * @typedef { 'top' | 'right' | 'bottom' | 'left' | 'center' | 'middle' } Alignment
+ */
+
 function last(arr) {
   return arr && arr[arr.length - 1];
 }
@@ -13868,11 +14248,9 @@ function sortLeftOrCenter(element) {
 }
 
 /**
- * Sorting functions for different types of alignment
+ * Sorting functions for different alignments.
  *
- * @type {Object}
- *
- * @return {Function}
+ * @type {Record<string, Function>}
  */
 var ALIGNMENT_SORTING = {
   left: sortLeftOrCenter,
@@ -13887,7 +14265,10 @@ var ALIGNMENT_SORTING = {
   }
 };
 
-
+/**
+ * @param {Modeling} modeling
+ * @param {Rules} rules
+ */
 function AlignElements(modeling, rules) {
   this._modeling = modeling;
   this._rules = rules;
@@ -13897,11 +14278,14 @@ AlignElements.$inject = [ 'modeling', 'rules' ];
 
 
 /**
- * Get the relevant "axis" and "dimension" related to the current type of alignment
+ * Get relevant axis and dimension for given alignment.
  *
- * @param  {string} type left|right|center|top|bottom|middle
+ * @param {Alignment} type
  *
- * @return {Object} { axis, dimension }
+ * @return { {
+ *   axis: Axis;
+ *   dimension: Dimension;
+ * } }
  */
 AlignElements.prototype._getOrientationDetails = function(type) {
   var vertical = [ 'top', 'bottom', 'middle' ],
@@ -13924,12 +14308,12 @@ AlignElements.prototype._isType = function(type, types) {
 };
 
 /**
- * Get a point on the relevant axis where elements should align to
+ * Get point on relevant axis for given alignment.
  *
- * @param  {string} type left|right|center|top|bottom|middle
- * @param  {Array} sortedElements
+ * @param {Alignment} type
+ * @param {Element[]} sortedElements
  *
- * @return {Object}
+ * @return {Partial<Record<Alignment, number>>}
  */
 AlignElements.prototype._alignmentPosition = function(type, sortedElements) {
   var orientation = this._getOrientationDetails(type),
@@ -14000,10 +14384,10 @@ AlignElements.prototype._alignmentPosition = function(type, sortedElements) {
 };
 
 /**
- * Executes the alignment of a selection of elements
+ * Align elements on relevant axis for given alignment.
  *
- * @param  {Array} elements
- * @param  {string} type left|right|center|top|bottom|middle
+ * @param {Element[]} elements
+ * @param {Alignment} type
  */
 AlignElements.prototype.trigger = function(elements, type) {
   var modeling = this._modeling,
@@ -14050,6 +14434,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AlignElements__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AlignElements */ "../node_modules/diagram-js/lib/features/align-elements/AlignElements.js");
 
 
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __init__: [ 'alignElements' ],
   alignElements: [ 'type', _AlignElements__WEBPACK_IMPORTED_MODULE_0__["default"] ]
@@ -14084,6 +14471,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @typedef {import('didi').Injector} Injector
+ *
+ * @typedef {import('../../model/Types').Element} Element
+ *
+ * @typedef {import('../../core/Canvas').default} Canvas
+ * @typedef {import('../../core/EventBus').default} EventBus
+ * @typedef {import('../rules/Rules').default} Rules
+ * @typedef {import('../modeling/Modeling').default} Modeling
+ */
+
 var LOW_PRIORITY = 251,
     HIGH_PRIORITY = 1401;
 
@@ -14099,7 +14497,7 @@ var MARKER_ATTACH = 'attach-ok';
  * Optionally depends on `diagram-js/lib/features/label-support`
  * to render attached labels during move preview.
  *
- * @param {didi.Injector} injector
+ * @param {Injector} injector
  * @param {EventBus} eventBus
  * @param {Canvas} canvas
  * @param {Rules} rules
@@ -14342,8 +14740,8 @@ AttachSupport.$inject = [
 /**
  * Return attachers of the given shapes
  *
- * @param {Array<djs.model.Base>} shapes
- * @return {Array<djs.model.Base>}
+ * @param {Element[]} shapes
+ * @return {Element[]}
  */
 function getAttachers(shapes) {
   return (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.flatten)((0,min_dash__WEBPACK_IMPORTED_MODULE_1__.map)(shapes, function(s) {
@@ -14355,8 +14753,8 @@ function getAttachers(shapes) {
  * Return a combined list of elements and
  * attachers.
  *
- * @param {Array<djs.model.Base>} elements
- * @return {Array<djs.model.Base>} filtered
+ * @param {Element[]} elements
+ * @return {Element[]} filtered
  */
 function addAttached(elements) {
   var attachers = getAttachers(elements);
@@ -14369,9 +14767,9 @@ function addAttached(elements) {
  * contain attached elements with hosts being part
  * of the selection.
  *
- * @param  {Array<djs.model.Base>} elements
+ * @param {Element[]} elements
  *
- * @return {Array<djs.model.Base>} filtered
+ * @return {Element[]} filtered
  */
 function removeAttached(elements) {
 
@@ -14419,6 +14817,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __depends__: [
     _rules__WEBPACK_IMPORTED_MODULE_0__["default"]
@@ -14447,6 +14848,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @typedef {import('../../core/Types').ShapeLike} Shape
+ *
+ * @typedef {import('../../util/Types').Point} Point
+ *
+ * @typedef {import('../../core/Canvas').default} Canvas
+ * @typedef {import('../../core/EventBus').default} EventBus
+ * @typedef {import('../modeling/Modeling').default} Modeling
+ */
+
 var LOW_PRIORITY = 100;
 
 
@@ -14456,6 +14867,7 @@ var LOW_PRIORITY = 100;
  *
  * @param {EventBus} eventBus
  * @param {Modeling} modeling
+ * @param {Canvas} canvas
  */
 function AutoPlace(eventBus, modeling, canvas) {
 
@@ -14473,10 +14885,10 @@ function AutoPlace(eventBus, modeling, canvas) {
   /**
    * Append shape to source at appropriate position.
    *
-   * @param {djs.model.Shape} source
-   * @param {djs.model.Shape} shape
+   * @param {Shape} source
+   * @param {Shape} shape
    *
-   * @return {djs.model.Shape} appended shape
+   * @return {Shape} appended shape
    */
   this.append = function(source, shape, hints) {
 
@@ -14515,12 +14927,12 @@ AutoPlace.$inject = [
  * Find the new position for the target element to
  * connect to source.
  *
- * @param  {djs.model.Shape} source
- * @param  {djs.model.Shape} element
- * @param  {Object} [hints]
- * @param  {Object} [hints.defaultDistance]
+ * @param {Shape} source
+ * @param {Shape} element
+ * @param {Object} [hints]
+ * @param {Object} [hints.defaultDistance]
  *
- * @returns {Point}
+ * @return {Point}
  */
 function getNewShapePosition(source, element, hints) {
   if (!hints) {
@@ -14553,6 +14965,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ AutoPlaceSelectionBehavior)
 /* harmony export */ });
 /**
+ * @typedef {import('../../core/EventBus').default} EventBus
+ * @typedef {import('../selection/Selection').default} Selection
+ */
+
+/**
  * Select element after auto placement.
  *
  * @param {EventBus} eventBus
@@ -14582,17 +14999,25 @@ AutoPlaceSelectionBehavior.$inject = [
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "DEFAULT_DISTANCE": () => (/* binding */ DEFAULT_DISTANCE),
-/* harmony export */   "findFreePosition": () => (/* binding */ findFreePosition),
-/* harmony export */   "generateGetNextPosition": () => (/* binding */ generateGetNextPosition),
-/* harmony export */   "getConnectedAtPosition": () => (/* binding */ getConnectedAtPosition),
-/* harmony export */   "getConnectedDistance": () => (/* binding */ getConnectedDistance)
+/* harmony export */   DEFAULT_DISTANCE: () => (/* binding */ DEFAULT_DISTANCE),
+/* harmony export */   findFreePosition: () => (/* binding */ findFreePosition),
+/* harmony export */   generateGetNextPosition: () => (/* binding */ generateGetNextPosition),
+/* harmony export */   getConnectedAtPosition: () => (/* binding */ getConnectedAtPosition),
+/* harmony export */   getConnectedDistance: () => (/* binding */ getConnectedDistance)
 /* harmony export */ });
 /* harmony import */ var _layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../layout/LayoutUtil */ "../node_modules/diagram-js/lib/layout/LayoutUtil.js");
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 
 
 
+
+/**
+ * @typedef {import('../../model/Types').Connection} Connection
+ * @typedef {import('../../model/Types').Element} Element
+ * @typedef {import('../../model/Types').Shape} Shape
+ *
+ * @typedef {import('../../util/Types').Point} Point
+ */
 
 // padding to detect element placement
 var PLACEMENT_DETECTION_PAD = 10;
@@ -14605,10 +15030,10 @@ var DEFAULT_MAX_DISTANCE = 250;
 /**
  * Get free position starting from given position.
  *
- * @param {djs.model.Shape} source
- * @param {djs.model.Shape} element
+ * @param {Shape} source
+ * @param {Shape} element
  * @param {Point} position
- * @param {Function} getNextPosition
+ * @param {(element: Element, position: Point, connectedAtPosition: Element) => Element} getNextPosition
  *
  * @return {Point}
  */
@@ -14629,7 +15054,7 @@ function findFreePosition(source, element, position, getNextPosition) {
  * @param {Object} [nextPositionDirection.x]
  * @param {Object} [nextPositionDirection.y]
  *
- * @returns {Function}
+ * @return {(element: Element, previousPosition: Point, connectedAtPosition: Element) => Point}
  */
 function generateGetNextPosition(nextPositionDirection) {
   return function(element, previousPosition, connectedAtPosition) {
@@ -14701,12 +15126,12 @@ function getConnectedAtPosition(source, position, element) {
 * Compute optimal distance between source and target based on existing connections to and from source.
 * Assumes left-to-right and top-to-down modeling.
 *
-* @param {djs.model.Shape} source
+* @param {Shape} source
 * @param {Object} [hints]
 * @param {number} [hints.defaultDistance]
 * @param {string} [hints.direction]
-* @param {Function} [hints.filter]
-* @param {Function} [hints.getWeight]
+* @param {(connection: Connection) => boolean} [hints.filter]
+* @param {(connection: Connection) => number} [hints.getWeight]
 * @param {number} [hints.maxDistance]
 * @param {string} [hints.reference]
 *
@@ -14840,9 +15265,9 @@ function getConnectedDistance(source, hints) {
  *   - host connected elements
  *   - attachers connected elements
  *
- * @param  {djs.model.Shape} source
+ * @param {Shape} source
  *
- * @return {Array<djs.model.Shape>}
+ * @return {Shape[]}
  */
 function getAutoPlaceClosure(source) {
 
@@ -14900,6 +15325,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __init__: [ 'autoPlaceSelectionBehavior' ],
   autoPlace: [ 'type', _AutoPlace__WEBPACK_IMPORTED_MODULE_0__["default"] ],
@@ -14925,6 +15354,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @typedef {import('../../util/Types').Point} Point
+ *
+ * @typedef {import('../../core/EventBus').default} EventBus
+ * @typedef {import('../../core/Canvas').default} Canvas
+ */
 
 /**
  * Initiates canvas scrolling if current cursor point is close to a border.
@@ -14939,6 +15374,10 @@ __webpack_require__.r(__webpack_exports__);
  *
  * Threshold order:
  *   [ left, top, right, bottom ]
+ *
+ * @param {Object} config
+ * @param {EventBus} eventBus
+ * @param {Canvas} canvas
  */
 function AutoScroll(config, eventBus, canvas) {
 
@@ -14975,7 +15414,7 @@ AutoScroll.$inject = [
  * Starts scrolling loop.
  * Point is given in global scale in canvas container box plane.
  *
- * @param  {Object} point { x: X, y: Y }
+ * @param {Point} point
  */
 AutoScroll.prototype.startScroll = function(point) {
 
@@ -15040,7 +15479,7 @@ AutoScroll.prototype.stopScroll = function() {
 /**
  * Overrides defaults options.
  *
- * @param  {Object} options
+ * @param {Object} options
  */
 AutoScroll.prototype.setOptions = function(options) {
   this._opts = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.assign)({}, this._opts, options);
@@ -15050,7 +15489,7 @@ AutoScroll.prototype.setOptions = function(options) {
 /**
  * Converts event to a point in canvas container plane in global scale.
  *
- * @param  {Event} event
+ * @param {Event} event
  * @return {Point}
  */
 AutoScroll.prototype._toBorderPoint = function(event) {
@@ -15084,6 +15523,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __depends__: [
     _dragging__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -15104,10 +15546,20 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ BendpointMove),
-/* harmony export */   "isReverse": () => (/* binding */ isReverse)
+/* harmony export */   isReverse: () => (/* binding */ isReverse)
 /* harmony export */ });
 /* harmony import */ var _layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../layout/LayoutUtil */ "../node_modules/diagram-js/lib/layout/LayoutUtil.js");
 
+
+/**
+ * @typedef {import('didi').Injector} Injector
+ *
+ * @typedef {import('../../core/Canvas').default} Canvas
+ * @typedef {import('../dragging/Dragging').default} Dragging
+ * @typedef {import('../../core/EventBus').default} EventBus
+ * @typedef {import('../modeling/Modeling').default} Modeling
+ * @typedef {import('../rules/Rules').default} Rules
+ */
 
 var round = Math.round;
 
@@ -15118,6 +15570,13 @@ var RECONNECT_START = 'reconnectStart',
 
 /**
  * Move bendpoints through drag and drop to add/remove bendpoints or reconnect connection.
+ *
+ * @param {Injector} injector
+ * @param {EventBus} eventBus
+ * @param {Canvas} canvas
+ * @param {Dragging} dragging
+ * @param {Rules} rules
+ * @param {Modeling} modeling
  */
 function BendpointMove(injector, eventBus, canvas, dragging, rules, modeling) {
   this._injector = injector;
@@ -15373,6 +15832,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @typedef {import('didi').Injector} Injector
+ *
+ * @typedef {import('../bendpoints/BendpointMove').default} BendpointMove
+ * @typedef {import('../../core/Canvas').default} Canvas
+ * @typedef {import('../../core/EventBus').default} EventBus
+ */
+
 var RECONNECT_START = 'reconnectStart',
     RECONNECT_END = 'reconnectEnd',
     UPDATE_WAYPOINTS = 'updateWaypoints';
@@ -15387,6 +15854,11 @@ var HIGH_PRIORITY = 1100;
 
 /**
  * Preview connection while moving bendpoints.
+ *
+ * @param {BendpointMove} bendpointMove
+ * @param {Injector} injector
+ * @param {EventBus} eventBus
+ * @param {Canvas} canvas
  */
 function BendpointMovePreview(bendpointMove, injector, eventBus, canvas) {
   this._injector = injector;
@@ -15582,18 +16054,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 /* harmony import */ var _snapping_SnapUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../snapping/SnapUtil */ "../node_modules/diagram-js/lib/features/snapping/SnapUtil.js");
 /* harmony import */ var _BendpointUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BendpointUtil */ "../node_modules/diagram-js/lib/features/bendpoints/BendpointUtil.js");
+/* harmony import */ var _util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/ModelUtil */ "../node_modules/diagram-js/lib/util/ModelUtil.js");
 
 
 
 
 
 
+
+
+/**
+ * @typedef {import('../../core/EventBus').default} EventBus
+ */
 var abs = Math.abs,
     round = Math.round;
 
 var TOLERANCE = 10;
 
-
+/**
+ * @param {EventBus} eventBus
+ */
 function BendpointSnapping(eventBus) {
 
   function snapTo(values, value) {
@@ -15769,7 +16249,7 @@ function BendpointSnapping(eventBus) {
         hoverMid = hover && getSnapPoint(hover, event);
 
     // only snap on connections, elements can have multiple connect endpoints
-    if (!isConnection(hover) || !hoverMid || !hoverMid.x || !hoverMid.y) {
+    if (!(0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__.isConnection)(hover) || !hoverMid || !hoverMid.x || !hoverMid.y) {
       return;
     }
 
@@ -15822,13 +16302,6 @@ function BendpointSnapping(eventBus) {
 BendpointSnapping.$inject = [ 'eventBus' ];
 
 
-// helpers //////////////////////
-
-function isConnection(element) {
-  return element && !!element.waypoints;
-}
-
-
 /***/ }),
 
 /***/ "../node_modules/diagram-js/lib/features/bendpoints/BendpointUtil.js":
@@ -15840,14 +16313,14 @@ function isConnection(element) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "BENDPOINT_CLS": () => (/* binding */ BENDPOINT_CLS),
-/* harmony export */   "SEGMENT_DRAGGER_CLS": () => (/* binding */ SEGMENT_DRAGGER_CLS),
-/* harmony export */   "addBendpoint": () => (/* binding */ addBendpoint),
-/* harmony export */   "addSegmentDragger": () => (/* binding */ addSegmentDragger),
-/* harmony export */   "calculateSegmentMoveRegion": () => (/* binding */ calculateSegmentMoveRegion),
-/* harmony export */   "getClosestPointOnConnection": () => (/* binding */ getClosestPointOnConnection),
-/* harmony export */   "getConnectionIntersection": () => (/* binding */ getConnectionIntersection),
-/* harmony export */   "toCanvasCoordinates": () => (/* binding */ toCanvasCoordinates)
+/* harmony export */   BENDPOINT_CLS: () => (/* binding */ BENDPOINT_CLS),
+/* harmony export */   SEGMENT_DRAGGER_CLS: () => (/* binding */ SEGMENT_DRAGGER_CLS),
+/* harmony export */   addBendpoint: () => (/* binding */ addBendpoint),
+/* harmony export */   addSegmentDragger: () => (/* binding */ addSegmentDragger),
+/* harmony export */   calculateSegmentMoveRegion: () => (/* binding */ calculateSegmentMoveRegion),
+/* harmony export */   getClosestPointOnConnection: () => (/* binding */ getClosestPointOnConnection),
+/* harmony export */   getConnectionIntersection: () => (/* binding */ getConnectionIntersection),
+/* harmony export */   toCanvasCoordinates: () => (/* binding */ toCanvasCoordinates)
 /* harmony export */ });
 /* harmony import */ var _util_Event__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../util/Event */ "../node_modules/diagram-js/lib/util/Event.js");
 /* harmony import */ var _util_Geometry__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../util/Geometry */ "../node_modules/diagram-js/lib/util/Geometry.js");
@@ -15866,6 +16339,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+/**
+ * @typedef {import('../../core/Types').ConnectionLike} Connection
+ *
+ * @typedef {import('../../util/Types').Point} Point
+ */
 
 var BENDPOINT_CLS = 'djs-bendpoint';
 var SEGMENT_DRAGGER_CLS = 'djs-segment-dragger';
@@ -16004,8 +16483,8 @@ function calculateSegmentMoveRegion(segmentLength) {
  * Returns the point with the closest distance that is on the connection path.
  *
  * @param {Point} position
- * @param {djs.Base.Connection} connection
- * @returns {Point}
+ * @param {Connection} connection
+ * @return {Point}
  */
 function getClosestPointOnConnection(position, connection) {
   var segment = getClosestSegment(position, connection);
@@ -16061,8 +16540,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 /* harmony import */ var min_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! min-dom */ "../node_modules/min-dom/dist/index.esm.js");
 /* harmony import */ var _BendpointUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BendpointUtil */ "../node_modules/diagram-js/lib/features/bendpoints/BendpointUtil.js");
-/* harmony import */ var _util_EscapeUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/EscapeUtil */ "../node_modules/css.escape/css.escape.js");
-/* harmony import */ var _util_EscapeUtil__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_util_EscapeUtil__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _util_EscapeUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/EscapeUtil */ "../node_modules/diagram-js/lib/util/EscapeUtil.js");
 /* harmony import */ var _util_Geometry__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../util/Geometry */ "../node_modules/diagram-js/lib/util/Geometry.js");
 /* harmony import */ var _util_Mouse__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../util/Mouse */ "../node_modules/diagram-js/lib/util/Mouse.js");
 /* harmony import */ var tiny_svg__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! tiny-svg */ "../node_modules/tiny-svg/dist/index.esm.js");
@@ -16083,9 +16561,22 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @typedef {import('../bendpoints/BendpointMove').default} BendpointMove
+ * @typedef {import('../../core/Canvas').default} Canvas
+ * @typedef {import('../bendpoints/ConnectionSegmentMove').default} ConnectionSegmentMove
+ * @typedef {import('../../core/EventBus').default} EventBus
+ * @typedef {import('../interaction-events/InteractionEvents').default} InteractionEvents
+ */
 
 /**
  * A service that adds editable bendpoints to connections.
+ *
+ * @param {EventBus} eventBus
+ * @param {Canvas} canvas
+ * @param {InteractionEvents} interactionEvents
+ * @param {BendpointMove} bendpointMove
+ * @param {ConnectionSegmentMove} connectionSegmentMove
  */
 function Bendpoints(
     eventBus, canvas, interactionEvents,
@@ -16181,7 +16672,7 @@ function Bendpoints(
   function getBendpointsContainer(element, create) {
 
     var layer = canvas.getLayer('overlays'),
-        gfx = (0,min_dom__WEBPACK_IMPORTED_MODULE_2__.query)('.djs-bendpoints[data-element-id="' + _util_EscapeUtil__WEBPACK_IMPORTED_MODULE_3___default()(element.id) + '"]', layer);
+        gfx = (0,min_dom__WEBPACK_IMPORTED_MODULE_2__.query)('.djs-bendpoints[data-element-id="' + (0,_util_EscapeUtil__WEBPACK_IMPORTED_MODULE_3__.escapeCSS)(element.id) + '"]', layer);
 
     if (!gfx && create) {
       gfx = (0,tiny_svg__WEBPACK_IMPORTED_MODULE_4__.create)('g');
@@ -16486,6 +16977,20 @@ var MARKER_CONNECT_HOVER = 'connect-hover',
 
 
 
+/**
+ * @typedef {import('../../model/Types').Shape} Shape
+ *
+ * @typedef {import('../../util/Types').Axis} Axis
+ * @typedef {import('../../util/Types').Point} Point
+ *
+ * @typedef {import('didi').Injector} Injector
+ *
+ * @typedef {import('../../core/Canvas').default} Canvas
+ * @typedef {import('../dragging/Dragging').default} Dragging
+ * @typedef {import('../../core/EventBus').default} EventBus
+ * @typedef {import('../../core/GraphicsFactory').default} GraphicsFactory
+ * @typedef {import('../modeling/Modeling').default} Modeling
+ */
 
 function axisAdd(point, axis, delta) {
   return axisSet(point, axis, point[axis] + delta);
@@ -16519,9 +17024,9 @@ function flipAxis(axis) {
  *
  * Compute a reasonable docking, if non exists.
  *
- * @param  {Point} point
- * @param  {djs.model.Shape} referenceElement
- * @param  {string} moveAxis (x|y)
+ * @param {Point} point
+ * @param {Shape} referenceElement
+ * @param {Axis} moveAxis
  *
  * @return {Point}
  */
@@ -16541,7 +17046,14 @@ function getDocking(point, referenceElement, moveAxis) {
 }
 
 /**
- * A component that implements moving of bendpoints
+ * A component that implements moving of bendpoints.
+ *
+ * @param {Injector} injector
+ * @param {EventBus} eventBus
+ * @param {Canvas} canvas
+ * @param {Canvas} dragging
+ * @param {GraphicsFactory} graphicsFactory
+ * @param {Modeling} modeling
  */
 function ConnectionSegmentMove(
     injector, eventBus, canvas,
@@ -16618,9 +17130,9 @@ function ConnectionSegmentMove(
    * Crop connection if connection cropping is provided.
    *
    * @param {Connection} connection
-   * @param {Array<Point>} newWaypoints
+   * @param {Point[]} newWaypoints
    *
-   * @return {Array<Point>} cropped connection waypoints
+   * @return {Point[]} cropped connection waypoints
    */
   function cropConnection(connection, newWaypoints) {
 
@@ -16670,7 +17182,7 @@ function ConnectionSegmentMove(
    * Filter waypoints for redundant ones (i.e. on the same axis).
    * Returns the filtered waypoints and the offset related to the segment move.
    *
-   * @param {Array<Point>} waypoints
+   * @param {Point[]} waypoints
    * @param {Integer} segmentStartIndex of moved segment start
    *
    * @return {Object} { filteredWaypoints, segmentOffset }
@@ -16898,29 +17410,35 @@ ConnectionSegmentMove.$inject = [
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getAngle": () => (/* binding */ getAngle),
-/* harmony export */   "getDistancePointLine": () => (/* binding */ getDistancePointLine),
-/* harmony export */   "getDistancePointPoint": () => (/* binding */ getDistancePointPoint),
-/* harmony export */   "perpendicularFoot": () => (/* binding */ perpendicularFoot),
-/* harmony export */   "rotateVector": () => (/* binding */ rotateVector),
-/* harmony export */   "vectorLength": () => (/* binding */ vectorLength)
+/* harmony export */   getAngle: () => (/* binding */ getAngle),
+/* harmony export */   getDistancePointLine: () => (/* binding */ getDistancePointLine),
+/* harmony export */   getDistancePointPoint: () => (/* binding */ getDistancePointPoint),
+/* harmony export */   perpendicularFoot: () => (/* binding */ perpendicularFoot),
+/* harmony export */   rotateVector: () => (/* binding */ rotateVector),
+/* harmony export */   vectorLength: () => (/* binding */ vectorLength)
 /* harmony export */ });
+/**
+ * @typedef {import('../../util/Types').Point} Point
+ * @typedef {import('../../util/Types').Vector} Vector
+ */
 
 /**
- * Returns the length of a vector
+ * Returns the length of a vector.
  *
- * @param {Vector}
+ * @param {Vector} vector
+ *
  * @return {number}
  */
-function vectorLength(v) {
-  return Math.sqrt(Math.pow(v.x, 2) + Math.pow(v.y, 2));
+function vectorLength(vector) {
+  return Math.sqrt(Math.pow(vector.x, 2) + Math.pow(vector.y, 2));
 }
 
 
 /**
- * Calculates the angle between a line a the yAxis
+ * Calculates the angle between a line a the Y axis.
  *
- * @param {Array}
+ * @param {Point[]} line
+ *
  * @return {number}
  */
 function getAngle(line) {
@@ -16932,10 +17450,11 @@ function getAngle(line) {
 
 
 /**
- * Rotates a vector by a given angle
+ * Rotates a vector by a given angle.
  *
- * @param {Vector}
- * @param {number} Angle in radians
+ * @param {Vector} vector
+ * @param {number} angle The angle in radians.
+ *
  * @return {Vector}
  */
 function rotateVector(vector, angle) {
@@ -16950,9 +17469,10 @@ function rotateVector(vector, angle) {
  * Solves a 2D equation system
  * a + r*b = c, where a,b,c are 2D vectors
  *
- * @param {Vector}
- * @param {Vector}
- * @param {Vector}
+ * @param {Vector} a
+ * @param {Vector} b
+ * @param {Vector} c
+ *
  * @return {number}
  */
 function solveLambaSystem(a, b, c) {
@@ -16972,11 +17492,12 @@ function solveLambaSystem(a, b, c) {
 
 
 /**
- * Position of perpendicular foot
+ * Calculates the position of the perpendicular foot.
  *
- * @param {Point}
- * @param {[ Point, Point ]} line defined through two points
- * @return {Point} the perpendicular foot position
+ * @param {Point} point
+ * @param {Point[]} line
+ *
+ * @return {Point}
  */
 function perpendicularFoot(point, line) {
 
@@ -16993,12 +17514,12 @@ function perpendicularFoot(point, line) {
 
 
 /**
- * Calculates the distance between a point and a line
+ * Calculates the distance between a point and a line.
  *
- * @param { Point }
- * @param { [ Point, Point ] } line defined through two points
+ * @param {Point} point
+ * @param {Point[]} line
  *
- * @return { number } distance
+ * @return {number}
  */
 function getDistancePointLine(point, line) {
 
@@ -17015,12 +17536,12 @@ function getDistancePointLine(point, line) {
 
 
 /**
- * Calculates the distance between two points
+ * Calculates the distance between two points.
  *
- * @param {Point}
- * @param {Point}
+ * @param {Point} point1
+ * @param {Point} point2
  *
- * @return {number} distance
+ * @return {number}
  */
 function getDistancePointPoint(point1, point2) {
 
@@ -17060,6 +17581,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __depends__: [
     _dragging__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -17089,6 +17613,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _util_Elements__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../util/Elements */ "../node_modules/diagram-js/lib/util/Elements.js");
 
+
+/**
+ * @typedef {import('../../core/Canvas').default} Canvas
+ * @typedef {import('../../core/ElementRegistry').default} ElementRegistry
+ * @typedef {import('../../core/EventBus').default} EventBus
+ * @typedef {import('../../core/GraphicsFactory').default} GraphicsFactory
+ */
 
 /**
  * Adds change support to the diagram, including
@@ -17170,6 +17701,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ChangeSupport__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ChangeSupport */ "../node_modules/diagram-js/lib/features/change-support/ChangeSupport.js");
 
 
+
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __init__: [ 'changeSupport' ],
   changeSupport: [ 'type', _ChangeSupport__WEBPACK_IMPORTED_MODULE_0__["default"] ]
@@ -17230,6 +17765,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Clipboard__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Clipboard */ "../node_modules/diagram-js/lib/features/clipboard/Clipboard.js");
 
 
+
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   clipboard: [ 'type', _Clipboard__WEBPACK_IMPORTED_MODULE_0__["default"] ]
 });
@@ -17247,7 +17786,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Connect),
-/* harmony export */   "isReverse": () => (/* binding */ isReverse)
+/* harmony export */   isReverse: () => (/* binding */ isReverse)
 /* harmony export */ });
 /* harmony import */ var _layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../layout/LayoutUtil */ "../node_modules/diagram-js/lib/layout/LayoutUtil.js");
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
@@ -17255,7 +17794,23 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @typedef {import('../../model/Types').Element} Element
+ *
+ * @typedef {import('../../util/Types').Point} Point
+ *
+ * @typedef {import('../dragging/Dragging').default} Dragging
+ * @typedef {import('../../core/EventBus').default} EventBus
+ * @typedef {import('../modeling/Modeling').default} Modeling
+ * @typedef {import('../rules/Rules').default} Rules
+ */
 
+/**
+ * @param {EventBus} eventBus
+ * @param {Dragging} dragging
+ * @param {Modeling} modeling
+ * @param {Rules} rules
+ */
 function Connect(eventBus, dragging, modeling, rules) {
 
   // rules
@@ -17354,8 +17909,8 @@ function Connect(eventBus, dragging, modeling, rules) {
   /**
    * Start connect operation.
    *
-   * @param {DOMEvent} event
-   * @param {djs.model.Base} start
+   * @param {MouseEvent|TouchEvent} event
+   * @param {Element} start
    * @param {Point} [connectionStart]
    * @param {boolean} [autoActivate=false]
    */
@@ -17412,6 +17967,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Connect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Connect */ "../node_modules/diagram-js/lib/features/connect/Connect.js");
 
 
+/**
+ * @typedef {import('didi').Injector} Injector
+ *
+ * @typedef {import('../../core/Canvas').default} Canvas
+ * @typedef {import('../../core/EventBus').default} EventBus
+ */
+
 var HIGH_PRIORITY = 1100,
     LOW_PRIORITY = 900;
 
@@ -17421,7 +17983,7 @@ var MARKER_OK = 'connect-ok',
 /**
  * Shows connection preview during connect.
  *
- * @param {didi.Injector} injector
+ * @param {Injector} injector
  * @param {EventBus} eventBus
  * @param {Canvas} canvas
  */
@@ -17519,6 +18081,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __depends__: [
     _selection__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -17558,13 +18124,27 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @typedef {import('../../model/Types').Element} Element
+ * @typedef {import('../../model/Types').Connection} Connection
+ * @typedef {import('../../model/Types').Shape} Shape
+ *
+ * @typedef {import('../../util/Types').Point} Point
+ *
+ * @typedef {import('didi').Injector} Injector
+ *
+ * @typedef {import('../../core/Canvas').default} Canvas
+ * @typedef {import('../../core/ElementFactory').default} ElementFactory
+ * @typedef {import('../../core/GraphicsFactory').default} GraphicsFactory
+ */
+
 var MARKER_CONNECTION_PREVIEW = 'djs-connection-preview';
 
 /**
  * Draws connection preview. Optionally, this can use layouter and connection docking to draw
  * better looking previews.
  *
- * @param {didi.Injector} injector
+ * @param {Injector} injector
  * @param {Canvas} canvas
  * @param {GraphicsFactory} graphicsFactory
  * @param {ElementFactory} elementFactory
@@ -17600,11 +18180,11 @@ ConnectionPreview.$inject = [
  * @param {Object} context
  * @param {Object|boolean} canConnect
  * @param {Object} hints
- * @param {djs.model.shape} [hints.source] source element
- * @param {djs.model.shape} [hints.target] target element
+ * @param {Element} [hints.source] source element
+ * @param {Element} [hints.target] target element
  * @param {Point} [hints.connectionStart] connection preview start
  * @param {Point} [hints.connectionEnd] connection preview end
- * @param {Array<Point>} [hints.waypoints] provided waypoints for preview
+ * @param {Point[]} [hints.waypoints] provided waypoints for preview
  * @param {boolean} [hints.noLayout] true if preview should not be laid out
  * @param {boolean} [hints.noCropping] true if preview should not be cropped
  * @param {boolean} [hints.noNoop] true if simple connection should not be drawn
@@ -17682,8 +18262,8 @@ ConnectionPreview.prototype.drawPreview = function(context, canConnect, hints) {
  *
  * @param {SVGElement} connectionPreviewGfx container for the connection
  * @param {Object} hints
- * @param {djs.model.shape} [hints.source] source element
- * @param {djs.model.shape} [hints.target] target element
+ * @param {Element} [hints.source] source element
+ * @param {Element} [hints.target] target element
  * @param {Point} [hints.connectionStart] required if source is not provided
  * @param {Point} [hints.connectionEnd] required if target is not provided
  */
@@ -17705,10 +18285,10 @@ ConnectionPreview.prototype.drawNoopPreview = function(connectionPreviewGfx, hin
  *
  * @param {Point} start
  * @param {Point} end
- * @param {djs.model.shape} source
- * @param {djs.model.shape} target
+ * @param {Element} source
+ * @param {Element} target
  *
- * @returns {Array}
+ * @return {Point[]}
  */
 ConnectionPreview.prototype.cropWaypoints = function(start, end, source, target) {
   var graphicsFactory = this._graphicsFactory,
@@ -17739,7 +18319,7 @@ ConnectionPreview.prototype.cleanUp = function(context) {
  *
  * @param {Object|boolean} canConnect
  *
- * @returns {djs.model.connection}
+ * @return {Connection}
  */
 ConnectionPreview.prototype.getConnection = function(canConnect) {
   var attrs = ensureConnectionAttrs(canConnect);
@@ -17751,7 +18331,7 @@ ConnectionPreview.prototype.getConnection = function(canConnect) {
 /**
  * Add and return preview graphics.
  *
- * @returns {SVGElement}
+ * @return {SVGElement}
  */
 ConnectionPreview.prototype.createConnectionPreviewGfx = function() {
   var gfx = (0,tiny_svg__WEBPACK_IMPORTED_MODULE_0__.create)('g');
@@ -17773,7 +18353,7 @@ ConnectionPreview.prototype.createConnectionPreviewGfx = function() {
  * @param {Point} start
  * @param {Point} end
  *
- * @returns {SVGElement}
+ * @return {SVGElement}
  */
 ConnectionPreview.prototype.createNoopConnection = function(start, end) {
   return (0,_util_RenderUtil__WEBPACK_IMPORTED_MODULE_2__.createLine)([ start, end ], {
@@ -17799,7 +18379,7 @@ function cacheReturnValues(fn) {
   /**
    * Return cached return value referenced by stringified first argument.
    *
-   * @returns {*}
+   * @return {*}
    */
   return function(firstArgument) {
     var key = JSON.stringify(firstArgument);
@@ -17819,7 +18399,7 @@ function cacheReturnValues(fn) {
  *
  * @param {Object|boolean} canConnect
  *
- * @returns {Object}
+ * @return {Object}
  */
 function ensureConnectionAttrs(canConnect) {
   if ((0,min_dash__WEBPACK_IMPORTED_MODULE_3__.isObject)(canConnect)) {
@@ -17846,6 +18426,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ConnectionPreview__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ConnectionPreview */ "../node_modules/diagram-js/lib/features/connection-preview/ConnectionPreview.js");
 
 
+
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __init__: [ 'connectionPreview' ],
   connectionPreview: [ 'type', _ConnectionPreview__WEBPACK_IMPORTED_MODULE_0__["default"] ]
@@ -17868,8 +18452,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 /* harmony import */ var min_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! min-dom */ "../node_modules/min-dom/dist/index.esm.js");
 /* harmony import */ var _util_Elements__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/Elements */ "../node_modules/diagram-js/lib/util/Elements.js");
-/* harmony import */ var _util_EscapeUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/EscapeUtil */ "../node_modules/css.escape/css.escape.js");
-/* harmony import */ var _util_EscapeUtil__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_util_EscapeUtil__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _util_EscapeUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/EscapeUtil */ "../node_modules/diagram-js/lib/util/EscapeUtil.js");
 
 
 
@@ -17877,26 +18460,46 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+/**
+ * @typedef {import('../../model/Types').Element} Element
+ *
+ * @typedef {import('../../util/Types').Rect} Rect
+ *
+ * @typedef {import('../../core/Canvas').default} Canvas
+ * @typedef {import('../../core/EventBus').default} EventBus
+ * @typedef {import('../overlays/Overlays').default} Overlays
+ *
+ * @typedef {import('../overlays/Overlays').Overlay} Overlay
+ *
+ * @typedef {import('./ContextPadProvider').default} ContextPadProvider
+ * @typedef {import('./ContextPadProvider').ContextPadEntries} ContextPadEntries
+ *
+ * @typedef { {
+ *   scale?: {
+ *     min?: number;
+ *     max?: number;
+ *   };
+ * } } ContextPadConfig
+ */
+
+/**
+ * @template {Element} [ElementType=Element]
+ *
+ * @typedef {ElementType|ElementType[]} ContextPadTarget
+ */
 
 var entrySelector = '.entry';
 
 var DEFAULT_PRIORITY = 1000;
 var CONTEXT_PAD_PADDING = 12;
 
-
-/**
- * @typedef {djs.model.Base|djs.model.Base[]} ContextPadTarget
- */
-
 /**
  * A context pad that displays element specific, contextual actions next
  * to a diagram element.
  *
  * @param {Canvas} canvas
- * @param {Object} config
- * @param {boolean|Object} [config.scale={ min: 1.0, max: 1.5 }]
- * @param {number} [config.scale.min]
- * @param {number} [config.scale.max]
+ * @param {ContextPadConfig} config
  * @param {EventBus} eventBus
  * @param {Overlays} overlays
  */
@@ -17975,33 +18578,21 @@ ContextPad.prototype._init = function() {
   });
 };
 
+/**
+ * @overlord
+ *
+ * Register a context pad provider with the default priority. See
+ * {@link ContextPadProvider} for examples.
+ *
+ * @param {ContextPadProvider} provider
+ */
 
 /**
- * Register context pad provider.
+ * Register a context pad provider with the given priority. See
+ * {@link ContextPadProvider} for examples.
  *
- * @param  {number} [priority=1000]
- * @param  {ContextPadProvider} provider
- *
- * @example
- * const contextPadProvider = {
- *   getContextPadEntries: function(element) {
- *     return function(entries) {
- *       return {
- *         ...entries,
- *         'entry-1': {
- *           label: 'My Entry',
- *           action: function() { alert("I have been clicked!"); }
- *         }
- *       };
- *     }
- *   },
- *
- *   getMultiElementContextPadEntries: function(elements) {
- *     // ...
- *   }
- * };
- *
- * contextPad.registerProvider(800, contextPadProvider);
+ * @param {number} priority
+ * @param {ContextPadProvider} provider
  */
 ContextPad.prototype.registerProvider = function(priority, provider) {
   if (!provider) {
@@ -18020,7 +18611,7 @@ ContextPad.prototype.registerProvider = function(priority, provider) {
  *
  * @param {ContextPadTarget} target
  *
- * @return {ContextPadEntryDescriptor[]} list of entries
+ * @return {ContextPadEntries} list of entries
  */
 ContextPad.prototype.getEntries = function(target) {
   var providers = this._getProviders();
@@ -18059,9 +18650,9 @@ ContextPad.prototype.getEntries = function(target) {
  *
  * The entry to trigger is determined by the target element.
  *
- * @param  {string} action
- * @param  {Event} event
- * @param  {boolean} [autoActivate=false]
+ * @param {string} action
+ * @param {Event} event
+ * @param {boolean} [autoActivate=false]
  */
 ContextPad.prototype.trigger = function(action, event, autoActivate) {
 
@@ -18103,6 +18694,10 @@ ContextPad.prototype.triggerEntry = function(entryId, action, event, autoActivat
   }
 
   var handler = entry.action;
+
+  if (this._eventBus.fire('contextPad.trigger', { entry, event }) === false) {
+    return;
+  }
 
   // simple action (via callback function)
   if ((0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isFunction)(handler)) {
@@ -18165,7 +18760,7 @@ ContextPad.prototype._updateAndOpen = function(target) {
 
     (0,min_dom__WEBPACK_IMPORTED_MODULE_1__.attr)(control, 'data-action', id);
 
-    container = (0,min_dom__WEBPACK_IMPORTED_MODULE_1__.query)('[data-group=' + _util_EscapeUtil__WEBPACK_IMPORTED_MODULE_2___default()(grouping) + ']', html);
+    container = (0,min_dom__WEBPACK_IMPORTED_MODULE_1__.query)('[data-group=' + (0,_util_EscapeUtil__WEBPACK_IMPORTED_MODULE_2__.escapeCSS)(grouping) + ']', html);
     if (!container) {
       container = (0,min_dom__WEBPACK_IMPORTED_MODULE_1__.domify)('<div class="group"></div>');
       (0,min_dom__WEBPACK_IMPORTED_MODULE_1__.attr)(container, 'data-group', grouping);
@@ -18326,7 +18921,8 @@ ContextPad.prototype.isShown = function() {
  * Get contex pad position.
  *
  * @param {ContextPadTarget} target
- * @return {Bounds}
+ *
+ * @return {Rect}
  */
 ContextPad.prototype._getPosition = function(target) {
 
@@ -18386,6 +18982,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __depends__: [
     _interaction_events__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -18408,7 +19007,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ CopyPaste)
 /* harmony export */ });
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
-/* harmony import */ var _util_Elements__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../util/Elements */ "../node_modules/diagram-js/lib/util/Elements.js");
+/* harmony import */ var _util_Elements__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/Elements */ "../node_modules/diagram-js/lib/util/Elements.js");
+/* harmony import */ var _util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../util/ModelUtil */ "../node_modules/diagram-js/lib/util/ModelUtil.js");
+
+
 
 
 
@@ -18416,53 +19018,43 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /**
- * @typedef {Function} <copyPaste.canCopyElements> listener
+ * @typedef {import('../../core/Types').ElementLike} Element
+ * @typedef {import('../../core/Types').ShapeLike} Shape
  *
- * @param {Object} context
- * @param {Array<djs.model.Base>} context.elements
+ * @typedef {import('../../util/Types').Point} Point
  *
- * @returns {Array<djs.model.Base>|boolean} - Return elements to be copied or false to disallow
- * copying.
+ * @typedef {import('../../core/Canvas').default} Canvas
+ * @typedef {import('../clipboard/Clipboard').default} Clipboard
+ * @typedef {import('../create/Create').default} Create
+ * @typedef {import('../../core/ElementFactory').default} ElementFactory
+ * @typedef {import('../../core/EventBus').default} EventBus
+ * @typedef {import('../modeling/Modeling').default} Modeling
+ * @typedef {import('../mouse/Mouse').default} Mouse
+ * @typedef {import('../rules/Rules').default} Rules
  */
 
 /**
- * @typedef {Function} <copyPaste.copyElement> listener
- *
- * @param {Object} context
- * @param {Object} context.descriptor
- * @param {djs.model.Base} context.element
- * @param {Array<djs.model.Base>} context.elements
+ * @typedef { (event: { elements: Element[] }) => Element[]|boolean } CopyPasteCanCopyElementsListener
  */
 
 /**
- * @typedef {Function} <copyPaste.createTree> listener
- *
- * @param {Object} context
- * @param {djs.model.Base} context.element
- * @param {Array<djs.model.Base>} context.children - Add children to be added to tree.
+ * @typedef { (event: { descriptor: any, element: Element, elements: Element[] }) => void } CopyPasteCopyElementListener
  */
 
 /**
- * @typedef {Function} <copyPaste.elementsCopied> listener
- *
- * @param {Object} context
- * @param {Object} context.elements
- * @param {Object} context.tree
+ * @typedef { (event: { element: Element, children: Element[] }) => void } CopyPasteCreateTreeListener
  */
 
 /**
- * @typedef {Function} <copyPaste.pasteElement> listener
- *
- * @param {Object} context
- * @param {Object} context.cache - Already created elements.
- * @param {Object} context.descriptor
+ * @typedef { (event: { elements: any, tree: any }) => void } CopyPasteElementsCopiedListener
  */
 
 /**
- * @typedef {Function} <copyPaste.pasteElements> listener
- *
- * @param {Object} context
- * @param {Object} context.hints - Add hints before pasting.
+ * @typedef { (event: { cache: any, descriptor: any }) => void } CopyPastePasteElementListener
+ */
+
+/**
+ * @typedef { (event: { hints: any }) => void } CopyPastePasteElementsListener
  */
 
 /**
@@ -18524,7 +19116,7 @@ function CopyPaste(
     }
 
     // connections (priority = 3)
-    if (isConnection(element)) {
+    if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__.isConnection)(element)) {
       descriptor.priority = 3;
 
       descriptor.source = element.source.id;
@@ -18534,7 +19126,7 @@ function CopyPaste(
     }
 
     // labels (priority = 4)
-    if (isLabel(element)) {
+    if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__.isLabel)(element)) {
       descriptor.priority = 4;
 
       descriptor.labelTarget = element.labelTarget.id;
@@ -18575,9 +19167,9 @@ CopyPaste.$inject = [
 /**
  * Copy elements.
  *
- * @param {Array<djs.model.Base>} elements
+ * @param {Element[]} elements
  *
- * @returns {Object}
+ * @return {Object}
  */
 CopyPaste.prototype.copy = function(elements) {
   var allowed,
@@ -18613,9 +19205,9 @@ CopyPaste.prototype.copy = function(elements) {
  * Paste elements.
  *
  * @param {Object} [context]
- * @param {djs.model.base} [context.element] - Parent.
- * @param {Point} [context.point] - Position.
- * @param {Object} [context.hints] - Hints.
+ * @param {Shape} [context.element] The optional parent.
+ * @param {Point} [context.point] The optional osition.
+ * @param {Object} [context.hints] The optional hints.
  */
 CopyPaste.prototype.paste = function(context) {
   var tree = this._clipboard.get();
@@ -18645,8 +19237,8 @@ CopyPaste.prototype.paste = function(context) {
 /**
  * Paste elements directly.
  *
- * @param {Array<djs.model.Base>} elements
- * @param {djs.model.base} target
+ * @param {Element[]} elements
+ * @param {Shape} target
  * @param {Point} position
  * @param {Object} [hints]
  */
@@ -18663,11 +19255,11 @@ CopyPaste.prototype._paste = function(elements, target, position, hints) {
     }
   });
 
-  var bbox = (0,_util_Elements__WEBPACK_IMPORTED_MODULE_1__.getBBox)(elements);
+  var bbox = (0,_util_Elements__WEBPACK_IMPORTED_MODULE_2__.getBBox)(elements);
 
   // center elements around cursor
   (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.forEach)(elements, function(element) {
-    if (isConnection(element)) {
+    if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__.isConnection)(element)) {
       element.waypoints = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.map)(element.waypoints, function(waypoint) {
         return {
           x: waypoint.x - bbox.x - bbox.width / 2,
@@ -18722,7 +19314,7 @@ CopyPaste.prototype._createElements = function(tree) {
 
       var element;
 
-      if (isConnection(attrs)) {
+      if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__.isConnection)(attrs)) {
         attrs.source = cache[ descriptor.source ];
         attrs.target = cache[ descriptor.target ];
 
@@ -18733,7 +19325,7 @@ CopyPaste.prototype._createElements = function(tree) {
         return;
       }
 
-      if (isLabel(attrs)) {
+      if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__.isLabel)(attrs)) {
         attrs.labelTarget = cache[ attrs.labelTarget ];
 
         element = cache[ descriptor.id ] = self.createLabel(attrs);
@@ -18778,17 +19370,17 @@ CopyPaste.prototype.createShape = function(attrs) {
 /**
  * Check wether element has relations to other elements e.g. attachers, labels and connections.
  *
- * @param  {Object} element
- * @param  {Array<djs.model.Base>} elements
+ * @param {Object} element
+ * @param {Element[]} elements
  *
- * @returns {boolean}
+ * @return {boolean}
  */
 CopyPaste.prototype.hasRelations = function(element, elements) {
   var labelTarget,
       source,
       target;
 
-  if (isConnection(element)) {
+  if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__.isConnection)(element)) {
     source = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.find)(elements, (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.matchPattern)({ id: element.source.id }));
     target = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.find)(elements, (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.matchPattern)({ id: element.target.id }));
 
@@ -18797,7 +19389,7 @@ CopyPaste.prototype.hasRelations = function(element, elements) {
     }
   }
 
-  if (isLabel(element)) {
+  if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__.isLabel)(element)) {
     labelTarget = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.find)(elements, (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.matchPattern)({ id: element.labelTarget.id }));
 
     if (!labelTarget) {
@@ -18812,23 +19404,26 @@ CopyPaste.prototype.hasRelations = function(element, elements) {
  * Create a tree-like structure from elements.
  *
  * @example
+ *
+ * ```javascript
  * tree: {
-  *  0: [
-  *    { id: 'Shape_1', priority: 1, ... },
-  *    { id: 'Shape_2', priority: 1, ... },
-  *    { id: 'Connection_1', source: 'Shape_1', target: 'Shape_2', priority: 3, ... },
-  *    ...
-  *  ],
-  *  1: [
-  *    { id: 'Shape_3', parent: 'Shape1', priority: 1, ... },
-  *    ...
-  *  ]
-  * };
-  *
-  * @param  {Array<djs.model.base>} elements
-  *
-  * @return {Object}
-  */
+ *  0: [
+ *    { id: 'Shape_1', priority: 1, ... },
+ *    { id: 'Shape_2', priority: 1, ... },
+ *    { id: 'Connection_1', source: 'Shape_1', target: 'Shape_2', priority: 3, ... },
+ *    ...
+ *  ],
+ *  1: [
+ *    { id: 'Shape_3', parent: 'Shape1', priority: 1, ... },
+ *    ...
+ *  ]
+ * };
+ * ```
+ *
+ * @param {Element[]} elements
+ *
+ * @return {Object}
+ */
 CopyPaste.prototype.createTree = function(elements) {
   var rules = this._rules,
       self = this;
@@ -18836,7 +19431,7 @@ CopyPaste.prototype.createTree = function(elements) {
   var tree = {},
       elementsData = [];
 
-  var parents = (0,_util_Elements__WEBPACK_IMPORTED_MODULE_1__.getParents)(elements);
+  var parents = (0,_util_Elements__WEBPACK_IMPORTED_MODULE_2__.getParents)(elements);
 
   function canCopy(element, elements) {
     return rules.allowed('element.copy', {
@@ -18884,10 +19479,10 @@ CopyPaste.prototype.createTree = function(elements) {
   }
 
   // (1) add elements
-  (0,_util_Elements__WEBPACK_IMPORTED_MODULE_1__.eachElement)(parents, function(element, _index, depth) {
+  (0,_util_Elements__WEBPACK_IMPORTED_MODULE_2__.eachElement)(parents, function(element, _index, depth) {
 
     // do NOT add external labels directly
-    if (isLabel(element)) {
+    if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__.isLabel)(element)) {
       return;
     }
 
@@ -18985,14 +19580,6 @@ function isAttacher(element) {
   return !!element.host;
 }
 
-function isConnection(element) {
-  return !!element.waypoints;
-}
-
-function isLabel(element) {
-  return !!element.labelTarget;
-}
-
 function copyWaypoints(element) {
   return (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.map)(element.waypoints, function(waypoint) {
 
@@ -19020,7 +19607,6 @@ function removeElement(element, elements) {
   return elements.splice(index, 1);
 }
 
-
 /***/ }),
 
 /***/ "../node_modules/diagram-js/lib/features/copy-paste/index.js":
@@ -19047,6 +19633,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __depends__: [
     _clipboard__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -19073,7 +19662,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ Create)
 /* harmony export */ });
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
-/* harmony import */ var _util_Elements__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../util/Elements */ "../node_modules/diagram-js/lib/util/Elements.js");
+/* harmony import */ var _util_Elements__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/Elements */ "../node_modules/diagram-js/lib/util/Elements.js");
+/* harmony import */ var _util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../util/ModelUtil */ "../node_modules/diagram-js/lib/util/ModelUtil.js");
 var MARKER_OK = 'drop-ok',
     MARKER_NOT_OK = 'drop-not-ok',
     MARKER_ATTACH = 'attach-ok',
@@ -19082,6 +19672,21 @@ var MARKER_OK = 'drop-ok',
 
 
 
+
+
+
+/**
+ * @typedef {import('../../core/Types').ElementLike} Element
+ * @typedef {import('../../core/Types').ShapeLike} Shape
+ *
+ * @typedef {import('../../util/Types').Point} Point
+ *
+ * @typedef {import('../../core/Canvas').default} Canvas
+ * @typedef {import('../dragging/Dragging').default} Dragging
+ * @typedef {import('../../core/EventBus').default} EventBus
+ * @typedef {import('../modeling/Modeling').default} Modeling
+ * @typedef {import('../rules/Rules').default} Rules
+ */
 
 var PREFIX = 'create';
 
@@ -19110,12 +19715,12 @@ function Create(
   /**
    * Check wether elements can be created.
    *
-   * @param {Array<djs.model.Base>} elements
-   * @param {djs.model.Base} target
+   * @param {Element[]} elements
+   * @param {Shape} target
    * @param {Point} position
-   * @param {djs.model.Base} [source]
+   * @param {Element} [source]
    *
-   * @returns {boolean|null|Object}
+   * @return {boolean|null|Object}
    */
   function canCreate(elements, target, position, source, hints) {
     if (!target) {
@@ -19126,11 +19731,11 @@ function Create(
     elements = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.filter)(elements, function(element) {
       var labelTarget = element.labelTarget;
 
-      return !element.parent && !(isLabel(element) && elements.indexOf(labelTarget) !== -1);
+      return !element.parent && !((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__.isLabel)(element) && elements.indexOf(labelTarget) !== -1);
     });
 
     var shape = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.find)(elements, function(element) {
-      return !isConnection(element);
+      return !(0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__.isConnection)(element);
     });
 
     var attach = false,
@@ -19285,7 +19890,7 @@ function Create(
 
       // update shape
       shape = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.find)(elements, function(element) {
-        return !isConnection(element);
+        return !(0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__.isConnection)(element);
       });
     }
 
@@ -19326,7 +19931,7 @@ function Create(
     }
 
     var shape = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.find)(elements, function(element) {
-      return !isConnection(element);
+      return !(0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__.isConnection)(element);
     });
 
     if (!shape) {
@@ -19356,11 +19961,11 @@ function Create(
       return !element.hidden;
     });
 
-    var bbox = (0,_util_Elements__WEBPACK_IMPORTED_MODULE_1__.getBBox)(visibleElements);
+    var bbox = (0,_util_Elements__WEBPACK_IMPORTED_MODULE_2__.getBBox)(visibleElements);
 
     // center elements around cursor
     (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.forEach)(elements, function(element) {
-      if (isConnection(element)) {
+      if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__.isConnection)(element)) {
         element.waypoints = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.map)(element.waypoints, function(waypoint) {
           return {
             x: waypoint.x - bbox.x - bbox.width / 2,
@@ -19422,18 +20027,9 @@ function ensureConstraints(event) {
   }
 }
 
-function isConnection(element) {
-  return !!element.waypoints;
-}
-
 function isSingleShape(elements) {
-  return elements && elements.length === 1 && !isConnection(elements[0]);
+  return elements && elements.length === 1 && !(0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__.isConnection)(elements[ 0 ]);
 }
-
-function isLabel(element) {
-  return !!element.labelTarget;
-}
-
 
 /***/ }),
 
@@ -19457,9 +20053,23 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @typedef {import('../../core/Canvas').default} Canvas
+ * @typedef {import('../../core/EventBus').default} EventBus
+ * @typedef {import('../../core/GraphicsFactory').default} GraphicsFactory
+ * @typedef {import('../preview-support/PreviewSupport').default} PreviewSupport
+ * @typedef {import('../../draw/Styles').default} Styles
+ */
+
 var LOW_PRIORITY = 750;
 
-
+/**
+ * @param {Canvas} canvas
+ * @param {EventBus} eventBus
+ * @param {GraphicsFactory} graphicsFactory
+ * @param {PreviewSupport} previewSupport
+ * @param {Styles} styles
+ */
 function CreatePreview(
     canvas,
     eventBus,
@@ -19576,6 +20186,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __depends__: [
     _dragging__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -19627,6 +20240,15 @@ var round = Math.round;
 
 
 
+
+/**
+ * @typedef {import('../../util/Types').Point} Point
+ *
+ * @typedef {import('../../core/Canvas').default} Canvas
+ * @typedef {import('../../core/ElementRegistry').default} ElementRegistry
+ * @typedef {import('../../core/EventBus').default} EventBus
+ * @typedef {import('../selection/Selection').default} Selection
+ */
 
 var DRAG_ACTIVE_CLS = 'djs-drag-active';
 
@@ -19696,6 +20318,7 @@ function getLength(point) {
  *
  * @example
  *
+ * ```javascript
  * function MyDragComponent(eventBus, dragging) {
  *
  *   eventBus.on('mydrag.start', function(event) {
@@ -19723,6 +20346,12 @@ function getLength(point) {
  *     });
  *   });
  * }
+ * ```
+ *
+ * @param {EventBus} eventBus
+ * @param {Canvas} canvas
+ * @param {Selection} selection
+ * @param {ElementRegistry} elementRegistry
  */
 function Dragging(eventBus, canvas, selection, elementRegistry) {
 
@@ -19921,7 +20550,7 @@ function Dragging(eventBus, canvas, selection, elementRegistry) {
     move(event);
   }
 
-  // update the drag events hover (djs.model.Base) and hoverGfx (Snap<SVGElement>)
+  // update the drag events model element (`hover`) and graphical element (`hoverGfx`)
   // properties during hover and out and fire {prefix}.hover and {prefix}.out properties
   // respectively
 
@@ -20027,7 +20656,7 @@ function Dragging(eventBus, canvas, selection, elementRegistry) {
    * relative to it.
    *
    * @param {MouseEvent|TouchEvent} [event]
-   * @param {Point} [localPosition] actual diagram local position this drag operation should start at
+   * @param {Point} [relativeTo] actual diagram local position this drag operation should start at
    * @param {string} prefix
    * @param {Object} [options]
    */
@@ -20184,6 +20813,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __depends__: [
     _hover_fix__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -20207,6 +20839,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 
+
+/**
+ * @typedef {import('didi').Injector} Injector
+ *
+ * @typedef {import('../../core/EventBus').default} EventBus
+ */
 
 var NOT_REGISTERED_ERROR = 'is not a registered action',
     IS_REGISTERED_ERROR = 'is already registered';
@@ -20364,10 +21002,10 @@ EditorActions.prototype._registerDefaultActions = function(injector) {
 /**
  * Triggers a registered action
  *
- * @param  {string} action
- * @param  {Object} opts
+ * @param {string} action
+ * @param {Object} opts
  *
- * @return {Unknown} Returns what the registered listener returns
+ * @return {unknown} Returns what the registered listener returns
  */
 EditorActions.prototype.trigger = function(action, opts) {
   if (!this._actions[action]) {
@@ -20383,7 +21021,8 @@ EditorActions.prototype.trigger = function(action, opts) {
  * The key of the object will be the name of the action.
  *
  * @example
- * ´´´
+ *
+ * ```javascript
  * var actions = {
  *   spaceTool: function() {
  *     spaceTool.activateSelection();
@@ -20396,9 +21035,9 @@ EditorActions.prototype.trigger = function(action, opts) {
  * editorActions.register(actions);
  *
  * editorActions.isRegistered('spaceTool'); // true
- * ´´´
+ * ```
  *
- * @param  {Object} actions
+ * @param {Object} actions
  */
 EditorActions.prototype.register = function(actions, listener) {
   var self = this;
@@ -20415,8 +21054,8 @@ EditorActions.prototype.register = function(actions, listener) {
 /**
  * Registers a listener to an action key
  *
- * @param  {string} action
- * @param  {Function} listener
+ * @param {string} action
+ * @param {Function} listener
  */
 EditorActions.prototype._registerAction = function(action, listener) {
   if (this.isRegistered(action)) {
@@ -20481,6 +21120,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _EditorActions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EditorActions */ "../node_modules/diagram-js/lib/features/editor-actions/EditorActions.js");
 
 
+
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __init__: [ 'editorActions' ],
   editorActions: [ 'type', _EditorActions__WEBPACK_IMPORTED_MODULE_0__["default"] ]
@@ -20502,6 +21145,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var MARKER_OK = 'connect-ok',
     MARKER_NOT_OK = 'connect-not-ok';
+
+/**
+ * @typedef {import('../../core/Canvas').default} Canvas
+ * @typedef {import('../connect/Connect').default} Connect
+ * @typedef {import('../dragging/Dragging').default} Dragging
+ * @typedef {import('../../core/EventBus').default} EventBus
+ * @typedef {import('../mouse/Mouse').default} Mouse
+ * @typedef {import('../rules/Rules').default} Rules
+ * @typedef {import('../tool-manager/ToolManager').default} ToolManager
+ *
+ * @typedef {import('../../model/Types').Element} Element
+ */
 
 /**
  * @class
@@ -20625,9 +21280,9 @@ GlobalConnect.prototype.isActive = function() {
 };
 
 /**
- * Check if source shape can initiate connection.
+ * Check if source element can initiate connection.
  *
- * @param  {Shape} startTarget
+ * @param {Element} startTarget
  * @return {boolean}
  */
 GlobalConnect.prototype.canStartConnect = function(startTarget) {
@@ -20662,6 +21317,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __depends__: [
     _connect__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -20699,12 +21358,21 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @typedef {import('../../core/ElementRegistry').default} ElementRegistry
+ * @typedef {import('../../core/EventBus').default} EventBus
+ */
+
 var LOWER_PRIORITY = 1200;
 var LOW_PRIORITY = 800;
 
 /**
  * Basic grid snapping that covers connecting, creating, moving, resizing shapes, moving bendpoints
  * and connection segments.
+ *
+ * @param {ElementRegistry} elementRegistry
+ * @param {EventBus} eventBus
+ * @param {Object} config
  */
 function GridSnapping(elementRegistry, eventBus, config) {
 
@@ -20870,7 +21538,7 @@ GridSnapping.$inject = [
  * @param {Object} event.context
  * @param {string} axis
  *
- * @returns {boolean|Object}
+ * @return {boolean|Object}
  */
 function getSnapConstraints(event, axis) {
   var context = event.context,
@@ -20960,7 +21628,7 @@ function getSnapConstraints(event, axis) {
  * @param {string} axis
  * @param {ElementRegistry} elementRegistry
  *
- * @returns {number}
+ * @return {number}
  */
 function getSnapOffset(event, axis, elementRegistry) {
   var context = event.context,
@@ -21039,8 +21707,8 @@ function isWest(direction) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "SPACING": () => (/* binding */ SPACING),
-/* harmony export */   "quantize": () => (/* binding */ quantize)
+/* harmony export */   SPACING: () => (/* binding */ SPACING),
+/* harmony export */   quantize: () => (/* binding */ quantize)
 /* harmony export */ });
 var SPACING = 10;
 
@@ -21074,9 +21742,20 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @typedef {import('../../../model/Types').Shape} Shape
+ *
+ * @typedef {import('../../../util/Types').Rect} Rect
+ *
+ * @typedef {import('../../../core/EventBus').default} EventBus
+ * @typedef {import('../../grid-snapping/GridSnapping').default} GridSnapping
+ */
 
 /**
  * Integrates resizing with grid snapping.
+ *
+ * @param {EventBus} eventBus
+ * @param {GridSnapping} gridSnapping
  */
 function ResizeBehavior(eventBus, gridSnapping) {
   _command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"].call(this, eventBus);
@@ -21116,10 +21795,10 @@ ResizeBehavior.$inject = [
 /**
  * Snap width and height in relation to center.
  *
- * @param {djs.model.shape} shape
- * @param {Bounds} newBounds
+ * @param {Shape} shape
+ * @param {Rect} newBounds
  *
- * @returns {Bounds} Snapped bounds.
+ * @return {Rect} Snapped bounds.
  */
 ResizeBehavior.prototype.snapSimple = function(shape, newBounds) {
   var gridSnapping = this._gridSnapping;
@@ -21141,10 +21820,10 @@ ResizeBehavior.prototype.snapSimple = function(shape, newBounds) {
 /**
  * Snap x, y, width and height according to given directions.
  *
- * @param {Bounds} newBounds
+ * @param {Rect} newBounds
  * @param {string} directions - Directions as {n|w|s|e}.
  *
- * @returns {Bounds} Snapped bounds.
+ * @return {Rect} Snapped bounds.
  */
 ResizeBehavior.prototype.snapComplex = function(newBounds, directions) {
   if (/w|e/.test(directions)) {
@@ -21161,10 +21840,10 @@ ResizeBehavior.prototype.snapComplex = function(newBounds, directions) {
 /**
  * Snap in one or both directions horizontally.
  *
- * @param {Bounds} newBounds
+ * @param {Rect} newBounds
  * @param {string} directions - Directions as {n|w|s|e}.
  *
- * @returns {Bounds} Snapped bounds.
+ * @return {Rect} Snapped bounds.
  */
 ResizeBehavior.prototype.snapHorizontally = function(newBounds, directions) {
   var gridSnapping = this._gridSnapping,
@@ -21205,10 +21884,10 @@ ResizeBehavior.prototype.snapHorizontally = function(newBounds, directions) {
 /**
  * Snap in one or both directions vertically.
  *
- * @param {Bounds} newBounds
+ * @param {Rect} newBounds
  * @param {string} directions - Directions as {n|w|s|e}.
  *
- * @returns {Bounds} Snapped bounds.
+ * @return {Rect} Snapped bounds.
  */
 ResizeBehavior.prototype.snapVertically = function(newBounds, directions) {
   var gridSnapping = this._gridSnapping,
@@ -21259,10 +21938,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ SpaceToolBehavior)
 /* harmony export */ });
+/**
+ * @typedef {import('../../../core/EventBus').default} EventBus
+ * @typedef {import('../../grid-snapping/GridSnapping').default} GridSnapping
+ */
+
 var HIGH_PRIORITY = 2000;
 
 /**
  * Integrates space tool with grid snapping.
+ *
+ * @param {EventBus} eventBus
+ * @param {GridSnapping} gridSnapping
  */
 function SpaceToolBehavior(eventBus, gridSnapping) {
   eventBus.on([
@@ -21348,6 +22035,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __depends__: [ _behavior__WEBPACK_IMPORTED_MODULE_0__["default"] ],
   __init__: [ 'gridSnapping' ],
@@ -21373,10 +22064,27 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @typedef {import('didi').Injector} Injector
+ *
+ * @typedef {import('../../core/Canvas').default} Canvas
+ * @typedef {import('../dragging/Dragging').default} Dragging
+ * @typedef {import('../../core/EventBus').default} EventBus
+ * @typedef {import('../mouse/Mouse').default} Mouse
+ * @typedef {import('../tool-manager/ToolManager').default} ToolManager
+ */
+
 var HIGH_PRIORITY = 1500;
 var HAND_CURSOR = 'grab';
 
-
+/**
+ * @param {EventBus} eventBus
+ * @param {Canvas} canvas
+ * @param {Dragging} dragging
+ * @param {Injector} injector
+ * @param {ToolManager} toolManager
+ * @param {Mouse} mouse
+ */
 function HandTool(
     eventBus, canvas, dragging,
     injector, toolManager, mouse) {
@@ -21548,6 +22256,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __depends__: [
     _tool_manager__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -21576,6 +22288,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+/**
+ * @typedef {import('didi').Injector} Injector
+ *
+ * @typedef {import('../../core/ElementRegistry').default} ElementRegistry
+ * @typedef {import('../../core/EventBus').default} EventBus
+ */
 
 var HIGH_PRIORITY = 1500;
 
@@ -21746,6 +22465,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _HoverFix__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./HoverFix */ "../node_modules/diagram-js/lib/features/hover-fix/HoverFix.js");
 
 
+
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __init__: [
     'hoverFix'
@@ -21781,6 +22504,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @typedef {import('../../model/Types').Element} Element
+ *
+ * @typedef {import('../../core/ElementRegistry').default} ElementRegistry
+ * @typedef {import('../../core/EventBus').default} EventBus
+ * @typedef {import('../../draw/Styles').default} Styles
+ *
+ * @typedef {import('../../util/Types').Point} Point
+ */
+
 function allowAll(event) { return true; }
 
 function allowPrimaryAndAuxiliary(event) {
@@ -21810,6 +22543,8 @@ var LOW_PRIORITY = 500;
  * prevents the original DOM operation.
  *
  * @param {EventBus} eventBus
+ * @param {ElementRegistry} elementRegistry
+ * @param {Styles} styles
  */
 function InteractionEvents(eventBus, elementRegistry, styles) {
 
@@ -21819,8 +22554,8 @@ function InteractionEvents(eventBus, elementRegistry, styles) {
    * Fire an interaction event.
    *
    * @param {string} type local event name, e.g. element.click.
-   * @param {DOMEvent} event native event
-   * @param {djs.model.Base} [element] the diagram element to emit the event on;
+   * @param {MouseEvent|TouchEvent} event native event
+   * @param {Element} [element] the diagram element to emit the event on;
    *                                   defaults to the event target
    */
   function fire(type, event, element) {
@@ -21902,8 +22637,8 @@ function InteractionEvents(eventBus, elementRegistry, styles) {
    * on the target shape or connection.
    *
    * @param {string} eventName the name of the triggered DOM event
-   * @param {MouseEvent} event
-   * @param {djs.model.Base} targetElement
+   * @param {MouseEvent|TouchEvent} event
+   * @param {Element} targetElement
    */
   function triggerMouseEvent(eventName, event, targetElement) {
 
@@ -22069,7 +22804,7 @@ function InteractionEvents(eventBus, elementRegistry, styles) {
   /**
    * Create default hit for the given element.
    *
-   * @param {djs.model.Base} element
+   * @param {Element} element
    * @param {SVGElement} gfx
    *
    * @return {SVGElement} created hit
@@ -22096,7 +22831,7 @@ function InteractionEvents(eventBus, elementRegistry, styles) {
    * Create hits for the given waypoints.
    *
    * @param {SVGElement} gfx
-   * @param {Array<Point>} waypoints
+   * @param {Point[]} waypoints
    *
    * @return {SVGElement}
    */
@@ -22115,7 +22850,7 @@ function InteractionEvents(eventBus, elementRegistry, styles) {
    * Create hits for a box.
    *
    * @param {SVGElement} gfx
-   * @param {string} hitType
+   * @param {string} type
    * @param {Object} attrs
    *
    * @return {SVGElement}
@@ -22141,8 +22876,8 @@ function InteractionEvents(eventBus, elementRegistry, styles) {
   /**
    * Update default hit of the element.
    *
-   * @param  {djs.model.Base} element
-   * @param  {SVGElement} gfx
+   * @param {Element} element
+   * @param {SVGElement} gfx
    *
    * @return {SVGElement} updated hit
    */
@@ -22190,7 +22925,7 @@ InteractionEvents.$inject = [
  * @event element.hover
  *
  * @type {Object}
- * @property {djs.model.Base} element
+ * @property {Element} element
  * @property {SVGElement} gfx
  * @property {Event} originalEvent
  */
@@ -22201,7 +22936,7 @@ InteractionEvents.$inject = [
  * @event element.out
  *
  * @type {Object}
- * @property {djs.model.Base} element
+ * @property {Element} element
  * @property {SVGElement} gfx
  * @property {Event} originalEvent
  */
@@ -22212,7 +22947,7 @@ InteractionEvents.$inject = [
  * @event element.click
  *
  * @type {Object}
- * @property {djs.model.Base} element
+ * @property {Element} element
  * @property {SVGElement} gfx
  * @property {Event} originalEvent
  */
@@ -22223,7 +22958,7 @@ InteractionEvents.$inject = [
  * @event element.dblclick
  *
  * @type {Object}
- * @property {djs.model.Base} element
+ * @property {Element} element
  * @property {SVGElement} gfx
  * @property {Event} originalEvent
  */
@@ -22234,7 +22969,7 @@ InteractionEvents.$inject = [
  * @event element.mousedown
  *
  * @type {Object}
- * @property {djs.model.Base} element
+ * @property {Element} element
  * @property {SVGElement} gfx
  * @property {Event} originalEvent
  */
@@ -22245,7 +22980,7 @@ InteractionEvents.$inject = [
  * @event element.mouseup
  *
  * @type {Object}
- * @property {djs.model.Base} element
+ * @property {Element} element
  * @property {SVGElement} gfx
  * @property {Event} originalEvent
  */
@@ -22257,7 +22992,7 @@ InteractionEvents.$inject = [
  * @event element.contextmenu
  *
  * @type {Object}
- * @property {djs.model.Base} element
+ * @property {Element} element
  * @property {SVGElement} gfx
  * @property {Event} originalEvent
  */
@@ -22278,6 +23013,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _InteractionEvents__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./InteractionEvents */ "../node_modules/diagram-js/lib/features/interaction-events/InteractionEvents.js");
 
 
+
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __init__: [ 'interactionEvents' ],
   interactionEvents: [ 'type', _InteractionEvents__WEBPACK_IMPORTED_MODULE_0__["default"] ]
@@ -22299,6 +23038,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 
 
+/**
+ * @typedef {import('../keyboard/Keyboard').default} Keyboard
+ * @typedef {import('../modeling/Modeling').default} Modeling
+ * @typedef {import('../rules/Rules').default} Rules
+ * @typedef {import('../selection/Selection').default} Selection
+ */
 
 var DEFAULT_CONFIG = {
   moveSpeed: 1,
@@ -22361,6 +23106,7 @@ var DIRECTIONS_DELTA = {
  * @param {number} [config.moveSpeedAccelerated=10]
  * @param {Keyboard} keyboard
  * @param {Modeling} modeling
+ * @param {Rules} rules
  * @param {Selection} selection
  */
 function KeyboardMoveSelection(
@@ -22460,6 +23206,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __depends__: [
     _keyboard__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -22494,6 +23244,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @typedef {import('../../core/EventBus').default} EventBus
+ *
+ * @typedef {({ keyEvent: KeyboardEvent }) => any} Listener
+ */
+
 var KEYDOWN_EVENT = 'keyboard.keydown',
     KEYUP_EVENT = 'keyboard.keyup';
 
@@ -22522,7 +23278,8 @@ var DEFAULT_PRIORITY = 1000;
  * A default binding for the keyboard may be specified via the
  * `keyboard.bindTo` configuration option.
  *
- * @param {Config} config
+ * @param {Object} config
+ * @param {EventTarget} [config.bindTo]
  * @param {EventBus} eventBus
  */
 function Keyboard(config, eventBus) {
@@ -22614,6 +23371,11 @@ Keyboard.prototype._getAllowedModifiers = function(element) {
   return modifierContainer.getAttribute(HANDLE_MODIFIER_ATTRIBUTE).split(',');
 };
 
+/**
+ * Bind keyboard events to the given DOM node.
+ *
+ * @param {EventTarget} node
+ */
 Keyboard.prototype.bind = function(node) {
 
   // make sure that the keyboard is only bound once to the DOM
@@ -22628,6 +23390,9 @@ Keyboard.prototype.bind = function(node) {
   this._fire('bind');
 };
 
+/**
+ * @return {EventTarget}
+ */
 Keyboard.prototype.getBinding = function() {
   return this._node;
 };
@@ -22646,6 +23411,9 @@ Keyboard.prototype.unbind = function() {
   this._node = null;
 };
 
+/**
+ * @param {string} event
+ */
 Keyboard.prototype._fire = function(event) {
   this._eventBus.fire('keyboard.' + event, { node: this._node });
 };
@@ -22656,8 +23424,8 @@ Keyboard.prototype._fire = function(event) {
  * provided, the default value of 1000 is used.
  *
  * @param {number} [priority]
- * @param {Function} listener
- * @param {string} type
+ * @param {Listener} listener
+ * @param {string} [type='keyboard.keydown']
  */
 Keyboard.prototype.addListener = function(priority, listener, type) {
   if ((0,min_dash__WEBPACK_IMPORTED_MODULE_2__.isFunction)(priority)) {
@@ -22669,6 +23437,12 @@ Keyboard.prototype.addListener = function(priority, listener, type) {
   this._eventBus.on(type || KEYDOWN_EVENT, priority, listener);
 };
 
+/**
+ * Remove a listener function.
+ *
+ * @param {Listener} listener
+ * @param {string} [type='keyboard.keydown']
+ */
 Keyboard.prototype.removeListener = function(listener, type) {
   this._eventBus.off(type || KEYDOWN_EVENT, listener);
 };
@@ -22698,14 +23472,20 @@ function isInput(target) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "KEYS_COPY": () => (/* reexport safe */ _KeyboardUtil__WEBPACK_IMPORTED_MODULE_0__.KEYS_COPY),
-/* harmony export */   "KEYS_PASTE": () => (/* reexport safe */ _KeyboardUtil__WEBPACK_IMPORTED_MODULE_0__.KEYS_PASTE),
-/* harmony export */   "KEYS_REDO": () => (/* reexport safe */ _KeyboardUtil__WEBPACK_IMPORTED_MODULE_0__.KEYS_REDO),
-/* harmony export */   "KEYS_UNDO": () => (/* reexport safe */ _KeyboardUtil__WEBPACK_IMPORTED_MODULE_0__.KEYS_UNDO),
+/* harmony export */   KEYS_COPY: () => (/* reexport safe */ _KeyboardUtil__WEBPACK_IMPORTED_MODULE_0__.KEYS_COPY),
+/* harmony export */   KEYS_PASTE: () => (/* reexport safe */ _KeyboardUtil__WEBPACK_IMPORTED_MODULE_0__.KEYS_PASTE),
+/* harmony export */   KEYS_REDO: () => (/* reexport safe */ _KeyboardUtil__WEBPACK_IMPORTED_MODULE_0__.KEYS_REDO),
+/* harmony export */   KEYS_UNDO: () => (/* reexport safe */ _KeyboardUtil__WEBPACK_IMPORTED_MODULE_0__.KEYS_UNDO),
 /* harmony export */   "default": () => (/* binding */ KeyboardBindings)
 /* harmony export */ });
 /* harmony import */ var _KeyboardUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./KeyboardUtil */ "../node_modules/diagram-js/lib/features/keyboard/KeyboardUtil.js");
 
+
+/**
+ * @typedef {import('../editor-actions/EditorActions').default} EditorActions
+ * @typedef {import('../../core/EventBus').default} EventBus
+ * @typedef {import('./Keyboard').default} Keyboard
+ */
 
 
 
@@ -22882,18 +23662,18 @@ KeyboardBindings.prototype.registerBindings = function(keyboard, editorActions) 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "KEYS_COPY": () => (/* binding */ KEYS_COPY),
-/* harmony export */   "KEYS_PASTE": () => (/* binding */ KEYS_PASTE),
-/* harmony export */   "KEYS_REDO": () => (/* binding */ KEYS_REDO),
-/* harmony export */   "KEYS_UNDO": () => (/* binding */ KEYS_UNDO),
-/* harmony export */   "hasModifier": () => (/* binding */ hasModifier),
-/* harmony export */   "isCmd": () => (/* binding */ isCmd),
-/* harmony export */   "isCopy": () => (/* binding */ isCopy),
-/* harmony export */   "isKey": () => (/* binding */ isKey),
-/* harmony export */   "isPaste": () => (/* binding */ isPaste),
-/* harmony export */   "isRedo": () => (/* binding */ isRedo),
-/* harmony export */   "isShift": () => (/* binding */ isShift),
-/* harmony export */   "isUndo": () => (/* binding */ isUndo)
+/* harmony export */   KEYS_COPY: () => (/* binding */ KEYS_COPY),
+/* harmony export */   KEYS_PASTE: () => (/* binding */ KEYS_PASTE),
+/* harmony export */   KEYS_REDO: () => (/* binding */ KEYS_REDO),
+/* harmony export */   KEYS_UNDO: () => (/* binding */ KEYS_UNDO),
+/* harmony export */   hasModifier: () => (/* binding */ hasModifier),
+/* harmony export */   isCmd: () => (/* binding */ isCmd),
+/* harmony export */   isCopy: () => (/* binding */ isCopy),
+/* harmony export */   isKey: () => (/* binding */ isKey),
+/* harmony export */   isPaste: () => (/* binding */ isPaste),
+/* harmony export */   isRedo: () => (/* binding */ isRedo),
+/* harmony export */   isShift: () => (/* binding */ isShift),
+/* harmony export */   isUndo: () => (/* binding */ isUndo)
 /* harmony export */ });
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 
@@ -22913,6 +23693,7 @@ function hasModifier(event) {
 
 /**
  * @param {KeyboardEvent} event
+ * @return {boolean}
  */
 function isCmd(event) {
 
@@ -22928,8 +23709,9 @@ function isCmd(event) {
 /**
  * Checks if key pressed is one of provided keys.
  *
- * @param {string|Array<string>} keys
+ * @param {string|string[]} keys
  * @param {KeyboardEvent} event
+ * @return {boolean}
  */
 function isKey(keys, event) {
   keys = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isArray)(keys) ? keys : [ keys ];
@@ -22944,18 +23726,30 @@ function isShift(event) {
   return event.shiftKey;
 }
 
+/**
+ * @param {KeyboardEvent} event
+ */
 function isCopy(event) {
   return isCmd(event) && isKey(KEYS_COPY, event);
 }
 
+/**
+ * @param {KeyboardEvent} event
+ */
 function isPaste(event) {
   return isCmd(event) && isKey(KEYS_PASTE, event);
 }
 
+/**
+ * @param {KeyboardEvent} event
+ */
 function isUndo(event) {
   return isCmd(event) && !isShift(event) && isKey(KEYS_UNDO, event);
 }
 
+/**
+ * @param {KeyboardEvent} event
+ */
 function isRedo(event) {
   return isCmd(event) && (
     isKey(KEYS_REDO, event) || (
@@ -22963,6 +23757,7 @@ function isRedo(event) {
     )
   );
 }
+
 
 /***/ }),
 
@@ -22982,6 +23777,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __init__: [ 'keyboard', 'keyboardBindings' ],
   keyboard: [ 'type', _Keyboard__WEBPACK_IMPORTED_MODULE_0__["default"] ],
@@ -23020,12 +23819,20 @@ var LOW_PRIORITY = 250,
 
 
 
+/**
+ * @typedef {import('../../model/Types').Element} Element
+ *
+ * @typedef {import('didi').Injector} Injector
+ *
+ * @typedef {import('../../core/EventBus').default} EventBus
+ * @typedef {import('../modeling/Modeling').default} Modeling
+ */
 
 /**
  * A handler that makes sure labels are properly moved with
  * their label targets.
  *
- * @param {didi.Injector} injector
+ * @param {Injector} injector
  * @param {EventBus} eventBus
  * @param {Modeling} modeling
  */
@@ -23158,9 +23965,9 @@ LabelSupport.$inject = [
  * contain attached elements with hosts being part
  * of the selection.
  *
- * @param  {Array<djs.model.Base>} elements
+ * @param {Element[]} elements
  *
- * @return {Array<djs.model.Base>} filtered
+ * @return {Element[]} filtered
  */
 function removeLabels(elements) {
 
@@ -23189,6 +23996,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _LabelSupport__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LabelSupport */ "../node_modules/diagram-js/lib/features/label-support/LabelSupport.js");
 
 
+
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __init__: [ 'labelSupport' ],
   labelSupport: [ 'type', _LabelSupport__WEBPACK_IMPORTED_MODULE_0__["default"] ]
@@ -23220,9 +24031,27 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @typedef {import('../../core/Canvas').default} Canvas
+ * @typedef {import('../dragging/Dragging').default} Dragging
+ * @typedef {import('../../core/ElementRegistry').default} ElementRegistry
+ * @typedef {import('../../core/EventBus').default} EventBus
+ * @typedef {import('../mouse/Mouse').default} Mouse
+ * @typedef {import('../selection/Selection').default} Selection
+ * @typedef {import('../tool-manager/ToolManager').default} ToolManager
+ */
+
 var LASSO_TOOL_CURSOR = 'crosshair';
 
-
+/**
+ * @param {EventBus} eventBus
+ * @param {Canvas} canvas
+ * @param {Dragging} dragging
+ * @param {ElementRegistry} elementRegistry
+ * @param {Selection} selection
+ * @param {ToolManager} toolManager
+ * @param {Mouse} mouse
+ */
 function LassoTool(
     eventBus, canvas, dragging,
     elementRegistry, selection, toolManager,
@@ -23491,6 +24320,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __depends__: [
     _tool_manager__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -23515,7 +24348,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ Modeling)
 /* harmony export */ });
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
-/* harmony import */ var _model__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ../../model */ "../node_modules/diagram-js/lib/model/index.js");
 /* harmony import */ var _cmd_AlignElementsHandler__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./cmd/AlignElementsHandler */ "../node_modules/diagram-js/lib/features/modeling/cmd/AlignElementsHandler.js");
 /* harmony import */ var _cmd_AppendShapeHandler__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./cmd/AppendShapeHandler */ "../node_modules/diagram-js/lib/features/modeling/cmd/AppendShapeHandler.js");
 /* harmony import */ var _cmd_CreateConnectionHandler__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./cmd/CreateConnectionHandler */ "../node_modules/diagram-js/lib/features/modeling/cmd/CreateConnectionHandler.js");
@@ -23537,7 +24369,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _cmd_ToggleShapeCollapseHandler__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./cmd/ToggleShapeCollapseHandler */ "../node_modules/diagram-js/lib/features/modeling/cmd/ToggleShapeCollapseHandler.js");
 /* harmony import */ var _cmd_UpdateAttachmentHandler__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./cmd/UpdateAttachmentHandler */ "../node_modules/diagram-js/lib/features/modeling/cmd/UpdateAttachmentHandler.js");
 /* harmony import */ var _cmd_UpdateWaypointsHandler__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./cmd/UpdateWaypointsHandler */ "../node_modules/diagram-js/lib/features/modeling/cmd/UpdateWaypointsHandler.js");
-
+/* harmony import */ var _model__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ../../model */ "../node_modules/diagram-js/lib/model/index.js");
 
 
 
@@ -23565,7 +24397,69 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /**
+ * @typedef {import('../../model/Types').Element} Element
+ * @typedef {import('../../model/Types').Connection} Connection
+ * @typedef {import('../../model/Types').Parent} Parent
+ * @typedef {import('../../model/Types').Shape} Shape
+ * @typedef {import('../../model/Types').Label} Label
+ *
+ * @typedef {import('../../command/CommandStack').default} CommandStack
+ * @typedef {import('../../core/ElementFactory').default} ElementFactory
+ * @typedef {import('../../core/EventBus').default} EventBus
+ *
+ * @typedef {import('../../command/CommandStack').CommandHandlerConstructor} CommandHandlerConstructor
+ *
+ * @typedef {import('../../util/Types').Dimensions} Dimensions
+ * @typedef {import('../../util/Types').Direction} Direction
+ * @typedef {import('../../util/Types').Point} Point
+ * @typedef {import('../../util/Types').Rect} Rect
+ *
+ * @typedef { 'x' | 'y' } ModelingDistributeAxis
+ *
+ * @typedef { 'width' | 'height' } ModelingDistributeDimension
+ *
+ * @typedef { {
+ *   bottom?: number;
+ *   center?: number;
+ *   left?: number;
+ *   middle?: number;
+ *   right?: number;
+ *   top?: number;
+ * } } ModelingAlignAlignment
+ *
+ * @typedef { {
+ *   [key: string]: any;
+ * } } ModelingHints
+ *
+ * @typedef { {
+ *   attach?: boolean;
+ * } & ModelingHints } ModelingMoveElementsHints
+ *
+ * @typedef { {
+ *   attach?: boolean;
+ * } & ModelingHints } ModelingCreateShapeHints
+ */
+
+/**
+ * @template {Element} U
+ *
+ * @typedef { {
+ *   elements: U[],
+ *   range: {
+ *     min: number;
+ *     max: number;
+ *   } }
+ * } ModelingDistributeGroup
+ */
+
+/**
  * The basic modeling entry point.
+ *
+ * @template {Connection} [T=Connection]
+ * @template {Element} [U=Element]
+ * @template {Label} [V=Label]
+ * @template {Parent} [W=Parent]
+ * @template {Shape} [X=Shape]
  *
  * @param {EventBus} eventBus
  * @param {ElementFactory} elementFactory
@@ -23587,7 +24481,11 @@ function Modeling(eventBus, elementFactory, commandStack) {
 
 Modeling.$inject = [ 'eventBus', 'elementFactory', 'commandStack' ];
 
-
+/**
+ * Get a map of all command handlers.
+ *
+ * @return {Map<string, CommandHandlerConstructor>}
+ */
 Modeling.prototype.getHandlers = function() {
   return {
     'shape.append': _cmd_AppendShapeHandler__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -23634,8 +24532,15 @@ Modeling.prototype.registerHandlers = function(commandStack) {
 };
 
 
-// modeling helpers //////////////////////
-
+/**
+ * Move a shape by the given delta and optionally to a new parent.
+ *
+ * @param {X} shape
+ * @param {Point} delta
+ * @param {W} [newParent]
+ * @param {number} [newParentIndex]
+ * @param {ModelingHints} [hints]
+ */
 Modeling.prototype.moveShape = function(shape, delta, newParent, newParentIndex, hints) {
 
   if (typeof newParentIndex === 'object') {
@@ -23656,10 +24561,10 @@ Modeling.prototype.moveShape = function(shape, delta, newParent, newParentIndex,
 
 
 /**
- * Update the attachment of the given shape.
+ * Update the attachment of a shape.
  *
- * @param {djs.mode.Base} shape
- * @param {djs.model.Base} [newHost]
+ * @param {X} shape
+ * @param {X} [newHost=undefined]
  */
 Modeling.prototype.updateAttachment = function(shape, newHost) {
   var context = {
@@ -23672,14 +24577,12 @@ Modeling.prototype.updateAttachment = function(shape, newHost) {
 
 
 /**
- * Move a number of shapes to a new target, either setting it as
- * the new parent or attaching it.
+ * Move elements by a given delta and optionally to a new parent.
  *
- * @param {Array<djs.mode.Base>} shapes
+ * @param {U[]} shapes
  * @param {Point} delta
- * @param {djs.model.Base} [target]
- * @param {Object} [hints]
- * @param {boolean} [hints.attach=false]
+ * @param {W} [target]
+ * @param {ModelingMoveElementsHints} [hints]
  */
 Modeling.prototype.moveElements = function(shapes, delta, target, hints) {
 
@@ -23710,7 +24613,15 @@ Modeling.prototype.moveElements = function(shapes, delta, target, hints) {
   this._commandStack.execute('elements.move', context);
 };
 
-
+/**
+ * Move a shape by the given delta and optionally to a new parent.
+ *
+ * @param {T} connection
+ * @param {Point} delta
+ * @param {W} [newParent]
+ * @param {number} [newParentIndex]
+ * @param {ModelingHints} [hints]
+ */
 Modeling.prototype.moveConnection = function(connection, delta, newParent, newParentIndex, hints) {
 
   if (typeof newParentIndex === 'object') {
@@ -23729,7 +24640,12 @@ Modeling.prototype.moveConnection = function(connection, delta, newParent, newPa
   this._commandStack.execute('connection.move', context);
 };
 
-
+/**
+ * Layout a connection.
+ *
+ * @param {T} connection
+ * @param {ModelingHints} [hints]
+ */
 Modeling.prototype.layoutConnection = function(connection, hints) {
   var context = {
     connection: connection,
@@ -23739,18 +24655,31 @@ Modeling.prototype.layoutConnection = function(connection, hints) {
   this._commandStack.execute('connection.layout', context);
 };
 
+/**
+ * Create a connection.
+ *
+ * @overlord
+ *
+ * @param {U} source
+ * @param {U} target
+ * @param {Partial<T>} connection
+ * @param {W} parent
+ * @param {ModelingHints} [hints]
+ *
+ * @return {T}
+ */
 
 /**
- * Create connection.
+ * Create a connection.
  *
- * @param {djs.model.Base} source
- * @param {djs.model.Base} target
- * @param {number} [parentIndex]
- * @param {Object|djs.model.Connection} connection
- * @param {djs.model.Base} parent
- * @param {Object} hints
+ * @param {U} source
+ * @param {U} target
+ * @param {number} parentIndex
+ * @param {Partial<T>} connection
+ * @param {W} parent
+ * @param {ModelingHints} [hints]
  *
- * @return {djs.model.Connection} the created connection.
+ * @return {T}
  */
 Modeling.prototype.createConnection = function(source, target, parentIndex, connection, parent, hints) {
 
@@ -23779,16 +24708,28 @@ Modeling.prototype.createConnection = function(source, target, parentIndex, conn
 
 
 /**
- * Create a shape at the specified position.
+ * Create a shape.
  *
- * @param {djs.model.Shape|Object} shape
+ * @overlord
+ *
+ * @param {Partial<X>} shape
  * @param {Point} position
- * @param {djs.model.Shape|djs.model.Root} target
- * @param {number} [parentIndex] position in parents children list
- * @param {Object} [hints]
- * @param {boolean} [hints.attach] whether to attach to target or become a child
+ * @param {W} target
+ * @param {ModelingCreateShapeHints} [hints]
  *
- * @return {djs.model.Shape} the created shape
+ * @return {X}
+ */
+
+/**
+ * Create a shape.
+ *
+ * @param {Partial<X>} shape
+ * @param {Point} position
+ * @param {W} target
+ * @param {number} parentIndex
+ * @param {ModelingCreateShapeHints} [hints]
+ *
+ * @return {X}
  */
 Modeling.prototype.createShape = function(shape, position, target, parentIndex, hints) {
 
@@ -23826,7 +24767,17 @@ Modeling.prototype.createShape = function(shape, position, target, parentIndex, 
   return context.shape;
 };
 
-
+/**
+ * Create elements.
+ *
+ * @param {Partial<U>[]} elements
+ * @param {Point} position
+ * @param {W} parent
+ * @param {number} [parentIndex]
+ * @param {ModelingHints} [hints]
+ *
+ * @return {U[]}
+ */
 Modeling.prototype.createElements = function(elements, position, parent, parentIndex, hints) {
   if (!(0,min_dash__WEBPACK_IMPORTED_MODULE_21__.isArray)(elements)) {
     elements = [ elements ];
@@ -23852,7 +24803,16 @@ Modeling.prototype.createElements = function(elements, position, parent, parentI
   return context.elements;
 };
 
-
+/**
+ * Create a label.
+ *
+ * @param {U} labelTarget
+ * @param {Point} position
+ * @param {Partial<V>} label
+ * @param {W} [parent]
+ *
+ * @return {V}
+ */
 Modeling.prototype.createLabel = function(labelTarget, position, label, parent) {
 
   label = this._create('label', label);
@@ -23871,19 +24831,15 @@ Modeling.prototype.createLabel = function(labelTarget, position, label, parent) 
 
 
 /**
- * Append shape to given source, drawing a connection
- * between source and the newly created shape.
+ * Create and connect a shape to a source.
  *
- * @param {djs.model.Shape} source
- * @param {djs.model.Shape|Object} shape
+ * @param {U} source
+ * @param {Partial<X>} shape
  * @param {Point} position
- * @param {djs.model.Shape} target
- * @param {Object} [hints]
- * @param {boolean} [hints.attach]
- * @param {djs.model.Connection|Object} [hints.connection]
- * @param {djs.model.Base} [hints.connectionParent]
+ * @param {W} target
+ * @param {ModelingHints} [hints]
  *
- * @return {djs.model.Shape} the newly created shape
+ * @return {X}
  */
 Modeling.prototype.appendShape = function(source, shape, position, target, hints) {
 
@@ -23906,7 +24862,11 @@ Modeling.prototype.appendShape = function(source, shape, position, target, hints
   return context.shape;
 };
 
-
+/**
+ * Remove elements.
+ *
+ * @param {U[]} elements
+ */
 Modeling.prototype.removeElements = function(elements) {
   var context = {
     elements: elements
@@ -23915,7 +24875,13 @@ Modeling.prototype.removeElements = function(elements) {
   this._commandStack.execute('elements.delete', context);
 };
 
-
+/**
+ * Distribute elements along a given axis.
+ *
+ * @param {ModelingDistributeGroup<U>[]} groups
+ * @param {ModelingDistributeAxis} axis
+ * @param {ModelingDistributeDimension} dimension
+ */
 Modeling.prototype.distributeElements = function(groups, axis, dimension) {
   var context = {
     groups: groups,
@@ -23926,7 +24892,12 @@ Modeling.prototype.distributeElements = function(groups, axis, dimension) {
   this._commandStack.execute('elements.distribute', context);
 };
 
-
+/**
+ * Remove a shape.
+ *
+ * @param {X} shape
+ * @param {ModelingHints} [hints]
+ */
 Modeling.prototype.removeShape = function(shape, hints) {
   var context = {
     shape: shape,
@@ -23936,7 +24907,12 @@ Modeling.prototype.removeShape = function(shape, hints) {
   this._commandStack.execute('shape.delete', context);
 };
 
-
+/**
+ * Remove a connection.
+ *
+ * @param {T} connection
+ * @param {ModelingHints} [hints]
+ */
 Modeling.prototype.removeConnection = function(connection, hints) {
   var context = {
     connection: connection,
@@ -23946,6 +24922,15 @@ Modeling.prototype.removeConnection = function(connection, hints) {
   this._commandStack.execute('connection.delete', context);
 };
 
+/**
+ * Replace a shape.
+ *
+ * @param {X} oldShape
+ * @param {Partial<X>} newShape
+ * @param {ModelingHints} [hints]
+ *
+ * @return {X}
+ */
 Modeling.prototype.replaceShape = function(oldShape, newShape, hints) {
   var context = {
     oldShape: oldShape,
@@ -23958,6 +24943,12 @@ Modeling.prototype.replaceShape = function(oldShape, newShape, hints) {
   return context.newShape;
 };
 
+/**
+ * Align elements.
+ *
+ * @param {U[]} elements
+ * @param {ModelingAlignAlignment} alignment
+ */
 Modeling.prototype.alignElements = function(elements, alignment) {
   var context = {
     elements: elements,
@@ -23967,6 +24958,14 @@ Modeling.prototype.alignElements = function(elements, alignment) {
   this._commandStack.execute('elements.align', context);
 };
 
+/**
+ * Resize a shape.
+ *
+ * @param {X} shape
+ * @param {Rect} newBounds
+ * @param {Dimensions} [minBounds]
+ * @param {ModelingHints} [hints]
+ */
 Modeling.prototype.resizeShape = function(shape, newBounds, minBounds, hints) {
   var context = {
     shape: shape,
@@ -23978,6 +24977,15 @@ Modeling.prototype.resizeShape = function(shape, newBounds, minBounds, hints) {
   this._commandStack.execute('shape.resize', context);
 };
 
+/**
+ * Create space along an horizontally or vertically.
+ *
+ * @param {X[]} movingShapes
+ * @param {X[]} resizingShapes
+ * @param {Point} delta
+ * @param {Direction} direction
+ * @param {number} start
+ */
 Modeling.prototype.createSpace = function(movingShapes, resizingShapes, delta, direction, start) {
   var context = {
     delta: delta,
@@ -23990,6 +24998,13 @@ Modeling.prototype.createSpace = function(movingShapes, resizingShapes, delta, d
   this._commandStack.execute('spaceTool', context);
 };
 
+/**
+ * Update a connetions waypoints.
+ *
+ * @param {T} connection
+ * @param {Point[]} newWaypoints
+ * @param {ModelingHints} [hints]
+ */
 Modeling.prototype.updateWaypoints = function(connection, newWaypoints, hints) {
   var context = {
     connection: connection,
@@ -24000,6 +25015,15 @@ Modeling.prototype.updateWaypoints = function(connection, newWaypoints, hints) {
   this._commandStack.execute('connection.updateWaypoints', context);
 };
 
+/**
+ * Reconnect a connections source and/or target.
+ *
+ * @param {T} connection
+ * @param {U} source
+ * @param {U} target
+ * @param {Point|Point[]} dockingOrPoints
+ * @param {ModelingHints} [hints]
+ */
 Modeling.prototype.reconnect = function(connection, source, target, dockingOrPoints, hints) {
   var context = {
     connection: connection,
@@ -24012,6 +25036,14 @@ Modeling.prototype.reconnect = function(connection, source, target, dockingOrPoi
   this._commandStack.execute('connection.reconnect', context);
 };
 
+/**
+ * Reconnect a connections source.
+ *
+ * @param {T} connection
+ * @param {U} newSource
+ * @param {Point|Point[]} dockingOrPoints
+ * @param {ModelingHints} [hints]
+ */
 Modeling.prototype.reconnectStart = function(connection, newSource, dockingOrPoints, hints) {
   if (!hints) {
     hints = {};
@@ -24022,6 +25054,14 @@ Modeling.prototype.reconnectStart = function(connection, newSource, dockingOrPoi
   }));
 };
 
+/**
+ * Reconnect a connections target.
+ *
+ * @param {T} connection
+ * @param {U} newTarget
+ * @param {Point|Point[]} dockingOrPoints
+ * @param {ModelingHints} [hints]
+ */
 Modeling.prototype.reconnectEnd = function(connection, newTarget, dockingOrPoints, hints) {
   if (!hints) {
     hints = {};
@@ -24032,18 +25072,34 @@ Modeling.prototype.reconnectEnd = function(connection, newTarget, dockingOrPoint
   }));
 };
 
+/**
+ * Connect two elements.
+ *
+ * @param {U} source
+ * @param {U} target
+ * @param {Partial<T>} [attrs]
+ * @param {ModelingHints} [hints]
+ *
+ * @return {T}
+ */
 Modeling.prototype.connect = function(source, target, attrs, hints) {
   return this.createConnection(source, target, attrs || {}, source.parent, hints);
 };
 
 Modeling.prototype._create = function(type, attrs) {
-  if (attrs instanceof _model__WEBPACK_IMPORTED_MODULE_22__.Base) {
+  if ((0,_model__WEBPACK_IMPORTED_MODULE_22__.isModelElement)(attrs)) {
     return attrs;
   } else {
     return this._elementFactory.create(type, attrs);
   }
 };
 
+/**
+ * Collapse or expand a shape.
+ *
+ * @param {X} shape
+ * @param {ModelingHints} [hints]
+ */
 Modeling.prototype.toggleCollapse = function(shape, hints) {
   var context = {
     shape: shape,
@@ -24071,8 +25127,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /**
+ * @typedef {import('../../../core/Canvas').default} Canvas
+ * @typedef {import('../Modeling').default} Modeling
+ */
+
+/**
  * A handler that align elements in a certain way.
  *
+ * @param {Modeling} modeling
+ * @param {Canvas} canvas
  */
 function AlignElements(modeling, canvas) {
   this._modeling = modeling;
@@ -24139,14 +25202,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 
 
+/**
+ * @typedef {import('../../../model/Types').Element} Element
+ * @typedef {import('../../../model/Types').Parent} Parent
+ * @typedef {import('../../../model/Types').Shape} Shape
+ *
+ * @typedef {import('../../../util/Types').Point} Point
+ *
+ * @typedef {import('../Modeling').default} Modeling
+ */
 
 /**
  * A handler that implements reversible appending of shapes
  * to a source shape.
  *
- * @param {canvas} Canvas
- * @param {elementFactory} ElementFactory
- * @param {modeling} Modeling
+ * @param {Modeling} modeling
  */
 function AppendShapeHandler(modeling) {
   this._modeling = modeling;
@@ -24159,13 +25229,13 @@ AppendShapeHandler.$inject = [ 'modeling' ];
 
 
 /**
- * Creates a new shape
+ * Creates a new shape.
  *
  * @param {Object} context
- * @param {ElementDescriptor} context.shape the new shape
- * @param {ElementDescriptor} context.source the source object
- * @param {ElementDescriptor} context.parent the parent object
- * @param {Point} context.position position of the new element
+ * @param {Partial<Shape>} context.shape The new shape.
+ * @param {Element} context.source The element to which to append the new shape to.
+ * @param {Parent} context.parent The parent.
+ * @param {Point} context.position The position at which to create the new shape.
  */
 AppendShapeHandler.prototype.preExecute = function(context) {
 
@@ -24222,6 +25292,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ CreateConnectionHandler)
 /* harmony export */ });
+/**
+ * @typedef {import('../../../model/Types').Element} Element
+ * @typedef {import('../../../model/Types').Shape} Shape
+ *
+ * @typedef {import('../../../util/Types').Point} Point
+ *
+ * @typedef {import('../Modeling').ModelingHints} ModelingHints
+ *
+ * @typedef {import('../../../core/Canvas').default} Canvas
+ * @typedef {import('../../../layout/BaseLayouter').default} Layouter
+ */
+
+/**
+ * @param {Canvas} canvas
+ * @param {Layouter} layouter
+ */
 function CreateConnectionHandler(canvas, layouter) {
   this._canvas = canvas;
   this._layouter = layouter;
@@ -24234,12 +25320,15 @@ CreateConnectionHandler.$inject = [ 'canvas', 'layouter' ];
 
 
 /**
- * Appends a shape to a target shape
+ * Creates a new connection between two elements.
  *
  * @param {Object} context
- * @param {djs.element.Base} context.source the source object
- * @param {djs.element.Base} context.target the parent object
- * @param {Point} context.position position of the new element
+ * @param {Element} context.source The source.
+ * @param {Element} context.target The target.
+ * @param {Shape} context.parent The parent.
+ * @param {number} [context.parentIndex] The optional index at which to add the
+ * connection to the parent's children.
+ * @param {ModelingHints} [context.hints] The optional hints.
  */
 CreateConnectionHandler.prototype.execute = function(context) {
 
@@ -24297,12 +25386,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 /* harmony import */ var _util_Elements__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../util/Elements */ "../node_modules/diagram-js/lib/util/Elements.js");
+/* harmony import */ var _util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../util/ModelUtil */ "../node_modules/diagram-js/lib/util/ModelUtil.js");
 
 
 
+
+
+
+/**
+ * @typedef {import('../Modeling').default} Modeling
+ */
 
 var round = Math.round;
 
+/**
+ * @param {Modeling} modeling
+ */
 function CreateElementsHandler(modeling) {
   this._modeling = modeling;
 }
@@ -24339,7 +25438,7 @@ CreateElementsHandler.prototype.preExecute = function(context) {
 
   // center elements around position
   (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.forEach)(elements, function(element) {
-    if (isConnection(element)) {
+    if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.isConnection)(element)) {
       element.waypoints = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.map)(element.waypoints, function(waypoint) {
         return {
           x: round(waypoint.x - bbox.x - bbox.width / 2 + position.x),
@@ -24359,7 +25458,7 @@ CreateElementsHandler.prototype.preExecute = function(context) {
   var cache = {};
 
   (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.forEach)(elements, function(element) {
-    if (isConnection(element)) {
+    if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.isConnection)(element)) {
       cache[ element.id ] = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isNumber)(parentIndex) ?
         modeling.createConnection(
           cache[ element.source.id ],
@@ -24386,6 +25485,10 @@ CreateElementsHandler.prototype.preExecute = function(context) {
       createShapeHints.autoResize = false;
     }
 
+    if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.isLabel)(element)) {
+      createShapeHints = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.omit)(createShapeHints, [ 'attach' ]);
+    }
+
     cache[ element.id ] = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isNumber)(parentIndex) ?
       modeling.createShape(
         element,
@@ -24404,12 +25507,6 @@ CreateElementsHandler.prototype.preExecute = function(context) {
 
   context.elements = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.values)(cache);
 };
-
-// helpers //////////
-
-function isConnection(element) {
-  return !!element.waypoints;
-}
 
 /***/ }),
 
@@ -24430,6 +25527,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @typedef {import('../../../core/Canvas').default} Canvas
+ *
+ * @typedef {import('../../../model/Types').Element} Element
+ * @typedef {import('../../../model/Types').Parent} Parent
+ * @typedef {import('../../../model/Types').Shape} Shape
+ * @typedef {import('../../../util/Types').Point} Point
+ */
 
 /**
  * A handler that attaches a label to a given target shape.
@@ -24451,14 +25556,14 @@ CreateLabelHandler.$inject = [ 'canvas' ];
 var originalExecute = _CreateShapeHandler__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.execute;
 
 /**
- * Appends a label to a target shape.
+ * Append label to element.
  *
- * @method CreateLabelHandler#execute
- *
- * @param {Object} context
- * @param {ElementDescriptor} context.target the element the label is attached to
- * @param {ElementDescriptor} context.parent the parent object
- * @param {Point} context.position position of the new element
+ * @param { {
+ *   parent: Parent;
+ *   position: Point;
+ *   shape: Shape;
+ *   target: Element;
+ * } } context
  */
 CreateLabelHandler.prototype.execute = function(context) {
 
@@ -24474,7 +25579,7 @@ CreateLabelHandler.prototype.execute = function(context) {
 var originalRevert = _CreateShapeHandler__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.revert;
 
 /**
- * Undo append by removing the shape
+ * Revert appending by removing label.
  */
 CreateLabelHandler.prototype.revert = function(context) {
   context.shape.labelTarget = null;
@@ -24511,13 +25616,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 
 
+/**
+ * @typedef {import('../../../model/Types').Element} Element
+ * @typedef {import('../../../util/Types').Point} Point
+ *
+ * @typedef {import('../../../core/Canvas').default} Canvas
+ */
+
 var round = Math.round;
 
 
 /**
  * A handler that implements reversible addition of shapes.
  *
- * @param {canvas} Canvas
+ * @param {Canvas} canvas
  */
 function CreateShapeHandler(canvas) {
   this._canvas = canvas;
@@ -24533,8 +25645,10 @@ CreateShapeHandler.$inject = [ 'canvas' ];
  * Appends a shape to a target shape
  *
  * @param {Object} context
- * @param {djs.model.Base} context.parent the parent object
- * @param {Point} context.position position of the new element
+ * @param {Element} context.parent The parent.
+ * @param {Point} context.position The position at which to create the new shape.
+ * @param {number} [context.parentIndex] The optional index at which to add the
+ * shape to the parent's children.
  */
 CreateShapeHandler.prototype.execute = function(context) {
 
@@ -24599,6 +25713,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+/**
+ * @typedef {import('../../../core/Canvas').default} Canvas
+ * @typedef {import('../Modeling').default} Modeling
+ */
 
 /**
  * A handler that implements reversible deletion of Connections.
@@ -24696,7 +25815,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 
 
+/**
+ * @typedef {import('../../../core/ElementRegistry').default} ElementRegistry
+ * @typedef {import('../Modeling').default} Modeling
+ */
 
+/**
+ * @param {Modeling} modeling
+ * @param {ElementRegistry} elementRegistry
+ */
 function DeleteElementsHandler(modeling, elementRegistry) {
   this._modeling = modeling;
   this._elementRegistry = elementRegistry;
@@ -24743,16 +25870,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ DeleteShapeHandler)
 /* harmony export */ });
-/* harmony import */ var _util_Collections__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../util/Collections */ "../node_modules/diagram-js/lib/util/Collections.js");
+/* harmony import */ var _util_Collections__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../util/Collections */ "../node_modules/diagram-js/lib/util/Collections.js");
 /* harmony import */ var _util_Removal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../util/Removal */ "../node_modules/diagram-js/lib/util/Removal.js");
+/* harmony import */ var _util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../util/ModelUtil */ "../node_modules/diagram-js/lib/util/ModelUtil.js");
+
 
 
 
 
 
 /**
+ * @typedef {import('../../../core/Canvas').default} Canvas
+ * @typedef {import('../Modeling').default} Modeling
+ */
+
+/**
  * A handler that implements reversible deletion of shapes.
  *
+ * @param {Canvas} canvas
+ * @param {Modeling} modeling
  */
 function DeleteShapeHandler(canvas, modeling) {
   this._canvas = canvas;
@@ -24786,7 +25922,7 @@ DeleteShapeHandler.prototype.preExecute = function(context) {
 
   // remove child shapes and connections
   (0,_util_Removal__WEBPACK_IMPORTED_MODULE_0__.saveClear)(shape.children, function(child) {
-    if (isConnection(child)) {
+    if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__.isConnection)(child)) {
       modeling.removeConnection(child, { nested: true });
     } else {
       modeling.removeShape(child, { nested: true });
@@ -24806,7 +25942,7 @@ DeleteShapeHandler.prototype.execute = function(context) {
   context.oldParent = oldParent;
 
   // remove containment
-  context.oldParentIndex = (0,_util_Collections__WEBPACK_IMPORTED_MODULE_1__.indexOf)(oldParent.children, shape);
+  context.oldParentIndex = (0,_util_Collections__WEBPACK_IMPORTED_MODULE_2__.indexOf)(oldParent.children, shape);
 
   // remove shape
   canvas.removeShape(shape);
@@ -24827,16 +25963,12 @@ DeleteShapeHandler.prototype.revert = function(context) {
       oldParentIndex = context.oldParentIndex;
 
   // restore containment
-  (0,_util_Collections__WEBPACK_IMPORTED_MODULE_1__.add)(oldParent.children, shape, oldParentIndex);
+  (0,_util_Collections__WEBPACK_IMPORTED_MODULE_2__.add)(oldParent.children, shape, oldParentIndex);
 
   canvas.addShape(shape, oldParent);
 
   return shape;
 };
-
-function isConnection(element) {
-  return element.waypoints;
-}
 
 
 /***/ }),
@@ -24855,9 +25987,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 
 
+/**
+ * @typedef {import('../Modeling').default} Modeling
+ */
 
 /**
  * A handler that distributes elements evenly.
+ *
+ * @param {Modeling} modeling
  */
 function DistributeElements(modeling) {
   this._modeling = modeling;
@@ -25022,9 +26159,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 
 
+/**
+ * @typedef {import('../../../core/Canvas').default} Canvas
+ * @typedef {import('../../../layout/BaseLayouter').default} Layouter
+ */
 
 /**
  * A handler that implements reversible moving of shapes.
+ *
+ * @param {Layouter} layouter
+ * @param {Canvas} canvas
  */
 function LayoutConnectionHandler(layouter, canvas) {
   this._layouter = layouter;
@@ -25168,9 +26312,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _helper_MoveHelper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./helper/MoveHelper */ "../node_modules/diagram-js/lib/features/modeling/cmd/helper/MoveHelper.js");
 
 
+/**
+ * @typedef {import('../Modeling').default} Modeling
+ */
 
 /**
  * A handler that implements reversible moving of shapes.
+ *
+ * @param {Modeling} modeling
  */
 function MoveElementsHandler(modeling) {
   this._helper = new _helper_MoveHelper__WEBPACK_IMPORTED_MODULE_0__["default"](modeling);
@@ -25226,9 +26375,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @typedef {import('../Modeling').default} Modeling
+ */
 
 /**
  * A handler that implements reversible moving of shapes.
+ *
+ * @param {Modeling} modeling
  */
 function MoveShapeHandler(modeling) {
   this._modeling = modeling;
@@ -25343,9 +26497,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 
 
+/**
+ * @typedef {import('../Modeling').default} Modeling
+ */
 
 /**
- * Reconnect connection handler
+ * Reconnect connection handler.
+ *
+ * @param {Modeling} modeling
  */
 function ReconnectConnectionHandler(modeling) {
   this._modeling = modeling;
@@ -25468,6 +26627,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /**
+ * @typedef {import('../../model/Types').Shape} Shape
+ *
+ * @typedef {import('../Modeling').default} Modeling
+ * @typedef {import('../../rules/Rules').default} Rules
+ */
+
+/**
  * Replace shape by adding new shape and removing old shape. Incoming and outgoing connections will
  * be kept if possible.
  *
@@ -25489,12 +26655,12 @@ ReplaceShapeHandler.$inject = [ 'modeling', 'rules' ];
  * Add new shape.
  *
  * @param {Object} context
- * @param {djs.model.Shape} context.oldShape
+ * @param {Shape} context.oldShape
  * @param {Object} context.newData
  * @param {string} context.newData.type
  * @param {number} context.newData.x
  * @param {number} context.newData.y
- * @param {Object} [hints]
+ * @param {Object} [context.hints]
  */
 ReplaceShapeHandler.prototype.preExecute = function(context) {
   var self = this,
@@ -25627,6 +26793,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @typedef {import('../Modeling').default} Modeling
+ */
 
 /**
  * A handler that implements reversible resizing of shapes.
@@ -25752,9 +26921,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @typedef {import('../Modeling').default} Modeling
+ */
 
 /**
  * Add or remove space by moving and resizing shapes and updating connection waypoints.
+ *
+ * @param {Modeling} modeling
  */
 function SpaceToolHandler(modeling) {
   this._modeling = modeling;
@@ -25964,6 +27138,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /**
+ * @typedef {import('../../model/Types').Shape} Shape
+ *
+ * @typedef {import('../Modeling').default} Modeling
+ */
+
+/**
  * A handler that toggles the collapsed state of an element
  * and the visibility of all its children.
  *
@@ -26016,7 +27196,7 @@ ToggleShapeCollapseHandler.prototype.revert = function(context) {
 /**
  * Return a map { elementId -> hiddenState}.
  *
- * @param {Array<djs.model.Shape>} elements
+ * @param {Shape[]} elements
  *
  * @return {Object}
  */
@@ -26084,7 +27264,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /**
+ * @typedef {import('../Modeling').default} Modeling
+ */
+
+/**
  * A handler that implements reversible attaching/detaching of shapes.
+ *
+ * @param {Modeling} modeling
  */
 function UpdateAttachmentHandler(modeling) {
   this._modeling = modeling;
@@ -26200,10 +27386,10 @@ UpdateWaypointsHandler.prototype.revert = function(context) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getMovedSourceAnchor": () => (/* binding */ getMovedSourceAnchor),
-/* harmony export */   "getMovedTargetAnchor": () => (/* binding */ getMovedTargetAnchor),
-/* harmony export */   "getResizedSourceAnchor": () => (/* binding */ getResizedSourceAnchor),
-/* harmony export */   "getResizedTargetAnchor": () => (/* binding */ getResizedTargetAnchor)
+/* harmony export */   getMovedSourceAnchor: () => (/* binding */ getMovedSourceAnchor),
+/* harmony export */   getMovedTargetAnchor: () => (/* binding */ getMovedTargetAnchor),
+/* harmony export */   getResizedSourceAnchor: () => (/* binding */ getResizedSourceAnchor),
+/* harmony export */   getResizedTargetAnchor: () => (/* binding */ getResizedTargetAnchor)
 /* harmony export */ });
 /* harmony import */ var _util_AttachUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../util/AttachUtil */ "../node_modules/diagram-js/lib/util/AttachUtil.js");
 /* harmony import */ var _layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../layout/LayoutUtil */ "../node_modules/diagram-js/lib/layout/LayoutUtil.js");
@@ -26214,7 +27400,20 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @typedef {import('../../../../core/Types').ConnectionLike} Connection
+ * @typedef {import('../../../../core/Types').ShapeLike} Shape
+ *
+ * @typedef {import('../../../../util/Types').Point} Point
+ * @typedef {import('../../../../util/Types').Rect} Rect
+ */
 
+/**
+ * @param {Connection} connection
+ * @param {Shape} shape
+ * @param {Rect} oldBounds
+ * @return {Point}
+ */
 function getResizedSourceAnchor(connection, shape, oldBounds) {
 
   var waypoints = safeGetWaypoints(connection),
@@ -26282,7 +27481,7 @@ function subtract(bounds, delta) {
  *
  * @param {Connection} connection
  *
- * @return {Array<Point>}
+ * @return {Point[]}
  */
 function safeGetWaypoints(connection) {
 
@@ -26307,7 +27506,7 @@ function getWaypointsInsideBounds(waypoints, bounds) {
  * Checks if point is inside bounds, incl. edges.
  *
  * @param {Point} point
- * @param {Bounds} bounds
+ * @param {Rect} bounds
  */
 function isInsideBounds(point, bounds) {
   return (0,_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_2__.getOrientation)(bounds, point, 1) === 'intersect';
@@ -26337,24 +27536,56 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @typedef {import('../../../../model/Types').Connection} Connection
+ * @typedef {import('../../../../model/Types').Element} Element
+ * @typedef {import('../../../../model/Types').Shape} Shape
+ */
 
 function MoveClosure() {
 
+  /**
+   * @type {Record<string, Shape>}
+   */
   this.allShapes = {};
+
+  /**
+   * @type {Record<string, Connection>}
+   */
   this.allConnections = {};
 
+  /**
+   * @type {Record<string, Element>}
+   */
   this.enclosedElements = {};
+
+  /**
+   * @type {Record<string, Connection>}
+   */
   this.enclosedConnections = {};
 
+  /**
+   * @type {Record<string, Element>}
+   */
   this.topLevel = {};
 }
 
-
+/**
+ * @param {Element} element
+ * @param {boolean} [isTopLevel]
+ *
+ * @return {MoveClosure}
+ */
 MoveClosure.prototype.add = function(element, isTopLevel) {
   return this.addAll([ element ], isTopLevel);
 };
 
-
+/**
+ * @param {Element[]} elements
+ * @param {boolean} [isTopLevel]
+ *
+ * @return {MoveClosure}
+ */
 MoveClosure.prototype.addAll = function(elements, isTopLevel) {
 
   var newClosure = (0,_util_Elements__WEBPACK_IMPORTED_MODULE_0__.getClosure)(elements, !!isTopLevel, this);
@@ -26386,6 +27617,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @typedef {import('../../../../core/Types').ElementLike} Element
+ * @typedef {import('../../../../core/Types').ShapeLike} Shape
+ *
+ * @typedef {import('../../../../util/Types').Point} Point
+ *
+ * @typedef {import('../../Modeling').default} Modeling
+ */
 
 /**
  * A helper that is able to carry out serialized move
@@ -26403,11 +27642,13 @@ function MoveHelper(modeling) {
  * This moves all enclosed connections, too and layouts all affected
  * external connections.
  *
- * @param  {Array<djs.model.Base>} elements
- * @param  {Point} delta
- * @param  {djs.model.Base} newParent applied to the first level of shapes
+ * @template {Element} T
  *
- * @return {Array<djs.model.Base>} list of touched elements
+ * @param {T[]} elements
+ * @param {Point} delta
+ * @param {Shape} newParent The new parent of all elements that are not nested.
+ *
+ * @return {T[]}
  */
 MoveHelper.prototype.moveRecursive = function(elements, delta, newParent) {
   if (!elements) {
@@ -26422,8 +27663,8 @@ MoveHelper.prototype.moveRecursive = function(elements, delta, newParent) {
  *
  * @param {Object} closure
  * @param {Point} delta
- * @param {djs.model.Base} [newParent]
- * @param {djs.model.Base} [newHost]
+ * @param {Shape} [newParent]
+ * @param {Shape} [newHost]
  */
 MoveHelper.prototype.moveClosure = function(closure, delta, newParent, newHost, primaryShape) {
   var modeling = this._modeling;
@@ -26468,8 +27709,9 @@ MoveHelper.prototype.moveClosure = function(closure, delta, newParent, newHost, 
 /**
  * Returns the closure for the selected elements
  *
- * @param  {Array<djs.model.Base>} elements
- * @return {MoveClosure} closure
+ * @param {Element[]} elements
+ *
+ * @return {MoveClosure}
  */
 MoveHelper.prototype.getClosure = function(elements) {
   return new _MoveClosure__WEBPACK_IMPORTED_MODULE_2__["default"]().addAll(elements, true);
@@ -26486,9 +27728,16 @@ MoveHelper.prototype.getClosure = function(elements) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "createMoveEvent": () => (/* binding */ createMoveEvent),
+/* harmony export */   createMoveEvent: () => (/* binding */ createMoveEvent),
 /* harmony export */   "default": () => (/* binding */ Mouse)
 /* harmony export */ });
+/**
+ * @typedef {import('../../core/EventBus').default} EventBus
+ */
+
+/**
+ * @param {EventBus} eventBus
+ */
 function Mouse(eventBus) {
   var self = this;
 
@@ -26566,6 +27815,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Mouse__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Mouse */ "../node_modules/diagram-js/lib/features/mouse/Mouse.js");
 
 
+
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __init__: [ 'mouse' ],
   mouse: [ 'type', _Mouse__WEBPACK_IMPORTED_MODULE_0__["default"] ]
@@ -26592,6 +27845,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+/**
+ * @typedef {import('../../core/Types').ElementLike} Element
+ * @typedef {import('../../core/Types').ShapeLike} Shape
+ *
+ * @typedef {import('../dragging/Dragging').default} Dragging
+ * @typedef {import('../../core/EventBus').default} EventBus
+ * @typedef {import('../modeling/Modeling').default} Modeling
+ * @typedef {import('../rules/Rules').default} Rules
+ * @typedef {import('../selection/Selection').default} Selection
+ */
 
 var LOW_PRIORITY = 500,
     MEDIUM_PRIORITY = 1250,
@@ -26772,8 +28036,8 @@ function MoveEvents(
   /**
    * Start move.
    *
-   * @param {MouseEvent} event
-   * @param {djs.model.Shape} shape
+   * @param {MouseEvent|TouchEvent} event
+   * @param {Shape} element
    * @param {boolean} [activate]
    * @param {Object} [context]
    */
@@ -26826,9 +28090,9 @@ MoveEvents.$inject = [
  * Return a filtered list of elements that do not contain
  * those nested into others.
  *
- * @param  {Array<djs.model.Base>} elements
+ * @param {Element[]} elements
  *
- * @return {Array<djs.model.Base>} filtered
+ * @return {Element[]} filtered
  */
 function removeNested(elements) {
 
@@ -26865,6 +28129,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_Elements__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../util/Elements */ "../node_modules/diagram-js/lib/util/Elements.js");
 /* harmony import */ var tiny_svg__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tiny-svg */ "../node_modules/tiny-svg/dist/index.esm.js");
 /* harmony import */ var _util_SvgTransformUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/SvgTransformUtil */ "../node_modules/diagram-js/lib/util/SvgTransformUtil.js");
+/* harmony import */ var _util_ModelUtil__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../util/ModelUtil */ "../node_modules/diagram-js/lib/util/ModelUtil.js");
 
 
 
@@ -26872,6 +28137,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+/**
+ * @typedef {import('../../model/Types').Element} Element
+ *
+ * @typedef {import('../../core/Canvas').default} Canvas
+ * @typedef {import('../../core/EventBus').default} EventBus
+ * @typedef {import('../preview-support/PreviewSupport').default} PreviewSupport
+ * @typedef {import('../../draw/Styles').default} Styles
+ */
 
 var LOW_PRIORITY = 499;
 
@@ -26886,9 +28162,9 @@ var MARKER_DRAGGING = 'djs-dragging',
  * Provides previews for moving shapes when moving.
  *
  * @param {EventBus} eventBus
- * @param {ElementRegistry} elementRegistry
  * @param {Canvas} canvas
  * @param {Styles} styles
+ * @param {PreviewSupport} previewSupport
  */
 function MovePreview(
     eventBus, canvas, styles, previewSupport) {
@@ -26930,7 +28206,7 @@ function MovePreview(
    * Make an element draggable.
    *
    * @param {Object} context
-   * @param {djs.model.Base} element
+   * @param {Element} element
    * @param {boolean} addMarker
    */
   function makeDraggable(context, element, addMarker) {
@@ -27053,7 +28329,7 @@ function MovePreview(
    * Make an element draggable.
    *
    * @param {Object} context
-   * @param {djs.model.Base} element
+   * @param {Element} element
    * @param {boolean} addMarker
    */
   this.makeDraggable = makeDraggable;
@@ -27077,7 +28353,7 @@ function removeEdges(elements) {
 
   var filteredElements = (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.filter)(elements, function(element) {
 
-    if (!isConnection(element)) {
+    if (!(0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_4__.isConnection)(element)) {
       return true;
     } else {
 
@@ -27093,13 +28369,6 @@ function removeEdges(elements) {
 
 function haveDifferentParents(elements) {
   return (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.size)((0,min_dash__WEBPACK_IMPORTED_MODULE_1__.groupBy)(elements, function(e) { return e.parent && e.parent.id; })) !== 1;
-}
-
-/**
- * Checks if an element is a connection.
- */
-function isConnection(element) {
-  return element.waypoints;
 }
 
 
@@ -27134,6 +28403,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __depends__: [
     _interaction_events__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -27171,6 +28444,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @typedef {import('../../core/Types').ElementLike} Element
+ * @typedef {import('../../core/Types').ShapeLike} Shape
+ *
+ * @typedef {import('../../core/EventBus').default} EventBus
+ */
 
 /**
  * An abstract provider that allows modelers to implement a custom
@@ -27252,8 +28531,8 @@ function OrderingProvider(eventBus) {
  * Implementors of this method must return an object with
  * `parent` _and_ `index` in it.
  *
- * @param {djs.model.Base} element
- * @param {djs.model.Shape} newParent
+ * @param {Element} element
+ * @param {Shape} newParent
  *
  * @return {Object} ordering descriptor
  */
@@ -27290,6 +28569,12 @@ var LOW_PRIORITY = 500;
 
 
 
+/**
+ * @typedef {import('../../model/Types').Element} Element
+ *
+ * @typedef {import('../../core/EventBus').default} EventBus
+ * @typedef {import('../../draw/Styles').default} Styles
+ */
 
 /**
  * @class
@@ -27299,9 +28584,8 @@ var LOW_PRIORITY = 500;
  *
  * @param {EventBus} eventBus
  * @param {Styles} styles
- * @param {ElementRegistry} elementRegistry
  */
-function Outline(eventBus, styles, elementRegistry) {
+function Outline(eventBus, styles) {
 
   this.offset = 6;
 
@@ -27359,8 +28643,8 @@ function Outline(eventBus, styles, elementRegistry) {
  * Updates the outline of a shape respecting the dimension of the
  * element and an outline offset.
  *
- * @param  {SVGElement} outline
- * @param  {djs.model.Base} element
+ * @param {SVGElement} outline
+ * @param {Element} element
  */
 Outline.prototype.updateShapeOutline = function(outline, element) {
 
@@ -27378,8 +28662,8 @@ Outline.prototype.updateShapeOutline = function(outline, element) {
  * Updates the outline of a connection respecting the bounding box of
  * the connection and an outline offset.
  *
- * @param  {SVGElement} outline
- * @param  {djs.model.Base} element
+ * @param {SVGElement} outline
+ * @param {Element} connection
  */
 Outline.prototype.updateConnectionOutline = function(outline, connection) {
 
@@ -27413,6 +28697,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Outline__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Outline */ "../node_modules/diagram-js/lib/features/outline/Outline.js");
 
 
+
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __init__: [ 'outline' ],
   outline: [ 'type', _Outline__WEBPACK_IMPORTED_MODULE_0__["default"] ]
@@ -27448,6 +28736,60 @@ var ids = new _util_IdGenerator__WEBPACK_IMPORTED_MODULE_0__["default"]('ov');
 
 var LOW_PRIORITY = 500;
 
+/**
+ * @typedef {import('../../core/Canvas').default} Canvas
+ * @typedef {import('../../core/ElementRegistry').default} ElementRegistry
+ * @typedef {import('../../core/EventBus').default} EventBus
+ *
+ * @typedef {import('../../model/Types').Element} Element
+ *
+ * @typedef { {
+ *   minZoom?: number,
+ *   maxZoom?: number
+ * } } OverlaysConfigShow
+ *
+ * @typedef { {
+ *   min?: number,
+ *   max?: number
+ * } } OverlaysConfigScale
+ *
+ * @typedef { {
+*   id: string,
+*   type: string | null,
+*   element: Element | string
+* } & OverlayAttrs } Overlay
+*
+ * @typedef { {
+ *   html: HTMLElement | string,
+ *   position: {
+ *     top?: number,
+ *     right?: number,
+ *     bottom?: number,
+ *     left?: number
+ *   }
+ * } & OverlaysConfigDefault } OverlayAttrs
+ *
+ * @typedef { {
+ *   html: HTMLElement,
+ *   element: Element,
+ *   overlays: Overlay[]
+ * } } OverlayContainer
+ *
+ * @typedef {{
+ *   defaults?: OverlaysConfigDefault
+ * }} OverlaysConfig
+ *
+ * @typedef { {
+ *  show?: OverlaysConfigShow,
+ *  scale?: OverlaysConfigScale | boolean
+ * } } OverlaysConfigDefault
+ *
+ * @typedef { {
+ *   id?: string;
+ *   element?: Element | string;
+ *   type?: string;
+ * } | string } OverlaysFilter
+ */
 
 /**
  * A service that allows users to attach overlays to diagram elements.
@@ -27456,7 +28798,9 @@ var LOW_PRIORITY = 500;
  *
  * @example
  *
+ * ```javascript
  * // add a pink badge on the top left of the shape
+ *
  * overlays.add(someShape, {
  *   position: {
  *     top: -5,
@@ -27484,8 +28828,9 @@ var LOW_PRIORITY = 500;
  *   }
  *   html: '<div style="width: 10px; background: fuchsia; color: white;">0</div>'
  * });
+ * ```
  *
- *
+ * ```javascript
  * // remove an overlay
  *
  * var id = overlays.add(...);
@@ -27507,20 +28852,23 @@ var LOW_PRIORITY = 500;
  *       }
  *     }
  * }
+ * ```
  *
- * @param {Object} config
+ * @param {OverlaysConfig} config
  * @param {EventBus} eventBus
  * @param {Canvas} canvas
  * @param {ElementRegistry} elementRegistry
  */
 function Overlays(config, eventBus, canvas, elementRegistry) {
-
   this._eventBus = eventBus;
   this._canvas = canvas;
   this._elementRegistry = elementRegistry;
 
   this._ids = ids;
 
+  /**
+   * @type {OverlaysConfigDefault}
+   */
   this._overlayDefaults = (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.assign)({
 
     // no show constraints
@@ -27531,16 +28879,18 @@ function Overlays(config, eventBus, canvas, elementRegistry) {
   }, config && config.defaults);
 
   /**
-   * Mapping overlayId -> overlay
+   * @type {Map<string, Overlay>}
    */
   this._overlays = {};
 
   /**
-   * Mapping elementId -> overlay container
+   * @type {OverlayContainer[]}
    */
   this._overlayContainers = [];
 
-  // root html element for all overlays
+  /**
+   * @type {HTMLElement}
+   */
   this._overlayRoot = createRoot(canvas.getContainer());
 
   this._init();
@@ -27556,12 +28906,13 @@ Overlays.$inject = [
 
 
 /**
- * Returns the overlay with the specified id or a list of overlays
+ * Returns the overlay with the specified ID or a list of overlays
  * for an element with a given type.
  *
  * @example
  *
- * // return the single overlay with the given id
+ * ```javascript
+ * // return the single overlay with the given ID
  * overlays.get('some-id');
  *
  * // return all overlays for the shape
@@ -27570,16 +28921,13 @@ Overlays.$inject = [
  * // return all overlays on shape with type 'badge'
  * overlays.get({ element: someShape, type: 'badge' });
  *
- * // shape can also be specified as id
+ * // shape can also be specified as ID
  * overlays.get({ element: 'element-id', type: 'badge' });
+ * ```
  *
+ * @param {OverlaysFilter} search The filter to be used to find the overlay(s).
  *
- * @param {Object} search
- * @param {string} [search.id]
- * @param {string|djs.model.Base} [search.element]
- * @param {string} [search.type]
- *
- * @return {Object|Array<Object>} the overlay(s)
+ * @return {Overlay|Overlay[]} The overlay(s).
  */
 Overlays.prototype.get = function(search) {
 
@@ -27611,27 +28959,13 @@ Overlays.prototype.get = function(search) {
 };
 
 /**
- * Adds a HTML overlay to an element.
+ * Adds an HTML overlay to an element.
  *
- * @param {string|djs.model.Base}   element   attach overlay to this shape
- * @param {string}                  [type]    optional type to assign to the overlay
- * @param {Object}                  overlay   the overlay configuration
+ * @param {Element|string} element The element to add the overlay to.
+ * @param {string} [type] An optional type that can be used to filter.
+ * @param {OverlayAttrs} overlay The overlay.
  *
- * @param {string|DOMElement}       overlay.html                 html element to use as an overlay
- * @param {Object}                  [overlay.show]               show configuration
- * @param {number}                  [overlay.show.minZoom]       minimal zoom level to show the overlay
- * @param {number}                  [overlay.show.maxZoom]       maximum zoom level to show the overlay
- * @param {Object}                  overlay.position             where to attach the overlay
- * @param {number}                  [overlay.position.left]      relative to element bbox left attachment
- * @param {number}                  [overlay.position.top]       relative to element bbox top attachment
- * @param {number}                  [overlay.position.bottom]    relative to element bbox bottom attachment
- * @param {number}                  [overlay.position.right]     relative to element bbox right attachment
- * @param {boolean|Object}          [overlay.scale=true]         false to preserve the same size regardless of
- *                                                               diagram zoom
- * @param {number}                  [overlay.scale.min]
- * @param {number}                  [overlay.scale.max]
- *
- * @return {string}                 id that may be used to reference the overlay for update or removal
+ * @return {string} The overlay's ID that can be used to get or remove it.
  */
 Overlays.prototype.add = function(element, type, overlay) {
 
@@ -27672,11 +29006,11 @@ Overlays.prototype.add = function(element, type, overlay) {
 
 
 /**
- * Remove an overlay with the given id or all overlays matching the given filter.
+ * Remove an overlay with the given ID or all overlays matching the given filter.
  *
  * @see Overlays#get for filter options.
  *
- * @param {string|object} [filter]
+ * @param {OverlaysFilter} filter The filter to be used to find the overlay.
  */
 Overlays.prototype.remove = function(filter) {
 
@@ -27712,19 +29046,32 @@ Overlays.prototype.remove = function(filter) {
 
 };
 
+/**
+ * Checks whether overlays are shown.
+ *
+ * @return {boolean} Whether overlays are shown.
+ */
 Overlays.prototype.isShown = function() {
   return this._overlayRoot.style.display !== 'none';
 };
 
+/**
+ * Show all overlays.
+ */
 Overlays.prototype.show = function() {
   setVisible(this._overlayRoot);
 };
 
-
+/**
+ * Hide all overlays.
+ */
 Overlays.prototype.hide = function() {
   setVisible(this._overlayRoot, false);
 };
 
+/**
+ * Remove all overlays and their container.
+ */
 Overlays.prototype.clear = function() {
   this._overlays = {};
 
@@ -28111,6 +29458,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Overlays__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Overlays */ "../node_modules/diagram-js/lib/features/overlays/Overlays.js");
 
 
+
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __init__: [ 'overlays' ],
   overlays: [ 'type', _Overlays__WEBPACK_IMPORTED_MODULE_0__["default"] ]
@@ -28131,13 +29482,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 /* harmony import */ var min_dom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dom */ "../node_modules/min-dom/dist/index.esm.js");
-/* harmony import */ var _util_EscapeUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/EscapeUtil */ "../node_modules/css.escape/css.escape.js");
-/* harmony import */ var _util_EscapeUtil__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_util_EscapeUtil__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _util_EscapeUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/EscapeUtil */ "../node_modules/diagram-js/lib/util/EscapeUtil.js");
 
 
 
 
 
+
+/**
+ * @typedef {import('../../core/Canvas').default} Canvas
+ * @typedef {import('../../core/EventBus').default} EventBus
+ *
+ * @typedef {import('./PaletteProvider').PaletteEntries} PaletteEntries
+ * @typedef {import('./PaletteProvider').default} PaletteProvider
+ */
 
 var TOGGLE_SELECTOR = '.djs-palette-toggle',
     ENTRY_SELECTOR = '.entry',
@@ -28153,6 +29511,9 @@ var DEFAULT_PRIORITY = 1000;
 
 /**
  * A palette containing modeling elements.
+ *
+ * @param {EventBus} eventBus
+ * @param {Canvas} canvas
  */
 function Palette(eventBus, canvas) {
 
@@ -28181,29 +29542,21 @@ function Palette(eventBus, canvas) {
 
 Palette.$inject = [ 'eventBus', 'canvas' ];
 
+/**
+ * @overlord
+ *
+ * Register a palette provider with default priority. See
+ * {@link PaletteProvider} for examples.
+ *
+ * @param {PaletteProvider} provider
+ */
 
 /**
- * Register a provider with the palette
+ * Register a palette provider with the given priority. See
+ * {@link PaletteProvider} for examples.
  *
- * @param  {number} [priority=1000]
- * @param  {PaletteProvider} provider
- *
- * @example
- * const paletteProvider = {
- *   getPaletteEntries: function() {
- *     return function(entries) {
- *       return {
- *         ...entries,
- *         'entry-1': {
- *           label: 'My Entry',
- *           action: function() { alert("I have been clicked!"); }
- *         }
- *       };
- *     }
- *   }
- * };
- *
- * palette.registerProvider(800, paletteProvider);
+ * @param {number} priority
+ * @param {PaletteProvider} provider
  */
 Palette.prototype.registerProvider = function(priority, provider) {
   if (!provider) {
@@ -28220,9 +29573,9 @@ Palette.prototype.registerProvider = function(priority, provider) {
 
 
 /**
- * Returns the palette entries
+ * Returns the palette entries.
  *
- * @return {Object<string, PaletteEntryDescriptor>} map of entries
+ * @return {PaletteEntries}
  */
 Palette.prototype.getEntries = function() {
   var providers = this._getProviders();
@@ -28250,7 +29603,7 @@ Palette.prototype._rebuild = function() {
 };
 
 /**
- * Initialize
+ * Initialize palette.
  */
 Palette.prototype._init = function() {
 
@@ -28308,7 +29661,10 @@ Palette.prototype._getProviders = function(id) {
 /**
  * Update palette state.
  *
- * @param  {Object} [state] { open, twoColumn }
+ * @param { {
+ *   open?: boolean;
+ *   twoColumn?: boolean;
+ * } } [state]
  */
 Palette.prototype._toggleState = function(state) {
 
@@ -28356,7 +29712,7 @@ Palette.prototype._update = function() {
 
     var grouping = entry.group || 'default';
 
-    var container = (0,min_dom__WEBPACK_IMPORTED_MODULE_0__.query)('[data-group=' + _util_EscapeUtil__WEBPACK_IMPORTED_MODULE_2___default()(grouping) + ']', entriesContainer);
+    var container = (0,min_dom__WEBPACK_IMPORTED_MODULE_0__.query)('[data-group=' + (0,_util_EscapeUtil__WEBPACK_IMPORTED_MODULE_2__.escapeCSS)(grouping) + ']', entriesContainer);
     if (!container) {
       container = (0,min_dom__WEBPACK_IMPORTED_MODULE_0__.domify)('<div class="group"></div>');
       (0,min_dom__WEBPACK_IMPORTED_MODULE_0__.attr)(container, 'data-group', grouping);
@@ -28401,8 +29757,9 @@ Palette.prototype._update = function() {
 /**
  * Trigger an action available on the palette
  *
- * @param  {string} action
- * @param  {Event} event
+ * @param {string} action
+ * @param {Event} event
+ * @param {boolean} [autoActivate=false]
  */
 Palette.prototype.trigger = function(action, event, autoActivate) {
   var entry,
@@ -28419,6 +29776,12 @@ Palette.prototype.trigger = function(action, event, autoActivate) {
   return this.triggerEntry(entry, action, originalEvent, autoActivate);
 };
 
+/**
+ * @param {string} entryId
+ * @param {string} action
+ * @param {Event} event
+ * @param {boolean} [autoActivate=false]
+ */
 Palette.prototype.triggerEntry = function(entryId, action, event, autoActivate) {
   var entries = this._entries,
       entry,
@@ -28432,6 +29795,10 @@ Palette.prototype.triggerEntry = function(entryId, action, event, autoActivate) 
   }
 
   handler = entry.action;
+
+  if (this._eventBus.fire('palette.trigger', { entry, event }) === false) {
+    return;
+  }
 
   // simple action (via callback function)
   if ((0,min_dash__WEBPACK_IMPORTED_MODULE_1__.isFunction)(handler)) {
@@ -28456,7 +29823,7 @@ Palette.prototype._layoutChanged = function() {
  * Do we need to collapse to two columns?
  *
  * @param {number} availableHeight
- * @param {Object} entries
+ * @param {PaletteEntries} entries
  *
  * @return {boolean}
  */
@@ -28473,26 +29840,26 @@ Palette.prototype._needsCollapse = function(availableHeight, entries) {
 };
 
 /**
- * Close the palette
+ * Close the palette.
  */
 Palette.prototype.close = function() {
-
   this._toggleState({
     open: false,
     twoColumn: false
   });
 };
 
-
 /**
- * Open the palette
+ * Open the palette.
  */
 Palette.prototype.open = function() {
   this._toggleState({ open: true });
 };
 
-
-Palette.prototype.toggle = function(open) {
+/**
+ * Toggle the palette.
+ */
+Palette.prototype.toggle = function() {
   if (this.isOpen()) {
     this.close();
   } else {
@@ -28500,10 +29867,18 @@ Palette.prototype.toggle = function(open) {
   }
 };
 
+/**
+ * @param {string} tool
+ *
+ * @return {boolean}
+ */
 Palette.prototype.isActiveTool = function(tool) {
   return tool && this._activeTool === tool;
 };
 
+/**
+ * @param {string} name
+ */
 Palette.prototype.updateToolHighlight = function(name) {
   var entriesContainer,
       toolsContainer;
@@ -28537,26 +29912,28 @@ Palette.prototype.updateToolHighlight = function(name) {
 
 
 /**
- * Return true if the palette is opened.
+ * Return `true` if the palette is opened.
  *
  * @example
  *
+ * ```javascript
  * palette.open();
  *
  * if (palette.isOpen()) {
  *   // yes, we are open
  * }
+ * ```
  *
- * @return {boolean} true if palette is opened
+ * @return {boolean}
  */
 Palette.prototype.isOpen = function() {
   return (0,min_dom__WEBPACK_IMPORTED_MODULE_0__.classes)(this._container).has(PALETTE_OPEN_CLS);
 };
 
 /**
- * Get container the palette lives in.
+ * Get parent element of palette.
  *
- * @return {Element}
+ * @return {HTMLElement}
  */
 Palette.prototype._getParentContainer = function() {
   return this._canvas.getContainer();
@@ -28615,6 +29992,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Palette__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Palette */ "../node_modules/diagram-js/lib/features/palette/Palette.js");
 
 
+
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __init__: [ 'palette' ],
   palette: [ 'type', _Palette__WEBPACK_IMPORTED_MODULE_0__["default"] ]
@@ -28646,6 +30027,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @typedef {import('../../core/Types').ElementLike} Element
+ * @typedef {import('../../core/Types').ShapeLike} Shape
+ *
+ * @typedef {import('../../core/Canvas').default} Canvas
+ * @typedef {import('../../core/ElementRegistry').default} ElementRegistry
+ * @typedef {import('../../core/EventBus').default} EventBus
+ * @typedef {import('../../draw/Styles').default} Styles
+ */
+
 var MARKER_TYPES = [
   'marker-start',
   'marker-mid',
@@ -28666,6 +30057,11 @@ var NODES_CAN_HAVE_MARKER = [
 
 /**
  * Adds support for previews of moving/resizing elements.
+ *
+ * @param {ElementRegistry} elementRegistry
+ * @param {EventBus} eventBus
+ * @param {Canvas} canvas
+ * @param {Styles} styles
  */
 function PreviewSupport(elementRegistry, eventBus, canvas, styles) {
   this._elementRegistry = elementRegistry;
@@ -28696,7 +30092,7 @@ PreviewSupport.$inject = [
 /**
  * Returns graphics of an element.
  *
- * @param {djs.model.Base} element
+ * @param {Element} element
  *
  * @return {SVGElement}
  */
@@ -28705,13 +30101,13 @@ PreviewSupport.prototype.getGfx = function(element) {
 };
 
 /**
- * Adds a move preview of a given shape to a given svg group.
+ * Adds a move preview of a given shape to a given SVG group.
  *
- * @param {djs.model.Base} element
- * @param {SVGElement} group
- * @param {SVGElement} [gfx]
+ * @param {Element} element The element to be moved.
+ * @param {SVGElement} group The SVG group to add the preview to.
+ * @param {SVGElement} [gfx] The optional graphical element of the element.
  *
- * @return {SVGElement} dragger
+ * @return {SVGElement} The preview.
  */
 PreviewSupport.prototype.addDragger = function(element, group, gfx) {
   gfx = gfx || this.getGfx(element);
@@ -28732,12 +30128,12 @@ PreviewSupport.prototype.addDragger = function(element, group, gfx) {
 };
 
 /**
- * Adds a resize preview of a given shape to a given svg group.
+ * Adds a resize preview of a given shape to a given SVG group.
  *
- * @param {djs.model.Base} element
- * @param {SVGElement} group
+ * @param {Shape} shape The element to be resized.
+ * @param {SVGElement} group The SVG group to add the preview to.
  *
- * @return {SVGElement} frame
+ * @return {SVGElement} The preview.
  */
 PreviewSupport.prototype.addFrame = function(shape, group) {
 
@@ -28831,11 +30227,11 @@ PreviewSupport.prototype._cloneMarker = function(gfx, marker, markerType) {
 /**
  * Get marker of given type referenced by node.
  *
- * @param {Node} node
+ * @param {HTMLElement} node
  * @param {string} markerType
- * @param {Node} [parentNode]
+ * @param {HTMLElement} [parentNode]
  *
- * @param {Node}
+ * @param {HTMLElement}
  */
 function getMarker(node, markerType, parentNode) {
   var id = referenceToId((0,tiny_svg__WEBPACK_IMPORTED_MODULE_1__.attr)(node, markerType));
@@ -28849,7 +30245,7 @@ function getMarker(node, markerType, parentNode) {
  *
  * @param {string} reference
  *
- * @returns {string}
+ * @return {string}
  */
 function referenceToId(reference) {
   return reference.match(/url\(['"]?#([^'"]*)['"]?\)/)[1];
@@ -28860,7 +30256,7 @@ function referenceToId(reference) {
  *
  * @param {string} id
  *
- * @returns {string}
+ * @return {string}
  */
 function idToReference(id) {
   return 'url(#' + id + ')';
@@ -28869,9 +30265,9 @@ function idToReference(id) {
 /**
  * Check wether node type can have marker attributes.
  *
- * @param {Node} node
+ * @param {HTMLElement} node
  *
- * @returns {boolean}
+ * @return {boolean}
  */
 function canHaveMarker(node) {
   return NODES_CAN_HAVE_MARKER.indexOf(node.nodeName) !== -1;
@@ -28893,6 +30289,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _PreviewSupport__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PreviewSupport */ "../node_modules/diagram-js/lib/features/preview-support/PreviewSupport.js");
 
 
+
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __init__: [ 'previewSupport' ],
   previewSupport: [ 'type', _PreviewSupport__WEBPACK_IMPORTED_MODULE_0__["default"] ]
@@ -28911,7 +30311,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Resize),
-/* harmony export */   "getReferencePoint": () => (/* binding */ getReferencePoint)
+/* harmony export */   getReferencePoint: () => (/* binding */ getReferencePoint)
 /* harmony export */ });
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 /* harmony import */ var _ResizeUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ResizeUtil */ "../node_modules/diagram-js/lib/features/resize/ResizeUtil.js");
@@ -28921,6 +30321,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+/**
+ * @typedef {import('../../core/Types').ShapeLike} Shape
+ *
+ * @typedef {import('../../util/Types').Direction} Direction
+ * @typedef {import('../../util/Types').Point} Point
+ *
+ * @typedef {import('../../core/EventBus').default} EventBus
+ * @typedef {import('../dragging/Dragging').default} Dragging
+ * @typedef {import('../modeling/Modeling').default} Modeling
+ * @typedef {import('../rules/Rules').default} Rules
+ */
 
 var DEFAULT_MIN_WIDTH = 10;
 
@@ -28961,6 +30373,11 @@ var DEFAULT_MIN_WIDTH = 10;
  *  context.childrenBoxPadding.left = 20;
  * });
  * ```
+ *
+ * @param {EventBus} eventBus
+ * @param {Rules} rules
+ * @param {Modeling} modeling
+ * @param {Dragging} dragging
  */
 function Resize(eventBus, rules, modeling, dragging) {
 
@@ -28997,7 +30414,7 @@ function Resize(eventBus, rules, modeling, dragging) {
   /**
    * Handle resize start.
    *
-   * @param  {Object} context
+   * @param {Object} context
    */
   function handleStart(context) {
 
@@ -29022,7 +30439,7 @@ function Resize(eventBus, rules, modeling, dragging) {
   /**
    * Handle resize end.
    *
-   * @param  {Object} context
+   * @param {Object} context
    */
   function handleEnd(context) {
     var shape = context.shape,
@@ -29081,9 +30498,9 @@ Resize.prototype.canResize = function(context) {
  * You may specify additional contextual information and must specify a
  * resize direction during activation of the resize event.
  *
- * @param {MouseEvent} event
- * @param {djs.model.Shape} shape
- * @param {Object|string} contextOrDirection
+ * @param {MouseEvent|TouchEvent} event
+ * @param {Shape} shape
+ * @param {Object|Direction} contextOrDirection
  */
 Resize.prototype.activate = function(event, shape, contextOrDirection) {
   var dragging = this._dragging,
@@ -29207,6 +30624,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_Mouse__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../util/Mouse */ "../node_modules/diagram-js/lib/util/Mouse.js");
 /* harmony import */ var _util_SvgTransformUtil__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../util/SvgTransformUtil */ "../node_modules/diagram-js/lib/util/SvgTransformUtil.js");
 /* harmony import */ var _Resize__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Resize */ "../node_modules/diagram-js/lib/features/resize/Resize.js");
+/* harmony import */ var _util_ModelUtil__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../util/ModelUtil */ "../node_modules/diagram-js/lib/util/ModelUtil.js");
 
 
 
@@ -29218,6 +30636,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+/**
+ * @typedef {import('../../model/Types').Element} Element
+ *
+ * @typedef {import('../../core/Canvas').default} Canvas
+ * @typedef {import('../../core/EventBus').default} EventBus
+ * @typedef {import('../resize/Resize').default} Resize
+ * @typedef {import('../selection/Selection').default} Selection
+ */
 
 var HANDLE_OFFSET = -6,
     HANDLE_SIZE = 8,
@@ -29340,12 +30769,12 @@ ResizeHandles.prototype.createResizer = function(element, direction) {
 /**
  * Add resizers for a given element.
  *
- * @param {djs.model.Element} element
+ * @param {Element} element
  */
 ResizeHandles.prototype.addResizer = function(element) {
   var self = this;
 
-  if (isConnection(element) || !this._resize.canResize({ shape: element })) {
+  if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_6__.isConnection)(element) || !this._resize.canResize({ shape: element })) {
     return;
   }
 
@@ -29397,10 +30826,6 @@ function getHandleOffset(direction) {
   return offset;
 }
 
-function isConnection(element) {
-  return !!element.waypoints;
-}
-
 /***/ }),
 
 /***/ "../node_modules/diagram-js/lib/features/resize/ResizePreview.js":
@@ -29422,6 +30847,11 @@ var LOW_PRIORITY = 500;
 
 
 
+/**
+ * @typedef {import('../../core/Canvas').default} Canvas
+ * @typedef {import('../../core/EventBus').default} EventBus
+ * @typedef {import('../preview-support/PreviewSupport').default} PreviewSupport
+ */
 
 /**
  * Provides previews for resizing shapes when resizing.
@@ -29509,14 +30939,14 @@ ResizePreview.$inject = [
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "addPadding": () => (/* binding */ addPadding),
-/* harmony export */   "computeChildrenBBox": () => (/* binding */ computeChildrenBBox),
-/* harmony export */   "ensureConstraints": () => (/* binding */ ensureConstraints),
-/* harmony export */   "getMinResizeBounds": () => (/* binding */ getMinResizeBounds),
-/* harmony export */   "reattachPoint": () => (/* binding */ reattachPoint),
-/* harmony export */   "resizeBounds": () => (/* binding */ resizeBounds),
-/* harmony export */   "resizeTRBL": () => (/* binding */ resizeTRBL),
-/* harmony export */   "substractTRBL": () => (/* binding */ substractTRBL)
+/* harmony export */   addPadding: () => (/* binding */ addPadding),
+/* harmony export */   computeChildrenBBox: () => (/* binding */ computeChildrenBBox),
+/* harmony export */   ensureConstraints: () => (/* binding */ ensureConstraints),
+/* harmony export */   getMinResizeBounds: () => (/* binding */ getMinResizeBounds),
+/* harmony export */   reattachPoint: () => (/* binding */ reattachPoint),
+/* harmony export */   resizeBounds: () => (/* binding */ resizeBounds),
+/* harmony export */   resizeTRBL: () => (/* binding */ resizeTRBL),
+/* harmony export */   substractTRBL: () => (/* binding */ substractTRBL)
 /* harmony export */ });
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 /* harmony import */ var _util_Elements__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/Elements */ "../node_modules/diagram-js/lib/util/Elements.js");
@@ -29532,14 +30962,23 @@ var DEFAULT_CHILD_BOX_PADDING = 20;
 
 
 
+/**
+ * @typedef {import('../../core/Types').ElementLike} Element
+ * @typedef {import('../../core/Types').ShapeLike} Shape
+ *
+ * @typedef {import('../../util/Types').Direction} Direction
+ * @typedef {import('../../util/Types').Point} Point
+ * @typedef {import('../../util/Types').Rect} Rect
+ * @typedef {import('../../util/Types').RectTRBL} RectTRBL
+ */
 
 /**
  * Substract a TRBL from another
  *
- * @param  {TRBL} trblA
- * @param  {TRBL} trblB
+ * @param {RectTRBL} trblA
+ * @param {RectTRBL} trblB
  *
- * @return {TRBL}
+ * @return {RectTRBL}
  */
 function substractTRBL(trblA, trblB) {
   return {
@@ -29553,11 +30992,11 @@ function substractTRBL(trblA, trblB) {
 /**
  * Resize the given bounds by the specified delta from a given anchor point.
  *
- * @param {Bounds} bounds the bounding box that should be resized
- * @param {string} direction in which the element is resized (nw, ne, se, sw)
+ * @param {Rect} bounds the bounding box that should be resized
+ * @param {Direction} direction in which the element is resized (nw, ne, se, sw)
  * @param {Point} delta of the resize operation
  *
- * @return {Bounds} resized bounding box
+ * @return {Rect} resized bounding box
  */
 function resizeBounds(bounds, direction, delta) {
   var dx = delta.x,
@@ -29592,10 +31031,10 @@ function resizeBounds(bounds, direction, delta) {
  * Resize the given bounds by applying the passed
  * { top, right, bottom, left } delta.
  *
- * @param {Bounds} bounds
- * @param {TRBL} trblResize
+ * @param {Rect} bounds
+ * @param {RectTRBL} resize
  *
- * @return {Bounds}
+ * @return {Rect}
  */
 function resizeTRBL(bounds, resize) {
   return {
@@ -29712,7 +31151,7 @@ function addPadding(bbox, padding) {
  * This is the default implementation which excludes
  * connections and labels.
  *
- * @param {djs.model.Base} element
+ * @param {Element} element
  */
 function isBBoxChild(element) {
 
@@ -29733,10 +31172,10 @@ function isBBoxChild(element) {
  * Return children bounding computed from a shapes children
  * or a list of prefiltered children.
  *
- * @param  {djs.model.Shape|Array<djs.model.Shape>} shapeOrChildren
- * @param  {number|Object} padding
+ * @param {Shape|Shape[]} shapeOrChildren
+ * @param {RectTRBL|number} padding
  *
- * @return {Bounds}
+ * @return {Rect}
  */
 function computeChildrenBBox(shapeOrChildren, padding) {
 
@@ -29786,6 +31225,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __depends__: [
     _rules__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -29823,10 +31266,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /**
+ * @typedef {import('../../core/EventBus').default} EventBus
+ */
+
+/**
  * A basic provider that may be extended to implement modeling rules.
  *
  * Extensions should implement the init method to actually add their custom
  * modeling checks. Checks may be added via the #addRule(action, fn) method.
+ *
+ * @class
  *
  * @param {EventBus} eventBus
  */
@@ -29845,15 +31294,16 @@ RuleProvider.$inject = [ 'eventBus' ];
  * Adds a modeling rule for the given action, implemented through
  * a callback function.
  *
- * The function will receive the modeling specific action context
+ * The callback receives a modeling specific action context
  * to perform its check. It must return `false` to disallow the
- * action from happening or `true` to allow the action.
- *
- * A rule provider may pass over the evaluation to lower priority
- * rules by returning return nothing (or <code>undefined</code>).
+ * action from happening or `true` to allow the action. Usually returing
+ * `null` denotes that a particular interaction shall be ignored.
+ * By returning nothing or `undefined` you pass evaluation to lower
+ * priority rules.
  *
  * @example
  *
+ * ```javascript
  * ResizableRules.prototype.init = function() {
  *
  *   \/**
@@ -29880,10 +31330,11 @@ RuleProvider.$inject = [ 'eventBus' ];
  *     }
  *   });
  * };
+ * ```
  *
- * @param {string|Array<string>} actions the identifier for the modeling action to check
+ * @param {string|string[]} actions the identifier for the modeling action to check
  * @param {number} [priority] the priority at which this rule is being applied
- * @param {Function} fn the callback function that performs the actual check
+ * @param {(any) => any} fn the callback function that performs the actual check
  */
 RuleProvider.prototype.addRule = function(actions, priority, fn) {
 
@@ -29920,13 +31371,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ Rules)
 /* harmony export */ });
 /**
+ * @typedef {import('didi').Injector} Injector
+ */
+
+/**
  * A service that provides rules for certain diagram actions.
  *
  * The default implementation will hook into the {@link CommandStack}
  * to perform the actual rule evaluation. Make sure to provide the
  * `commandStack` service with this module if you plan to use it.
  *
- * Together with this implementation you may use the {@link RuleProvider}
+ * Together with this implementation you may use the {@link import('./RuleProvider').default}
  * to implement your own rule checkers.
  *
  * This module is ment to be easily replaced, thus the tiny foot print.
@@ -29947,11 +31402,11 @@ Rules.$inject = [ 'injector' ];
  * This implementation will respond with allow unless anyone
  * objects.
  *
- * @param {string} action the action to be checked
- * @param {Object} [context] the context to check the action in
+ * @param {string} action The action to be allowed or disallowed.
+ * @param {Object} [context] The context for allowing or disallowing the action.
  *
- * @return {boolean} returns true, false or null depending on whether the
- *                   operation is allowed, not allowed or should be ignored.
+ * @return {boolean|null} Wether the action is allowed. Returns `null` if the action
+ * is to be ignored.
  */
 Rules.prototype.allowed = function(action, context) {
   var allowed = true;
@@ -29982,6 +31437,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Rules__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Rules */ "../node_modules/diagram-js/lib/features/rules/Rules.js");
 
 
+
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __init__: [ 'rules' ],
   rules: [ 'type', _Rules__WEBPACK_IMPORTED_MODULE_0__["default"] ]
@@ -30004,20 +31463,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 
 
+/**
+ * @typedef {import('../../core/Canvas').default} Canvas
+ * @typedef {import('../../core/EventBus').default} EventBus
+ */
 
 /**
  * A service that offers the current selection in a diagram.
  * Offers the api to control the selection, too.
  *
- * @class
- *
- * @param {EventBus} eventBus the event bus
+ * @param {EventBus} eventBus
+ * @param {Canvas} canvas
  */
 function Selection(eventBus, canvas) {
 
   this._eventBus = eventBus;
   this._canvas = canvas;
 
+  /**
+   * @type {Object[]}
+   */
   this._selectedElements = [];
 
   var self = this;
@@ -30034,7 +31499,11 @@ function Selection(eventBus, canvas) {
 
 Selection.$inject = [ 'eventBus', 'canvas' ];
 
-
+/**
+ * Deselect an element.
+ *
+ * @param {Object} element The element to deselect.
+ */
 Selection.prototype.deselect = function(element) {
   var selectedElements = this._selectedElements;
 
@@ -30049,26 +31518,33 @@ Selection.prototype.deselect = function(element) {
   }
 };
 
-
+/**
+ * Get the selected elements.
+ *
+ * @return {Object[]} The selected elements.
+ */
 Selection.prototype.get = function() {
   return this._selectedElements;
 };
 
+/**
+ * Check whether an element is selected.
+ *
+ * @param {Object} element The element.
+ *
+ * @return {boolean} Whether the element is selected.
+ */
 Selection.prototype.isSelected = function(element) {
   return this._selectedElements.indexOf(element) !== -1;
 };
 
 
 /**
- * This method selects one or more elements on the diagram.
+ * Select one or many elements.
  *
- * By passing an additional add parameter you can decide whether or not the element(s)
- * should be added to the already existing selection or not.
- *
- * @method Selection#select
- *
- * @param  {Object|Object[]} elements element or array of elements to be selected
- * @param  {boolean} [add] whether the element(s) should be appended to the current selection, defaults to false
+ * @param {Object|Object[]} elements The element(s) to select.
+ * @param {boolean} [add] Whether to add the element(s) to the selected elements.
+ * Defaults to `false`.
  */
 Selection.prototype.select = function(elements, add) {
   var selectedElements = this._selectedElements,
@@ -30127,7 +31603,19 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @typedef {import('../../core/Canvas').default} Canvas
+ * @typedef {import('../../core/ElementRegistry').default} ElementRegistry
+ * @typedef {import('../../core/EventBus').default} EventBus
+ * @typedef {import('./Selection').default} Selection
+ */
 
+/**
+ * @param {EventBus} eventBus
+ * @param {Selection} selection
+ * @param {Canvas} canvas
+ * @param {ElementRegistry} elementRegistry
+ */
 function SelectionBehavior(eventBus, selection, canvas, elementRegistry) {
 
   // Select elements on create
@@ -30257,6 +31745,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @typedef {import('../../core/Canvas').default} Canvas
+ * @typedef {import('../../core/EventBus').default} EventBus
+ * @typedef {import('./Selection').default} Selection
+ */
+
 var MARKER_HOVER = 'hover',
     MARKER_SELECTED = 'selected';
 
@@ -30273,6 +31767,7 @@ var SELECTION_OUTLINE_PADDING = 6;
  *
  * @param {Canvas} canvas
  * @param {EventBus} eventBus
+ * @param {Selection} selection
  */
 function SelectionVisuals(canvas, eventBus, selection) {
   this._canvas = canvas;
@@ -30404,6 +31899,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __init__: [ 'selectionVisuals', 'selectionBehavior' ],
   __depends__: [
@@ -30432,7 +31930,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _SnapContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SnapContext */ "../node_modules/diagram-js/lib/features/snapping/SnapContext.js");
 /* harmony import */ var _SnapUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SnapUtil */ "../node_modules/diagram-js/lib/features/snapping/SnapUtil.js");
 /* harmony import */ var _keyboard_KeyboardUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../keyboard/KeyboardUtil */ "../node_modules/diagram-js/lib/features/keyboard/KeyboardUtil.js");
-/* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
+/* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
+/* harmony import */ var _util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/ModelUtil */ "../node_modules/diagram-js/lib/util/ModelUtil.js");
 
 
 
@@ -30440,6 +31939,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+/**
+ * @typedef {import('../../core/ElementRegistry').default} ElementRegistry
+ * @typedef {import('../../core/EventBus').default} EventBus
+ * @typedef {import('./Snapping').default} Snapping
+ */
 
 var HIGHER_PRIORITY = 1250;
 
@@ -30447,7 +31954,7 @@ var HIGHER_PRIORITY = 1250;
 /**
  * Snap during create and move.
  *
- * @param {EventBus} elementRegistry
+ * @param {ElementRegistry} elementRegistry
  * @param {EventBus} eventBus
  * @param {Snapping} snapping
  */
@@ -30548,7 +32055,7 @@ CreateMoveSnapping.prototype.initSnap = function(event) {
   });
 
   // snap labels to mid only
-  if (isLabel(shape)) {
+  if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__.isLabel)(shape)) {
     return snapContext;
   }
 
@@ -30568,12 +32075,12 @@ CreateMoveSnapping.prototype.initSnap = function(event) {
 CreateMoveSnapping.prototype.addSnapTargetPoints = function(snapPoints, shape, target) {
   var snapTargets = this.getSnapTargets(shape, target);
 
-  (0,min_dash__WEBPACK_IMPORTED_MODULE_3__.forEach)(snapTargets, function(snapTarget) {
+  (0,min_dash__WEBPACK_IMPORTED_MODULE_4__.forEach)(snapTargets, function(snapTarget) {
 
     // handle labels
-    if (isLabel(snapTarget)) {
+    if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__.isLabel)(snapTarget)) {
 
-      if (isLabel(shape)) {
+      if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__.isLabel)(shape)) {
         snapPoints.add('mid', (0,_SnapUtil__WEBPACK_IMPORTED_MODULE_1__.mid)(snapTarget));
       }
 
@@ -30581,7 +32088,7 @@ CreateMoveSnapping.prototype.addSnapTargetPoints = function(snapPoints, shape, t
     }
 
     // handle connections
-    if (isConnection(snapTarget)) {
+    if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__.isConnection)(snapTarget)) {
 
       // ignore single segment connections
       if (snapTarget.waypoints.length < 3) {
@@ -30591,7 +32098,7 @@ CreateMoveSnapping.prototype.addSnapTargetPoints = function(snapPoints, shape, t
       // ignore first and last waypoint
       var waypoints = snapTarget.waypoints.slice(1, -1);
 
-      (0,min_dash__WEBPACK_IMPORTED_MODULE_3__.forEach)(waypoints, function(waypoint) {
+      (0,min_dash__WEBPACK_IMPORTED_MODULE_4__.forEach)(waypoints, function(waypoint) {
         snapPoints.add('mid', waypoint);
       });
 
@@ -30602,7 +32109,7 @@ CreateMoveSnapping.prototype.addSnapTargetPoints = function(snapPoints, shape, t
     snapPoints.add('mid', (0,_SnapUtil__WEBPACK_IMPORTED_MODULE_1__.mid)(snapTarget));
   });
 
-  if (!(0,min_dash__WEBPACK_IMPORTED_MODULE_3__.isNumber)(shape.x) || !(0,min_dash__WEBPACK_IMPORTED_MODULE_3__.isNumber)(shape.y)) {
+  if (!(0,min_dash__WEBPACK_IMPORTED_MODULE_4__.isNumber)(shape.x) || !(0,min_dash__WEBPACK_IMPORTED_MODULE_4__.isNumber)(shape.y)) {
     return snapPoints;
   }
 
@@ -30622,16 +32129,8 @@ CreateMoveSnapping.prototype.getSnapTargets = function(shape, target) {
 
 // helpers //////////
 
-function isConnection(element) {
-  return !!element.waypoints;
-}
-
 function isHidden(element) {
   return !!element.hidden;
-}
-
-function isLabel(element) {
-  return !!element.labelTarget;
 }
 
 /***/ }),
@@ -30650,8 +32149,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _SnapContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SnapContext */ "../node_modules/diagram-js/lib/features/snapping/SnapContext.js");
 /* harmony import */ var _SnapUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SnapUtil */ "../node_modules/diagram-js/lib/features/snapping/SnapUtil.js");
 /* harmony import */ var _keyboard_KeyboardUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../keyboard/KeyboardUtil */ "../node_modules/diagram-js/lib/features/keyboard/KeyboardUtil.js");
-/* harmony import */ var _layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../layout/LayoutUtil */ "../node_modules/diagram-js/lib/layout/LayoutUtil.js");
+/* harmony import */ var _layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../layout/LayoutUtil */ "../node_modules/diagram-js/lib/layout/LayoutUtil.js");
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
+/* harmony import */ var _util_ModelUtil__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../util/ModelUtil */ "../node_modules/diagram-js/lib/util/ModelUtil.js");
 
 
 
@@ -30661,6 +32161,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+/**
+ * @typedef {import('../../core/EventBus').default} EventBus
+ * @typedef {import('./Snapping').default} Snapping
+ */
 
 var HIGHER_PRIORITY = 1250;
 
@@ -30761,17 +32268,17 @@ ResizeSnapping.$inject = [
 ResizeSnapping.prototype.getSnapTargets = function(shape, target) {
   return (0,_SnapUtil__WEBPACK_IMPORTED_MODULE_1__.getChildren)(target).filter(function(child) {
     return !isAttached(child, shape)
-      && !isConnection(child)
+      && !(0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_4__.isConnection)(child)
       && !isHidden(child)
-      && !isLabel(child);
+      && !(0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_4__.isLabel)(child);
   });
 };
 
 // helpers //////////
 
 function getSnapOrigin(shape, direction) {
-  var mid = (0,_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_4__.getMid)(shape),
-      trbl = (0,_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_4__.asTRBL)(shape);
+  var mid = (0,_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_5__.getMid)(shape),
+      trbl = (0,_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_5__.asTRBL)(shape);
 
   var snapOrigin = {
     x: mid.x,
@@ -30797,16 +32304,8 @@ function isAttached(element, host) {
   return element.host === host;
 }
 
-function isConnection(element) {
-  return !!element.waypoints;
-}
-
 function isHidden(element) {
   return !!element.hidden;
-}
-
-function isLabel(element) {
-  return !!element.labelTarget;
 }
 
 function isHorizontal(direction) {
@@ -30828,7 +32327,7 @@ function isVertical(direction) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "SnapPoints": () => (/* binding */ SnapPoints),
+/* harmony export */   SnapPoints: () => (/* binding */ SnapPoints),
 /* harmony export */   "default": () => (/* binding */ SnapContext)
 /* harmony export */ });
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
@@ -30837,6 +32336,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @typedef {import('../../model/Types').Element} Element
+ *
+ * @typedef {import('../../util/Types').Axis} Axis
+ * @typedef {import('../../util/Types').DirectionTRBL} DirectionTRBL
+ * @typedef {import('../../util/Types').Point} Point
+ *
+ * @typedef {DirectionTRBL & 'mid'} SnapLocation
+ */
 
 /**
  * A snap context, containing the (possibly incomplete)
@@ -30846,67 +32354,72 @@ __webpack_require__.r(__webpack_exports__);
 function SnapContext() {
 
   /**
-   * Map<String, SnapPoints> mapping drop targets to
-   * a list of possible snappings.
-   *
-   * @type {Object}
+   * @type {Record<string, SnapPoints>}
    */
   this._targets = {};
 
   /**
-   * Map<String, Point> initial positioning of element
-   * regarding various snap directions.
-   *
-   * @type {Object}
+   * @type {Record<SnapLocation, Point>}
    */
   this._snapOrigins = {};
 
   /**
-   * List of snap locations
-   *
-   * @type {Array<string>}
+   * @type {SnapLocation[]}
    */
   this._snapLocations = [];
 
   /**
-   * Map<String, Array<Point>> of default snapping locations
-   *
-   * @type {Object}
+   * @type {Record<SnapLocation, Point[]>}
    */
   this._defaultSnaps = {};
 }
 
-
+/**
+ * Get the snap origin for a given location.
+ *
+ * @param {SnapLocation} snapLocation
+ *
+ * @return {Point}
+ */
 SnapContext.prototype.getSnapOrigin = function(snapLocation) {
   return this._snapOrigins[snapLocation];
 };
 
-
-SnapContext.prototype.setSnapOrigin = function(snapLocation, initialValue) {
-  this._snapOrigins[snapLocation] = initialValue;
+/**
+ * Set the snap origin for a given location.
+ *
+ * @param {SnapLocation} snapLocation
+ * @param {Point} snapOrigin
+ */
+SnapContext.prototype.setSnapOrigin = function(snapLocation, snapOrigin) {
+  this._snapOrigins[snapLocation] = snapOrigin;
 
   if (this._snapLocations.indexOf(snapLocation) === -1) {
     this._snapLocations.push(snapLocation);
   }
 };
 
+/**
+ * Add a default snap point.
+ *
+ * @param {SnapLocation} snapLocation
+ * @param {Point} point
+ */
+SnapContext.prototype.addDefaultSnap = function(snapLocation, point) {
 
-SnapContext.prototype.addDefaultSnap = function(type, point) {
-
-  var snapValues = this._defaultSnaps[type];
+  var snapValues = this._defaultSnaps[snapLocation];
 
   if (!snapValues) {
-    snapValues = this._defaultSnaps[type] = [];
+    snapValues = this._defaultSnaps[snapLocation] = [];
   }
 
   snapValues.push(point);
 };
 
 /**
- * Return a number of initialized snaps, i.e. snap locations such as
- * top-left, mid, bottom-right and so forth.
+ * Get the snap locations for this context.
  *
- * @return {Array<string>} snapLocations
+ * @return {SnapLocation[]}
  */
 SnapContext.prototype.getSnapLocations = function() {
   return this._snapLocations;
@@ -30917,16 +32430,18 @@ SnapContext.prototype.getSnapLocations = function() {
  *
  * The order of locations determines precedence.
  *
- * @param {Array<string>} snapLocations
+ * @param {SnapLocation[]} snapLocations
  */
 SnapContext.prototype.setSnapLocations = function(snapLocations) {
   this._snapLocations = snapLocations;
 };
 
 /**
- * Get snap points for a given target
+ * Get snap points for the given target.
  *
  * @param {Element|string} target
+ *
+ * @return {SnapPoints}
  */
 SnapContext.prototype.pointsForTarget = function(target) {
 
@@ -30944,22 +32459,33 @@ SnapContext.prototype.pointsForTarget = function(target) {
 
 
 /**
- * Creates the snap points and initializes them with the
- * given default values.
- *
- * @param {Object<string, Array<Point>>} [defaultPoints]
+ * Add points to snap to.
  */
-function SnapPoints(defaultSnaps) {
+function SnapPoints() {
 
   /**
-   * Map<String, Map<(x|y), Array<number>>> mapping snap locations,
-   * i.e. top-left, bottom-right, center to actual snap values.
+   * Example:
    *
-   * @type {Object}
+   * ```javascript
+   * {
+   *   'top-right': {
+   *     x: [ 100, 200, 300 ]
+   *     y: [ 100, 200, 300 ]
+   *   }
+   * }
+   * ```
+   *
+   * @type {Record<string, Record<Axis, number[]>>}
    */
   this._snapValues = {};
 }
 
+/**
+ * Add a snap point.
+ *
+ * @param {SnapLocation} snapLocation
+ * @param {Point} point
+ */
 SnapPoints.prototype.add = function(snapLocation, point) {
 
   var snapValues = this._snapValues[snapLocation];
@@ -30977,7 +32503,16 @@ SnapPoints.prototype.add = function(snapLocation, point) {
   }
 };
 
-
+/**
+ * Snap a point's x or y value.
+ *
+ * @param {Point} point
+ * @param {SnapLocation} snapLocation
+ * @param {Axis} axis
+ * @param {number} tolerance
+ *
+ * @return {number}
+ */
 SnapPoints.prototype.snap = function(point, snapLocation, axis, tolerance) {
   var snappingValues = this._snapValues[snapLocation];
 
@@ -30985,9 +32520,9 @@ SnapPoints.prototype.snap = function(point, snapLocation, axis, tolerance) {
 };
 
 /**
- * Initialize a number of default snapping points.
+ * Initialize default snap points.
  *
- * @param  {Object} defaultSnaps
+ * @param {Record<SnapLocation, Point[]>} defaultSnaps
  */
 SnapPoints.prototype.initDefaults = function(defaultSnaps) {
 
@@ -31011,16 +32546,25 @@ SnapPoints.prototype.initDefaults = function(defaultSnaps) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "bottomLeft": () => (/* binding */ bottomLeft),
-/* harmony export */   "bottomRight": () => (/* binding */ bottomRight),
-/* harmony export */   "getChildren": () => (/* binding */ getChildren),
-/* harmony export */   "isSnapped": () => (/* binding */ isSnapped),
-/* harmony export */   "mid": () => (/* binding */ mid),
-/* harmony export */   "setSnapped": () => (/* binding */ setSnapped),
-/* harmony export */   "snapTo": () => (/* binding */ snapTo),
-/* harmony export */   "topLeft": () => (/* binding */ topLeft),
-/* harmony export */   "topRight": () => (/* binding */ topRight)
+/* harmony export */   bottomLeft: () => (/* binding */ bottomLeft),
+/* harmony export */   bottomRight: () => (/* binding */ bottomRight),
+/* harmony export */   getChildren: () => (/* binding */ getChildren),
+/* harmony export */   isSnapped: () => (/* binding */ isSnapped),
+/* harmony export */   mid: () => (/* binding */ mid),
+/* harmony export */   setSnapped: () => (/* binding */ setSnapped),
+/* harmony export */   snapTo: () => (/* binding */ snapTo),
+/* harmony export */   topLeft: () => (/* binding */ topLeft),
+/* harmony export */   topRight: () => (/* binding */ topRight)
 /* harmony export */ });
+/**
+ * @typedef {import('../../core/Types').ConnectionLike} Connection
+ * @typedef {import('../../core/Types').ShapeLike} Shape
+ *
+ * @typedef {import('../../core/EventBus').Event} Event
+ *
+ * @typedef {import('../../util/Types').Axis} Axis
+ */
+
 var abs = Math.abs,
     round = Math.round;
 
@@ -31028,9 +32572,9 @@ var abs = Math.abs,
 /**
  * Snap value to a collection of reference values.
  *
- * @param  {number} value
- * @param  {Array<number>} values
- * @param  {number} [tolerance=10]
+ * @param {number} value
+ * @param {Array<number>} values
+ * @param {number} [tolerance=10]
  *
  * @return {number} the value we snapped to or null, if none snapped
  */
@@ -31093,8 +32637,8 @@ function mid(bounds, defaultValue) {
 /**
  * Retrieve the snap state of the given event.
  *
- * @param  {Event} event
- * @param  {string} axis
+ * @param {Event} event
+ * @param {Axis} axis
  *
  * @return {boolean} the snapped state
  *
@@ -31121,7 +32665,7 @@ function isSnapped(event, axis) {
  * from the given event!
  *
  * @param {Event} event
- * @param {string} axis
+ * @param {Axis} axis
  * @param {number|boolean} value
  *
  * @return {number} old value
@@ -31158,9 +32702,9 @@ function setSnapped(event, axis, value) {
 /**
  * Get children of a shape.
  *
- * @param {djs.model.Shape} parent
+ * @param {Shape} parent
  *
- * @returns {Array<djs.model.Shape|djs.model.Connection>}
+ * @return {Array<Shape|Connection>}
  */
 function getChildren(parent) {
   return parent.children || [];
@@ -31177,7 +32721,7 @@ function getChildren(parent) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "SNAP_LINE_HIDE_DELAY": () => (/* binding */ SNAP_LINE_HIDE_DELAY),
+/* harmony export */   SNAP_LINE_HIDE_DELAY: () => (/* binding */ SNAP_LINE_HIDE_DELAY),
 /* harmony export */   "default": () => (/* binding */ Snapping)
 /* harmony export */ });
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
@@ -31189,6 +32733,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @typedef {import('../../core/Canvas').default} Canvas
+ *
+ * @typedef {import('../../core/EventBus').Event} Event
+ *
+ * @typedef {import('./SnapContext').SnapPoints} SnapPoints
+ */
+
 var SNAP_TOLERANCE = 7;
 
 var SNAP_LINE_HIDE_DELAY = 1000;
@@ -31197,7 +32749,6 @@ var SNAP_LINE_HIDE_DELAY = 1000;
 /**
  * Generic snapping feature.
  *
- * @param {EventBus} eventBus
  * @param {Canvas} canvas
  */
 function Snapping(canvas) {
@@ -31355,6 +32906,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __init__: [
     'createMoveSnapping',
@@ -31380,11 +32935,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ SpaceTool)
 /* harmony export */ });
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
-/* harmony import */ var _layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../layout/LayoutUtil */ "../node_modules/diagram-js/lib/layout/LayoutUtil.js");
+/* harmony import */ var _layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../layout/LayoutUtil */ "../node_modules/diagram-js/lib/layout/LayoutUtil.js");
 /* harmony import */ var _util_Elements__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/Elements */ "../node_modules/diagram-js/lib/util/Elements.js");
 /* harmony import */ var _SpaceUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SpaceUtil */ "../node_modules/diagram-js/lib/features/space-tool/SpaceUtil.js");
 /* harmony import */ var _util_Mouse__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../util/Mouse */ "../node_modules/diagram-js/lib/util/Mouse.js");
 /* harmony import */ var _util_Cursor__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../util/Cursor */ "../node_modules/diagram-js/lib/util/Cursor.js");
+/* harmony import */ var _util_ModelUtil__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../util/ModelUtil */ "../node_modules/diagram-js/lib/util/ModelUtil.js");
 
 
 
@@ -31398,6 +32954,24 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+/**
+ * @typedef {import('../../core/Types').ShapeLike} Shape
+ *
+ * @typedef {import('../../core/Canvas').default} Canvas
+ * @typedef {import('../dragging/Dragging').default} Dragging
+ * @typedef {import('../../core/EventBus').default} EventBus
+ * @typedef {import('../modeling/Modeling').default} Modeling
+ * @typedef {import('../mouse/Mouse').default} Mouse
+ * @typedef {import('../rules/Rules').default} Rules
+ * @typedef {import('../tool-manager/ToolManager').default} ToolManager
+ *
+ * @typedef {import('../../util/Types').Axis} Axis
+ * @typedef {import('../../util/Types').Direction} Direction
+ * @typedef {import('../../util/Types').Point} Point
+ */
 
 var abs = Math.abs,
     round = Math.round;
@@ -31522,8 +33096,9 @@ SpaceTool.$inject = [
 /**
  * Activate space tool selection.
  *
- * @param {Object} event
+ * @param {MouseEvent|TouchEvent} event
  * @param {boolean} autoActivate
+ * @param {boolean} reactivate
  */
 SpaceTool.prototype.activateSelection = function(event, autoActivate, reactivate) {
   this._dragging.init(event, 'spaceTool.selection', {
@@ -31541,7 +33116,7 @@ SpaceTool.prototype.activateSelection = function(event, autoActivate, reactivate
 /**
  * Activate space tool make space.
  *
- * @param  {MouseEvent} event
+ * @param {MouseEvent|TouchEvent} event
  */
 SpaceTool.prototype.activateMakeSpace = function(event) {
   this._dragging.init(event, 'spaceTool', {
@@ -31556,13 +33131,11 @@ SpaceTool.prototype.activateMakeSpace = function(event) {
 /**
  * Make space.
  *
- * @param  {Array<djs.model.Shape>} movingShapes
- * @param  {Array<djs.model.Shape>} resizingShapes
- * @param  {Object} delta
- * @param  {number} delta.x
- * @param  {number} delta.y
- * @param  {string} direction
- * @param  {number} start
+ * @param {Array<Shape>} movingShapes
+ * @param {Array<Shape>} resizingShapes
+ * @param {Point} delta
+ * @param {Direction} direction
+ * @param {number} start
  */
 SpaceTool.prototype.makeSpace = function(movingShapes, resizingShapes, delta, direction, start) {
   return this._modeling.createSpace(movingShapes, resizingShapes, delta, direction, start);
@@ -31571,7 +33144,7 @@ SpaceTool.prototype.makeSpace = function(movingShapes, resizingShapes, delta, di
 /**
  * Initialize make space and return true if that was successful.
  *
- * @param {Object} event
+ * @param {MouseEvent|TouchEvent} event
  * @param {Object} context
  *
  * @return {boolean}
@@ -31631,10 +33204,10 @@ SpaceTool.prototype.init = function(event, context) {
 /**
  * Get elements to be moved and resized.
  *
- * @param  {Array<djs.model.Shape>} elements
- * @param  {string} axis
- * @param  {number} delta
- * @param  {number} start
+ * @param {Array<Shape>} elements
+ * @param {Axis} axis
+ * @param {Point} delta
+ * @param {number} start
  *
  * @return {Object}
  */
@@ -31667,12 +33240,12 @@ SpaceTool.prototype.calculateAdjustments = function(elements, axis, delta, start
   }
 
   (0,min_dash__WEBPACK_IMPORTED_MODULE_3__.forEach)(elements, function(element) {
-    if (!element.parent || isLabel(element)) {
+    if (!element.parent || (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_5__.isLabel)(element)) {
       return;
     }
 
     // handle connections separately
-    if (isConnection(element)) {
+    if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_5__.isConnection)(element)) {
       connections.push(element);
 
       return;
@@ -31683,8 +33256,8 @@ SpaceTool.prototype.calculateAdjustments = function(elements, axis, delta, start
 
     // handle attachers separately
     if (isAttacher(element)
-      && ((delta > 0 && (0,_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_5__.getMid)(element)[ axis ] > start)
-        || (delta < 0 && (0,_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_5__.getMid)(element)[ axis ] < start))) {
+      && ((delta > 0 && (0,_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_6__.getMid)(element)[ axis ] > start)
+        || (delta < 0 && (0,_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_6__.getMid)(element)[ axis ] < start))) {
       attachers.push(element);
 
       return;
@@ -31839,19 +33412,19 @@ function getSpaceToolConstraints(elements, axis, direction, start, minDimensions
     var attachers = resizingShape.attachers,
         children = resizingShape.children;
 
-    var resizingShapeBBox = (0,_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_5__.asTRBL)(resizingShape);
+    var resizingShapeBBox = (0,_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_6__.asTRBL)(resizingShape);
 
     // find children that are not moving or resizing
     var nonMovingResizingChildren = (0,min_dash__WEBPACK_IMPORTED_MODULE_3__.filter)(children, function(child) {
-      return !isConnection(child) &&
-        !isLabel(child) &&
+      return !(0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_5__.isConnection)(child) &&
+        !(0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_5__.isLabel)(child) &&
         !includes(movingShapes, child) &&
         !includes(resizingShapes, child);
     });
 
     // find children that are moving
     var movingChildren = (0,min_dash__WEBPACK_IMPORTED_MODULE_3__.filter)(children, function(child) {
-      return !isConnection(child) && !isLabel(child) && includes(movingShapes, child);
+      return !(0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_5__.isConnection)(child) && !(0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_5__.isLabel)(child) && includes(movingShapes, child);
     });
 
     var minOrMax,
@@ -31865,7 +33438,7 @@ function getSpaceToolConstraints(elements, axis, direction, start, minDimensions
         nonMovingAttachersConstraint;
 
     if (nonMovingResizingChildren.length) {
-      nonMovingResizingChildrenBBox = addPadding((0,_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_5__.asTRBL)((0,_util_Elements__WEBPACK_IMPORTED_MODULE_2__.getBBox)(nonMovingResizingChildren)));
+      nonMovingResizingChildrenBBox = addPadding((0,_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_6__.asTRBL)((0,_util_Elements__WEBPACK_IMPORTED_MODULE_2__.getBBox)(nonMovingResizingChildren)));
 
       minOrMax = start -
         resizingShapeBBox[ DIRECTION_TO_TRBL[ direction ] ] +
@@ -31883,7 +33456,7 @@ function getSpaceToolConstraints(elements, axis, direction, start, minDimensions
     }
 
     if (movingChildren.length) {
-      movingChildrenBBox = addPadding((0,_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_5__.asTRBL)((0,_util_Elements__WEBPACK_IMPORTED_MODULE_2__.getBBox)(movingChildren)));
+      movingChildrenBBox = addPadding((0,_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_6__.asTRBL)((0,_util_Elements__WEBPACK_IMPORTED_MODULE_2__.getBBox)(movingChildren)));
 
       minOrMax = start -
         movingChildrenBBox[ DIRECTION_TO_TRBL[ DIRECTION_TO_OPPOSITE[ direction ] ] ] +
@@ -31910,14 +33483,14 @@ function getSpaceToolConstraints(elements, axis, direction, start, minDimensions
       });
 
       if (movingAttachers.length) {
-        movingAttachersBBox = (0,_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_5__.asTRBL)((0,_util_Elements__WEBPACK_IMPORTED_MODULE_2__.getBBox)(movingAttachers.map(_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_5__.getMid)));
+        movingAttachersBBox = (0,_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_6__.asTRBL)((0,_util_Elements__WEBPACK_IMPORTED_MODULE_2__.getBBox)(movingAttachers.map(_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_6__.getMid)));
 
         movingAttachersConstraint = resizingShapeBBox[ DIRECTION_TO_TRBL[ DIRECTION_TO_OPPOSITE[ direction ] ] ]
               - (movingAttachersBBox[ DIRECTION_TO_TRBL[ DIRECTION_TO_OPPOSITE[ direction ] ] ] - start);
       }
 
       if (nonMovingAttachers.length) {
-        nonMovingAttachersBBox = (0,_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_5__.asTRBL)((0,_util_Elements__WEBPACK_IMPORTED_MODULE_2__.getBBox)(nonMovingAttachers.map(_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_5__.getMid)));
+        nonMovingAttachersBBox = (0,_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_6__.asTRBL)((0,_util_Elements__WEBPACK_IMPORTED_MODULE_2__.getBBox)(nonMovingAttachers.map(_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_6__.getMid)));
 
         nonMovingAttachersConstraint = nonMovingAttachersBBox[ DIRECTION_TO_TRBL[ direction ] ]
               - (resizingShapeBBox[ DIRECTION_TO_TRBL[ direction ] ] - start);
@@ -31985,14 +33558,6 @@ function isAttacher(element) {
   return !!element.host;
 }
 
-function isConnection(element) {
-  return !!element.waypoints;
-}
-
-function isLabel(element) {
-  return !!element.labelTarget;
-}
-
 /***/ }),
 
 /***/ "../node_modules/diagram-js/lib/features/space-tool/SpaceToolPreview.js":
@@ -32009,6 +33574,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 /* harmony import */ var tiny_svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tiny-svg */ "../node_modules/tiny-svg/dist/index.esm.js");
 /* harmony import */ var _util_SvgTransformUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/SvgTransformUtil */ "../node_modules/diagram-js/lib/util/SvgTransformUtil.js");
+/* harmony import */ var _util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/ModelUtil */ "../node_modules/diagram-js/lib/util/ModelUtil.js");
 
 
 var MARKER_DRAGGING = 'djs-dragging',
@@ -32019,6 +33585,15 @@ var LOW_PRIORITY = 250;
 
 
 
+
+
+
+/**
+ * @typedef {import('../../core/Canvas').default} Canvas
+ * @typedef {import('../../core/ElementRegistry').default} ElementRegistry
+ * @typedef {import('../../core/EventBus').default} EventBus
+ * @typedef {import('../../draw/Styles').default} Styles
+ */
 
 var max = Math.max;
 
@@ -32166,7 +33741,7 @@ function SpaceToolPreview(
           });
         });
 
-        return isConnection(element)
+        return (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__.isConnection)(element)
           && (sourceIsMoving || sourceIsResizing)
           && (targetIsMoving || targetIsResizing);
       });
@@ -32297,16 +33872,6 @@ SpaceToolPreview.$inject = [
 ];
 
 
-// helpers //////////////////////
-
-/**
- * Checks if an element is a connection.
- */
-function isConnection(element) {
-  return element.waypoints;
-}
-
-
 /***/ }),
 
 /***/ "../node_modules/diagram-js/lib/features/space-tool/SpaceUtil.js":
@@ -32318,20 +33883,30 @@ function isConnection(element) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getDirection": () => (/* binding */ getDirection),
-/* harmony export */   "getWaypointsUpdatingConnections": () => (/* binding */ getWaypointsUpdatingConnections),
-/* harmony export */   "resizeBounds": () => (/* binding */ resizeBounds)
+/* harmony export */   getDirection: () => (/* binding */ getDirection),
+/* harmony export */   getWaypointsUpdatingConnections: () => (/* binding */ getWaypointsUpdatingConnections),
+/* harmony export */   resizeBounds: () => (/* binding */ resizeBounds)
 /* harmony export */ });
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
+/**
+ * @typedef {import('../../core/Types').ConnectionLike} Connection
+ * @typedef {import('../../core/Types').ShapeLike} Shape
+ *
+ * @typedef {import('../../util/Types').Axis} Axis
+ * @typedef {import('../../util/Types').Direction} Direction
+ * @typedef {import('../../util/Types').Point} Point
+ * @typedef {import('../../util/Types').Rect} Rect
+ */
+
 
 
 /**
  * Return direction given axis and delta.
  *
- * @param {string} axis
+ * @param {Axis} axis
  * @param {number} delta
  *
- * @return {string}
+ * @return {Direction}
  */
 function getDirection(axis, delta) {
 
@@ -32362,10 +33937,10 @@ function getDirection(axis, delta) {
  * Returns connections whose waypoints are to be updated. Waypoints are to be updated if start
  * or end is to be moved or resized.
  *
- * @param {Array<djs.model.Shape} movingShapes
- * @param {Array<djs.model.Shape} resizingShapes
+ * @param {Array<Shape>} movingShapes
+ * @param {Array<Shape>} resizingShapes
  *
- * @returns {Array<djs.model.Connection>}
+ * @return {Array<Connection>}
  */
 function getWaypointsUpdatingConnections(movingShapes, resizingShapes) {
   var waypointsUpdatingConnections = [];
@@ -32400,17 +33975,11 @@ function includes(array, item) {
 /**
  * Resize bounds.
  *
- * @param {Object} bounds
- * @param {number} bounds.x
- * @param {number} bounds.y
- * @param {number} bounds.width
- * @param {number} bounds.height
- * @param {string} direction
- * @param {Object} delta
- * @param {number} delta.x
- * @param {number} delta.y
+ * @param {Rect} bounds
+ * @param {Direction} direction
+ * @param {Point} delta
  *
- * @return {Object}
+ * @return {Rect}
  */
 function resizeBounds(bounds, direction, delta) {
   var x = bounds.x,
@@ -32483,6 +34052,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __init__: [ 'spaceToolPreview' ],
   __depends__: [
@@ -32516,14 +34089,21 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @typedef {import('../dragging/Dragging').default} Dragging
+ * @typedef {import('../../core/EventBus').default} EventBus
+ *
+ * @typedef {import('../../core/EventBus').Event} Event
+ */
+
 var LOW_PRIORITY = 250;
 
 /**
  * The tool manager acts as middle-man between the available tool's and the Palette,
  * it takes care of making sure that the correct active state is set.
  *
- * @param  {Object}    eventBus
- * @param  {Object}    dragging
+ * @param {EventBus} eventBus
+ * @param {Dragging} dragging
  */
 function ToolManager(eventBus, dragging) {
   this._eventBus = eventBus;
@@ -32535,6 +34115,15 @@ function ToolManager(eventBus, dragging) {
 
 ToolManager.$inject = [ 'eventBus', 'dragging' ];
 
+/**
+ * Register a tool.
+ *
+ * @param {string} name
+ * @param { {
+ *   dragging: string;
+ *   tool: string;
+ * } } events
+ */
 ToolManager.prototype.registerTool = function(name, events) {
   var tools = this._tools;
 
@@ -32586,7 +34175,7 @@ ToolManager.prototype.bindEvents = function(name, events) {
 
   }, this);
 
-  // Todo[ricardo]: add test cases
+  // TODO: add test cases
   (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.forEach)(events, function(event) {
     eventsToRegister.push(event + '.ended');
     eventsToRegister.push(event + '.canceled');
@@ -32616,7 +34205,7 @@ ToolManager.prototype.bindEvents = function(name, events) {
 /**
  * Check if a given event is a palette click event.
  *
- * @param {EventBus.Event} event
+ * @param {Event} event
  *
  * @return {boolean}
  */
@@ -32645,6 +34234,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __depends__: [
     _dragging__WEBPACK_IMPORTED_MODULE_0__["default"]
@@ -32675,6 +34268,23 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+/**
+ * @typedef {import('../../core/Canvas').default} Canvas
+ * @typedef {import('../../core/EventBus').default} EventBus
+ *
+ * @typedef {import('../../util/Types').RectTRBL} RectTRBL
+ *
+ * @typedef { {
+ *   html: string | HTMLElement;
+ *   position: RectTRBL;
+ *   show?: {
+ *     minZoom?: number;
+ *     maxZoom?: number;
+ *   };
+ *   timeout?: number;
+ * } } Tooltip
+ */
 
 // document wide unique tooltip ids
 var ids = new _util_IdGenerator__WEBPACK_IMPORTED_MODULE_0__["default"]('tt');
@@ -32740,6 +34350,7 @@ var tooltipClass = 'djs-tooltip',
  *
  * // remove a tool tip
  * var id = tooltips.add(...);
+ *
  * tooltips.remove(id);
  * ```
  *
@@ -32761,7 +34372,7 @@ function Tooltips(eventBus, canvas) {
   };
 
   /**
-   * Mapping tooltipId -> tooltip
+   * @type {Record<string, Tooltip>}
    */
   this._tooltips = {};
 
@@ -32791,22 +34402,11 @@ Tooltips.$inject = [ 'eventBus', 'canvas' ];
 
 
 /**
- * Adds a HTML tooltip to the diagram
+ * Adds an HTML tooltip to the diagram.
  *
- * @param {Object}               tooltip   the tooltip configuration
+ * @param {Tooltip} tooltip
  *
- * @param {string|DOMElement}    tooltip.html                 html element to use as an tooltip
- * @param {Object}               [tooltip.show]               show configuration
- * @param {number}               [tooltip.show.minZoom]       minimal zoom level to show the tooltip
- * @param {number}               [tooltip.show.maxZoom]       maximum zoom level to show the tooltip
- * @param {Object}               tooltip.position             where to attach the tooltip
- * @param {number}               [tooltip.position.left]      relative to element bbox left attachment
- * @param {number}               [tooltip.position.top]       relative to element bbox top attachment
- * @param {number}               [tooltip.position.bottom]    relative to element bbox bottom attachment
- * @param {number}               [tooltip.position.right]     relative to element bbox right attachment
- * @param {number}               [tooltip.timeout=-1]
- *
- * @return {string}              id that may be used to reference the tooltip for update or removal
+ * @return {string} ID of the tooltip.
  */
 Tooltips.prototype.add = function(tooltip) {
 
@@ -32833,6 +34433,10 @@ Tooltips.prototype.add = function(tooltip) {
   return id;
 };
 
+/**
+ * @param {string} action
+ * @param {Event} event
+ */
 Tooltips.prototype.trigger = function(action, event) {
 
   var node = event.delegateTarget || event.target;
@@ -32857,9 +34461,11 @@ Tooltips.prototype.trigger = function(action, event) {
 };
 
 /**
- * Get a tooltip with the given id
+ * Get tooltip with given ID.
  *
- * @param {string} id
+ * @param {Tooltip|string} id
+ *
+ * @return {Tooltip|undefined}
  */
 Tooltips.prototype.get = function(id) {
 
@@ -32870,6 +34476,9 @@ Tooltips.prototype.get = function(id) {
   return this._tooltips[id];
 };
 
+/**
+ * @param {Tooltip} tooltip
+ */
 Tooltips.prototype.clearTimeout = function(tooltip) {
 
   tooltip = this.get(tooltip);
@@ -32886,6 +34495,9 @@ Tooltips.prototype.clearTimeout = function(tooltip) {
   }
 };
 
+/**
+ * @param {Tooltip} tooltip
+ */
 Tooltips.prototype.setTimeout = function(tooltip) {
 
   tooltip = this.get(tooltip);
@@ -32904,9 +34516,9 @@ Tooltips.prototype.setTimeout = function(tooltip) {
 };
 
 /**
- * Remove an tooltip with the given id
+ * Remove tooltip with given ID.
  *
- * @param {string} id
+ * @param {string | Tooltip} id
  */
 Tooltips.prototype.remove = function(id) {
 
@@ -33053,6 +34665,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Tooltips__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Tooltips */ "../node_modules/diagram-js/lib/features/tooltips/Tooltips.js");
 
 
+
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __init__: [ 'tooltips' ],
   tooltips: [ 'type', _Tooltips__WEBPACK_IMPORTED_MODULE_0__["default"] ]
@@ -33074,8 +34690,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tiny_svg__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tiny-svg */ "../node_modules/tiny-svg/dist/index.esm.js");
 
 
+/**
+ * @typedef {import('../../core/EventBus').default} EventBus
+ */
 
-function TouchFix(canvas, eventBus) {
+/**
+ * @param {EventBus} eventBus
+ */
+function TouchFix(eventBus) {
 
   var self = this;
 
@@ -33084,7 +34706,7 @@ function TouchFix(canvas, eventBus) {
   });
 }
 
-TouchFix.$inject = [ 'canvas', 'eventBus' ];
+TouchFix.$inject = [ 'eventBus' ];
 
 
 /**
@@ -33093,6 +34715,8 @@ TouchFix.$inject = [ 'canvas', 'eventBus' ];
  *
  * So touchstart event is only fired when the <g class="viewport"> element was hit.
  * Putting an element over and below the 'viewport' fixes that behavior.
+ *
+ * @param {SVGElement} svg
  */
 TouchFix.prototype.addBBoxMarker = function(svg) {
 
@@ -33150,6 +34774,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+/**
+ * @typedef {import('didi').Injector} Injector
+ *
+ * @typedef {import('../../core/Canvas').default} Canvas
+ * @typedef {import('../../core/ElementRegistry').default} ElementRegistry
+ * @typedef {import('../../core/EventBus').default} EventBus
+ * @typedef {import('../interaction-events/InteractionEvents').default} InteractionEvents
+ */
 
 var MIN_ZOOM = 0.2,
     MAX_ZOOM = 4;
@@ -33271,7 +34904,10 @@ function createTouchRecognizer(node) {
 /**
  * A plugin that provides touch events for elements.
  *
+ * @param {Injector} injector
+ * @param {Canvas} canvas
  * @param {EventBus} eventBus
+ * @param {ElementRegistry} elementRegistry
  * @param {InteractionEvents} interactionEvents
  */
 function TouchInteractionEvents(
@@ -33519,6 +35155,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __depends__: [ _interaction_events__WEBPACK_IMPORTED_MODULE_0__["default"] ],
   __init__: [ 'touchInteractionEvents' ],
@@ -33542,6 +35182,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _translate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./translate */ "../node_modules/diagram-js/lib/i18n/translate/translate.js");
 
 
+
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   translate: [ 'value', _translate__WEBPACK_IMPORTED_MODULE_0__["default"] ]
 });
@@ -33560,20 +35204,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ translate)
 /* harmony export */ });
 /**
+ * @typedef { {
+ *   [key: string]: string;
+ * } } TranslateReplacements
+ */
+
+/**
  * A simple translation stub to be used for multi-language support
  * in diagrams. Can be easily replaced with a more sophisticated
  * solution.
  *
  * @example
  *
+ * ```javascript
  * // use it inside any diagram component by injecting `translate`.
  *
  * function MyService(translate) {
  *   alert(translate('HELLO {you}', { you: 'You!' }));
  * }
+ * ```
  *
  * @param {string} template to interpolate
- * @param {Object} [replacements] a map with substitutes
+ * @param {TranslateReplacements} [replacements] a map with substitutes
  *
  * @return {string} the translated string
  */
@@ -33600,6 +35252,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ BaseLayouter)
 /* harmony export */ });
 /* harmony import */ var _LayoutUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LayoutUtil */ "../node_modules/diagram-js/lib/layout/LayoutUtil.js");
+/**
+ * @typedef {import('../core/Types').ElementLike} Element
+ * @typedef {import('../core/Types').ConnectionLike} Connection
+ *
+ * @typedef {import('../util').Point} Point
+ *
+ * @typedef { {
+ *   connectionStart?: Point;
+ *   connectionEnd?: Point;
+ *   source?: Element;
+ *   target?: Element;
+ * } } LayoutConnectionHints
+ */
+
 
 
 
@@ -33617,14 +35283,10 @@ function BaseLayouter() {}
  * The connection passed is still unchanged; you may figure out about
  * the new connection start / end via the layout hints provided.
  *
- * @param {djs.model.Connection} connection
- * @param {Object} [hints]
- * @param {Point} [hints.connectionStart]
- * @param {Point} [hints.connectionEnd]
- * @param {Point} [hints.source]
- * @param {Point} [hints.target]
+ * @param {Connection} connection
+ * @param {LayoutConnectionHints} [hints]
  *
- * @return {Array<Point>} the layouted connection waypoints
+ * @return {Point[]} The waypoints of the laid out connection.
  */
 BaseLayouter.prototype.layoutConnection = function(connection, hints) {
 
@@ -33656,6 +35318,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @typedef {import('../core/ElementRegistry').default} ElementRegistry
+ * @typedef {import('../core/GraphicsFactory').default} GraphicsFactory
+ */
 
 function dockingToPoint(docking) {
 
@@ -33669,7 +35335,8 @@ function dockingToPoint(docking) {
  * A {@link ConnectionDocking} that crops connection waypoints based on
  * the path(s) of the connection source and target.
  *
- * @param {djs.core.ElementRegistry} elementRegistry
+ * @param {ElementRegistry} elementRegistry
+ * @param {GraphicsFactory} graphicsFactory
  */
 function CroppingConnectionDocking(elementRegistry, graphicsFactory) {
   this._elementRegistry = elementRegistry;
@@ -33757,22 +35424,23 @@ CroppingConnectionDocking.prototype._getGfx = function(element) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "asBounds": () => (/* binding */ asBounds),
-/* harmony export */   "asTRBL": () => (/* binding */ asTRBL),
-/* harmony export */   "filterRedundantWaypoints": () => (/* binding */ filterRedundantWaypoints),
-/* harmony export */   "getBoundsMid": () => (/* binding */ getBoundsMid),
-/* harmony export */   "getConnectionMid": () => (/* binding */ getConnectionMid),
-/* harmony export */   "getElementLineIntersection": () => (/* binding */ getElementLineIntersection),
-/* harmony export */   "getIntersections": () => (/* binding */ getIntersections),
-/* harmony export */   "getMid": () => (/* binding */ getMid),
-/* harmony export */   "getOrientation": () => (/* binding */ getOrientation),
-/* harmony export */   "roundBounds": () => (/* binding */ roundBounds),
-/* harmony export */   "roundPoint": () => (/* binding */ roundPoint)
+/* harmony export */   asBounds: () => (/* binding */ asBounds),
+/* harmony export */   asTRBL: () => (/* binding */ asTRBL),
+/* harmony export */   filterRedundantWaypoints: () => (/* binding */ filterRedundantWaypoints),
+/* harmony export */   getBoundsMid: () => (/* binding */ getBoundsMid),
+/* harmony export */   getConnectionMid: () => (/* binding */ getConnectionMid),
+/* harmony export */   getElementLineIntersection: () => (/* binding */ getElementLineIntersection),
+/* harmony export */   getIntersections: () => (/* binding */ getIntersections),
+/* harmony export */   getMid: () => (/* binding */ getMid),
+/* harmony export */   getOrientation: () => (/* binding */ getOrientation),
+/* harmony export */   roundBounds: () => (/* binding */ roundBounds),
+/* harmony export */   roundPoint: () => (/* binding */ roundPoint)
 /* harmony export */ });
-/* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
-/* harmony import */ var _util_Geometry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../util/Geometry */ "../node_modules/diagram-js/lib/util/Geometry.js");
+/* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
+/* harmony import */ var _util_Geometry__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../util/Geometry */ "../node_modules/diagram-js/lib/util/Geometry.js");
 /* harmony import */ var path_intersection__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! path-intersection */ "../node_modules/path-intersection/intersect.js");
 /* harmony import */ var path_intersection__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(path_intersection__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/ModelUtil */ "../node_modules/diagram-js/lib/util/ModelUtil.js");
 
 
 
@@ -33780,6 +35448,22 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+/**
+ * @typedef {import('../core/Types').ElementLike} Element
+ * @typedef {import('../core/Types').ConnectionLike} Connection
+ *
+ * @typedef {import('../util/Types').DirectionTRBL} DirectionTRBL
+ * @typedef {import('../util/Types').Point} Point
+ * @typedef {import('../util/Types').Rect} Rect
+ * @typedef {import('../util/Types').RectTRBL} RectTRBL
+ */
+
+/**
+ * @param {Rect} bounds
+ *
+ * @returns {Rect}
+ */
 function roundBounds(bounds) {
   return {
     x: Math.round(bounds.x),
@@ -33789,7 +35473,11 @@ function roundBounds(bounds) {
   };
 }
 
-
+/**
+ * @param {Point} point
+ *
+ * @returns {Point}
+ */
 function roundPoint(point) {
 
   return {
@@ -33802,9 +35490,9 @@ function roundPoint(point) {
 /**
  * Convert the given bounds to a { top, left, bottom, right } descriptor.
  *
- * @param {Bounds|Point} bounds
+ * @param {Point|Rect} bounds
  *
- * @return {Object}
+ * @return {RectTRBL}
  */
 function asTRBL(bounds) {
   return {
@@ -33819,9 +35507,9 @@ function asTRBL(bounds) {
 /**
  * Convert a { top, left, bottom, right } to an objects bounds.
  *
- * @param {Object} trbl
+ * @param {RectTRBL} trbl
  *
- * @return {Bounds}
+ * @return {Rect}
  */
 function asBounds(trbl) {
   return {
@@ -33836,7 +35524,7 @@ function asBounds(trbl) {
 /**
  * Get the mid of the given bounds or point.
  *
- * @param {Bounds|Point} bounds
+ * @param {Point|Rect} bounds
  *
  * @return {Point}
  */
@@ -33851,7 +35539,7 @@ function getBoundsMid(bounds) {
 /**
  * Get the mid of the given Connection.
  *
- * @param {djs.Base.Connection} connection
+ * @param {Connection} connection
  *
  * @return {Point}
  */
@@ -33910,12 +35598,12 @@ function getConnectionMid(connection) {
 /**
  * Get the mid of the given Element.
  *
- * @param {djs.Base.Connection} connection
+ * @param {Element} element
  *
  * @return {Point}
  */
 function getMid(element) {
-  if (isConnection(element)) {
+  if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__.isConnection)(element)) {
     return getConnectionMid(element);
   }
 
@@ -33931,11 +35619,11 @@ function getMid(element) {
  * A padding (positive or negative) may be passed to influence
  * horizontal / vertical orientation and intersection.
  *
- * @param {Bounds} rect
- * @param {Bounds} reference
+ * @param {Rect} rect
+ * @param {Rect} reference
  * @param {Point|number} padding
  *
- * @return {string} the orientation; one of top, top-left, left, ..., bottom, right or intersect.
+ * @return {DirectionTRBL} the orientation; one of top, top-left, left, ..., bottom, right or intersect.
  */
 function getOrientation(rect, reference, padding) {
 
@@ -33943,7 +35631,7 @@ function getOrientation(rect, reference, padding) {
 
   // make sure we can use an object, too
   // for individual { x, y } padding
-  if (!(0,min_dash__WEBPACK_IMPORTED_MODULE_1__.isObject)(padding)) {
+  if (!(0,min_dash__WEBPACK_IMPORTED_MODULE_2__.isObject)(padding)) {
     padding = { x: padding, y: padding };
   }
 
@@ -33972,9 +35660,9 @@ function getOrientation(rect, reference, padding) {
 /**
  * Get intersection between an element and a line path.
  *
- * @param {PathDef} elementPath
- * @param {PathDef} linePath
- * @param {boolean} cropStart crop from start or end
+ * @param {string} elementPath
+ * @param {string} linePath
+ * @param {boolean} cropStart Whether to crop start or end.
  *
  * @return {Point}
  */
@@ -33989,13 +35677,13 @@ function getElementLineIntersection(elementPath, linePath, cropStart) {
   // none -> ok (fallback to point itself)
   if (intersections.length === 1) {
     return roundPoint(intersections[0]);
-  } else if (intersections.length === 2 && (0,_util_Geometry__WEBPACK_IMPORTED_MODULE_2__.pointDistance)(intersections[0], intersections[1]) < 1) {
+  } else if (intersections.length === 2 && (0,_util_Geometry__WEBPACK_IMPORTED_MODULE_3__.pointDistance)(intersections[0], intersections[1]) < 1) {
     return roundPoint(intersections[0]);
   } else if (intersections.length > 1) {
 
     // sort by intersections based on connection segment +
     // distance from start
-    intersections = (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.sortBy)(intersections, function(i) {
+    intersections = (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.sortBy)(intersections, function(i) {
       var distance = Math.floor(i.t2 * 100) || 1;
 
       distance = 100 - distance;
@@ -34035,8 +35723,8 @@ function filterRedundantWaypoints(waypoints) {
     previousPoint = waypoints[idx - 1];
     nextPoint = waypoints[idx + 1];
 
-    if ((0,_util_Geometry__WEBPACK_IMPORTED_MODULE_2__.pointDistance)(point, nextPoint) === 0 ||
-        (0,_util_Geometry__WEBPACK_IMPORTED_MODULE_2__.pointsOnLine)(previousPoint, nextPoint, point)) {
+    if ((0,_util_Geometry__WEBPACK_IMPORTED_MODULE_3__.pointDistance)(point, nextPoint) === 0 ||
+        (0,_util_Geometry__WEBPACK_IMPORTED_MODULE_3__.pointsOnLine)(previousPoint, nextPoint, point)) {
 
       // remove point, if overlapping with {nextPoint}
       // or on line with {previousPoint} -> {point} -> {nextPoint}
@@ -34055,10 +35743,6 @@ function distance(a, b) {
   return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2));
 }
 
-function isConnection(element) {
-  return !!element.waypoints;
-}
-
 /***/ }),
 
 /***/ "../node_modules/diagram-js/lib/layout/ManhattanLayout.js":
@@ -34070,11 +35754,11 @@ function isConnection(element) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "connectPoints": () => (/* binding */ connectPoints),
-/* harmony export */   "connectRectangles": () => (/* binding */ connectRectangles),
-/* harmony export */   "repairConnection": () => (/* binding */ repairConnection),
-/* harmony export */   "tryLayoutStraight": () => (/* binding */ tryLayoutStraight),
-/* harmony export */   "withoutRedundantPoints": () => (/* binding */ withoutRedundantPoints)
+/* harmony export */   connectPoints: () => (/* binding */ connectPoints),
+/* harmony export */   connectRectangles: () => (/* binding */ connectRectangles),
+/* harmony export */   repairConnection: () => (/* binding */ repairConnection),
+/* harmony export */   tryLayoutStraight: () => (/* binding */ tryLayoutStraight),
+/* harmony export */   withoutRedundantPoints: () => (/* binding */ withoutRedundantPoints)
 /* harmony export */ });
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 /* harmony import */ var _LayoutUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LayoutUtil */ "../node_modules/diagram-js/lib/layout/LayoutUtil.js");
@@ -34084,6 +35768,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+/**
+ * @typedef {import('../util/Types').Point} Point
+ * @typedef {import('../util/Types').Rect} Rect
+ */
 
 var MIN_SEGMENT_LENGTH = 20,
     POINT_ORIENTATION_PADDING = 5;
@@ -34282,11 +35971,11 @@ function getSimpleBendpoints(a, b, directions) {
  *         |
  *    [b]-[x]
  *
- * @param  {Point} a
- * @param  {Point} b
- * @param  {string} directions
+ * @param {Point} a
+ * @param {Point} b
+ * @param {string} directions
  *
- * @return {Array<Point>}
+ * @return {Point[]}
  */
 function getBendpoints(a, b, directions) {
   directions = directions || 'h:h';
@@ -34323,11 +36012,11 @@ function getBendpoints(a, b, directions) {
  *
  * @param {Point} a
  * @param {Point} b
+ * @param {string} [directions='h:h'] Specifies manhattan directions for each
+ * point as {direction}:{direction}. A direction for a point is either
+ * `h` (horizontal) or `v` (vertical).
  *
- * @param {string} [directions='h:h'] specifies manhattan directions for each point as {adirection}:{bdirection}.
-                   A directionfor a point is either `h` (horizontal) or `v` (vertical)
- *
- * @return {Array<Point>}
+ * @return {Point[]}
  */
 function connectPoints(a, b, directions) {
 
@@ -34343,18 +36032,17 @@ function connectPoints(a, b, directions) {
 /**
  * Connect two rectangles using a manhattan layouted connection.
  *
- * @param {Bounds} source source rectangle
- * @param {Bounds} target target rectangle
+ * @param {Rect} source source rectangle
+ * @param {Rect} target target rectangle
  * @param {Point} [start] source docking
  * @param {Point} [end] target docking
- *
  * @param {Object} [hints]
  * @param {string} [hints.preserveDocking=source] preserve docking on selected side
- * @param {Array<string>} [hints.preferredLayouts]
+ * @param {string[]} [hints.preferredLayouts]
  * @param {Point|boolean} [hints.connectionStart] whether the start changed
  * @param {Point|boolean} [hints.connectionEnd] whether the end changed
  *
- * @return {Array<Point>} connection points
+ * @return {Point[]} connection points
  */
 function connectRectangles(source, target, start, end, hints) {
 
@@ -34386,17 +36074,17 @@ function connectRectangles(source, target, start, end, hints) {
 /**
  * Repair the connection between two rectangles, of which one has been updated.
  *
- * @param {Bounds} source
- * @param {Bounds} target
+ * @param {Rect} source
+ * @param {Rect} target
  * @param {Point} [start]
  * @param {Point} [end]
- * @param {Array<Point>} [waypoints]
+ * @param {Point[]} [waypoints]
  * @param {Object} [hints]
- * @param {Array<string>} [hints.preferredLayouts] list of preferred layouts
+ * @param {string[]} [hints.preferredLayouts] The list of preferred layouts.
  * @param {boolean} [hints.connectionStart]
  * @param {boolean} [hints.connectionEnd]
  *
- * @return {Array<Point>} repaired waypoints
+ * @return {Point[]} The waypoints of the repaired connection.
  */
 function repairConnection(source, target, start, end, waypoints, hints) {
 
@@ -34463,15 +36151,16 @@ function isInRange(axis, a, b) {
 }
 
 /**
- * Layout a straight connection
+ * Lay out a straight connection.
  *
- * @param {Bounds} source
- * @param {Bounds} target
+ * @param {Rect} source
+ * @param {Rect} target
  * @param {Point} start
  * @param {Point} end
  * @param {Object} [hints]
+ * @param {string} [hints.preserveDocking]
  *
- * @return {Array<Point>|null} waypoints if straight layout worked
+ * @return {Point[]|null} The waypoints or null if layout isn't possible.
  */
 function tryLayoutStraight(source, target, start, end, hints) {
   var axis = {},
@@ -34546,12 +36235,12 @@ function tryLayoutStraight(source, target, start, end, hints) {
 /**
  * Repair a connection from start.
  *
- * @param {Bounds} moved
- * @param {Bounds} other
+ * @param {Rect} moved
+ * @param {Rect} other
  * @param {Point} newDocking
- * @param {Array<Point>} points originalPoints from moved to other
+ * @param {Point[]} points originalPoints from moved to other
  *
- * @return {Array<Point>|null} the repaired points between the two rectangles
+ * @return {Point[]|null} The waypoints of the repaired connection.
  */
 function tryRepairConnectionStart(moved, other, newDocking, points) {
   return _tryRepairConnectionSide(moved, other, newDocking, points);
@@ -34560,12 +36249,12 @@ function tryRepairConnectionStart(moved, other, newDocking, points) {
 /**
  * Repair a connection from end.
  *
- * @param {Bounds} moved
- * @param {Bounds} other
+ * @param {Rect} moved
+ * @param {Rect} other
  * @param {Point} newDocking
- * @param {Array<Point>} points originalPoints from moved to other
+ * @param {Point[]} points originalPoints from moved to other
  *
- * @return {Array<Point>|null} the repaired points between the two rectangles
+ * @return {Point[]|null} The waypoints of the repaired connection.
  */
 function tryRepairConnectionEnd(moved, other, newDocking, points) {
   var waypoints = points.slice().reverse();
@@ -34578,12 +36267,12 @@ function tryRepairConnectionEnd(moved, other, newDocking, points) {
 /**
  * Repair a connection from one side that moved.
  *
- * @param {Bounds} moved
- * @param {Bounds} other
+ * @param {Rect} moved
+ * @param {Rect} other
  * @param {Point} newDocking
- * @param {Array<Point>} points originalPoints from moved to other
+ * @param {Point[]} points originalPoints from moved to other
  *
- * @return {Array<Point>} the repaired points between the two rectangles
+ * @return {Point[]} The waypoints of the repaired connection.
  */
 function _tryRepairConnectionSide(moved, other, newDocking, points) {
 
@@ -34685,12 +36374,13 @@ function _tryRepairConnectionSide(moved, other, newDocking, points) {
  *
  * @example
  *
+ * ```javascript
  * getDirections('top'); // -> 'v:v'
  * getDirections('intersect'); // -> 't:t'
  *
  * getDirections('top-right', 'v:h'); // -> 'v:h'
  * getDirections('top-right', 'h:h'); // -> 'h:h'
- *
+ * ```
  *
  * @param {string} orientation
  * @param {string} defaultLayout
@@ -34796,9 +36486,9 @@ function getDockingPoint(point, rectangle, dockingDirection, targetOrientation) 
  *                         |
  *                        [x] ----------- [x]
  *
- * @param  {Array<Point>} waypoints
+ * @param {Point[]} waypoints
  *
- * @return {Array<Point>}
+ * @return {Point[]}
  */
 function withoutRedundantPoints(waypoints) {
   return waypoints.reduce(function(points, p, idx) {
@@ -34826,12 +36516,8 @@ function withoutRedundantPoints(waypoints) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Base": () => (/* binding */ Base),
-/* harmony export */   "Connection": () => (/* binding */ Connection),
-/* harmony export */   "Label": () => (/* binding */ Label),
-/* harmony export */   "Root": () => (/* binding */ Root),
-/* harmony export */   "Shape": () => (/* binding */ Shape),
-/* harmony export */   "create": () => (/* binding */ create)
+/* harmony export */   create: () => (/* binding */ create),
+/* harmony export */   isModelElement: () => (/* binding */ isModelElement)
 /* harmony export */ });
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 /* harmony import */ var inherits_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! inherits-browser */ "../node_modules/inherits-browser/dist/index.es.js");
@@ -34849,26 +36535,25 @@ var parentRefs = new (object_refs__WEBPACK_IMPORTED_MODULE_0___default())({ name
     incomingRefs = new (object_refs__WEBPACK_IMPORTED_MODULE_0___default())({ name: 'incoming', collection: true }, { name: 'target' });
 
 /**
- * @namespace djs.model
- */
-
-/**
- * @memberOf djs.model
+ * @typedef {import('./Types').Element} Element
+ * @typedef {import('./Types').Shape} Shape
+ * @typedef {import('./Types').Root} Root
+ * @typedef {import('./Types').Label} Label
+ * @typedef {import('./Types').Connection} Connection
  */
 
 /**
  * The basic graphical representation
  *
  * @class
- *
- * @abstract
+ * @constructor
  */
-function Base() {
+function ElementImpl() {
 
   /**
    * The object that backs up the shape
    *
-   * @name Base#businessObject
+   * @name Element#businessObject
    * @type Object
    */
   Object.defineProperty(this, 'businessObject', {
@@ -34879,7 +36564,7 @@ function Base() {
   /**
    * Single label support, will mapped to multi label array
    *
-   * @name Base#label
+   * @name Element#label
    * @type Object
    */
   Object.defineProperty(this, 'label', {
@@ -34902,7 +36587,7 @@ function Base() {
   /**
    * The parent shape
    *
-   * @name Base#parent
+   * @name Element#parent
    * @type Shape
    */
   parentRefs.bind(this, 'parent');
@@ -34910,7 +36595,7 @@ function Base() {
   /**
    * The list of labels
    *
-   * @name Base#labels
+   * @name Element#labels
    * @type Label
    */
   labelRefs.bind(this, 'labels');
@@ -34918,7 +36603,7 @@ function Base() {
   /**
    * The list of outgoing connections
    *
-   * @name Base#outgoing
+   * @name Element#outgoing
    * @type Array<Connection>
    */
   outgoingRefs.bind(this, 'outgoing');
@@ -34926,7 +36611,7 @@ function Base() {
   /**
    * The list of incoming connections
    *
-   * @name Base#incoming
+   * @name Element#incoming
    * @type Array<Connection>
    */
   incomingRefs.bind(this, 'incoming');
@@ -34939,40 +36624,40 @@ function Base() {
  * @class
  * @constructor
  *
- * @extends Base
+ * @extends ElementImpl
  */
-function Shape() {
-  Base.call(this);
+function ShapeImpl() {
+  ElementImpl.call(this);
 
   /**
    * Indicates frame shapes
    *
-   * @name Shape#isFrame
+   * @name ShapeImpl#isFrame
    * @type boolean
    */
 
   /**
    * The list of children
    *
-   * @name Shape#children
-   * @type Array<Base>
+   * @name ShapeImpl#children
+   * @type Element[]
    */
   parentRefs.bind(this, 'children');
 
   /**
-   * @name Shape#host
+   * @name ShapeImpl#host
    * @type Shape
    */
   attacherRefs.bind(this, 'host');
 
   /**
-   * @name Shape#attachers
+   * @name ShapeImpl#attachers
    * @type Shape
    */
   attacherRefs.bind(this, 'attachers');
 }
 
-(0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(Shape, Base);
+(0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(ShapeImpl, ElementImpl);
 
 
 /**
@@ -34981,13 +36666,21 @@ function Shape() {
  * @class
  * @constructor
  *
- * @extends Shape
+ * @extends ElementImpl
  */
-function Root() {
-  Shape.call(this);
+function RootImpl() {
+  ElementImpl.call(this);
+
+  /**
+   * The list of children
+   *
+   * @name RootImpl#children
+   * @type Element[]
+   */
+  parentRefs.bind(this, 'children');
 }
 
-(0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(Root, Shape);
+(0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(RootImpl, ShapeImpl);
 
 
 /**
@@ -34996,21 +36689,21 @@ function Root() {
  * @class
  * @constructor
  *
- * @extends Shape
+ * @extends ShapeImpl
  */
-function Label() {
-  Shape.call(this);
+function LabelImpl() {
+  ShapeImpl.call(this);
 
   /**
    * The labeled element
    *
-   * @name Label#labelTarget
-   * @type Base
+   * @name LabelImpl#labelTarget
+   * @type Element
    */
   labelRefs.bind(this, 'labelTarget');
 }
 
-(0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(Label, Shape);
+(0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(LabelImpl, ShapeImpl);
 
 
 /**
@@ -35019,54 +36712,131 @@ function Label() {
  * @class
  * @constructor
  *
- * @extends Base
+ * @extends ElementImpl
  */
-function Connection() {
-  Base.call(this);
+function ConnectionImpl() {
+  ElementImpl.call(this);
 
   /**
    * The element this connection originates from
    *
-   * @name Connection#source
-   * @type Base
+   * @name ConnectionImpl#source
+   * @type Element
    */
   outgoingRefs.bind(this, 'source');
 
   /**
    * The element this connection points to
    *
-   * @name Connection#target
-   * @type Base
+   * @name ConnectionImpl#target
+   * @type Element
    */
   incomingRefs.bind(this, 'target');
 }
 
-(0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(Connection, Base);
+(0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(ConnectionImpl, ElementImpl);
 
 
 var types = {
-  connection: Connection,
-  shape: Shape,
-  label: Label,
-  root: Root
+  connection: ConnectionImpl,
+  shape: ShapeImpl,
+  label: LabelImpl,
+  root: RootImpl
 };
 
 /**
- * Creates a new model element of the specified type
+ * Creates a root element.
  *
- * @method create
+ * @overlord
  *
  * @example
  *
- * var shape1 = Model.create('shape', { x: 10, y: 10, width: 100, height: 100 });
- * var shape2 = Model.create('shape', { x: 210, y: 210, width: 100, height: 100 });
+ * ```javascript
+ * import * as Model from 'diagram-js/lib/model';
  *
- * var connection = Model.create('connection', { waypoints: [ { x: 110, y: 55 }, {x: 210, y: 55 } ] });
+ * const root = Model.create('root', {
+ *   x: 100,
+ *   y: 100,
+ *   width: 100,
+ *   height: 100
+ * });
+ * ```
  *
- * @param  {string} type lower-cased model name
- * @param  {Object} attrs attributes to initialize the new model instance with
+ * @param {'root'} type
+ * @param {any} [attrs]
  *
- * @return {Base} the new model instance
+ * @return {Root}
+ */
+
+/**
+ * Creates a connection.
+ *
+ * @overlord
+ *
+ * @example
+ *
+ * ```javascript
+ * import * as Model from 'diagram-js/lib/model';
+ *
+ * const connection = Model.create('connection', {
+ *   waypoints: [
+ *     { x: 100, y: 100 },
+ *     { x: 200, y: 100 }
+ *   ]
+ * });
+ * ```
+ *
+ * @param {'connection'} type
+ * @param {any} [attrs]
+ *
+ * @return {Connection}
+ */
+
+/**
+ * Creates a shape.
+ *
+ * @overlord
+ *
+ * @example
+ *
+ * ```javascript
+ * import * as Model from 'diagram-js/lib/model';
+ *
+ * const shape = Model.create('shape', {
+ *   x: 100,
+ *   y: 100,
+ *   width: 100,
+ *   height: 100
+ * });
+ * ```
+ *
+ * @param {'shape'} type
+ * @param {any} [attrs]
+ *
+ * @return {Shape}
+ */
+
+/**
+ * Creates a label.
+ *
+ * @example
+ *
+ * ```javascript
+ * import * as Model from 'diagram-js/lib/model';
+ *
+ * const label = Model.create('label', {
+ *   x: 100,
+ *   y: 100,
+ *   width: 100,
+ *   height: 100,
+ *   labelTarget: shape
+ * });
+ * ```
+ *
+ * @param {'label'} type
+ * @param {Object} [attrs]
+ *
+ * @return {Label}
  */
 function create(type, attrs) {
   var Type = types[type];
@@ -35074,6 +36844,17 @@ function create(type, attrs) {
     throw new Error('unknown type: <' + type + '>');
   }
   return (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)(new Type(), attrs);
+}
+
+/**
+ * Checks whether an object is a model instance.
+ *
+ * @param {any} obj
+ *
+ * @return {boolean}
+ */
+function isModelElement(obj) {
+  return obj instanceof ElementImpl;
 }
 
 /***/ }),
@@ -35092,6 +36873,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 
 
+/**
+ * @typedef {import('../../core/Canvas').default} Canvas
+ * @typedef {import('../../features/keyboard/Keyboard').default} Keyboard
+ */
 
 var DEFAULT_CONFIG = {
   moveSpeed: 50,
@@ -35173,15 +36958,21 @@ function KeyboardMove(
     }
   }
 
-  this.moveCanvas = function(opts) {
+  /**
+   * @param {{
+   *   direction: 'up' | 'down' | 'left' | 'right';
+   *   speed: number;
+   * }} options
+   */
+  this.moveCanvas = function(options) {
 
     var dx = 0,
         dy = 0,
-        speed = opts.speed;
+        speed = options.speed;
 
     var actualSpeed = speed / Math.min(Math.sqrt(canvas.viewbox().scale), 1);
 
-    switch (opts.direction) {
+    switch (options.direction) {
     case 'left': // Left
       dx = actualSpeed;
       break;
@@ -35232,6 +37023,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __depends__: [
     _features_keyboard__WEBPACK_IMPORTED_MODULE_0__["default"]
@@ -35268,6 +37062,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @typedef {import('../../core/Canvas').default} Canvas
+ * @typedef {import('../../core/EventBus').default} EventBus
+ */
 
 var THRESHOLD = 15;
 
@@ -35399,6 +37197,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _MoveCanvas__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MoveCanvas */ "../node_modules/diagram-js/lib/navigation/movecanvas/MoveCanvas.js");
 
 
+
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __init__: [ 'moveCanvas' ],
   moveCanvas: [ 'type', _MoveCanvas__WEBPACK_IMPORTED_MODULE_0__["default"] ]
@@ -35420,6 +37222,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _features_touch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../features/touch */ "../node_modules/diagram-js/lib/features/touch/index.js");
 
 
+
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __depends__: [
     _features_touch__WEBPACK_IMPORTED_MODULE_0__["default"]
@@ -35450,6 +37256,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+/**
+ * @typedef {import('../../core/Canvas').default} Canvas
+ * @typedef {import('../../core/EventBus').default} EventBus
+ *
+ * @typedef {import('../../util/Types').Point} Point
+ */
 
 var sign = Math.sign || function(n) {
   return n >= 0 ? 1 : -1;
@@ -35502,6 +37315,9 @@ ZoomScroll.$inject = [
   'canvas'
 ];
 
+/**
+ * @param {Point} delta
+ */
 ZoomScroll.prototype.scroll = function scroll(delta) {
   this._canvas.scroll(delta);
 };
@@ -35515,7 +37331,7 @@ ZoomScroll.prototype.reset = function reset() {
  * Zoom depending on delta.
  *
  * @param {number} delta
- * @param {Object} position
+ * @param {Point} position
  */
 ZoomScroll.prototype.zoom = function zoom(delta, position) {
 
@@ -35599,8 +37415,8 @@ ZoomScroll.prototype._handleWheel = function handleWheel(event) {
 /**
  * Zoom with fixed step size.
  *
- * @param {number} delta - Zoom delta (1 for zooming in, -1 for out).
- * @param {Object} position
+ * @param {number} delta Zoom delta (1 for zooming in, -1 for zooming out).
+ * @param {Point} position
  */
 ZoomScroll.prototype.stepZoom = function stepZoom(delta, position) {
 
@@ -35614,7 +37430,7 @@ ZoomScroll.prototype.stepZoom = function stepZoom(delta, position) {
  * Zoom in/out given a step size.
  *
  * @param {number} delta
- * @param {Object} position
+ * @param {Point} position
  * @param {number} stepSize
  */
 ZoomScroll.prototype._zoom = function(delta, position, stepSize) {
@@ -35641,7 +37457,7 @@ ZoomScroll.prototype._zoom = function(delta, position, stepSize) {
 /**
  * Toggle the zoom scroll ability via mouse wheel.
  *
- * @param  {boolean} [newEnabled] new enabled state
+ * @param {boolean} [newEnabled] new enabled state
  */
 ZoomScroll.prototype.toggle = function toggle(newEnabled) {
 
@@ -35684,8 +37500,8 @@ ZoomScroll.prototype._init = function(newEnabled) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "cap": () => (/* binding */ cap),
-/* harmony export */   "getStepSize": () => (/* binding */ getStepSize)
+/* harmony export */   cap: () => (/* binding */ cap),
+/* harmony export */   getStepSize: () => (/* binding */ getStepSize)
 /* harmony export */ });
 /* harmony import */ var _util_Math__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../util/Math */ "../node_modules/diagram-js/lib/util/Math.js");
 
@@ -35696,6 +37512,7 @@ __webpack_require__.r(__webpack_exports__);
  * @param {Object} range
  * @param {number} range.min
  * @param {number} range.max
+ * @param {number} steps
  */
 function getStepSize(range, steps) {
 
@@ -35707,6 +37524,12 @@ function getStepSize(range, steps) {
   return absoluteLinearRange / steps;
 }
 
+/**
+ * @param {Object} range
+ * @param {number} range.min
+ * @param {number} range.max
+ * @param {number} scale
+ */
 function cap(range, scale) {
   return Math.max(range.min, Math.min(range.max, scale));
 }
@@ -35728,6 +37551,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ZoomScroll__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ZoomScroll */ "../node_modules/diagram-js/lib/navigation/zoomscroll/ZoomScroll.js");
 
 
+
+/**
+ * @type { import('didi').ModuleDeclaration }
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __init__: [ 'zoomScroll' ],
   zoomScroll: [ 'type', _ZoomScroll__WEBPACK_IMPORTED_MODULE_0__["default"] ]
@@ -35744,8 +37571,8 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getNewAttachPoint": () => (/* binding */ getNewAttachPoint),
-/* harmony export */   "getNewAttachShapeDelta": () => (/* binding */ getNewAttachShapeDelta)
+/* harmony export */   getNewAttachPoint: () => (/* binding */ getNewAttachPoint),
+/* harmony export */   getNewAttachShapeDelta: () => (/* binding */ getNewAttachShapeDelta)
 /* harmony export */ });
 /* harmony import */ var _layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../layout/LayoutUtil */ "../node_modules/diagram-js/lib/layout/LayoutUtil.js");
 /* harmony import */ var _PositionUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PositionUtil */ "../node_modules/diagram-js/lib/util/PositionUtil.js");
@@ -35753,15 +37580,21 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @typedef {import('../model/Types').Shape} Shape
+ *
+ * @typedef {import('../util/Types').Point} Point
+ * @typedef {import('../util/Types').Rect} Rect
+ */
 
 /**
- * Calculates the absolute point relative to the new element's position
+ * Calculates the absolute point relative to the new element's position.
  *
- * @param {point} point [absolute]
- * @param {bounds} oldBounds
- * @param {bounds} newBounds
+ * @param {Point} point [absolute]
+ * @param {Rect} oldBounds
+ * @param {Rect} newBounds
  *
- * @return {point} point [absolute]
+ * @return {Point} point [absolute]
  */
 function getNewAttachPoint(point, oldBounds, newBounds) {
   var oldCenter = (0,_PositionUtil__WEBPACK_IMPORTED_MODULE_0__.center)(oldBounds),
@@ -35782,13 +37615,13 @@ function getNewAttachPoint(point, oldBounds, newBounds) {
 
 /**
  * Calculates the shape's delta relative to a new position
- * of a certain element's bounds
+ * of a certain element's bounds.
  *
- * @param {djs.model.Shape} point [absolute]
- * @param {bounds} oldBounds
- * @param {bounds} newBounds
+ * @param {Shape} shape
+ * @param {Rect} oldBounds
+ * @param {Rect} newBounds
  *
- * @return {delta} delta
+ * @return {Point} delta
  */
 function getNewAttachShapeDelta(shape, oldBounds, newBounds) {
   var shapeCenter = (0,_PositionUtil__WEBPACK_IMPORTED_MODULE_0__.center)(shape),
@@ -35897,14 +37730,21 @@ function isVerticallyMoved(oldTRBL, newTRBL) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "install": () => (/* binding */ install)
+/* harmony export */   install: () => (/* binding */ install)
 /* harmony export */ });
+/**
+ * @typedef {import('../core/EventBus').EventBus} EventBus
+ */
+
 var TRAP_PRIORITY = 5000;
 
 /**
  * Installs a click trap that prevents a ghost click following a dragging operation.
  *
- * @return {Function} a function to immediately remove the installed trap.
+ * @param {EventBus} eventBus
+ * @param {string} [eventName='element.click']
+ *
+ * @return {() => void} a function to immediately remove the installed trap.
  */
 function install(eventBus, eventName) {
 
@@ -35932,15 +37772,15 @@ function install(eventBus, eventName) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "add": () => (/* binding */ add),
-/* harmony export */   "indexOf": () => (/* binding */ indexOf),
-/* harmony export */   "remove": () => (/* binding */ remove)
+/* harmony export */   add: () => (/* binding */ add),
+/* harmony export */   indexOf: () => (/* binding */ indexOf),
+/* harmony export */   remove: () => (/* binding */ remove)
 /* harmony export */ });
 /**
  * Failsafe remove an element from a collection
  *
- * @param  {Array<Object>} [collection]
- * @param  {Object} [element]
+ * @param {Array<Object>} [collection]
+ * @param {Object} [element]
  *
  * @return {number} the previous index of the element
  */
@@ -35965,7 +37805,7 @@ function remove(collection, element) {
  *
  * @param {Array<Object>} collection
  * @param {Object} element
- * @param {number} idx
+ * @param {number} [idx]
  */
 function add(collection, element, idx) {
 
@@ -36041,16 +37881,18 @@ function indexOf(collection, element) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "has": () => (/* binding */ has),
-/* harmony export */   "set": () => (/* binding */ set),
-/* harmony export */   "unset": () => (/* binding */ unset)
+/* harmony export */   has: () => (/* binding */ has),
+/* harmony export */   set: () => (/* binding */ set),
+/* harmony export */   unset: () => (/* binding */ unset)
 /* harmony export */ });
 /* harmony import */ var min_dom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dom */ "../node_modules/min-dom/dist/index.esm.js");
 
 
 var CURSOR_CLS_PATTERN = /^djs-cursor-.*$/;
 
-
+/**
+ * @param {string} mode
+ */
 function set(mode) {
   var classes = (0,min_dom__WEBPACK_IMPORTED_MODULE_0__.classes)(document.body);
 
@@ -36065,6 +37907,11 @@ function unset() {
   set(null);
 }
 
+/**
+ * @param {string} mode
+ *
+ * @return {boolean}
+ */
 function has(mode) {
   var classes = (0,min_dom__WEBPACK_IMPORTED_MODULE_0__.classes)(document.body);
 
@@ -36083,31 +37930,43 @@ function has(mode) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "add": () => (/* binding */ add),
-/* harmony export */   "eachElement": () => (/* binding */ eachElement),
-/* harmony export */   "getBBox": () => (/* binding */ getBBox),
-/* harmony export */   "getClosure": () => (/* binding */ getClosure),
-/* harmony export */   "getEnclosedElements": () => (/* binding */ getEnclosedElements),
-/* harmony export */   "getParents": () => (/* binding */ getParents),
-/* harmony export */   "getType": () => (/* binding */ getType),
-/* harmony export */   "isFrameElement": () => (/* binding */ isFrameElement),
-/* harmony export */   "selfAndAllChildren": () => (/* binding */ selfAndAllChildren),
-/* harmony export */   "selfAndChildren": () => (/* binding */ selfAndChildren),
-/* harmony export */   "selfAndDirectChildren": () => (/* binding */ selfAndDirectChildren)
+/* harmony export */   add: () => (/* binding */ add),
+/* harmony export */   eachElement: () => (/* binding */ eachElement),
+/* harmony export */   getBBox: () => (/* binding */ getBBox),
+/* harmony export */   getClosure: () => (/* binding */ getClosure),
+/* harmony export */   getEnclosedElements: () => (/* binding */ getEnclosedElements),
+/* harmony export */   getParents: () => (/* binding */ getParents),
+/* harmony export */   getType: () => (/* binding */ getType),
+/* harmony export */   isFrameElement: () => (/* binding */ isFrameElement),
+/* harmony export */   selfAndAllChildren: () => (/* binding */ selfAndAllChildren),
+/* harmony export */   selfAndChildren: () => (/* binding */ selfAndChildren),
+/* harmony export */   selfAndDirectChildren: () => (/* binding */ selfAndDirectChildren)
 /* harmony export */ });
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 
 
 /**
- * @typedef { {x:number, y: number, width: number, height: number} } Bounds
+ * @typedef {import('../model/Types').Connection} Connection
+ * @typedef {import('../model/Types').Element} Element
+ * @typedef {import('../model/Types').Shape} Shape
+ *
+ * @typedef {import('../../type/Types').Rect} Rect
+ *
+ * @typedef { {
+ *   allShapes: Record<string, Shape>,
+ *   allConnections: Record<string, Connection>,
+ *   topLevel: Record<string, Element>,
+ *   enclosedConnections: Record<string, Connection>,
+ *   enclosedElements: Record<string, Element>
+ * } } Closure
  */
 
 /**
  * Get parent elements.
  *
- * @param {Array<djs.model.base>} elements
+ * @param {Element[]} elements
  *
- * @returns {Array<djs.model.Base>}
+ * @return {Element[]}
  */
 function getParents(elements) {
 
@@ -36141,15 +38000,15 @@ function getParent(element, parent) {
  * Adds an element to a collection and returns true if the
  * element was added.
  *
- * @param {Array<Object>} elements
- * @param {Object} e
- * @param {boolean} unique
+ * @param {Object[]} elements
+ * @param {Object} element
+ * @param {boolean} [unique]
  */
-function add(elements, e, unique) {
-  var canAdd = !unique || elements.indexOf(e) === -1;
+function add(elements, element, unique) {
+  var canAdd = !unique || elements.indexOf(element) === -1;
 
   if (canAdd) {
-    elements.push(e);
+    elements.push(element);
   }
 
   return canAdd;
@@ -36162,9 +38021,9 @@ function add(elements, e, unique) {
  *
  * Recurse into all elements that are returned by `fn`.
  *
- * @param  {Object|Array<Object>} elements
- * @param  {Function} fn iterator function called with (element, index, recursionDepth)
- * @param  {number} [depth] maximum recursion depth
+ * @param {Element|Element[]} elements
+ * @param {(element: Element, index: number, depth: number) => Element[] | boolean | undefined} fn
+ * @param {number} [depth] maximum recursion depth
  */
 function eachElement(elements, fn, depth) {
 
@@ -36187,11 +38046,11 @@ function eachElement(elements, fn, depth) {
 /**
  * Collects self + child elements up to a given depth from a list of elements.
  *
- * @param  {djs.model.Base|Array<djs.model.Base>} elements the elements to select the children from
- * @param  {boolean} unique whether to return a unique result set (no duplicates)
- * @param  {number} maxDepth the depth to search through or -1 for infinite
+ * @param {Element|Element[]} elements the elements to select the children from
+ * @param {boolean} unique whether to return a unique result set (no duplicates)
+ * @param {number} maxDepth the depth to search through or -1 for infinite
  *
- * @return {Array<djs.model.Base>} found elements
+ * @return {Element[]} found elements
  */
 function selfAndChildren(elements, unique, maxDepth) {
   var result = [],
@@ -36218,10 +38077,10 @@ function selfAndChildren(elements, unique, maxDepth) {
 /**
  * Return self + direct children for a number of elements
  *
- * @param  {Array<djs.model.Base>} elements to query
- * @param  {boolean} allowDuplicates to allow duplicates in the result set
+ * @param {Element[]} elements to query
+ * @param {boolean} [allowDuplicates] to allow duplicates in the result set
  *
- * @return {Array<djs.model.Base>} the collected elements
+ * @return {Element[]} the collected elements
  */
 function selfAndDirectChildren(elements, allowDuplicates) {
   return selfAndChildren(elements, !allowDuplicates, 1);
@@ -36231,10 +38090,10 @@ function selfAndDirectChildren(elements, allowDuplicates) {
 /**
  * Return self + ALL children for a number of elements
  *
- * @param  {Array<djs.model.Base>} elements to query
- * @param  {boolean} allowDuplicates to allow duplicates in the result set
+ * @param {Element[]} elements to query
+ * @param {boolean} [allowDuplicates] to allow duplicates in the result set
  *
- * @return {Array<djs.model.Base>} the collected elements
+ * @return {Element[]} the collected elements
  */
 function selfAndAllChildren(elements, allowDuplicates) {
   return selfAndChildren(elements, !allowDuplicates, -1);
@@ -36245,11 +38104,11 @@ function selfAndAllChildren(elements, allowDuplicates) {
  * Gets the the closure for all selected elements,
  * their enclosed children and connections.
  *
- * @param {Array<djs.model.Base>} elements
+ * @param {Element[]} elements
  * @param {boolean} [isTopLevel=true]
- * @param {Object} [existingClosure]
+ * @param {Closure} [closure]
  *
- * @return {Object} newClosure
+ * @return {Closure} newClosure
  */
 function getClosure(elements, isTopLevel, closure) {
 
@@ -36328,10 +38187,10 @@ function getClosure(elements, isTopLevel, closure) {
  * Returns the surrounding bbox for all elements in
  * the array or the element primitive.
  *
- * @param {Array<djs.model.Shape>|djs.model.Shape} elements
+ * @param {Element|Element[]} elements
  * @param {boolean} [stopRecursion=false]
  *
- * @return {Bounds}
+ * @return {Rect}
  */
 function getBBox(elements, stopRecursion) {
 
@@ -36390,10 +38249,10 @@ function getBBox(elements, stopRecursion) {
  *   * If only bbox.x or bbox.y is specified, method return all elements with
  *     e.x > bbox.x or e.y > bbox.y
  *
- * @param {Array<djs.model.Shape>} elements List of Elements to search through
- * @param {djs.model.Shape} bbox the enclosing bbox.
+ * @param {Element[]} elements List of Elements to search through
+ * @param {Rect} bbox the enclosing bbox.
  *
- * @return {Array<djs.model.Shape>} enclosed elements
+ * @return {Element[]} enclosed elements
  */
 function getEnclosedElements(elements, bbox) {
 
@@ -36428,7 +38287,13 @@ function getEnclosedElements(elements, bbox) {
   return filteredElements;
 }
 
-
+/**
+ * Get the element's type
+ *
+ * @param {Element} element
+ *
+ * @return {'connection' | 'shape' | 'root'}
+ */
 function getType(element) {
 
   if ('waypoints' in element) {
@@ -36442,8 +38307,12 @@ function getType(element) {
   return 'root';
 }
 
+/**
+ * @param {Element} element
+ *
+ * @return {boolean}
+ */
 function isFrameElement(element) {
-
   return !!(element && element.isFrame);
 }
 
@@ -36452,6 +38321,52 @@ function isFrameElement(element) {
 function copyObject(src1, src2) {
   return (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.assign)({}, src1 || {}, src2 || {});
 }
+
+
+/***/ }),
+
+/***/ "../node_modules/diagram-js/lib/util/EscapeUtil.js":
+/*!*********************************************************!*\
+  !*** ../node_modules/diagram-js/lib/util/EscapeUtil.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   escapeCSS: () => (/* binding */ escapeCSS),
+/* harmony export */   escapeHTML: () => (/* binding */ escapeHTML)
+/* harmony export */ });
+/**
+ * @param {string} str
+ *
+ * @return {string}
+ */
+function escapeCSS(str) {
+  return CSS.escape(str);
+}
+
+var HTML_ESCAPE_MAP = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  '\'': '&#39;'
+};
+
+/**
+ * @param {string} str
+ *
+ * @return {string}
+ */
+function escapeHTML(str) {
+  str = '' + str;
+
+  return str && str.replace(/[&<>"']/g, function(match) {
+    return HTML_ESCAPE_MAP[match];
+  });
+}
+
 
 /***/ }),
 
@@ -36464,10 +38379,14 @@ function copyObject(src1, src2) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getOriginal": () => (/* binding */ getOriginal),
-/* harmony export */   "stopPropagation": () => (/* binding */ stopPropagation),
-/* harmony export */   "toPoint": () => (/* binding */ toPoint)
+/* harmony export */   getOriginal: () => (/* binding */ getOriginal),
+/* harmony export */   stopPropagation: () => (/* binding */ stopPropagation),
+/* harmony export */   toPoint: () => (/* binding */ toPoint)
 /* harmony export */ });
+/**
+ * @typedef {import('../util/Types').Point} Point
+ */
+
 function __stopPropagation(event) {
   if (!event || typeof event.stopPropagation !== 'function') {
     return;
@@ -36476,18 +38395,28 @@ function __stopPropagation(event) {
   event.stopPropagation();
 }
 
-
+/**
+ * @param {import('../core/EventBus').Event} event
+ *
+ * @return {Event}
+ */
 function getOriginal(event) {
   return event.originalEvent || event.srcEvent;
 }
 
-
-function stopPropagation(event, immediate) {
-  __stopPropagation(event, immediate);
-  __stopPropagation(getOriginal(event), immediate);
+/**
+ * @param {Event|import('../core/EventBus').Event} event
+ */
+function stopPropagation(event) {
+  __stopPropagation(event);
+  __stopPropagation(getOriginal(event));
 }
 
-
+/**
+ * @param {Event} event
+ *
+ * @return {Point|null}
+ */
 function toPoint(event) {
 
   if (event.pointers && event.pointers.length) {
@@ -36515,23 +38444,29 @@ function toPoint(event) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getMidPoint": () => (/* binding */ getMidPoint),
-/* harmony export */   "pointDistance": () => (/* binding */ pointDistance),
-/* harmony export */   "pointInRect": () => (/* binding */ pointInRect),
-/* harmony export */   "pointsAligned": () => (/* binding */ pointsAligned),
-/* harmony export */   "pointsAlignedOnAxis": () => (/* binding */ pointsAlignedOnAxis),
-/* harmony export */   "pointsOnLine": () => (/* binding */ pointsOnLine)
+/* harmony export */   getMidPoint: () => (/* binding */ getMidPoint),
+/* harmony export */   pointDistance: () => (/* binding */ pointDistance),
+/* harmony export */   pointInRect: () => (/* binding */ pointInRect),
+/* harmony export */   pointsAligned: () => (/* binding */ pointsAligned),
+/* harmony export */   pointsAlignedOnAxis: () => (/* binding */ pointsAlignedOnAxis),
+/* harmony export */   pointsOnLine: () => (/* binding */ pointsOnLine)
 /* harmony export */ });
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 
 
 /**
- * Computes the distance between two points
+ * @typedef {import('../util/Types').Axis} Axis
+ * @typedef {import('../util/Types').Point} Point
+ * @typedef {import('../util/Types').Rect} Rect
+ */
+
+/**
+ * Computes the distance between two points.
  *
- * @param  {Point}  p
- * @param  {Point}  q
+ * @param {Point} a
+ * @param {Point} b
  *
- * @return {number}  distance
+ * @return {number} The distance between the two points.
  */
 function pointDistance(a, b) {
   if (!a || !b) {
@@ -36546,12 +38481,12 @@ function pointDistance(a, b) {
 
 
 /**
- * Returns true if the point r is on the line between p and q
+ * Returns true if the point r is on the line between p and q.
  *
- * @param  {Point}  p
- * @param  {Point}  q
- * @param  {Point}  r
- * @param  {number} [accuracy=5] accuracy for points on line check (lower is better)
+ * @param {Point} p
+ * @param {Point} q
+ * @param {Point} r
+ * @param {number} [accuracy=5] The accuracy with which to check (lower is better).
  *
  * @return {boolean}
  */
@@ -36581,7 +38516,7 @@ var ALIGNED_THRESHOLD = 2;
  * @param {Point[]|Point} a
  * @param {Point} [b]
  *
- * @return {'h'|'v'|false} axis or false
+ * @return {string|boolean} If and how the two points are aligned ('h', 'v' or `false`).
  */
 function pointsAligned(a, b) {
   var points = Array.from(arguments).flat();
@@ -36601,8 +38536,8 @@ function pointsAligned(a, b) {
 }
 
 /**
- * @param { 'x' | 'y' } axis
- * @param { Point[] } points
+ * @param {Axis} axis
+ * @param {Point[]} points
  *
  * @return {boolean}
  */
@@ -36617,9 +38552,9 @@ function pointsAlignedOnAxis(axis, points) {
 /**
  * Returns true if the point p is inside the rectangle rect
  *
- * @param  {Point}  p
- * @param  {Rect} rect
- * @param  {number} tolerance
+ * @param {Point} p
+ * @param {Rect} rect
+ * @param {number} tolerance
  *
  * @return {boolean}
  */
@@ -36635,10 +38570,10 @@ function pointInRect(p, rect, tolerance) {
 /**
  * Returns a point in the middle of points p and q
  *
- * @param  {Point}  p
- * @param  {Point}  q
+ * @param {Point} p
+ * @param {Point} q
  *
- * @return {Point} middle point
+ * @return {Point} The mid point between the two points.
  */
 function getMidPoint(p, q) {
   return {
@@ -36659,8 +38594,8 @@ function getMidPoint(p, q) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getChildren": () => (/* binding */ getChildren),
-/* harmony export */   "getVisual": () => (/* binding */ getVisual)
+/* harmony export */   getChildren: () => (/* binding */ getChildren),
+/* harmony export */   getVisual: () => (/* binding */ getVisual)
 /* harmony export */ });
 /**
  * SVGs for elements are generated by the {@link GraphicsFactory}.
@@ -36670,11 +38605,11 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 /**
- * Returns the visual part of a diagram element
+ * Returns the visual part of a diagram element.
  *
- * @param {Snap<SVGElement>} gfx
+ * @param {SVGElement} gfx
  *
- * @return {Snap<SVGElement>}
+ * @return {SVGElement}
  */
 function getVisual(gfx) {
   return gfx.childNodes[0];
@@ -36683,8 +38618,8 @@ function getVisual(gfx) {
 /**
  * Returns the children for a given diagram element.
  *
- * @param {Snap<SVGElement>} gfx
- * @return {Snap<SVGElement>}
+ * @param {SVGElement} gfx
+ * @return {SVGElement}
  */
 function getChildren(gfx) {
   return gfx.parentNode.childNodes[1];
@@ -36706,13 +38641,12 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Util that provides unique IDs.
  *
- * @class djs.util.IdGenerator
+ * @class
  * @constructor
- * @memberOf djs.util
  *
  * The ids can be customized via a given prefix and contain a random value to avoid collisions.
  *
- * @param {string} prefix a prefix to prepend to generated ids (for better readability)
+ * @param {string} [prefix] a prefix to prepend to generated ids (for better readability)
  */
 function IdGenerator(prefix) {
 
@@ -36723,9 +38657,7 @@ function IdGenerator(prefix) {
 /**
  * Returns a next unique ID.
  *
- * @method djs.util.IdGenerator#next
- *
- * @returns {string} the id
+ * @return {string} the id
  */
 IdGenerator.prototype.next = function() {
   return this._prefix + (++this._counter);
@@ -36743,7 +38675,7 @@ IdGenerator.prototype.next = function() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getApproxIntersection": () => (/* binding */ getApproxIntersection)
+/* harmony export */   getApproxIntersection: () => (/* binding */ getApproxIntersection)
 /* harmony export */ });
 /* harmony import */ var _Geometry__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Geometry */ "../node_modules/diagram-js/lib/util/Geometry.js");
 /* harmony import */ var path_intersection__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! path-intersection */ "../node_modules/path-intersection/intersect.js");
@@ -36751,6 +38683,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+/**
+ * @typedef {import('../util/Types').Point} Point
+ *
+ * @typedef { {
+ *   bendpoint?: boolean;
+ *   index: number;
+ *   point: Point;
+ * } } Intersection
+ */
 
 var round = Math.round,
     max = Math.max;
@@ -36782,6 +38724,12 @@ function linePath(points) {
 
 var INTERSECTION_THRESHOLD = 10;
 
+/**
+ * @param {Point[]} waypoints
+ * @param {Point} reference
+ *
+ * @return {Intersection|null}
+ */
 function getBendpointIntersection(waypoints, reference) {
 
   var i, w;
@@ -36800,6 +38748,12 @@ function getBendpointIntersection(waypoints, reference) {
   return null;
 }
 
+/**
+ * @param {Point[]} waypoints
+ * @param {Point} reference
+ *
+ * @return {Intersection|null}
+ */
 function getPathIntersection(waypoints, reference) {
 
   var intersections = path_intersection__WEBPACK_IMPORTED_MODULE_0___default()(circlePath(reference, INTERSECTION_THRESHOLD), linePath(waypoints));
@@ -36851,10 +38805,10 @@ function getPathIntersection(waypoints, reference) {
 /**
  * Returns the closest point on the connection towards a given reference point.
  *
- * @param  {Array<Point>} waypoints
- * @param  {Point} reference
+ * @param {Point[]} waypoints
+ * @param {Point} reference
  *
- * @return {Object} intersection data (segment, point)
+ * @return {Intersection|null}
  */
 function getApproxIntersection(waypoints, reference) {
   return getBendpointIntersection(waypoints, reference) || getPathIntersection(waypoints, reference);
@@ -36872,13 +38826,14 @@ function getApproxIntersection(waypoints, reference) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "log10": () => (/* binding */ log10),
-/* harmony export */   "substract": () => (/* reexport safe */ _PositionUtil__WEBPACK_IMPORTED_MODULE_0__.delta)
+/* harmony export */   log10: () => (/* binding */ log10),
+/* harmony export */   substract: () => (/* reexport safe */ _PositionUtil__WEBPACK_IMPORTED_MODULE_0__.delta)
 /* harmony export */ });
 /* harmony import */ var _PositionUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PositionUtil */ "../node_modules/diagram-js/lib/util/PositionUtil.js");
 /**
- * Get the logarithm of x with base 10
- * @param  {Integer} value
+ * Get the logarithm of x with base 10.
+ *
+ * @param {number} x
  */
 function log10(x) {
   return Math.log(x) / Math.log(10);
@@ -36886,6 +38841,57 @@ function log10(x) {
 
 
 
+
+/***/ }),
+
+/***/ "../node_modules/diagram-js/lib/util/ModelUtil.js":
+/*!********************************************************!*\
+  !*** ../node_modules/diagram-js/lib/util/ModelUtil.js ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   isConnection: () => (/* binding */ isConnection),
+/* harmony export */   isLabel: () => (/* binding */ isLabel),
+/* harmony export */   isRoot: () => (/* binding */ isRoot)
+/* harmony export */ });
+/* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
+
+
+/**
+ * Checks whether a value is an instance of Connection.
+ *
+ * @param {any} value
+ *
+ * @return {boolean}
+ */
+function isConnection(value) {
+  return (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isObject)(value) && (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.has)(value, 'waypoints');
+}
+
+/**
+ * Checks whether a value is an instance of Label.
+ *
+ * @param {any} value
+ *
+ * @return {boolean}
+ */
+function isLabel(value) {
+  return (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isObject)(value) && (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.has)(value, 'labelTarget');
+}
+
+/**
+ * Checks whether a value is an instance of Root.
+ *
+ * @param {any} value
+ *
+ * @return {boolean}
+ */
+function isRoot(value) {
+  return (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isObject)(value) && (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isNil)(value.parent);
+}
 
 /***/ }),
 
@@ -36898,13 +38904,13 @@ function log10(x) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "hasPrimaryModifier": () => (/* binding */ hasPrimaryModifier),
-/* harmony export */   "hasSecondaryModifier": () => (/* binding */ hasSecondaryModifier),
-/* harmony export */   "isAuxiliaryButton": () => (/* binding */ isAuxiliaryButton),
-/* harmony export */   "isButton": () => (/* binding */ isButton),
-/* harmony export */   "isMac": () => (/* reexport safe */ _Platform__WEBPACK_IMPORTED_MODULE_0__.isMac),
-/* harmony export */   "isPrimaryButton": () => (/* binding */ isPrimaryButton),
-/* harmony export */   "isSecondaryButton": () => (/* binding */ isSecondaryButton)
+/* harmony export */   hasPrimaryModifier: () => (/* binding */ hasPrimaryModifier),
+/* harmony export */   hasSecondaryModifier: () => (/* binding */ hasSecondaryModifier),
+/* harmony export */   isAuxiliaryButton: () => (/* binding */ isAuxiliaryButton),
+/* harmony export */   isButton: () => (/* binding */ isButton),
+/* harmony export */   isMac: () => (/* reexport safe */ _Platform__WEBPACK_IMPORTED_MODULE_0__.isMac),
+/* harmony export */   isPrimaryButton: () => (/* binding */ isPrimaryButton),
+/* harmony export */   isSecondaryButton: () => (/* binding */ isSecondaryButton)
 /* harmony export */ });
 /* harmony import */ var _Event__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Event */ "../node_modules/diagram-js/lib/util/Event.js");
 /* harmony import */ var _Platform__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Platform */ "../node_modules/diagram-js/lib/util/Platform.js");
@@ -36914,28 +38920,54 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @param {MouseEvent} event
+ * @param {string} button
+ *
+ * @return {boolean}
+ */
 function isButton(event, button) {
   return ((0,_Event__WEBPACK_IMPORTED_MODULE_1__.getOriginal)(event) || event).button === button;
 }
 
+/**
+ * @param {MouseEvent} event
+ *
+ * @return {boolean}
+ */
 function isPrimaryButton(event) {
 
   // button === 0 -> left áka primary mouse button
   return isButton(event, 0);
 }
 
+/**
+ * @param {MouseEvent} event
+ *
+ * @return {boolean}
+ */
 function isAuxiliaryButton(event) {
 
   // button === 1 -> auxiliary áka wheel button
   return isButton(event, 1);
 }
 
+/**
+ * @param {MouseEvent} event
+ *
+ * @return {boolean}
+ */
 function isSecondaryButton(event) {
 
   // button === 2 -> right áka secondary button
   return isButton(event, 2);
 }
 
+/**
+ * @param {MouseEvent} event
+ *
+ * @return {boolean}
+ */
 function hasPrimaryModifier(event) {
   var originalEvent = (0,_Event__WEBPACK_IMPORTED_MODULE_1__.getOriginal)(event) || event;
 
@@ -36951,7 +38983,11 @@ function hasPrimaryModifier(event) {
   }
 }
 
-
+/**
+ * @param {MouseEvent} event
+ *
+ * @return {boolean}
+ */
 function hasSecondaryModifier(event) {
   var originalEvent = (0,_Event__WEBPACK_IMPORTED_MODULE_1__.getOriginal)(event) || event;
 
@@ -36970,7 +39006,7 @@ function hasSecondaryModifier(event) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "isMac": () => (/* binding */ isMac)
+/* harmony export */   isMac: () => (/* binding */ isMac)
 /* harmony export */ });
 function isMac() {
   return (/mac/i).test(navigator.platform);
@@ -36987,9 +39023,18 @@ function isMac() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "center": () => (/* binding */ center),
-/* harmony export */   "delta": () => (/* binding */ delta)
+/* harmony export */   center: () => (/* binding */ center),
+/* harmony export */   delta: () => (/* binding */ delta)
 /* harmony export */ });
+/**
+ * @typedef {import('../util/Types').Point} Point
+ * @typedef {import('../util/Types').Rect} Rect
+ */
+
+/**
+ * @param {Rect} bounds
+ * @return {Point}
+ */
 function center(bounds) {
   return {
     x: bounds.x + (bounds.width / 2),
@@ -36998,12 +39043,18 @@ function center(bounds) {
 }
 
 
+/**
+ * @param {Point} a
+ * @param {Point} b
+ * @return {Point}
+ */
 function delta(a, b) {
   return {
     x: a.x - b.x,
     y: a.y - b.y
   };
 }
+
 
 /***/ }),
 
@@ -37016,7 +39067,7 @@ function delta(a, b) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "saveClear": () => (/* binding */ saveClear)
+/* harmony export */   saveClear: () => (/* binding */ saveClear)
 /* harmony export */ });
 /**
  * Remove from the beginning of a collection until it is empty.
@@ -37029,10 +39080,10 @@ __webpack_require__.r(__webpack_exports__);
  * may touch, i.e. remove multiple elements in the collection
  * at a time.
  *
- * @param {Array<Object>} [collection]
- * @param {Function} removeFn
+ * @param {Object[]} [collection]
+ * @param {(element: Object) => void} removeFn
  *
- * @return {Array<Object>} the cleared collection
+ * @return {Object[]} the cleared collection
  */
 function saveClear(collection, removeFn) {
 
@@ -37065,10 +39116,10 @@ function saveClear(collection, removeFn) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "componentsToPath": () => (/* binding */ componentsToPath),
-/* harmony export */   "createLine": () => (/* binding */ createLine),
-/* harmony export */   "toSVGPoints": () => (/* binding */ toSVGPoints),
-/* harmony export */   "updateLine": () => (/* binding */ updateLine)
+/* harmony export */   componentsToPath: () => (/* binding */ componentsToPath),
+/* harmony export */   createLine: () => (/* binding */ createLine),
+/* harmony export */   toSVGPoints: () => (/* binding */ toSVGPoints),
+/* harmony export */   updateLine: () => (/* binding */ updateLine)
 /* harmony export */ });
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 /* harmony import */ var tiny_svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tiny-svg */ "../node_modules/tiny-svg/dist/index.esm.js");
@@ -37078,14 +39129,25 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /**
- * @param { [ string, ...any[] ][] } elements
+ * @typedef {(string|number)[]} Component
  *
- * @return { string }
+ * @typedef {import('../util/Types').Point} Point
+ */
+
+/**
+ * @param {Component[] | Component[][]} elements
+ *
+ * @return {string}
  */
 function componentsToPath(elements) {
   return elements.flat().join(',').replace(/,?([A-z]),?/g, '$1');
 }
 
+/**
+ * @param {Point[]} points
+ *
+ * @return {string}
+ */
 function toSVGPoints(points) {
   var result = '';
 
@@ -37096,18 +39158,40 @@ function toSVGPoints(points) {
   return result;
 }
 
+/**
+ * @param {Point} point
+ *
+ * @return {Component[]}
+ */
 function move(point) {
   return [ 'M', point.x, point.y ];
 }
 
+/**
+ * @param {Point} point
+ *
+ * @return {Component[]}
+ */
 function lineTo(point) {
   return [ 'L', point.x, point.y ];
 }
 
+/**
+ * @param {Point} p1
+ * @param {Point} p2
+ * @param {Point} p3
+ *
+ * @return {Component[]}
+ */
 function curveTo(p1, p2, p3) {
   return [ 'C', p1.x, p1.y, p2.x, p2.y, p3.x, p3.y ];
 }
 
+/**
+ * @param {Point[]} waypoints
+ * @param {number} [cornerRadius]
+ * @return {Component[][]}
+ */
 function drawPath(waypoints, cornerRadius) {
   const pointCount = waypoints.length;
 
@@ -37170,9 +39254,9 @@ function vectorLength(x, y) {
 }
 
 /**
- * @param { { x: number, y: number }[] } points
- * @param { any } [attrs]
- * @param { number } [radius]
+ * @param {Point[]} points
+ * @param {number|Object} [attrs]
+ * @param {number} [radius]
  *
  * @return {SVGElement}
  */
@@ -37197,8 +39281,8 @@ function createLine(points, attrs, radius) {
 }
 
 /**
- * @param { SVGElement } gfx
- * @param { { x: number, y: number }[]} points
+ * @param {SVGElement} gfx
+ * @param {Point[]} points
  *
  * @return {SVGElement}
  */
@@ -37225,21 +39309,21 @@ function updateLine(gfx, points) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "rotate": () => (/* binding */ rotate),
-/* harmony export */   "scale": () => (/* binding */ scale),
-/* harmony export */   "transform": () => (/* binding */ transform),
-/* harmony export */   "translate": () => (/* binding */ translate)
+/* harmony export */   rotate: () => (/* binding */ rotate),
+/* harmony export */   scale: () => (/* binding */ scale),
+/* harmony export */   transform: () => (/* binding */ transform),
+/* harmony export */   translate: () => (/* binding */ translate)
 /* harmony export */ });
 /* harmony import */ var tiny_svg__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tiny-svg */ "../node_modules/tiny-svg/dist/index.esm.js");
 
 
 
 /**
- * @param {<SVGElement>} element
+ * @param {SVGElement} gfx
  * @param {number} x
  * @param {number} y
- * @param {number} angle
- * @param {number} amount
+ * @param {number} [angle]
+ * @param {number} [amount]
  */
 function transform(gfx, x, y, angle, amount) {
   var translate = (0,tiny_svg__WEBPACK_IMPORTED_MODULE_0__.createTransform)();
@@ -37256,7 +39340,7 @@ function transform(gfx, x, y, angle, amount) {
 
 
 /**
- * @param {SVGElement} element
+ * @param {SVGElement} gfx
  * @param {number} x
  * @param {number} y
  */
@@ -37269,7 +39353,7 @@ function translate(gfx, x, y) {
 
 
 /**
- * @param {SVGElement} element
+ * @param {SVGElement} gfx
  * @param {number} angle
  */
 function rotate(gfx, angle) {
@@ -37281,7 +39365,7 @@ function rotate(gfx, angle) {
 
 
 /**
- * @param {SVGElement} element
+ * @param {SVGElement} gfx
  * @param {number} amount
  */
 function scale(gfx, amount) {
@@ -37290,6 +39374,7 @@ function scale(gfx, amount) {
 
   (0,tiny_svg__WEBPACK_IMPORTED_MODULE_0__.transform)(gfx, scale);
 }
+
 
 /***/ }),
 
@@ -37313,6 +39398,46 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+/**
+ * @typedef {import('../util/Types').Dimensions} Dimensions
+ *
+ * @typedef { {
+ *   top: number;
+ *   left: number;
+ *   right: number;
+ *   bottom: number;
+ * } } Padding
+ *
+ * @typedef { number | Partial<Padding> } PaddingConfig
+ *
+ * @typedef { {
+ *   horizontal: 'center' | 'left';
+ *   vertical: 'top' | 'center';
+ * } } Alignment
+ *
+ *  @typedef { 'center-middle' | 'center-top' } AlignmentConfig
+ *
+ * @typedef { Partial<{
+ *   align: AlignmentConfig;
+ *   style: Record<string, number | string>;
+ *   padding: PaddingConfig;
+ * }> } BaseTextConfig
+ *
+ * @typedef { BaseTextConfig & Partial<{
+ *   size: Dimensions;
+ * }> } TextConfig
+ *
+ * @typedef { BaseTextConfig & Partial<{
+ *   box: Dimensions;
+ *   fitBox: boolean;
+ * }> } TextLayoutConfig
+ *
+ *  @typedef { Dimensions & {
+ *  text: string;
+ * } } LineDescriptor
+ */
+
 var DEFAULT_BOX_PADDING = 0;
 
 var DEFAULT_LABEL_SIZE = {
@@ -37321,6 +39446,10 @@ var DEFAULT_LABEL_SIZE = {
 };
 
 
+/**
+ * @param {AlignmentConfig} align
+ * @return {Alignment}
+ */
 function parseAlign(align) {
 
   var parts = align.split('-');
@@ -37331,6 +39460,11 @@ function parseAlign(align) {
   };
 }
 
+/**
+ * @param {PaddingConfig} padding
+ *
+ * @return {Padding}
+ */
 function parsePadding(padding) {
 
   if ((0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isObject)(padding)) {
@@ -37345,6 +39479,12 @@ function parsePadding(padding) {
   }
 }
 
+/**
+ * @param {string} text
+ * @param {SVGTextElement} fakeText
+ *
+ * @return {import('../util/Types').Dimensions}
+ */
 function getTextBBox(text, fakeText) {
 
   fakeText.textContent = text;
@@ -37386,8 +39526,11 @@ function getTextBBox(text, fakeText) {
  *
  * Alters the lines passed.
  *
- * @param  {Array<string>} lines
- * @return {Object} the line descriptor, an object { width, height, text }
+ * @param {string[]} lines
+ * @param {number} maxWidth
+ * @param {SVGTextElement} fakeText
+ *
+ * @return {LineDescriptor} the line descriptor
  */
 function layoutNext(lines, maxWidth, fakeText) {
 
@@ -37410,6 +39553,14 @@ function layoutNext(lines, maxWidth, fakeText) {
   }
 }
 
+/**
+ * @param {string[]} lines
+ * @param {string} fitLine
+ * @param {string} originalLine
+ * @param {Dimensions} textBBox
+ *
+ * @return {LineDescriptor}
+ */
 function fit(lines, fitLine, originalLine, textBBox) {
   if (fitLine.length < originalLine.length) {
     var remainder = originalLine.slice(fitLine.length).trim();
@@ -37431,8 +39582,9 @@ var SOFT_BREAK = '\u00AD';
  * Shortens a line based on spacing and hyphens.
  * Returns the shortened result on success.
  *
- * @param  {string} line
- * @param  {number} maxLength the maximum characters of the string
+ * @param {string} line
+ * @param {number} maxLength the maximum characters of the string
+ *
  * @return {string} the shortened string
  */
 function semanticShorten(line, maxLength) {
@@ -37472,6 +39624,13 @@ function semanticShorten(line, maxLength) {
 }
 
 
+/**
+ * @param {string} line
+ * @param {number} width
+ * @param {number} maxWidth
+ *
+ * @return {string}
+ */
 function shortenLine(line, width, maxWidth) {
   var length = Math.max(line.length * (maxWidth / width), 1);
 
@@ -37488,6 +39647,9 @@ function shortenLine(line, width, maxWidth) {
 }
 
 
+/**
+ * @return {SVGSVGElement}
+ */
 function getHelperSvg() {
   var helperSvg = document.getElementById('helper-svg');
 
@@ -37515,11 +39677,7 @@ function getHelperSvg() {
 /**
  * Creates a new label utility
  *
- * @param {Object} config
- * @param {Dimensions} config.size
- * @param {number} config.padding
- * @param {Object} config.style
- * @param {string} config.align
+ * @param {TextConfig} config
  */
 function Text(config) {
 
@@ -37535,7 +39693,7 @@ function Text(config) {
  * Returns the layouted text as an SVG element.
  *
  * @param {string} text
- * @param {Object} options
+ * @param {TextLayoutConfig} options
  *
  * @return {SVGElement}
  */
@@ -37547,7 +39705,7 @@ Text.prototype.createText = function(text, options) {
  * Returns a labels layouted dimensions.
  *
  * @param {string} text to layout
- * @param {Object} options
+ * @param {TextLayoutConfig} options
  *
  * @return {Dimensions}
  */
@@ -37558,18 +39716,13 @@ Text.prototype.getDimensions = function(text, options) {
 /**
  * Creates and returns a label and its bounding box.
  *
- * @method Text#createText
- *
  * @param {string} text the text to render on the label
- * @param {Object} options
- * @param {string} options.align how to align in the bounding box.
- *                               Any of { 'center-middle', 'center-top' },
- *                               defaults to 'center-top'.
- * @param {string} options.style style to be applied to the text
- * @param {boolean} options.fitBox indicates if box will be recalculated to
- *                                 fit text
+ * @param {TextLayoutConfig} options
  *
- * @return {Object} { element, dimensions }
+ * @return { {
+ *   element: SVGElement,
+ *   dimensions: Dimensions
+ * } }
  */
 Text.prototype.layoutText = function(text, options) {
   var box = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.assign)({}, this._config.size, options.box),
@@ -37680,6 +39833,7 @@ function getLineHeight(style) {
   }
 }
 
+
 /***/ }),
 
 /***/ "../node_modules/didi/dist/index.esm.js":
@@ -37691,9 +39845,9 @@ function getLineHeight(style) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Injector": () => (/* binding */ Injector),
-/* harmony export */   "annotate": () => (/* binding */ annotate),
-/* harmony export */   "parseAnnotations": () => (/* binding */ parseAnnotations)
+/* harmony export */   Injector: () => (/* binding */ Injector),
+/* harmony export */   annotate: () => (/* binding */ annotate),
+/* harmony export */   parseAnnotations: () => (/* binding */ parseAnnotations)
 /* harmony export */ });
 const CLASS_PATTERN = /^class[ {]/;
 
@@ -41020,18 +43174,18 @@ function e(e,t){t&&(e.super_=t,e.prototype=Object.create(t.prototype,{constructo
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "assignStyle": () => (/* binding */ assign),
-/* harmony export */   "attr": () => (/* binding */ attr),
-/* harmony export */   "classes": () => (/* binding */ classes),
-/* harmony export */   "clear": () => (/* binding */ clear),
-/* harmony export */   "closest": () => (/* binding */ closest),
-/* harmony export */   "delegate": () => (/* binding */ delegate),
-/* harmony export */   "domify": () => (/* binding */ domify$1),
-/* harmony export */   "event": () => (/* binding */ event),
-/* harmony export */   "matches": () => (/* binding */ matches),
-/* harmony export */   "query": () => (/* binding */ query),
-/* harmony export */   "queryAll": () => (/* binding */ all),
-/* harmony export */   "remove": () => (/* binding */ remove)
+/* harmony export */   assignStyle: () => (/* binding */ assign),
+/* harmony export */   attr: () => (/* binding */ attr),
+/* harmony export */   classes: () => (/* binding */ classes),
+/* harmony export */   clear: () => (/* binding */ clear),
+/* harmony export */   closest: () => (/* binding */ closest),
+/* harmony export */   delegate: () => (/* binding */ delegate),
+/* harmony export */   domify: () => (/* binding */ domify$1),
+/* harmony export */   event: () => (/* binding */ event),
+/* harmony export */   matches: () => (/* binding */ matches),
+/* harmony export */   query: () => (/* binding */ query),
+/* harmony export */   queryAll: () => (/* binding */ all),
+/* harmony export */   remove: () => (/* binding */ remove)
 /* harmony export */ });
 function _mergeNamespaces(n, m) {
   m.forEach(function (e) {
@@ -42903,8 +45057,8 @@ module.exports = findPathIntersections;
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Parser": () => (/* binding */ Parser),
-/* harmony export */   "decode": () => (/* binding */ decodeEntities)
+/* harmony export */   Parser: () => (/* binding */ Parser),
+/* harmony export */   decode: () => (/* binding */ decodeEntities)
 /* harmony export */ });
 var fromCharCode = String.fromCharCode;
 
@@ -44001,26 +46155,26 @@ function Parser(options) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "append": () => (/* binding */ append),
-/* harmony export */   "appendTo": () => (/* binding */ appendTo),
-/* harmony export */   "attr": () => (/* binding */ attr),
-/* harmony export */   "classes": () => (/* binding */ classes),
-/* harmony export */   "clear": () => (/* binding */ clear),
-/* harmony export */   "clone": () => (/* binding */ clone),
-/* harmony export */   "create": () => (/* binding */ create),
-/* harmony export */   "createMatrix": () => (/* binding */ createMatrix),
-/* harmony export */   "createPoint": () => (/* binding */ createPoint),
-/* harmony export */   "createTransform": () => (/* binding */ createTransform),
-/* harmony export */   "innerSVG": () => (/* binding */ innerSVG),
-/* harmony export */   "off": () => (/* binding */ off),
-/* harmony export */   "on": () => (/* binding */ on),
-/* harmony export */   "prepend": () => (/* binding */ prepend),
-/* harmony export */   "prependTo": () => (/* binding */ prependTo),
-/* harmony export */   "remove": () => (/* binding */ remove),
-/* harmony export */   "replace": () => (/* binding */ replace),
-/* harmony export */   "select": () => (/* binding */ select),
-/* harmony export */   "selectAll": () => (/* binding */ selectAll),
-/* harmony export */   "transform": () => (/* binding */ transform)
+/* harmony export */   append: () => (/* binding */ append),
+/* harmony export */   appendTo: () => (/* binding */ appendTo),
+/* harmony export */   attr: () => (/* binding */ attr),
+/* harmony export */   classes: () => (/* binding */ classes),
+/* harmony export */   clear: () => (/* binding */ clear),
+/* harmony export */   clone: () => (/* binding */ clone),
+/* harmony export */   create: () => (/* binding */ create),
+/* harmony export */   createMatrix: () => (/* binding */ createMatrix),
+/* harmony export */   createPoint: () => (/* binding */ createPoint),
+/* harmony export */   createTransform: () => (/* binding */ createTransform),
+/* harmony export */   innerSVG: () => (/* binding */ innerSVG),
+/* harmony export */   off: () => (/* binding */ off),
+/* harmony export */   on: () => (/* binding */ on),
+/* harmony export */   prepend: () => (/* binding */ prepend),
+/* harmony export */   prependTo: () => (/* binding */ prependTo),
+/* harmony export */   remove: () => (/* binding */ remove),
+/* harmony export */   replace: () => (/* binding */ replace),
+/* harmony export */   select: () => (/* binding */ select),
+/* harmony export */   selectAll: () => (/* binding */ selectAll),
+/* harmony export */   transform: () => (/* binding */ transform)
 /* harmony export */ });
 function ensureImported(element, target) {
 
@@ -56790,50 +58944,52 @@ module.exports = styleTagTransform;
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "assign": () => (/* binding */ assign),
-/* harmony export */   "bind": () => (/* binding */ bind),
-/* harmony export */   "debounce": () => (/* binding */ debounce),
-/* harmony export */   "ensureArray": () => (/* binding */ ensureArray),
-/* harmony export */   "every": () => (/* binding */ every),
-/* harmony export */   "filter": () => (/* binding */ filter),
-/* harmony export */   "find": () => (/* binding */ find),
-/* harmony export */   "findIndex": () => (/* binding */ findIndex),
-/* harmony export */   "flatten": () => (/* binding */ flatten),
-/* harmony export */   "forEach": () => (/* binding */ forEach),
-/* harmony export */   "get": () => (/* binding */ get),
-/* harmony export */   "groupBy": () => (/* binding */ groupBy),
-/* harmony export */   "has": () => (/* binding */ has),
-/* harmony export */   "isArray": () => (/* binding */ isArray),
-/* harmony export */   "isDefined": () => (/* binding */ isDefined),
-/* harmony export */   "isFunction": () => (/* binding */ isFunction),
-/* harmony export */   "isNil": () => (/* binding */ isNil),
-/* harmony export */   "isNumber": () => (/* binding */ isNumber),
-/* harmony export */   "isObject": () => (/* binding */ isObject),
-/* harmony export */   "isString": () => (/* binding */ isString),
-/* harmony export */   "isUndefined": () => (/* binding */ isUndefined),
-/* harmony export */   "keys": () => (/* binding */ keys),
-/* harmony export */   "map": () => (/* binding */ map),
-/* harmony export */   "matchPattern": () => (/* binding */ matchPattern),
-/* harmony export */   "merge": () => (/* binding */ merge),
-/* harmony export */   "omit": () => (/* binding */ omit),
-/* harmony export */   "pick": () => (/* binding */ pick),
-/* harmony export */   "reduce": () => (/* binding */ reduce),
-/* harmony export */   "set": () => (/* binding */ set),
-/* harmony export */   "size": () => (/* binding */ size),
-/* harmony export */   "some": () => (/* binding */ some),
-/* harmony export */   "sortBy": () => (/* binding */ sortBy),
-/* harmony export */   "throttle": () => (/* binding */ throttle),
-/* harmony export */   "unionBy": () => (/* binding */ unionBy),
-/* harmony export */   "uniqueBy": () => (/* binding */ uniqueBy),
-/* harmony export */   "values": () => (/* binding */ values),
-/* harmony export */   "without": () => (/* binding */ without)
+/* harmony export */   assign: () => (/* binding */ assign),
+/* harmony export */   bind: () => (/* binding */ bind),
+/* harmony export */   debounce: () => (/* binding */ debounce),
+/* harmony export */   ensureArray: () => (/* binding */ ensureArray),
+/* harmony export */   every: () => (/* binding */ every),
+/* harmony export */   filter: () => (/* binding */ filter),
+/* harmony export */   find: () => (/* binding */ find),
+/* harmony export */   findIndex: () => (/* binding */ findIndex),
+/* harmony export */   flatten: () => (/* binding */ flatten),
+/* harmony export */   forEach: () => (/* binding */ forEach),
+/* harmony export */   get: () => (/* binding */ get),
+/* harmony export */   groupBy: () => (/* binding */ groupBy),
+/* harmony export */   has: () => (/* binding */ has),
+/* harmony export */   isArray: () => (/* binding */ isArray),
+/* harmony export */   isDefined: () => (/* binding */ isDefined),
+/* harmony export */   isFunction: () => (/* binding */ isFunction),
+/* harmony export */   isNil: () => (/* binding */ isNil),
+/* harmony export */   isNumber: () => (/* binding */ isNumber),
+/* harmony export */   isObject: () => (/* binding */ isObject),
+/* harmony export */   isString: () => (/* binding */ isString),
+/* harmony export */   isUndefined: () => (/* binding */ isUndefined),
+/* harmony export */   keys: () => (/* binding */ keys),
+/* harmony export */   map: () => (/* binding */ map),
+/* harmony export */   matchPattern: () => (/* binding */ matchPattern),
+/* harmony export */   merge: () => (/* binding */ merge),
+/* harmony export */   omit: () => (/* binding */ omit),
+/* harmony export */   pick: () => (/* binding */ pick),
+/* harmony export */   reduce: () => (/* binding */ reduce),
+/* harmony export */   set: () => (/* binding */ set),
+/* harmony export */   size: () => (/* binding */ size),
+/* harmony export */   some: () => (/* binding */ some),
+/* harmony export */   sortBy: () => (/* binding */ sortBy),
+/* harmony export */   throttle: () => (/* binding */ throttle),
+/* harmony export */   unionBy: () => (/* binding */ unionBy),
+/* harmony export */   uniqueBy: () => (/* binding */ uniqueBy),
+/* harmony export */   values: () => (/* binding */ values),
+/* harmony export */   without: () => (/* binding */ without)
 /* harmony export */ });
 /**
  * Flatten array, one level deep.
  *
- * @param {Array<?>} arr
+ * @template T
  *
- * @return {Array<?>}
+ * @param {T[][]} arr
+ *
+ * @return {T[]}
  */
 function flatten(arr) {
   return Array.prototype.concat.apply([], arr);
@@ -56866,6 +59022,11 @@ function isNumber(obj) {
   return nativeToString.call(obj) === '[object Number]';
 }
 
+/**
+ * @param {any} obj
+ *
+ * @return {boolean}
+ */
 function isFunction(obj) {
   const tag = nativeToString.call(obj);
 
@@ -56910,21 +59071,73 @@ function has(target, key) {
 }
 
 /**
+ * @template T
+ * @typedef { (
+ *   ((e: T) => boolean) |
+ *   ((e: T, idx: number) => boolean) |
+ *   ((e: T, key: string) => boolean) |
+ *   string |
+ *   number
+ * ) } Matcher
+ */
+
+/**
+ * @template T
+ * @template U
+ *
+ * @typedef { (
+ *   ((e: T) => U) | string | number
+ * ) } Extractor
+ */
+
+
+/**
+ * @template T
+ * @typedef { (val: T, key: any) => boolean } MatchFn
+ */
+
+/**
+ * @template T
+ * @typedef { T[] } ArrayCollection
+ */
+
+/**
+ * @template T
+ * @typedef { { [key: string]: T } } StringKeyValueCollection
+ */
+
+/**
+ * @template T
+ * @typedef { { [key: number]: T } } NumberKeyValueCollection
+ */
+
+/**
+ * @template T
+ * @typedef { StringKeyValueCollection<T> | NumberKeyValueCollection<T> } KeyValueCollection
+ */
+
+/**
+ * @template T
+ * @typedef { KeyValueCollection<T> | ArrayCollection<T> } Collection
+ */
+
+/**
  * Find element in collection.
  *
- * @param  {Array|Object} collection
- * @param  {Function|Object} matcher
+ * @template T
+ * @param {Collection<T>} collection
+ * @param {Matcher<T>} matcher
  *
  * @return {Object}
  */
 function find(collection, matcher) {
 
-  matcher = toMatcher(matcher);
+  const matchFn = toMatcher(matcher);
 
   let match;
 
   forEach(collection, function(val, key) {
-    if (matcher(val, key)) {
+    if (matchFn(val, key)) {
       match = val;
 
       return false;
@@ -56939,19 +59152,20 @@ function find(collection, matcher) {
 /**
  * Find element index in collection.
  *
- * @param  {Array|Object} collection
- * @param  {Function} matcher
+ * @template T
+ * @param {Collection<T>} collection
+ * @param {Matcher<T>} matcher
  *
- * @return {Object}
+ * @return {number}
  */
 function findIndex(collection, matcher) {
 
-  matcher = toMatcher(matcher);
+  const matchFn = toMatcher(matcher);
 
   let idx = isArray(collection) ? -1 : undefined;
 
   forEach(collection, function(val, key) {
-    if (matcher(val, key)) {
+    if (matchFn(val, key)) {
       idx = key;
 
       return false;
@@ -56963,19 +59177,22 @@ function findIndex(collection, matcher) {
 
 
 /**
- * Find element in collection.
+ * Filter elements in collection.
  *
- * @param  {Array|Object} collection
- * @param  {Function} matcher
+ * @template T
+ * @param {Collection<T>} collection
+ * @param {Matcher<T>} matcher
  *
- * @return {Array} result
+ * @return {T[]} result
  */
 function filter(collection, matcher) {
+
+  const matchFn = toMatcher(matcher);
 
   let result = [];
 
   forEach(collection, function(val, key) {
-    if (matcher(val, key)) {
+    if (matchFn(val, key)) {
       result.push(val);
     }
   });
@@ -56988,10 +59205,11 @@ function filter(collection, matcher) {
  * Iterate over collection; returning something
  * (non-undefined) will stop iteration.
  *
- * @param  {Array|Object} collection
- * @param  {Function} iterator
+ * @template T
+ * @param {Collection<T>} collection
+ * @param { ((item: T, idx: number) => (boolean|void)) | ((item: T, key: string) => (boolean|void)) } iterator
  *
- * @return {Object} return result that stopped the iteration
+ * @return {T} return result that stopped the iteration
  */
 function forEach(collection, iterator) {
 
@@ -57021,10 +59239,11 @@ function forEach(collection, iterator) {
 /**
  * Return collection without element.
  *
- * @param  {Array} arr
- * @param  {Function} matcher
+ * @template T
+ * @param {ArrayCollection<T>} arr
+ * @param {Matcher<T>} matcher
  *
- * @return {Array}
+ * @return {T[]}
  */
 function without(arr, matcher) {
 
@@ -57034,10 +59253,10 @@ function without(arr, matcher) {
 
   ensureArray(arr);
 
-  matcher = toMatcher(matcher);
+  const matchFn = toMatcher(matcher);
 
   return arr.filter(function(el, idx) {
-    return !matcher(el, idx);
+    return !matchFn(el, idx);
   });
 
 }
@@ -57046,11 +59265,14 @@ function without(arr, matcher) {
 /**
  * Reduce collection, returning a single result.
  *
- * @param  {Object|Array} collection
- * @param  {Function} iterator
- * @param  {Any} result
+ * @template T
+ * @template V
  *
- * @return {Any} result returned from last iterator
+ * @param {Collection<T>} collection
+ * @param {(result: V, entry: T, index: any) => V} iterator
+ * @param {V} result
+ *
+ * @return {V} result returned from last iterator
  */
 function reduce(collection, iterator, result) {
 
@@ -57154,8 +59376,8 @@ function values(collection) {
 /**
  * Group collection members by attribute.
  *
- * @param  {Object|Array} collection
- * @param  {Function} extractor
+ * @param {Object|Array} collection
+ * @param {Extractor} extractor
  *
  * @return {Object} map with { attrValue => [ a, b, c ] }
  */
@@ -57202,8 +59424,10 @@ const unionBy = uniqueBy;
 /**
  * Sort collection by criteria.
  *
- * @param  {Object|Array} collection
- * @param  {String|Function} extractor
+ * @template T
+ *
+ * @param {Collection<T>} collection
+ * @param {Extractor<T, number | string>} extractor
  *
  * @return {Array}
  */
@@ -57243,13 +59467,17 @@ function sortBy(collection, extractor) {
  *
  * @example
  *
+ * ```javascript
  * const matcher = matchPattern({ id: 1 });
  *
  * let element = find(elements, matcher);
+ * ```
  *
- * @param  {Object} pattern
+ * @template T
  *
- * @return {Function} matcherFn
+ * @param {T} pattern
+ *
+ * @return { (el: any) =>  boolean } matcherFn
  */
 function matchPattern(pattern) {
 
@@ -57263,13 +59491,30 @@ function matchPattern(pattern) {
 }
 
 
+/**
+ * @param {string | ((e: any) => any) } extractor
+ *
+ * @return { (e: any) => any }
+ */
 function toExtractor(extractor) {
+
+  /**
+   * @satisfies { (e: any) => any }
+   */
   return isFunction(extractor) ? extractor : (e) => {
+
+    // @ts-ignore: just works
     return e[extractor];
   };
 }
 
 
+/**
+ * @template T
+ * @param {Matcher<T>} matcher
+ *
+ * @return {MatchFn<T>}
+ */
 function toMatcher(matcher) {
   return isFunction(matcher) ? matcher : (e) => {
     return e === matcher;
@@ -57285,6 +59530,16 @@ function toNum(arg) {
   return Number(arg);
 }
 
+/* global setTimeout clearTimeout */
+
+/**
+ * @typedef { {
+ *   (...args: any[]): any;
+ *   flush: () => void;
+ *   cancel: () => void;
+ * } } DebouncedFunction
+ */
+
 /**
  * Debounce fn, calling it only once if the given time
  * elapsed between calls.
@@ -57295,7 +59550,7 @@ function toNum(arg) {
  * @param  {Function} fn
  * @param  {Number} timeout
  *
- * @return {Function} debounced function
+ * @return {DebouncedFunction} debounced function
  */
 function debounce(fn, timeout) {
 
@@ -57341,6 +59596,9 @@ function debounce(fn, timeout) {
     clear();
   }
 
+  /**
+   * @type { DebouncedFunction }
+   */
   function callback(...args) {
     lastNow = Date.now();
 
@@ -57415,9 +59673,13 @@ function assign(target, ...others) {
  *
  * This mutates the object and returns it.
  *
- * @param {Object} target The target of the set operation.
+ * @template T
+ *
+ * @param {T} target The target of the set operation.
  * @param {(string|number)[]} path The path to the nested value.
  * @param {any} value The value to set.
+ *
+ * @return {T}
  */
 function set(target, path, value) {
 
@@ -57465,6 +59727,8 @@ function set(target, path, value) {
  * @param {Object} target The target of the get operation.
  * @param {(string|number)[]} path The path to the nested value.
  * @param {any} [defaultValue] The value to return if no value exists.
+ *
+ * @return {any}
  */
 function get(target, path, defaultValue) {
 
@@ -57486,12 +59750,15 @@ function get(target, path, defaultValue) {
 }
 
 /**
- * Pick given properties from the target object.
+ * Pick properties from the given target.
  *
- * @param {Object} target
- * @param {Array} properties
+ * @template T
+ * @template {any[]} V
  *
- * @return {Object} target
+ * @param {T} target
+ * @param {V} properties
+ *
+ * @return Pick<T, V>
  */
 function pick(target, properties) {
 
@@ -57512,10 +59779,13 @@ function pick(target, properties) {
 /**
  * Pick all target properties, excluding the given ones.
  *
- * @param {Object} target
- * @param {Array} properties
+ * @template T
+ * @template {any[]} V
  *
- * @return {Object} target
+ * @param {T} target
+ * @param {V} properties
+ *
+ * @return {Omit<T, V>} target
  */
 function omit(target, properties) {
 
@@ -57597,8 +59867,8 @@ function merge(target, ...sources) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Reader": () => (/* binding */ Reader),
-/* harmony export */   "Writer": () => (/* binding */ Writer)
+/* harmony export */   Reader: () => (/* binding */ Reader),
+/* harmony export */   Writer: () => (/* binding */ Writer)
 /* harmony export */ });
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 /* harmony import */ var saxen__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! saxen */ "../node_modules/saxen/dist/index.esm.js");
@@ -59410,11 +61680,11 @@ function Writer(options) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Moddle": () => (/* binding */ Moddle),
-/* harmony export */   "coerceType": () => (/* binding */ coerceType),
-/* harmony export */   "isBuiltInType": () => (/* binding */ isBuiltIn),
-/* harmony export */   "isSimpleType": () => (/* binding */ isSimple),
-/* harmony export */   "parseNameNS": () => (/* binding */ parseName)
+/* harmony export */   Moddle: () => (/* binding */ Moddle),
+/* harmony export */   coerceType: () => (/* binding */ coerceType),
+/* harmony export */   isBuiltInType: () => (/* binding */ isBuiltIn),
+/* harmony export */   isSimpleType: () => (/* binding */ isSimple),
+/* harmony export */   parseNameNS: () => (/* binding */ parseName)
 /* harmony export */ });
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 
@@ -60320,6 +62590,12 @@ Moddle.prototype.createAny = function(name, nsUri, properties) {
     $type: name,
     $instanceOf: function(type) {
       return type === this.$type;
+    },
+    get: function(key) {
+      return this[key];
+    },
+    set: function(key, value) {
+      (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.set)(this, [ key ], value);
     }
   };
 
@@ -60335,6 +62611,8 @@ Moddle.prototype.createAny = function(name, nsUri, properties) {
 
   this.properties.defineDescriptor(element, descriptor);
   this.properties.defineModel(element, this);
+  this.properties.define(element, 'get', { enumerable: false, writable: true });
+  this.properties.define(element, 'set', { enumerable: false, writable: true });
   this.properties.define(element, '$parent', { enumerable: false, writable: true });
   this.properties.define(element, '$instanceOf', { enumerable: false, writable: true });
 
@@ -60530,10 +62808,13 @@ module.exports = JSON.parse('{"name":"ODDI","uri":"http://tk/schema/odDi","prefi
 /******/ 		var document = __webpack_require__.g.document;
 /******/ 		if (!scriptUrl && document) {
 /******/ 			if (document.currentScript)
-/******/ 				scriptUrl = document.currentScript.src
+/******/ 				scriptUrl = document.currentScript.src;
 /******/ 			if (!scriptUrl) {
 /******/ 				var scripts = document.getElementsByTagName("script");
-/******/ 				if(scripts.length) scriptUrl = scripts[scripts.length - 1].src
+/******/ 				if(scripts.length) {
+/******/ 					var i = scripts.length - 1;
+/******/ 					while (i > -1 && !scriptUrl) scriptUrl = scripts[i--].src;
+/******/ 				}
 /******/ 			}
 /******/ 		}
 /******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
