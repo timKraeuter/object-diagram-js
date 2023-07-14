@@ -4478,9 +4478,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 /* harmony import */ var inherits_browser__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! inherits-browser */ "../node_modules/inherits-browser/dist/index.es.js");
-/* harmony import */ var _util_LabelUtil__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../util/LabelUtil */ "../lib/util/LabelUtil.js");
 /* harmony import */ var diagram_js_lib_util_Collections__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! diagram-js/lib/util/Collections */ "../node_modules/diagram-js/lib/util/Collections.js");
 /* harmony import */ var _util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/ModelUtil */ "../lib/util/ModelUtil.js");
+/* harmony import */ var _util_LabelUtil__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../util/LabelUtil */ "../lib/util/LabelUtil.js");
 /* harmony import */ var diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! diagram-js/lib/command/CommandInterceptor */ "../node_modules/diagram-js/lib/command/CommandInterceptor.js");
 
 
@@ -4736,7 +4736,7 @@ ODUpdater.prototype.updateBounds = function(shape) {
 
   var di = shape.businessObject.di;
 
-  var target = ((0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_4__.isLabel)(shape)) ? this._getLabel(di) : di;
+  var target = (0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_4__.isLabel)(shape) ? this._getLabel(di) : di;
 
   var bounds = target.bounds;
 
