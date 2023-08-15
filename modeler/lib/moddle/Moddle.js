@@ -5,7 +5,7 @@ import { Moddle } from 'moddle';
 import { Reader, Writer } from 'moddle-xml';
 
 /**
- * A sub class of {@link Moddle} with support for import and export of Postit-js xml files.
+ * A sub class of {@link Moddle} with support for import and export of OD xml files.
  *
  * @class ODModdle
  *
