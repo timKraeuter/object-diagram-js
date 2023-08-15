@@ -8207,7 +8207,7 @@ function notYetDrawn(translate, semantic, refSemantic, property) {
 
 
 /**
- * An importer that adds postit elements to the canvas
+ * An importer that adds od elements to the canvas
  *
  * @param {EventBus} eventBus
  * @param {Canvas} canvas
@@ -8789,7 +8789,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /**
- * A sub class of {@link Moddle} with support for import and export of Postit-js xml files.
+ * A sub class of {@link Moddle} with support for import and export of OD xml files.
  *
  * @class ODModdle
  *
