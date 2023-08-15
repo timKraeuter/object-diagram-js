@@ -5,8 +5,7 @@
     "all": "run-s lint test",
     "lint": "eslint .",
     "test": "karma start karma.conf.js",
-    "dev": "npm test -- --auto-watch --no-single-run",
-    "sync:live": "git checkout live && git merge main && git push origin live && git checkout main"
+    "dev": "npm test -- --auto-watch --no-single-run"
   },
   "keywords": [
     "diagram-js",
@@ -47,17 +46,16 @@
     "webpack": "^5.88.2"
   },
   "dependencies": {
-    "bpmn-font": "^0.12.1",
-    "css.escape": "^1.5.1",
+    "moddle": "^6.2.3",
+    "moddle-xml": "^10.1.0",
     "diagram-js": "^12.2.0",
     "diagram-js-direct-editing": "^2.0.0",
     "ids": "^1.0.5",
     "inherits": "^2.0.4",
     "min-dash": "^4.0.0",
     "min-dom": "^4.1.0",
-    "moddle": "^6.2.3",
-    "moddle-xml": "^10.1.0",
     "object-refs": "^0.3.0",
-    "tiny-svg": "^3.0.0"
+    "tiny-svg": "^3.0.0",
+    "bpmn-font": "^0.12.1"
   }
 }
