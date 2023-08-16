@@ -99,8 +99,8 @@ inherits(BaseViewer, Diagram);
  *
  * You can use these events to hook into the life-cycle.
  *
- * @param {String} xml the Postit xml
- * @param {ModdleElement<PostitRootBoard>|String} [rootBoard] Postit board or id of board to render (if not provided, the first one will be rendered)
+ * @param {String} xml the OD xml
+ * @param {ModdleElement<PostitRootBoard>|String} [rootBoard] OD board or id of board to render (if not provided, the first one will be rendered)
  *
  * @returns {Promise<ImportXMLResult, ImportXMLError>}
  */

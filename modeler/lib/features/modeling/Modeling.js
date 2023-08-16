@@ -10,7 +10,7 @@ import UpdateLabelHandler from '../label-editing/cmd/UpdateLabelHandler';
 
 
 /**
- * Postit modeling features activator
+ * OD modeling features activator
  *
  * @param {EventBus} eventBus
  * @param {ElementFactory} elementFactory
