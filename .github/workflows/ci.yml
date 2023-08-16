@@ -29,31 +29,6 @@ jobs:
           ${{ runner.OS }}-node-
           ${{ runner.OS }}-
 
-#  Check debugger
-    - name: Install debugger dependencies
-      working-directory: ./debugger
-      run: npm install
-
-    - name: Test debugger
-      working-directory: ./debugger
-      if: matrix.os == 'ubuntu-latest'
-      env:
-        TEST_BROWSERS: ChromeHeadless
-      run: xvfb-run npm run all
-
-    - name: Build debugger
-      working-directory: ./debugger
-      if: matrix.os != 'ubuntu-latest'
-      env:
-        TEST_BROWSERS: ChromeHeadless,Firefox
-      run: npm run all
-
-    - name: Setup and build debugger starter
-      working-directory: ./debugger/starter
-      run: |
-        npm install
-        npm run all
-
 #  Check modeler
     - name: Install modeler dependencies
       working-directory: ./modeler
