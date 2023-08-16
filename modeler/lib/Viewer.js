@@ -4,6 +4,7 @@ import CoreModule from './core';
 import TranslateModule from 'diagram-js/lib/i18n/translate';
 import SelectionModule from 'diagram-js/lib/features/selection';
 import OverlaysModule from 'diagram-js/lib/features/overlays';
+import WebsocketConnectorModule from './websocket';
 
 import BaseViewer from './BaseViewer';
 
@@ -18,7 +19,8 @@ Viewer.prototype._modules = [
   CoreModule,
   TranslateModule,
   SelectionModule,
-  OverlaysModule
+  OverlaysModule,
+  WebsocketConnectorModule
 ];
 
 // default moddle extensions the viewer is composed of

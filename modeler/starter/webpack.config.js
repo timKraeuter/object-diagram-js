@@ -7,14 +7,24 @@ const SOURCE_VERSION = process.env.SOURCE_VERSION || process.env.npm_package_git
 module.exports = (env) => {
 
   let outputPath = __dirname + '/public';
-  if (env.production) {
+  let path = 'app';
+  if (env.ghpages) {
+
+    // GitHub pages expects static files here.
+    outputPath = __dirname + '/../../docs';
+  }
+  if (env.debuggerDev) {
+    path = 'debugger';
+  }
+  if (env.debuggerDeploy) {
+    path = 'debugger';
 
     // We expect the Visual debugger project in the same folder as this project.
-    outputPath = __dirname + '/../../docs';
+    outputPath = __dirname + '/../../../VisualDebugger/src/main/resources/ui';
   }
   return {
     entry: {
-      bundle: [ './app/app.js' ],
+      bundle: [ `./${path}/app.js` ],
     },
     output: {
       path: outputPath,
@@ -40,7 +50,7 @@ module.exports = (env) => {
       ],
     },
     plugins: [
-      new CopyWebpackPlugin({ patterns: [ { from: '**/*.{html,css,woff,ttf,eot,svg,woff2,ico}', context: 'app/' } ] }),
+      new CopyWebpackPlugin({ patterns: [ { from: '**/*.{html,css,woff,ttf,eot,svg,woff2,ico}', context: `${path}/` } ] }),
       new webpack.DefinePlugin({
         'process.env.SOURCE_VERSION': JSON.stringify(SOURCE_VERSION || null)
       }),

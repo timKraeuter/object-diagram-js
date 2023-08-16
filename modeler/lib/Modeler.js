@@ -29,6 +29,7 @@ import MoveModule from 'diagram-js/lib/features/move';
 import PaletteModule from './features/palette';
 import ResizeModule from 'diagram-js/lib/features/resize';
 import SnappingModule from './features/snapping';
+import WebsocketConnectorModule from './websocket';
 
 var initialDiagram =
   `<?xml version="1.0" encoding="UTF-8"?>
@@ -107,6 +108,7 @@ Modeler.prototype._modelingModules = [
   PaletteModule,
   ResizeModule,
   SnappingModule,
+  WebsocketConnectorModule
 ];
 
 

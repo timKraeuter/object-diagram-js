@@ -56,6 +56,7 @@
     "min-dom": "^4.1.0",
     "object-refs": "^0.3.0",
     "tiny-svg": "^3.0.0",
-    "bpmn-font": "^0.12.1"
+    "bpmn-font": "^0.12.1",
+    "elkjs": "^0.8.2"
   }
 }

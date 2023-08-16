@@ -5,12 +5,17 @@
   "scripts": {
     "all": "run-s lint build",
     "build": "webpack",
-    "build:github-pages": "webpack --env production",
+    "lint": "eslint ",
+    "start": "run-s dev",
     "dev": "run-p build:watch serve",
     "build:watch": "webpack -w",
     "serve": "serve public",
-    "lint": "eslint ",
-    "start": "run-s dev"
+    "build:github-pages": "webpack --env ghpages",
+
+    "startDebugger": "run-s devDebugger",
+    "devDebugger": "run-p buildDebugger:watch serve",
+    "buildDebugger:watch": "webpack -w --env debuggerDev",
+    "buildDebugger:deploy": "webpack --env debuggerDeploy"
   },
   "private": "true",
   "keywords": [
