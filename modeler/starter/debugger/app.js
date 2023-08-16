@@ -1,13 +1,10 @@
 import $ from 'jquery';
 
 import 'object-diagram-modeler/assets/odm.css';
-import ODModeler from 'object-diagram-modeler/lib/Viewer';
-
-import emptyBoardXML from '../resources/emptyBoard.xml';
-import sampleBoardXML from '../resources/sampleBoard.xml';
+import ODViewer from 'object-diagram-modeler/lib/Viewer';
 
 // modeler instance
-var modeler = new ODModeler({
+const viewer = new ODViewer({
   container: '#canvas',
   keyboard: {
     bindTo: window,
@@ -82,11 +79,11 @@ function openFile(file, callback) {
     return;
   }
 
-  var reader = new FileReader();
+  const reader = new FileReader();
 
   reader.onload = function(e) {
 
-    var xml = e.target.result;
+    const xml = e.target.result;
 
     callback(xml);
   };
@@ -94,7 +91,7 @@ function openFile(file, callback) {
   reader.readAsText(file);
 }
 
-var fileInput = $('<input type="file" />').appendTo(document.body).css({
+const fileInput = $('<input type="file" />').appendTo(document.body).css({
   width: 1,
   height: 1,
   display: 'none',
@@ -107,7 +104,7 @@ var fileInput = $('<input type="file" />').appendTo(document.body).css({
 function openBoard(xml) {
 
   // import board
-  modeler.importXML(xml).catch(function(err) {
+  viewer.importXML(xml).catch(function(err) {
     if (err) {
       return console.error('could not import od board', err);
     }
@@ -115,21 +112,20 @@ function openBoard(xml) {
 }
 
 function saveSVG() {
-  return modeler.saveSVG();
+  return viewer.saveSVG();
 }
 
 function saveBoard() {
-  return modeler.saveXML({ format: true });
+  return viewer.saveXML({ format: true });
 }
 
 // bootstrap board functions
 $(function() {
 
-  var downloadLink = $('#js-download-board');
-  var downloadSvgLink = $('#js-download-svg');
+  const downloadLink = $('#js-download-board');
+  const downloadSvgLink = $('#js-download-svg');
 
-  var openNew = $('#js-open-new');
-  var openExistingBoard = $('#js-open-board');
+  const openExistingBoard = $('#js-open-board');
 
   $('.buttons a').click(function(e) {
     if (!$(this).is('.active')) {
@@ -139,7 +135,7 @@ $(function() {
   });
 
   function setEncoded(link, name, data) {
-    var encodedData = encodeURIComponent(data);
+    const encodedData = encodeURIComponent(data);
 
     if (data) {
       link.addClass('active').attr({
@@ -151,7 +147,7 @@ $(function() {
     }
   }
 
-  var exportArtifacts = debounce(function() {
+  const exportArtifacts = debounce(function() {
 
     saveSVG().then(function(result) {
       setEncoded(downloadSvgLink, 'object-diagram.svg', result.svg);
@@ -162,14 +158,10 @@ $(function() {
     });
   }, 500);
 
-  modeler.on('commandStack.changed', exportArtifacts);
-
-  openNew.on('click', function() {
-    openBoard(emptyBoardXML);
-  });
+  viewer.on('commandStack.changed', exportArtifacts);
 
   openExistingBoard.on('click', function() {
-    var input = $(fileInput);
+    const input = $(fileInput);
 
     // clear input so that previously selected file can be reopened
     input.val('');
@@ -182,7 +174,7 @@ $(function() {
 // helpers //////////////////////
 
 function debounce(fn, timeout) {
-  var timer;
+  let timer;
 
   return function() {
     if (timer) {
