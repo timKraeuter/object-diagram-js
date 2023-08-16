@@ -159,6 +159,7 @@ $(function() {
   }, 500);
 
   viewer.on('commandStack.changed', exportArtifacts);
+  viewer.on('import.done', exportArtifacts);
 
   openExistingBoard.on('click', function() {
     const input = $(fileInput);
