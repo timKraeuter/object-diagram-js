@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<od:definitions xmlns:od="http://tk/schema/od" xmlns:odDi="http://tk/schema/odDi" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC">
+    <od:odBoard id="Board">
+    </od:odBoard>
+    <odDi:odRootBoard id="RootBoard">
+        <odDi:odPlane id="Plane" boardElement="Board">
+        </odDi:odPlane>
+    </odDi:odRootBoard>
+</od:definitions>

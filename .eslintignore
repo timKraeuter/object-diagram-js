@@ -1,0 +1,8 @@
+coverage
+dist
+example
+node_modules
+*.json
+assets
+starter/public
+starter/node_modules
