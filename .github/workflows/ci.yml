@@ -31,25 +31,22 @@ jobs:
 
 #  Check modeler
     - name: Install modeler dependencies
-      working-directory: ./modeler
       run: npm install
 
     - name: Test modeler
-      working-directory: ./modeler
       if: matrix.os == 'ubuntu-latest'
       env:
         TEST_BROWSERS: ChromeHeadless
       run: xvfb-run npm run all
 
     - name: Build modeler
-      working-directory: ./modeler
       if: matrix.os != 'ubuntu-latest'
       env:
         TEST_BROWSERS: ChromeHeadless,Firefox
       run: npm run all
 
     - name: Setup and build modeler starter
-      working-directory: ./modeler/starter
+      working-directory: ./starter
       run: |
         npm install
         npm run all
