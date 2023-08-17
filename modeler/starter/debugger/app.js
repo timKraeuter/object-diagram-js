@@ -1,10 +1,10 @@
 import $ from 'jquery';
 
 import 'object-diagram-modeler/assets/odm.css';
-import ODViewer from 'object-diagram-modeler/lib/Viewer';
+import ODDebugger from './Debugger';
 
 // modeler instance
-const viewer = new ODViewer({
+const odDebugger = new ODDebugger({
   container: '#canvas',
   keyboard: {
     bindTo: window,
@@ -104,7 +104,7 @@ const fileInput = $('<input type="file" />').appendTo(document.body).css({
 function openBoard(xml) {
 
   // import board
-  viewer.importXML(xml).catch(function(err) {
+  odDebugger.importXML(xml).catch(function(err) {
     if (err) {
       return console.error('could not import od board', err);
     }
@@ -112,11 +112,11 @@ function openBoard(xml) {
 }
 
 function saveSVG() {
-  return viewer.saveSVG();
+  return odDebugger.saveSVG();
 }
 
 function saveBoard() {
-  return viewer.saveXML({ format: true });
+  return odDebugger.saveXML({ format: true });
 }
 
 // bootstrap board functions
@@ -158,8 +158,8 @@ $(function() {
     });
   }, 500);
 
-  viewer.on('commandStack.changed', exportArtifacts);
-  viewer.on('import.done', exportArtifacts);
+  odDebugger.on('commandStack.changed', exportArtifacts);
+  odDebugger.on('import.done', exportArtifacts);
 
   openExistingBoard.on('click', function() {
     const input = $(fileInput);

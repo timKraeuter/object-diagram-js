@@ -43,6 +43,8 @@
   },
   "dependencies": {
     "jquery": "^3.7.0",
-    "object-diagram-modeler": "file:../"
+    "object-diagram-modeler": "file:../",
+    "inherits": "^2.0.4",
+    "elkjs": "^0.8.2"
   }
 }

@@ -1,25 +1,27 @@
 import inherits from 'inherits-browser';
 
-import CoreModule from './core';
+import CoreModule from 'object-diagram-modeler/lib/core';
 import TranslateModule from 'diagram-js/lib/i18n/translate';
 import SelectionModule from 'diagram-js/lib/features/selection';
 import OverlaysModule from 'diagram-js/lib/features/overlays';
+import WebsocketConnectorModule from './websocket';
 
-import BaseViewer from './BaseViewer';
+import BaseViewer from 'object-diagram-modeler/lib/BaseViewer';
 
-export default function Viewer(options) {
+export default function Debugger(options) {
   BaseViewer.call(this, options);
 }
 
-inherits(Viewer, BaseViewer);
+inherits(Debugger, BaseViewer);
 
 // modules the viewer is composed of
-Viewer.prototype._modules = [
+Debugger.prototype._modules = [
   CoreModule,
   TranslateModule,
   SelectionModule,
-  OverlaysModule
+  OverlaysModule,
+  WebsocketConnectorModule
 ];
 
 // default moddle extensions the viewer is composed of
-Viewer.prototype._moddleExtensions = {};
+Debugger.prototype._moddleExtensions = {};

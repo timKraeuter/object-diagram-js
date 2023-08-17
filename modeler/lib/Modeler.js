@@ -29,9 +29,8 @@ import MoveModule from 'diagram-js/lib/features/move';
 import PaletteModule from './features/palette';
 import ResizeModule from 'diagram-js/lib/features/resize';
 import SnappingModule from './features/snapping';
-import WebsocketConnectorModule from './websocket';
 
-var initialDiagram =
+const initialDiagram =
   `<?xml version="1.0" encoding="UTF-8"?>
 <od:definitions xmlns:od="http://tk/schema/od" xmlns:odDi="http://tk/schema/odDi">
     <od:odBoard id="Board_debug" />
@@ -47,7 +46,7 @@ export default function Modeler(options) {
 inherits(Modeler, BaseModeler);
 
 
-Modeler.Viewer = Viewer;
+Modeler.Debugger = Viewer;
 Modeler.NavigatedViewer = NavigatedViewer;
 
 /**
@@ -107,8 +106,7 @@ Modeler.prototype._modelingModules = [
   MoveModule,
   PaletteModule,
   ResizeModule,
-  SnappingModule,
-  WebsocketConnectorModule
+  SnappingModule
 ];
 
 

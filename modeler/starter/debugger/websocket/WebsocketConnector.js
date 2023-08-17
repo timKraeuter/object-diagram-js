@@ -1,4 +1,4 @@
-import Moddle from '../moddle';
+import Moddle from 'object-diagram-modeler/lib/moddle';
 import ELK from 'elkjs/lib/elk.bundled.js';
 
 // Rename this to debug api client or something
@@ -225,8 +225,8 @@ WebsocketConnector.prototype.setOnMessageHandler = function(eventBus, lastBoard)
     }
 
     function addLabelInformation(edge, linkShape) {
-      var elkLabel = edge.labels[0];
-      var label = moddle.create('odDi:OdLabel');
+      const elkLabel = edge.labels[0];
+      const label = moddle.create('odDi:OdLabel');
       label.bounds = moddle.create('dc:Bounds');
       label.bounds.x = elkLabel.x;
       label.bounds.y = elkLabel.y;
