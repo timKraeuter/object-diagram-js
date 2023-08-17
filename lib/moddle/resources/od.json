@@ -25,9 +25,7 @@
     },
     {
       "name": "Object",
-      "superClass": [
-        "BoardElement"
-      ],
+      "superClass": ["BoardElement"],
       "properties": [
         {
           "name": "attributeValues",
@@ -44,9 +42,7 @@
     },
     {
       "name": "Link",
-      "superClass": [
-        "BoardElement"
-      ],
+      "superClass": ["BoardElement"],
       "properties": [
         {
           "name": "type",
@@ -69,9 +65,7 @@
     },
     {
       "name": "OdBoard",
-      "superClass": [
-        "RootElement"
-      ],
+      "superClass": ["RootElement"],
       "properties": [
         {
           "name": "boardElements",
@@ -82,22 +76,16 @@
     },
     {
       "name": "TextBox",
-      "superClass": [
-        "BoardElement"
-      ]
+      "superClass": ["BoardElement"]
     },
     {
       "name": "RootElement",
       "isAbstract": true,
-      "superClass": [
-        "BoardElement"
-      ]
+      "superClass": ["BoardElement"]
     },
     {
       "name": "Definitions",
-      "superClass": [
-        "BoardElement"
-      ],
+      "superClass": ["BoardElement"],
       "properties": [
         {
           "name": "targetNamespace",

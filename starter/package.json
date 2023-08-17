@@ -11,7 +11,6 @@
     "build:watch": "webpack -w",
     "serve": "serve public",
     "build:github-pages": "webpack --env ghpages",
-
     "startDebugger": "run-s devDebugger",
     "devDebugger": "run-p buildDebugger:watch serve",
     "buildDebugger:watch": "webpack -w --env debuggerDev",

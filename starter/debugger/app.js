@@ -1,14 +1,14 @@
-import $ from 'jquery';
+import $ from "jquery";
 
-import 'object-diagram-modeler/assets/odm.css';
-import ODDebugger from './Debugger';
+import "object-diagram-modeler/assets/odm.css";
+import ODDebugger from "./Debugger";
 
 // modeler instance
 const odDebugger = new ODDebugger({
-  container: '#canvas',
+  container: "#canvas",
   keyboard: {
     bindTo: window,
-  }
+  },
 });
 
 /* screen interaction */
@@ -40,38 +40,44 @@ const state = {
   fullScreen: false,
   keyboardHelp: false,
 };
-document.getElementById('js-toggle-fullscreen').addEventListener('click', function() {
-  state.fullScreen = !state.fullScreen;
-  if (state.fullScreen) {
-    enterFullscreen(document.documentElement);
-  } else {
-    exitFullscreen();
-  }
-});
-document.getElementById('js-toggle-keyboard-help').addEventListener('click', function() {
-  state.keyboardHelp = !state.keyboardHelp;
-  let displayProp = 'none';
-  if (state.keyboardHelp) {
-    displayProp = 'block';
-  }
-  document.getElementById('io-dialog-main').style.display = displayProp;
-});
-document.getElementById('io-dialog-main').addEventListener('click', function() {
-  state.keyboardHelp = !state.keyboardHelp;
-  let displayProp = 'none';
-  if (!state.keyboardHelp) {
-    document.getElementById('io-dialog-main').style.display = displayProp;
-  }
-});
+document
+  .getElementById("js-toggle-fullscreen")
+  .addEventListener("click", function () {
+    state.fullScreen = !state.fullScreen;
+    if (state.fullScreen) {
+      enterFullscreen(document.documentElement);
+    } else {
+      exitFullscreen();
+    }
+  });
+document
+  .getElementById("js-toggle-keyboard-help")
+  .addEventListener("click", function () {
+    state.keyboardHelp = !state.keyboardHelp;
+    let displayProp = "none";
+    if (state.keyboardHelp) {
+      displayProp = "block";
+    }
+    document.getElementById("io-dialog-main").style.display = displayProp;
+  });
+document
+  .getElementById("io-dialog-main")
+  .addEventListener("click", function () {
+    state.keyboardHelp = !state.keyboardHelp;
+    let displayProp = "none";
+    if (!state.keyboardHelp) {
+      document.getElementById("io-dialog-main").style.display = displayProp;
+    }
+  });
 
 /* file functions */
 function openFile(file, callback) {
-
   // check file api availability
   if (!window.FileReader) {
     return window.alert(
-      'Looks like you use an older browser that does not support drag and drop. ' +
-      'Try using a modern browser such as Chrome, Firefox or Internet Explorer > 10.');
+      "Looks like you use an older browser that does not support drag and drop. " +
+        "Try using a modern browser such as Chrome, Firefox or Internet Explorer > 10.",
+    );
   }
 
   // no file chosen
@@ -81,8 +87,7 @@ function openFile(file, callback) {
 
   const reader = new FileReader();
 
-  reader.onload = function(e) {
-
+  reader.onload = function (e) {
     const xml = e.target.result;
 
     callback(xml);
@@ -91,22 +96,23 @@ function openFile(file, callback) {
   reader.readAsText(file);
 }
 
-const fileInput = $('<input type="file" />').appendTo(document.body).css({
-  width: 1,
-  height: 1,
-  display: 'none',
-  overflow: 'hidden'
-}).on('change', function(e) {
-  openFile(e.target.files[0], openBoard);
-});
-
+const fileInput = $('<input type="file" />')
+  .appendTo(document.body)
+  .css({
+    width: 1,
+    height: 1,
+    display: "none",
+    overflow: "hidden",
+  })
+  .on("change", function (e) {
+    openFile(e.target.files[0], openBoard);
+  });
 
 function openBoard(xml) {
-
   // import board
-  odDebugger.importXML(xml).catch(function(err) {
+  odDebugger.importXML(xml).catch(function (err) {
     if (err) {
-      return console.error('could not import od board', err);
+      return console.error("could not import od board", err);
     }
   });
 }
@@ -120,15 +126,14 @@ function saveBoard() {
 }
 
 // bootstrap board functions
-$(function() {
+$(function () {
+  const downloadLink = $("#js-download-board");
+  const downloadSvgLink = $("#js-download-svg");
 
-  const downloadLink = $('#js-download-board');
-  const downloadSvgLink = $('#js-download-svg');
+  const openExistingBoard = $("#js-open-board");
 
-  const openExistingBoard = $('#js-open-board');
-
-  $('.buttons a').click(function(e) {
-    if (!$(this).is('.active')) {
+  $(".buttons a").click(function (e) {
+    if (!$(this).is(".active")) {
       e.preventDefault();
       e.stopPropagation();
     }
@@ -138,50 +143,51 @@ $(function() {
     const encodedData = encodeURIComponent(data);
 
     if (data) {
-      link.addClass('active').attr({
-        'href': 'data:application/xml;charset=UTF-8,' + encodedData,
-        'download': name
+      link.addClass("active").attr({
+        href: "data:application/xml;charset=UTF-8," + encodedData,
+        download: name,
       });
     } else {
-      link.removeClass('active');
+      link.removeClass("active");
     }
   }
 
-  const exportArtifacts = debounce(function() {
-
-    saveSVG().then(function(result) {
-      setEncoded(downloadSvgLink, 'object-diagram.svg', result.svg);
+  const exportArtifacts = debounce(function () {
+    saveSVG().then(function (result) {
+      setEncoded(downloadSvgLink, "object-diagram.svg", result.svg);
     });
 
-    saveBoard().then(function(result) {
-      setEncoded(downloadLink, 'object-diagram.xml', result.xml);
+    saveBoard().then(function (result) {
+      setEncoded(downloadLink, "object-diagram.xml", result.xml);
     });
   }, 500);
 
-  odDebugger.on('commandStack.changed', exportArtifacts);
-  odDebugger.on('import.done', exportArtifacts);
+  odDebugger.on("commandStack.changed", exportArtifacts);
+  odDebugger.on("import.done", exportArtifacts);
 
-  odDebugger.on('debugger.data.new', function(event) {
-    odDebugger.importXML(event.xml);
-  }, this);
+  odDebugger.on(
+    "debugger.data.new",
+    function (event) {
+      odDebugger.importXML(event.xml);
+    },
+    this,
+  );
 
-  openExistingBoard.on('click', function() {
+  openExistingBoard.on("click", function () {
     const input = $(fileInput);
 
     // clear input so that previously selected file can be reopened
-    input.val('');
-    input.trigger('click');
+    input.val("");
+    input.trigger("click");
   });
-
 });
-
 
 // helpers //////////////////////
 
 function debounce(fn, timeout) {
   let timer;
 
-  return function() {
+  return function () {
     if (timer) {
       clearTimeout(timer);
     }

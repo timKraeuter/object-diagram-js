@@ -1,3 +1,1 @@
-export {
-  default
-} from './lib/Viewer';
+export { default } from "./lib/Viewer";

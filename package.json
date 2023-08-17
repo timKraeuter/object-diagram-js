@@ -25,6 +25,7 @@
     "chai": "^4.3.7",
     "chai-match": "^1.1.1",
     "eslint": "^8.47.0",
+    "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-bpmn-io": "^1.0.0",
     "eslint-plugin-import": "^2.28.0",
     "file-loader": "^6.2.0",
@@ -39,6 +40,7 @@
     "mocha": "^10.2.0",
     "mocha-test-container-support": "^0.2.0",
     "npm-run-all": "^4.1.5",
+    "prettier": "3.0.2",
     "puppeteer": "^21.0.3",
     "raw-loader": "^4.0.2",
     "sinon": "^15.2.0",
@@ -46,16 +48,16 @@
     "webpack": "^5.88.2"
   },
   "dependencies": {
-    "moddle": "^6.2.3",
-    "moddle-xml": "^10.1.0",
+    "bpmn-font": "^0.12.1",
     "diagram-js": "^12.2.0",
     "diagram-js-direct-editing": "^2.0.0",
     "ids": "^1.0.5",
     "inherits": "^2.0.4",
     "min-dash": "^4.0.0",
     "min-dom": "^4.1.0",
+    "moddle": "^6.2.3",
+    "moddle-xml": "^10.1.0",
     "object-refs": "^0.3.0",
-    "tiny-svg": "^3.0.0",
-    "bpmn-font": "^0.12.1"
+    "tiny-svg": "^3.0.0"
   }
 }

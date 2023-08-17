@@ -1,6 +1,6 @@
-import WebsocketConnector from './WebsocketConnector';
+import WebsocketConnector from "./WebsocketConnector";
 
 export default {
-  __init__: [ 'websocketConnector' ],
-  websocketConnector: [ 'type', WebsocketConnector ]
+  __init__: ["websocketConnector"],
+  websocketConnector: ["type", WebsocketConnector],
 };

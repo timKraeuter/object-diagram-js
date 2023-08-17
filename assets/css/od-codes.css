@@ -1,2 +1,3 @@
-
-.od-icon-object:before { content: '\e800'; } /* '' */
+.od-icon-object:before {
+  content: "\e800";
+} /* '' */

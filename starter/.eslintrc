@@ -1,5 +1,5 @@
 {
-  "extends": "plugin:bpmn-io/browser",
+  "extends": ["plugin:bpmn-io/browser", "prettier"],
   "env": {
     "node": true
   }

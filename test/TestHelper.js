@@ -1,6 +1,6 @@
-export * from './helper';
+export * from "./helper";
 
-import ChaiMatch from 'chai-match';
+import ChaiMatch from "chai-match";
 
 /* global chai */
 

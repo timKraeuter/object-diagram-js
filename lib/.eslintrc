@@ -1,7 +1,5 @@
 {
-  "plugins": [
-    "import"
-  ],
+  "plugins": ["import"],
   "rules": {
     "import/no-unresolved": "error"
   }

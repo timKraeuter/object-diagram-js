@@ -30,21 +30,16 @@
  * ```
  */
 
-import {
-  isFunction,
-  forEach,
-  merge
-} from 'min-dash';
+import { isFunction, forEach, merge } from "min-dash";
 
-import TestContainer from 'mocha-test-container-support';
+import TestContainer from "mocha-test-container-support";
 
-import Modeler from '../../lib/Modeler';
+import Modeler from "../../lib/Modeler";
 
 var OPTIONS, POSTIT_JS;
 
 export function boostrapPostitJS(PostitJS, diagram, options, locals) {
-
-  return function() {
+  return function () {
     var testContainer;
 
     // Make sure the test container is an optional dependency and we fall back
@@ -53,18 +48,17 @@ export function boostrapPostitJS(PostitJS, diagram, options, locals) {
     // This is needed if other libraries rely on this helper for testing
     // while not adding the mocha-test-container-support as a dependency.
     try {
-
       // 'this' is the current test context
       testContainer = TestContainer.get(this);
     } catch (e) {
-      testContainer = document.createElement('div');
-      testContainer.classList.add('test-content-container');
+      testContainer = document.createElement("div");
+      testContainer.classList.add("test-content-container");
 
       document.body.appendChild(testContainer);
     }
 
     var _options = options,
-        _locals = locals;
+      _locals = locals;
 
     if (_locals === undefined && isFunction(_options)) {
       _locals = _options;
@@ -79,21 +73,25 @@ export function boostrapPostitJS(PostitJS, diagram, options, locals) {
       _locals = _locals();
     }
 
-    _options = merge({
-      container: testContainer,
-      canvas: {
-        deferUpdate: false
-      }
-    }, OPTIONS, _options);
+    _options = merge(
+      {
+        container: testContainer,
+        canvas: {
+          deferUpdate: false,
+        },
+      },
+      OPTIONS,
+      _options,
+    );
 
     if (_locals) {
       var mockModule = {};
 
-      forEach(_locals, function(v, k) {
-        mockModule[k] = [ 'value', v ];
+      forEach(_locals, function (v, k) {
+        mockModule[k] = ["value", v];
       });
 
-      _options.modules = [].concat(_options.modules || [], [ mockModule ]);
+      _options.modules = [].concat(_options.modules || [], [mockModule]);
     }
 
     if (_options.modules && !_options.modules.length) {
@@ -106,26 +104,27 @@ export function boostrapPostitJS(PostitJS, diagram, options, locals) {
 
     setPostitJS(instance);
 
-    return instance.importXML(diagram).then(function(result) {
-      return { error: null, warnings: result.warnings };
-    }).catch(function(err) {
-      return { error: err, warnings: err.warnings };
-    });
+    return instance
+      .importXML(diagram)
+      .then(function (result) {
+        return { error: null, warnings: result.warnings };
+      })
+      .catch(function (err) {
+        return { error: err, warnings: err.warnings };
+      });
   };
 }
-
 
 export function bootstrapModeler(diagram, options, locals) {
   return boostrapPostitJS(Modeler, diagram, options, locals);
 }
 
 export function inject(fn) {
-  return function() {
-
+  return function () {
     if (!POSTIT_JS) {
       throw new Error(
-        'no bootstraped postit-js instance, ' +
-        'ensure you created it via #boostrap(Modeler|Viewer)'
+        "no bootstraped postit-js instance, " +
+          "ensure you created it via #boostrap(Modeler|Viewer)",
       );
     }
 
@@ -138,7 +137,6 @@ export function getPostitJS() {
 }
 
 export function clearPostitJS() {
-
   // clean up old postit-js instance
   if (POSTIT_JS) {
     POSTIT_JS.destroy();
@@ -156,11 +154,11 @@ export function insertCSS(name, css) {
     return;
   }
 
-  var head = document.head || document.getElementsByTagName('head')[0],
-      style = document.createElement('style');
-  style.setAttribute('data-css-file', name);
+  var head = document.head || document.getElementsByTagName("head")[0],
+    style = document.createElement("style");
+  style.setAttribute("data-css-file", name);
 
-  style.type = 'text/css';
+  style.type = "text/css";
   if (style.styleSheet) {
     style.styleSheet.cssText = css;
   } else {
