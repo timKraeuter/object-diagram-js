@@ -5,7 +5,9 @@
     "all": "run-s lint test",
     "lint": "eslint .",
     "test": "karma start karma.conf.js",
-    "dev": "npm test -- --auto-watch --no-single-run"
+    "dev": "npm test -- --auto-watch --no-single-run",
+    "pCheck": "prettier . --check",
+    "pWrite": "prettier . --write"
   },
   "keywords": [
     "diagram-js",

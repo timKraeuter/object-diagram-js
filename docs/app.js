@@ -21,7 +21,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 /**
  * A base modeler for od boards.
  *
@@ -39,32 +38,39 @@ function BaseModeler(options) {
   _BaseViewer__WEBPACK_IMPORTED_MODULE_1__["default"].call(this, options);
 
   // hook ID collection into the modeler
-  this.on('import.parse.complete', function(event) {
-    if (!event.error) {
-      this._collectIds(event.definitions, event.context);
-    }
-  }, this);
+  this.on(
+    "import.parse.complete",
+    function (event) {
+      if (!event.error) {
+        this._collectIds(event.definitions, event.context);
+      }
+    },
+    this,
+  );
 
-  this.on('diagram.destroy', function() {
-    this.get('moddle').ids.clear();
-  }, this);
+  this.on(
+    "diagram.destroy",
+    function () {
+      this.get("moddle").ids.clear();
+    },
+    this,
+  );
 }
 
 (0,inherits_browser__WEBPACK_IMPORTED_MODULE_2__["default"])(BaseModeler, _BaseViewer__WEBPACK_IMPORTED_MODULE_1__["default"]);
-
 
 /**
  * Create a moddle instance, attaching ids to it.
  *
  * @param {Object} options
  */
-BaseModeler.prototype._createModdle = function(options) {
+BaseModeler.prototype._createModdle = function (options) {
   var moddle = _BaseViewer__WEBPACK_IMPORTED_MODULE_1__["default"].prototype._createModdle.call(this, options);
 
   // attach ids to moddle to be able to track
   // and validated ids in the XML document
   // tree
-  moddle.ids = new ids__WEBPACK_IMPORTED_MODULE_0__["default"]([ 32, 36, 1 ]);
+  moddle.ids = new ids__WEBPACK_IMPORTED_MODULE_0__["default"]([32, 36, 1]);
 
   return moddle;
 };
@@ -76,11 +82,10 @@ BaseModeler.prototype._createModdle = function(options) {
  * @param {ModdleElement} definitions
  * @param {Context} context
  */
-BaseModeler.prototype._collectIds = function(definitions, context) {
-
+BaseModeler.prototype._collectIds = function (definitions, context) {
   var moddle = definitions.$model,
-      ids = moddle.ids,
-      id;
+    ids = moddle.ids,
+    id;
 
   // remove references from previous import
   ids.clear();
@@ -89,6 +94,7 @@ BaseModeler.prototype._collectIds = function(definitions, context) {
     ids.claim(id, context.elementsById[id]);
   }
 };
+
 
 /***/ }),
 
@@ -124,9 +130,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
 /**
  * A base viewer for object diagrams.
  *
@@ -142,7 +145,6 @@ __webpack_require__.r(__webpack_exports__);
  * @param {Array<didi.Module>} [options.additionalModules] a list of modules to use with the default modules
  */
 function BaseViewer(options) {
-
   options = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.assign)({}, DEFAULT_OPTIONS, options);
 
   this._moddle = this._createModdle(options);
@@ -161,21 +163,20 @@ function BaseViewer(options) {
 (0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(BaseViewer, diagram_js__WEBPACK_IMPORTED_MODULE_2__["default"]);
 
 /**
-* The importXML result.
-*
-* @typedef {Object} ImportXMLResult
-*
-* @property {Array<string>} warnings
-*/
+ * The importXML result.
+ *
+ * @typedef {Object} ImportXMLResult
+ *
+ * @property {Array<string>} warnings
+ */
 
 /**
-* The importXML error.
-*
-* @typedef {Error} ImportXMLError
-*
-* @property {Array<string>} warnings
-*/
-
+ * The importXML error.
+ *
+ * @typedef {Error} ImportXMLError
+ *
+ * @property {Array<string>} warnings
+ */
 
 /**
  * Parse and render a OD-diagram.
@@ -200,80 +201,82 @@ function BaseViewer(options) {
  *
  * @returns {Promise<ImportXMLResult, ImportXMLError>}
  */
-BaseViewer.prototype.importXML = function(xml, rootBoard) {
-
+BaseViewer.prototype.importXML = function (xml, rootBoard) {
   var self = this;
 
-  return new Promise(function(resolve, reject) {
-
+  return new Promise(function (resolve, reject) {
     // hook in pre-parse listeners +
     // allow xml manipulation
-    xml = self._emit('import.parse.start', { xml: xml }) || xml;
+    xml = self._emit("import.parse.start", { xml: xml }) || xml;
 
-    self._moddle.fromXML(xml, 'od:Definitions').then(function(result) {
+    self._moddle
+      .fromXML(xml, "od:Definitions")
+      .then(function (result) {
+        var definitions = result.rootElement;
+        var references = result.references;
+        var parseWarnings = result.warnings;
+        var elementsById = result.elementsById;
 
-      var definitions = result.rootElement;
-      var references = result.references;
-      var parseWarnings = result.warnings;
-      var elementsById = result.elementsById;
+        var context = {
+          references: references,
+          elementsById: elementsById,
+          warnings: parseWarnings,
+        };
 
-      var context = {
-        references: references,
-        elementsById: elementsById,
-        warnings: parseWarnings
-      };
+        // hook in post parse listeners +
+        // allow definitions manipulation
+        definitions =
+          self._emit("import.parse.complete", {
+            definitions: definitions,
+            context: context,
+          }) || definitions;
 
-      // hook in post parse listeners +
-      // allow definitions manipulation
-      definitions = self._emit('import.parse.complete', {
-        definitions: definitions,
-        context: context
-      }) || definitions;
+        self
+          .importDefinitions(definitions, rootBoard)
+          .then(function (result) {
+            var allWarnings = [].concat(parseWarnings, result.warnings || []);
 
-      self.importDefinitions(definitions, rootBoard).then(function(result) {
-        var allWarnings = [].concat(parseWarnings, result.warnings || []);
+            self._emit("import.done", { error: null, warnings: allWarnings });
 
-        self._emit('import.done', { error: null, warnings: allWarnings });
+            return resolve({ warnings: allWarnings });
+          })
+          .catch(function (err) {
+            var allWarnings = [].concat(parseWarnings, err.warnings || []);
 
-        return resolve({ warnings: allWarnings });
-      }).catch(function(err) {
-        var allWarnings = [].concat(parseWarnings, err.warnings || []);
+            self._emit("import.done", { error: err, warnings: allWarnings });
 
-        self._emit('import.done', { error: err, warnings: allWarnings });
+            return reject(addWarningsToError(err, allWarnings));
+          });
+      })
+      .catch(function (err) {
+        self._emit("import.parse.complete", {
+          error: err,
+        });
 
-        return reject(addWarningsToError(err, allWarnings));
+        err = checkValidationError(err);
+
+        self._emit("import.done", { error: err, warnings: err.warnings });
+
+        return reject(err);
       });
-    }).catch(function(err) {
-
-      self._emit('import.parse.complete', {
-        error: err
-      });
-
-      err = checkValidationError(err);
-
-      self._emit('import.done', { error: err, warnings: err.warnings });
-
-      return reject(err);
-    });
-
   });
 };
 
 /**
-* The importDefinitions result.
-*
-* @typedef {Object} ImportDefinitionsResult
-*
-* @property {Array<string>} warnings
-*/
+ * The importDefinitions result.
+ *
+ * @typedef {Object} ImportDefinitionsResult
+ *
+ * @property {Array<string>} warnings
+ */
 
 /**
-* The importDefinitions error.
-*
-* @typedef {Error} ImportDefinitionsError
-*
-* @property {Array<string>} warnings
-*/
+ * The importDefinitions error.
+ *
+ * @typedef {Error} ImportDefinitionsError
+ *
+ * @property {Array<string>} warnings
+ */
 
 /**
  * Import parsed definitions and render a Postit diagram.
@@ -295,23 +298,22 @@ BaseViewer.prototype.importXML = function(xml, rootBoard) {
  *
  * returns {Promise<ImportDefinitionsResult, ImportDefinitionsError>}
  */
-BaseViewer.prototype.importDefinitions = function(definitions, rootBoard) {
-
+BaseViewer.prototype.importDefinitions = function (definitions, rootBoard) {
   var self = this;
 
-  return new Promise(function(resolve, reject) {
-
+  return new Promise(function (resolve, reject) {
     self._setDefinitions(definitions);
 
-    self.open(rootBoard).then(function(result) {
+    self
+      .open(rootBoard)
+      .then(function (result) {
+        var warnings = result.warnings;
 
-      var warnings = result.warnings;
-
-      return resolve({ warnings: warnings });
-    }).catch(function(err) {
-
-      return reject(err);
-    });
+        return resolve({ warnings: warnings });
+      })
+      .catch(function (err) {
+        return reject(err);
+      });
   });
 };
 
@@ -324,12 +326,12 @@ BaseViewer.prototype.importDefinitions = function(definitions, rootBoard) {
  */
 
 /**
-* The open error.
-*
-* @typedef {Error} OpenError
-*
-* @property {Array<string>} warnings
-*/
+ * The open error.
+ *
+ * @typedef {Error} OpenError
+ *
+ * @property {Array<string>} warnings
+ */
 
 /**
  * Open board of previously imported XML.
@@ -350,25 +352,24 @@ BaseViewer.prototype.importDefinitions = function(definitions, rootBoard) {
  *
  * returns {Promise<OpenResult, OpenError>}
  */
-BaseViewer.prototype.open = function(rootBoardOrId) {
-
+BaseViewer.prototype.open = function (rootBoardOrId) {
   var definitions = this._definitions;
   var rootBord = rootBoardOrId;
 
   var self = this;
 
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     if (!definitions) {
-      var err1 = new Error('no XML imported');
+      var err1 = new Error("no XML imported");
 
       return reject(addWarningsToError(err1, []));
     }
 
-    if (typeof rootBoardOrId === 'string') {
+    if (typeof rootBoardOrId === "string") {
       rootBord = findRootBoard(definitions, rootBoardOrId);
 
       if (!rootBord) {
-        var err2 = new Error('OdRootBoard <' + rootBoardOrId + '> not found');
+        var err2 = new Error("OdRootBoard <" + rootBoardOrId + "> not found");
 
         return reject(addWarningsToError(err2, []));
       }
@@ -379,20 +380,19 @@ BaseViewer.prototype.open = function(rootBoardOrId) {
     try {
       self.clear();
     } catch (error) {
-
       return reject(addWarningsToError(error, []));
     }
 
     // perform graphical import
-    (0,_import_Importer__WEBPACK_IMPORTED_MODULE_3__.importOdDiagram)(self, definitions, rootBord).then(function(result) {
+    (0,_import_Importer__WEBPACK_IMPORTED_MODULE_3__.importOdDiagram)(self, definitions, rootBord)
+      .then(function (result) {
+        var warnings = result.warnings;
 
-      var warnings = result.warnings;
-
-      return resolve({ warnings: warnings });
-    }).catch(function(err) {
-
-      return reject(err);
-    });
+        return resolve({ warnings: warnings });
+      })
+      .catch(function (err) {
+        return reject(err);
+      });
   });
 };
 
@@ -424,50 +424,51 @@ BaseViewer.prototype.open = function(rootBoardOrId) {
  *
  * returns {Promise<SaveXMLResult, Error>}
  */
-BaseViewer.prototype.saveXML = function(options) {
-
+BaseViewer.prototype.saveXML = function (options) {
   options = options || {};
 
   var self = this;
 
   var definitions = this._definitions;
 
-  return new Promise(function(resolve, reject) {
-
+  return new Promise(function (resolve, reject) {
     if (!definitions) {
-      var err = new Error('no definitions loaded');
+      var err = new Error("no definitions loaded");
 
       return reject(err);
     }
 
     // allow to fiddle around with definitions
-    definitions = self._emit('saveXML.start', {
-      definitions: definitions
-    }) || definitions;
+    definitions =
+      self._emit("saveXML.start", {
+        definitions: definitions,
+      }) || definitions;
 
-    self._moddle.toXML(definitions, options).then(function(result) {
+    self._moddle
+      .toXML(definitions, options)
+      .then(function (result) {
+        var xml = result.xml;
 
-      var xml = result.xml;
+        try {
+          xml =
+            self._emit("saveXML.serialized", {
+              error: null,
+              xml: xml,
+            }) || xml;
 
-      try {
-        xml = self._emit('saveXML.serialized', {
-          error: null,
-          xml: xml
-        }) || xml;
+          self._emit("saveXML.done", {
+            error: null,
+            xml: xml,
+          });
+        } catch (e) {
+          console.error("error in saveXML life-cycle listener", e);
+        }
 
-        self._emit('saveXML.done', {
-          error: null,
-          xml: xml
-        });
-      } catch (e) {
-        console.error('error in saveXML life-cycle listener', e);
-      }
-
-      return resolve({ xml: xml });
-    }).catch(function(err) {
-
-      return reject(err);
-    });
+        return resolve({ xml: xml });
+      })
+      .catch(function (err) {
+        return reject(err);
+      });
   });
 };
 
@@ -496,43 +497,54 @@ BaseViewer.prototype.saveXML = function(options) {
  *
  * returns {Promise<SaveSVGResult, Error>}
  */
-BaseViewer.prototype.saveSVG = function(options) {
-
+BaseViewer.prototype.saveSVG = function (options) {
   const self = this;
 
-  return new Promise(function(resolve, reject) {
-
-    self._emit('saveSVG.start');
+  return new Promise(function (resolve, reject) {
+    self._emit("saveSVG.start");
 
     let svg, err;
 
     try {
-      const canvas = self.get('canvas');
+      const canvas = self.get("canvas");
 
       const contentNode = canvas.getActiveLayer(),
-            defsNode = (0,min_dom__WEBPACK_IMPORTED_MODULE_4__.query)('defs', canvas._svg);
+        defsNode = (0,min_dom__WEBPACK_IMPORTED_MODULE_4__.query)("defs", canvas._svg);
 
       const contents = (0,tiny_svg__WEBPACK_IMPORTED_MODULE_5__.innerSVG)(contentNode),
-            defs = defsNode ? '<defs>' + (0,tiny_svg__WEBPACK_IMPORTED_MODULE_5__.innerSVG)(defsNode) + '</defs>' : '';
+        defs = defsNode ? "<defs>" + (0,tiny_svg__WEBPACK_IMPORTED_MODULE_5__.innerSVG)(defsNode) + "</defs>" : "";
 
       const bbox = contentNode.getBBox();
 
       svg =
         '<?xml version="1.0" encoding="utf-8"?>\n' +
-        '<!-- created with diagram-js -->\n' +
+        "<!-- created with diagram-js -->\n" +
         '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">\n' +
         '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ' +
-             'width="' + bbox.width + '" height="' + bbox.height + '" ' +
-             'viewBox="' + bbox.x + ' ' + bbox.y + ' ' + bbox.width + ' ' + bbox.height + '" version="1.1">' +
-          defs + contents +
-        '</svg>';
+        'width="' +
+        bbox.width +
+        '" height="' +
+        bbox.height +
+        '" ' +
+        'viewBox="' +
+        bbox.x +
+        " " +
+        bbox.y +
+        " " +
+        bbox.width +
+        " " +
+        bbox.height +
+        '" version="1.1">' +
+        defs +
+        contents +
+        "</svg>";
     } catch (e) {
       err = e;
     }
 
-    self._emit('saveSVG.done', {
+    self._emit("saveSVG.done", {
       error: err,
-      svg: svg
+      svg: svg,
     });
 
     if (!err) {
@@ -574,12 +586,11 @@ BaseViewer.prototype.saveSVG = function(options) {
  * @method BaseViewer#invoke
  */
 
-
-BaseViewer.prototype._setDefinitions = function(definitions) {
+BaseViewer.prototype._setDefinitions = function (definitions) {
   this._definitions = definitions;
 };
 
-BaseViewer.prototype.getModules = function() {
+BaseViewer.prototype.getModules = function () {
   return this._modules;
 };
 
@@ -591,9 +602,8 @@ BaseViewer.prototype.getModules = function() {
  *
  * @method BaseViewer#clear
  */
-BaseViewer.prototype.clear = function() {
+BaseViewer.prototype.clear = function () {
   if (!this.getDefinitions()) {
-
     // no diagram to clear
     return;
   }
@@ -603,7 +613,7 @@ BaseViewer.prototype.clear = function() {
   // this is necessary, as we establish the bindings
   // in the OdTreeWalker (and assume none are given
   // on reimport)
-  this.get('elementRegistry').forEach(function(element) {
+  this.get("elementRegistry").forEach(function (element) {
     var bo = element.businessObject;
 
     if (bo && bo.di) {
@@ -619,8 +629,7 @@ BaseViewer.prototype.clear = function() {
  * Destroy the viewer instance and remove all its
  * remainders from the document tree.
  */
-BaseViewer.prototype.destroy = function() {
-
+BaseViewer.prototype.destroy = function () {
   // diagram destroy
   diagram_js__WEBPACK_IMPORTED_MODULE_2__["default"].prototype.destroy.call(this);
 
@@ -638,8 +647,8 @@ BaseViewer.prototype.destroy = function() {
  * @param {Function} callback
  * @param {Object} [target]
  */
-BaseViewer.prototype.on = function(event, priority, callback, target) {
-  return this.get('eventBus').on(event, priority, callback, target);
+BaseViewer.prototype.on = function (event, priority, callback, target) {
+  return this.get("eventBus").on(event, priority, callback, target);
 };
 
 /**
@@ -648,14 +657,13 @@ BaseViewer.prototype.on = function(event, priority, callback, target) {
  * @param {String} event
  * @param {Function} callback
  */
-BaseViewer.prototype.off = function(event, callback) {
-  this.get('eventBus').off(event, callback);
+BaseViewer.prototype.off = function (event, callback) {
+  this.get("eventBus").off(event, callback);
 };
 
-BaseViewer.prototype.attachTo = function(parentNode) {
-
+BaseViewer.prototype.attachTo = function (parentNode) {
   if (!parentNode) {
-    throw new Error('parentNode required');
+    throw new Error("parentNode required");
   }
 
   // ensure we detach from the
@@ -667,51 +675,49 @@ BaseViewer.prototype.attachTo = function(parentNode) {
     parentNode = parentNode.get(0);
   }
 
-  if (typeof parentNode === 'string') {
+  if (typeof parentNode === "string") {
     parentNode = (0,min_dom__WEBPACK_IMPORTED_MODULE_4__.query)(parentNode);
   }
 
   parentNode.appendChild(this._container);
 
-  this._emit('attach', {});
+  this._emit("attach", {});
 
-  this.get('canvas').resized();
+  this.get("canvas").resized();
 };
 
-BaseViewer.prototype.getDefinitions = function() {
+BaseViewer.prototype.getDefinitions = function () {
   return this._definitions;
 };
 
-BaseViewer.prototype.detach = function() {
-
+BaseViewer.prototype.detach = function () {
   var container = this._container,
-      parentNode = container.parentNode;
+    parentNode = container.parentNode;
 
   if (!parentNode) {
     return;
   }
 
-  this._emit('detach', {});
+  this._emit("detach", {});
 
   parentNode.removeChild(container);
 };
 
-BaseViewer.prototype._init = function(container, moddle, options) {
-
+BaseViewer.prototype._init = function (container, moddle, options) {
   var baseModules = options.modules || this.getModules(),
-      additionalModules = options.additionalModules || [],
-      staticModules = [
-        {
-          odm: [ 'value', this ],
-          moddle: [ 'value', moddle ]
-        }
-      ];
+    additionalModules = options.additionalModules || [],
+    staticModules = [
+      {
+        odm: ["value", this],
+        moddle: ["value", moddle],
+      },
+    ];
 
   var diagramModules = [].concat(staticModules, baseModules, additionalModules);
 
-  var diagramOptions = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.assign)((0,min_dash__WEBPACK_IMPORTED_MODULE_0__.omit)(options, [ 'additionalModules' ]), {
+  var diagramOptions = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.assign)((0,min_dash__WEBPACK_IMPORTED_MODULE_0__.omit)(options, ["additionalModules"]), {
     canvas: (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.assign)({}, options.canvas, { container: container }),
-    modules: diagramModules
+    modules: diagramModules,
   });
 
   // invoke diagram constructor
@@ -730,25 +736,28 @@ BaseViewer.prototype._init = function(container, moddle, options) {
  *
  * @return {Object} event processing result (if any)
  */
-BaseViewer.prototype._emit = function(type, event) {
-  return this.get('eventBus').fire(type, event);
+BaseViewer.prototype._emit = function (type, event) {
+  return this.get("eventBus").fire(type, event);
 };
 
-BaseViewer.prototype._createContainer = function(options) {
-
+BaseViewer.prototype._createContainer = function (options) {
   var container = (0,min_dom__WEBPACK_IMPORTED_MODULE_4__.domify)('<div class="pjs-container"></div>');
 
   (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.assign)(container.style, {
     width: ensureUnit(options.width),
     height: ensureUnit(options.height),
-    position: options.position
+    position: options.position,
   });
 
   return container;
 };
 
-BaseViewer.prototype._createModdle = function(options) {
-  var moddleOptions = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.assign)({}, this._moddleExtensions, options.moddleExtensions);
+BaseViewer.prototype._createModdle = function (options) {
+  var moddleOptions = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.assign)(
+    {},
+    this._moddleExtensions,
+    options.moddleExtensions,
+  );
 
   return new _moddle__WEBPACK_IMPORTED_MODULE_6__["default"](moddleOptions);
 };
@@ -756,7 +765,6 @@ BaseViewer.prototype._createModdle = function(options) {
 BaseViewer.prototype._modules = [];
 
 BaseViewer.prototype._moddleExtensions = {};
-
 
 // helpers ///////////////
 
@@ -766,7 +774,6 @@ function addWarningsToError(err, warningsAry) {
 }
 
 function checkValidationError(err) {
-
   // check if we can help the user by indicating wrong odm xml
   // (in case he or the exporting tool did not get that right)
 
@@ -775,27 +782,28 @@ function checkValidationError(err) {
 
   if (match) {
     err.message =
-      'unparsable content <' + match[1] + '> detected; ' +
-      'this may indicate an invalid Od board file' + match[2];
+      "unparsable content <" +
+      match[1] +
+      "> detected; " +
+      "this may indicate an invalid Od board file" +
+      match[2];
   }
 
   return err;
 }
 
 var DEFAULT_OPTIONS = {
-  width: '100%',
-  height: '100%',
-  position: 'relative'
+  width: "100%",
+  height: "100%",
+  position: "relative",
 };
-
 
 /**
  * Ensure the passed argument is a proper unit (defaulting to px)
  */
 function ensureUnit(val) {
-  return val + ((0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isNumber)(val) ? 'px' : '');
+  return val + ((0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isNumber)(val) ? "px" : "");
 }
-
 
 /**
  * Find RootBoard in definitions by ID
@@ -810,9 +818,11 @@ function findRootBoard(definitions, boardId) {
     return null;
   }
 
-  return (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.find)(definitions.rootBoards, function(element) {
-    return element.id === boardId;
-  }) || null;
+  return (
+    (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.find)(definitions.rootBoards, function (element) {
+      return element.id === boardId;
+    }) || null
+  );
 }
 
 /* <project-logo> */
@@ -839,13 +849,13 @@ function addProjectLogo(container) {
     'title="Powered by bpmn.io" ' +
     'style="position: absolute; bottom: 15px; right: 15px; z-index: 100">' +
     img +
-    '</a>';
+    "</a>";
 
   var linkElement = (0,min_dom__WEBPACK_IMPORTED_MODULE_4__.domify)(linkMarkup);
 
   container.appendChild(linkElement);
 
-  min_dom__WEBPACK_IMPORTED_MODULE_4__.event.bind(linkElement, 'click', function(event) {
+  min_dom__WEBPACK_IMPORTED_MODULE_4__.event.bind(linkElement, "click", function (event) {
     (0,_util_PoweredByUtil__WEBPACK_IMPORTED_MODULE_7__.open)();
 
     event.preventDefault();
@@ -853,6 +863,7 @@ function addProjectLogo(container) {
 }
 
 /* </project-logo> */
+
 
 /***/ }),
 
@@ -926,8 +937,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const initialDiagram =
-  `<?xml version="1.0" encoding="UTF-8"?>
+const initialDiagram = `<?xml version="1.0" encoding="UTF-8"?>
 <od:definitions xmlns:od="http://tk/schema/od" xmlns:odDi="http://tk/schema/odDi">
     <od:odBoard id="Board_debug" />
     <odDi:odRootBoard id="RootBoard_debug">
@@ -941,25 +951,24 @@ function Modeler(options) {
 
 (0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(Modeler, _BaseModeler__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
-
 Modeler.Viewer = _Viewer__WEBPACK_IMPORTED_MODULE_2__["default"];
 Modeler.NavigatedViewer = _NavigatedViewer__WEBPACK_IMPORTED_MODULE_3__["default"];
 
 /**
-* The createDiagram result.
-*
-* @typedef {Object} CreateDiagramResult
-*
-* @property {Array<string>} warnings
-*/
+ * The createDiagram result.
+ *
+ * @typedef {Object} CreateDiagramResult
+ *
+ * @property {Array<string>} warnings
+ */
 
 /**
-* The createDiagram error.
-*
-* @typedef {Error} CreateDiagramError
-*
-* @property {Array<string>} warnings
-*/
+ * The createDiagram error.
+ *
+ * @typedef {Error} CreateDiagramError
+ *
+ * @property {Array<string>} warnings
+ */
 
 /**
  * Create a new diagram to start modeling.
@@ -967,22 +976,19 @@ Modeler.NavigatedViewer = _NavigatedViewer__WEBPACK_IMPORTED_MODULE_3__["default
  * @returns {Promise<CreateDiagramResult, CreateDiagramError>}
  *
  */
-Modeler.prototype.createDiagram = function() {
+Modeler.prototype.createDiagram = function () {
   return this.importXML(initialDiagram);
 };
 
-
 Modeler.prototype._interactionModules = [
-
   // non-modeling components
   diagram_js_lib_navigation_keyboard_move__WEBPACK_IMPORTED_MODULE_4__["default"],
   diagram_js_lib_navigation_movecanvas__WEBPACK_IMPORTED_MODULE_5__["default"],
   diagram_js_lib_navigation_touch__WEBPACK_IMPORTED_MODULE_6__["default"],
-  diagram_js_lib_navigation_zoomscroll__WEBPACK_IMPORTED_MODULE_7__["default"]
+  diagram_js_lib_navigation_zoomscroll__WEBPACK_IMPORTED_MODULE_7__["default"],
 ];
 
 Modeler.prototype._modelingModules = [
-
   // modeling components
   _features_auto_place__WEBPACK_IMPORTED_MODULE_8__["default"],
   diagram_js_lib_features_align_elements__WEBPACK_IMPORTED_MODULE_9__["default"],
@@ -1002,9 +1008,8 @@ Modeler.prototype._modelingModules = [
   diagram_js_lib_features_move__WEBPACK_IMPORTED_MODULE_23__["default"],
   _features_palette__WEBPACK_IMPORTED_MODULE_24__["default"],
   diagram_js_lib_features_resize__WEBPACK_IMPORTED_MODULE_25__["default"],
-  _features_snapping__WEBPACK_IMPORTED_MODULE_26__["default"]
+  _features_snapping__WEBPACK_IMPORTED_MODULE_26__["default"],
 ];
-
 
 // modules the modeler is composed of
 //
@@ -1015,7 +1020,7 @@ Modeler.prototype._modelingModules = [
 Modeler.prototype._modules = [].concat(
   _Viewer__WEBPACK_IMPORTED_MODULE_2__["default"].prototype._modules,
   Modeler.prototype._interactionModules,
-  Modeler.prototype._modelingModules
+  Modeler.prototype._modelingModules,
 );
 
 
@@ -1045,7 +1050,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 /**
  * A viewer that includes mouse navigation facilities
  *
@@ -1057,17 +1061,17 @@ function NavigatedViewer(options) {
 
 (0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(NavigatedViewer, _Viewer__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
-
 NavigatedViewer.prototype._navigationModules = [
   diagram_js_lib_navigation_keyboard_move__WEBPACK_IMPORTED_MODULE_2__["default"],
   diagram_js_lib_navigation_movecanvas__WEBPACK_IMPORTED_MODULE_3__["default"],
-  diagram_js_lib_navigation_zoomscroll__WEBPACK_IMPORTED_MODULE_4__["default"]
+  diagram_js_lib_navigation_zoomscroll__WEBPACK_IMPORTED_MODULE_4__["default"],
 ];
 
 NavigatedViewer.prototype._modules = [].concat(
   _Viewer__WEBPACK_IMPORTED_MODULE_0__["default"].prototype._modules,
-  NavigatedViewer.prototype._navigationModules
+  NavigatedViewer.prototype._navigationModules,
 );
+
 
 /***/ }),
 
@@ -1108,11 +1112,12 @@ Viewer.prototype._modules = [
   _core__WEBPACK_IMPORTED_MODULE_2__["default"],
   diagram_js_lib_i18n_translate__WEBPACK_IMPORTED_MODULE_3__["default"],
   diagram_js_lib_features_selection__WEBPACK_IMPORTED_MODULE_4__["default"],
-  diagram_js_lib_features_overlays__WEBPACK_IMPORTED_MODULE_5__["default"]
+  diagram_js_lib_features_overlays__WEBPACK_IMPORTED_MODULE_5__["default"],
 ];
 
 // default moddle extensions the viewer is composed of
 Viewer.prototype._moddleExtensions = {};
+
 
 /***/ }),
 
@@ -1133,11 +1138,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  __depends__: [
-    _draw__WEBPACK_IMPORTED_MODULE_0__["default"],
-    _import__WEBPACK_IMPORTED_MODULE_1__["default"]
-  ]
+  __depends__: [_draw__WEBPACK_IMPORTED_MODULE_0__["default"], _import__WEBPACK_IMPORTED_MODULE_1__["default"]],
 });
+
 
 /***/ }),
 
@@ -1181,26 +1184,29 @@ __webpack_require__.r(__webpack_exports__);
 
 var RENDERER_IDS = new ids__WEBPACK_IMPORTED_MODULE_0__["default"]();
 
-var HIGH_FILL_OPACITY = .35;
+var HIGH_FILL_OPACITY = 0.35;
 
 var DEFAULT_TEXT_SIZE = 16;
 var markers = {};
 
 function ODRenderer(
-    config, eventBus, styles,
-    canvas, textRenderer, priority) {
-
+  config,
+  eventBus,
+  styles,
+  canvas,
+  textRenderer,
+  priority,
+) {
   diagram_js_lib_draw_BaseRenderer__WEBPACK_IMPORTED_MODULE_1__["default"].call(this, eventBus, priority);
 
   var defaultFillColor = config && config.defaultFillColor,
-      defaultStrokeColor = config && config.defaultStrokeColor;
+    defaultStrokeColor = config && config.defaultStrokeColor;
 
   var rendererId = RENDERER_IDS.next();
 
   var computeStyle = styles.computeStyle;
 
   function drawRect(parentGfx, width, height, r, offset, attrs) {
-
     if ((0,min_dash__WEBPACK_IMPORTED_MODULE_2__.isObject)(offset)) {
       attrs = offset;
       offset = 0;
@@ -1209,19 +1215,19 @@ function ODRenderer(
     offset = offset || 0;
 
     attrs = computeStyle(attrs, {
-      stroke: 'black',
+      stroke: "black",
       strokeWidth: 2,
-      fill: 'white'
+      fill: "white",
     });
 
-    var rect = (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.create)('rect');
+    var rect = (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.create)("rect");
     (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.attr)(rect, {
       x: offset,
       y: offset,
       width: width - offset * 2,
       height: height - offset * 2,
       rx: r,
-      ry: r
+      ry: r,
     });
     (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.attr)(rect, attrs);
 
@@ -1231,13 +1237,12 @@ function ODRenderer(
   }
 
   function drawPath(parentGfx, d, attrs) {
-
-    attrs = computeStyle(attrs, [ 'no-fill' ], {
+    attrs = computeStyle(attrs, ["no-fill"], {
       strokeWidth: 2,
-      stroke: 'black'
+      stroke: "black",
     });
 
-    var path = (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.create)('path');
+    var path = (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.create)("path");
     (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.attr)(path, { d: d });
     (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.attr)(path, attrs);
 
@@ -1247,16 +1252,18 @@ function ODRenderer(
   }
 
   function renderLabel(parentGfx, label, options) {
+    options = (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)(
+      {
+        size: {
+          width: 100,
+        },
+      },
+      options,
+    );
 
-    options = (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)({
-      size: {
-        width: 100
-      }
-    }, options);
+    var text = textRenderer.createText(label || "", options);
 
-    var text = textRenderer.createText(label || '', options);
-
-    (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.classes)(text).add('djs-label');
+    (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.classes)(text).add("djs-label");
 
     (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.append)(parentGfx, text);
 
@@ -1271,31 +1278,26 @@ function ODRenderer(
       align: align,
       padding: 5,
       style: {
-        fill: getColor(element) === 'black' ? 'white' : 'black',
-        fontSize: fontSize || DEFAULT_TEXT_SIZE
+        fill: getColor(element) === "black" ? "white" : "black",
+        fontSize: fontSize || DEFAULT_TEXT_SIZE,
       },
     });
   }
 
   function renderExternalLabel(parentGfx, element) {
-
     var box = {
       width: 90,
       height: 30,
       x: element.width / 2 + element.x,
-      y: element.height / 2 + element.y
+      y: element.height / 2 + element.y,
     };
 
     return renderLabel(parentGfx, (0,_features_label_editing_LabelUtil__WEBPACK_IMPORTED_MODULE_5__.getLabel)(element), {
       box: box,
       fitBox: true,
-      style: (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)(
-        {},
-        textRenderer.getExternalStyle(),
-        {
-          fill: 'black'
-        }
-      )
+      style: (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)({}, textRenderer.getExternalStyle(), {
+        fill: "black",
+      }),
     });
   }
 
@@ -1305,31 +1307,35 @@ function ODRenderer(
       renderLabel(parentGfx, semantic.attributeValues, {
         box: {
           height: element.height + 30,
-          width: element.width
+          width: element.width,
         },
         padding: 5,
-        align: 'center-middle',
+        align: "center-middle",
         style: {
-          fill: defaultStrokeColor
-        }
+          fill: defaultStrokeColor,
+        },
       });
     }
   }
 
   function addDivider(parentGfx, element) {
-    drawLine(parentGfx, [
-      { x: 0, y: 30 },
-      { x: element.width, y: 30 }
-    ], {
-      stroke: (0,_ODRendererUtil__WEBPACK_IMPORTED_MODULE_4__.getStrokeColor)(element, defaultStrokeColor)
-    });
+    drawLine(
+      parentGfx,
+      [
+        { x: 0, y: 30 },
+        { x: element.width, y: 30 },
+      ],
+      {
+        stroke: (0,_ODRendererUtil__WEBPACK_IMPORTED_MODULE_4__.getStrokeColor)(element, defaultStrokeColor),
+      },
+    );
   }
 
   function drawLine(parentGfx, waypoints, attrs) {
-    attrs = computeStyle(attrs, [ 'no-fill' ], {
-      stroke: 'black',
+    attrs = computeStyle(attrs, ["no-fill"], {
+      stroke: "black",
       strokeWidth: 2,
-      fill: 'none'
+      fill: "none",
     });
 
     var line = (0,diagram_js_lib_util_RenderUtil__WEBPACK_IMPORTED_MODULE_6__.createLine)(waypoints, attrs);
@@ -1341,51 +1347,54 @@ function ODRenderer(
 
   function renderTitelLabel(parentGfx, element) {
     let semantic = (0,_ODRendererUtil__WEBPACK_IMPORTED_MODULE_4__.getSemantic)(element);
-    let text = '';
+    let text = "";
     if (semantic.name) {
       text = semantic.name;
-
     }
     renderLabel(parentGfx, text, {
       box: {
         height: 30,
-        width: element.width
+        width: element.width,
       },
       padding: 5,
-      align: 'center-middle',
+      align: "center-middle",
       style: {
-        fill: defaultStrokeColor
-      }
+        fill: defaultStrokeColor,
+      },
     });
   }
 
   function createPathFromConnection(connection) {
     var waypoints = connection.waypoints;
 
-    var pathData = 'm  ' + waypoints[0].x + ',' + waypoints[0].y;
+    var pathData = "m  " + waypoints[0].x + "," + waypoints[0].y;
     for (var i = 1; i < waypoints.length; i++) {
-      pathData += 'L' + waypoints[i].x + ',' + waypoints[i].y + ' ';
+      pathData += "L" + waypoints[i].x + "," + waypoints[i].y + " ";
     }
     return pathData;
   }
 
   function marker(fill, stroke) {
-    var id = '-' + colorEscape(fill) + '-' + colorEscape(stroke) + '-' + rendererId;
+    var id =
+      "-" + colorEscape(fill) + "-" + colorEscape(stroke) + "-" + rendererId;
 
     if (!markers[id]) {
       createMarker(id, fill, stroke);
     }
 
-    return 'url(#' + id + ')';
+    return "url(#" + id + ")";
   }
 
   function addMarker(id, options) {
-    var attrs = (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)({
-      fill: 'black',
-      strokeWidth: 1,
-      strokeLinecap: 'round',
-      strokeDasharray: 'none'
-    }, options.attrs);
+    var attrs = (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)(
+      {
+        fill: "black",
+        strokeWidth: 1,
+        strokeLinecap: "round",
+        strokeDasharray: "none",
+      },
+      options.attrs,
+    );
 
     var ref = options.ref || { x: 0, y: 0 };
 
@@ -1393,11 +1402,11 @@ function ODRenderer(
 
     // fix for safari / chrome / firefox bug not correctly
     // resetting stroke dash array
-    if (attrs.strokeDasharray === 'none') {
-      attrs.strokeDasharray = [ 10000, 1 ];
+    if (attrs.strokeDasharray === "none") {
+      attrs.strokeDasharray = [10000, 1];
     }
 
-    var marker = (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.create)('marker');
+    var marker = (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.create)("marker");
 
     (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.attr)(options.element, attrs);
 
@@ -1405,18 +1414,18 @@ function ODRenderer(
 
     (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.attr)(marker, {
       id: id,
-      viewBox: '0 0 20 20',
+      viewBox: "0 0 20 20",
       refX: ref.x,
       refY: ref.y,
       markerWidth: 20 * scale,
       markerHeight: 20 * scale,
-      orient: 'auto'
+      orient: "auto",
     });
 
-    var defs = (0,min_dom__WEBPACK_IMPORTED_MODULE_7__.query)('defs', canvas._svg);
+    var defs = (0,min_dom__WEBPACK_IMPORTED_MODULE_7__.query)("defs", canvas._svg);
 
     if (!defs) {
-      defs = (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.create)('defs');
+      defs = (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.create)("defs");
 
       (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.append)(canvas._svg, defs);
     }
@@ -1427,14 +1436,13 @@ function ODRenderer(
   }
 
   function colorEscape(str) {
-
     // only allow characters and numbers
-    return str.replace(/[^0-9a-zA-z]+/g, '_');
+    return str.replace(/[^0-9a-zA-z]+/g, "_");
   }
 
   function createMarker(id, type, fill, stroke) {
-    var linkEnd = (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.create)('path');
-    (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.attr)(linkEnd, { d: 'M 1 5 L 11 10 L 1 15 Z' });
+    var linkEnd = (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.create)("path");
+    (0,tiny_svg__WEBPACK_IMPORTED_MODULE_3__.attr)(linkEnd, { d: "M 1 5 L 11 10 L 1 15 Z" });
 
     addMarker(id, {
       element: linkEnd,
@@ -1442,18 +1450,27 @@ function ODRenderer(
       scale: 0.5,
       attrs: {
         fill: stroke,
-        stroke: stroke
-      }
+        stroke: stroke,
+      },
     });
   }
 
   this.handlers = {
-    'od:Object': function(parentGfx, element, attrs) {
-      var rect = drawRect(parentGfx, element.width, element.height, 0, (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)({
-        fill: (0,_ODRendererUtil__WEBPACK_IMPORTED_MODULE_4__.getFillColor)(element, defaultFillColor),
-        fillOpacity: HIGH_FILL_OPACITY,
-        stroke: (0,_ODRendererUtil__WEBPACK_IMPORTED_MODULE_4__.getStrokeColor)(element, defaultStrokeColor)
-      }, attrs));
+    "od:Object": function (parentGfx, element, attrs) {
+      var rect = drawRect(
+        parentGfx,
+        element.width,
+        element.height,
+        0,
+        (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)(
+          {
+            fill: (0,_ODRendererUtil__WEBPACK_IMPORTED_MODULE_4__.getFillColor)(element, defaultFillColor),
+            fillOpacity: HIGH_FILL_OPACITY,
+            stroke: (0,_ODRendererUtil__WEBPACK_IMPORTED_MODULE_4__.getStrokeColor)(element, defaultStrokeColor),
+          },
+          attrs,
+        ),
+      );
 
       addDivider(parentGfx, element);
 
@@ -1463,56 +1480,54 @@ function ODRenderer(
 
       return rect;
     },
-    'od:Link': function(parentGfx, element) {
+    "od:Link": function (parentGfx, element) {
       var pathData = createPathFromConnection(element);
 
       var fill = (0,_ODRendererUtil__WEBPACK_IMPORTED_MODULE_4__.getFillColor)(element, defaultFillColor),
-          stroke = (0,_ODRendererUtil__WEBPACK_IMPORTED_MODULE_4__.getStrokeColor)(element, defaultStrokeColor);
+        stroke = (0,_ODRendererUtil__WEBPACK_IMPORTED_MODULE_4__.getStrokeColor)(element, defaultStrokeColor);
 
       var attrs = {
-        strokeLinejoin: 'round',
+        strokeLinejoin: "round",
         markerEnd: marker(fill, stroke),
-        stroke: (0,_ODRendererUtil__WEBPACK_IMPORTED_MODULE_4__.getStrokeColor)(element, defaultStrokeColor)
+        stroke: (0,_ODRendererUtil__WEBPACK_IMPORTED_MODULE_4__.getStrokeColor)(element, defaultStrokeColor),
       };
       return drawPath(parentGfx, pathData, attrs);
     },
-    'od:TextBox': function(parentGfx, element) {
+    "od:TextBox": function (parentGfx, element) {
       var attrs = {
-        fill: 'none',
-        stroke: 'none'
+        fill: "none",
+        stroke: "none",
       };
 
       var textSize = element.textSize || DEFAULT_TEXT_SIZE;
 
       var rect = drawRect(parentGfx, element.width, element.height, 0, attrs);
 
-      renderEmbeddedLabel(parentGfx, element, 'center-middle', textSize);
+      renderEmbeddedLabel(parentGfx, element, "center-middle", textSize);
 
       return rect;
     },
-    'label': function(parentGfx, element) {
+    label: function (parentGfx, element) {
       return renderExternalLabel(parentGfx, element);
-    }
+    },
   };
 }
-
 
 (0,inherits_browser__WEBPACK_IMPORTED_MODULE_8__["default"])(ODRenderer, diagram_js_lib_draw_BaseRenderer__WEBPACK_IMPORTED_MODULE_1__["default"]);
 
 ODRenderer.$inject = [
-  'config.odm',
-  'eventBus',
-  'styles',
-  'canvas',
-  'textRenderer'
+  "config.odm",
+  "eventBus",
+  "styles",
+  "canvas",
+  "textRenderer",
 ];
 
-
-ODRenderer.prototype.canRender = function(element) {
-  return (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_9__.is)(element, 'od:BoardElement');
+ODRenderer.prototype.canRender = function (element) {
+  return (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_9__.is)(element, "od:BoardElement");
 };
 
-ODRenderer.prototype.drawShape = function(parentGfx, element) {
+ODRenderer.prototype.drawShape = function (parentGfx, element) {
   var type = element.type;
   var h = this.handlers[type];
 
@@ -1520,7 +1535,7 @@ ODRenderer.prototype.drawShape = function(parentGfx, element) {
   return h(parentGfx, element);
 };
 
-ODRenderer.prototype.drawConnection = function(parentGfx, element) {
+ODRenderer.prototype.drawConnection = function (parentGfx, element) {
   var type = element.type;
   var h = this.handlers[type];
 
@@ -1528,8 +1543,7 @@ ODRenderer.prototype.drawConnection = function(parentGfx, element) {
   return h(parentGfx, element);
 };
 
-ODRenderer.prototype.getShapePath = function(element) {
-
+ODRenderer.prototype.getShapePath = function (element) {
   return (0,_ODRendererUtil__WEBPACK_IMPORTED_MODULE_4__.getRectPath)(element);
 };
 
@@ -1565,7 +1579,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 // element utils //////////////////////
 
 function getDi(element) {
@@ -1576,42 +1589,40 @@ function getSemantic(element) {
   return element.businessObject;
 }
 
-
 // color access //////////////////////
 
 function getFillColor(element, defaultColor) {
   return (
     getColor(element) ||
-    getDi(element).get('bioc:fill') ||
+    getDi(element).get("bioc:fill") ||
     defaultColor ||
-    'white'
+    "white"
   );
 }
 
 function getStrokeColor(element, defaultColor) {
   return (
     getColor(element) ||
-    getDi(element).get('bioc:stroke') ||
+    getDi(element).get("bioc:stroke") ||
     defaultColor ||
-    'black'
+    "black"
   );
 }
-
 
 // cropping path customizations //////////////////////
 
 function getRectPath(shape) {
   var x = shape.x,
-      y = shape.y,
-      width = shape.width,
-      height = shape.height;
+    y = shape.y,
+    width = shape.width,
+    height = shape.height;
 
   var rectPath = [
-    [ 'M', x, y ],
-    [ 'l', width, 0 ],
-    [ 'l', 0, height ],
-    [ 'l', -width, 0 ],
-    [ 'z' ]
+    ["M", x, y],
+    ["l", width, 0],
+    ["l", 0, height],
+    ["l", -width, 0],
+    ["z"],
   ];
 
   return (0,diagram_js_lib_util_RenderUtil__WEBPACK_IMPORTED_MODULE_0__.componentsToPath)(rectPath);
@@ -1624,6 +1635,7 @@ function getColor(element) {
 
   return bo.color || element.color;
 }
+
 
 /***/ }),
 
@@ -1647,24 +1659,30 @@ __webpack_require__.r(__webpack_exports__);
 var DEFAULT_FONT_SIZE = 16;
 var LINE_HEIGHT_RATIO = 1.2;
 
-
 function TextRenderer(config) {
-
-  var defaultStyle = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.assign)({
-    fontFamily: 'IBM Plex, sans-serif',
-    fontSize: DEFAULT_FONT_SIZE,
-    fontWeight: 'normal',
-    lineHeight: LINE_HEIGHT_RATIO
-  }, config && config.defaultStyle || {});
+  var defaultStyle = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.assign)(
+    {
+      fontFamily: "IBM Plex, sans-serif",
+      fontSize: DEFAULT_FONT_SIZE,
+      fontWeight: "normal",
+      lineHeight: LINE_HEIGHT_RATIO,
+    },
+    (config && config.defaultStyle) || {},
+  );
 
   var fontSize = parseInt(defaultStyle.fontSize, 10) - 1;
 
-  var externalStyle = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.assign)({}, defaultStyle, {
-    fontSize: fontSize
-  }, config && config.externalStyle || {});
+  var externalStyle = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.assign)(
+    {},
+    defaultStyle,
+    {
+      fontSize: fontSize,
+    },
+    (config && config.externalStyle) || {},
+  );
 
   var textUtil = new diagram_js_lib_util_Text__WEBPACK_IMPORTED_MODULE_1__["default"]({
-    style: defaultStyle
+    style: defaultStyle,
   });
 
   /**
@@ -1676,16 +1694,15 @@ function TextRenderer(config) {
    *
    * @return {Bounds}
    */
-  this.getExternalLabelBounds = function(bounds, text) {
-
+  this.getExternalLabelBounds = function (bounds, text) {
     var layoutedDimensions = textUtil.getDimensions(text, {
       box: {
         width: 90,
         height: 30,
         x: bounds.width / 2 + bounds.x,
-        y: bounds.height / 2 + bounds.y
+        y: bounds.height / 2 + bounds.y,
       },
-      style: externalStyle
+      style: externalStyle,
     });
 
     // resize label shape to fit label text
@@ -1693,9 +1710,8 @@ function TextRenderer(config) {
       x: Math.round(bounds.x + bounds.width / 2 - layoutedDimensions.width / 2),
       y: Math.round(bounds.y),
       width: Math.ceil(layoutedDimensions.width),
-      height: Math.ceil(layoutedDimensions.height)
+      height: Math.ceil(layoutedDimensions.height),
     };
-
   };
 
   /**
@@ -1706,29 +1722,27 @@ function TextRenderer(config) {
    *
    * @return {SVGElement} rendered text
    */
-  this.createText = function(text, options) {
+  this.createText = function (text, options) {
     return textUtil.createText(text, options || {});
   };
 
   /**
    * Get default text style.
    */
-  this.getDefaultStyle = function() {
+  this.getDefaultStyle = function () {
     return defaultStyle;
   };
 
   /**
    * Get the external text style.
    */
-  this.getExternalStyle = function() {
+  this.getExternalStyle = function () {
     return externalStyle;
   };
-
 }
 
-TextRenderer.$inject = [
-  'config.textRenderer'
-];
+TextRenderer.$inject = ["config.textRenderer"];
+
 
 /***/ }),
 
@@ -1749,9 +1763,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  __init__: [ 'odRenderer' ],
-  odRenderer: [ 'type', _ODRenderer__WEBPACK_IMPORTED_MODULE_0__["default"] ],
-  textRenderer: [ 'type', _TextRenderer__WEBPACK_IMPORTED_MODULE_1__["default"] ],
+  __init__: ["odRenderer"],
+  odRenderer: ["type", _ODRenderer__WEBPACK_IMPORTED_MODULE_0__["default"]],
+  textRenderer: ["type", _TextRenderer__WEBPACK_IMPORTED_MODULE_1__["default"]],
 });
 
 
@@ -1771,22 +1785,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ODAutoPlaceUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ODAutoPlaceUtil */ "../lib/features/auto-place/ODAutoPlaceUtil.js");
 
 
-
 /**
  * BPMN auto-place behavior.
  *
  * @param {EventBus} eventBus
  */
 function AutoPlace(eventBus) {
-  eventBus.on('autoPlace', function(context) {
+  eventBus.on("autoPlace", function (context) {
     var shape = context.shape,
-        source = context.source;
+      source = context.source;
 
     return (0,_ODAutoPlaceUtil__WEBPACK_IMPORTED_MODULE_0__.getNewShapePosition)(source, shape);
   });
 }
 
-AutoPlace.$inject = [ 'eventBus' ];
+AutoPlace.$inject = ["eventBus"];
+
 
 /***/ }),
 
@@ -1811,7 +1825,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 /**
  * Find the new position for the target element to
  * connect to source.
@@ -1822,8 +1835,7 @@ __webpack_require__.r(__webpack_exports__);
  * @return {Point}
  */
 function getNewShapePosition(source, element) {
-
-  if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_0__.is)(element, 'od:Object')) {
+  if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_0__.is)(element, "od:Object")) {
     return getFlowNodePosition(source, element);
   }
 }
@@ -1833,45 +1845,49 @@ function getNewShapePosition(source, element) {
  * compute actual distance from previous nodes in flow.
  */
 function getFlowNodePosition(source, element) {
-
   var sourceTrbl = (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_1__.asTRBL)(source);
   var sourceMid = (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_1__.getMid)(source);
 
   var horizontalDistance = (0,diagram_js_lib_features_auto_place_AutoPlaceUtil__WEBPACK_IMPORTED_MODULE_2__.getConnectedDistance)(source, {
-    filter: function(connection) {
-      return (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_0__.is)(connection, 'od:Link');
-    }
+    filter: function (connection) {
+      return (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_0__.is)(connection, "od:Link");
+    },
   });
 
   var margin = 30,
-      minDistance = 80,
-      orientation = 'left';
+    minDistance = 80,
+    orientation = "left";
 
   var position = {
     x: sourceTrbl.right + horizontalDistance + element.width / 2,
-    y: sourceMid.y + getVerticalDistance(orientation, minDistance)
+    y: sourceMid.y + getVerticalDistance(orientation, minDistance),
   };
 
   var nextPositionDirection = {
     y: {
       margin: margin,
-      minDistance: minDistance
-    }
+      minDistance: minDistance,
+    },
   };
 
-  return (0,diagram_js_lib_features_auto_place_AutoPlaceUtil__WEBPACK_IMPORTED_MODULE_2__.findFreePosition)(source, element, position, (0,diagram_js_lib_features_auto_place_AutoPlaceUtil__WEBPACK_IMPORTED_MODULE_2__.generateGetNextPosition)(nextPositionDirection));
+  return (0,diagram_js_lib_features_auto_place_AutoPlaceUtil__WEBPACK_IMPORTED_MODULE_2__.findFreePosition)(
+    source,
+    element,
+    position,
+    (0,diagram_js_lib_features_auto_place_AutoPlaceUtil__WEBPACK_IMPORTED_MODULE_2__.generateGetNextPosition)(nextPositionDirection),
+  );
 }
 
-
 function getVerticalDistance(orientation, minDistance) {
-  if (orientation.indexOf('top') != -1) {
+  if (orientation.indexOf("top") != -1) {
     return -1 * minDistance;
-  } else if (orientation.indexOf('bottom') != -1) {
+  } else if (orientation.indexOf("bottom") != -1) {
     return minDistance;
   } else {
     return 0;
   }
 }
+
 
 /***/ }),
 
@@ -1893,10 +1909,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  __depends__: [ diagram_js_lib_features_auto_place__WEBPACK_IMPORTED_MODULE_0__["default"] ],
-  __init__: [ 'odAutoPlace' ],
-  odAutoPlace: [ 'type', _ODAutoPlace__WEBPACK_IMPORTED_MODULE_1__["default"] ]
+  __depends__: [diagram_js_lib_features_auto_place__WEBPACK_IMPORTED_MODULE_0__["default"]],
+  __init__: ["odAutoPlace"],
+  odAutoPlace: ["type", _ODAutoPlace__WEBPACK_IMPORTED_MODULE_1__["default"]],
 });
+
 
 /***/ }),
 
@@ -1917,15 +1934,21 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 /**
  * A provider for od elements context pad.
  */
 function ContextPadProvider(
-    config, injector, eventBus, connect, create,
-    elementFactory, contextPad, modeling, rules,
-    translate) {
-
+  config,
+  injector,
+  eventBus,
+  connect,
+  create,
+  elementFactory,
+  contextPad,
+  modeling,
+  rules,
+  translate,
+) {
   config = config || {};
 
   contextPad.registerProvider(this);
@@ -1941,12 +1964,12 @@ function ContextPadProvider(
   this._translate = translate;
 
   if (config.autoPlace !== false) {
-    this._autoPlace = injector.get('autoPlace', false);
+    this._autoPlace = injector.get("autoPlace", false);
   }
 
-  eventBus.on('create.end', 250, function(event) {
+  eventBus.on("create.end", 250, function (event) {
     let context = event.context,
-        shape = context.shape;
+      shape = context.shape;
 
     if (!(0,diagram_js_lib_util_Mouse__WEBPACK_IMPORTED_MODULE_0__.hasPrimaryModifier)(event) || !contextPad.isOpen(shape)) {
       return;
@@ -1961,21 +1984,19 @@ function ContextPadProvider(
 }
 
 ContextPadProvider.$inject = [
-  'config.contextPad',
-  'injector',
-  'eventBus',
-  'connect',
-  'create',
-  'elementFactory',
-  'contextPad',
-  'modeling',
-  'rules',
-  'translate'
+  "config.contextPad",
+  "injector",
+  "eventBus",
+  "connect",
+  "create",
+  "elementFactory",
+  "contextPad",
+  "modeling",
+  "rules",
+  "translate",
 ];
 
-
-ContextPadProvider.prototype.getContextPadEntries = function(element) {
-
+ContextPadProvider.prototype.getContextPadEntries = function (element) {
   const {
     _rules: rules,
     _modeling: modeling,
@@ -1983,17 +2004,17 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
     _connect: connect,
     _elementFactory: elementFactory,
     _autoPlace: autoPlace,
-    _create: create
+    _create: create,
   } = this;
 
   let actions = {};
 
-  if (element.type === 'label') {
+  if (element.type === "label") {
     return actions;
   }
 
   createDeleteEntry(actions);
-  if (element.type === 'od:Object') {
+  if (element.type === "od:Object") {
     createLinkObjectsEntry(actions);
     createLinkNewObjectEntry(actions);
   }
@@ -2001,30 +2022,30 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
   return actions;
 
   function removeElement() {
-    modeling.removeElements([ element ]);
+    modeling.removeElements([element]);
   }
 
   function createDeleteEntry(actions) {
-
     // delete element entry, only show if allowed by rules
-    let deleteAllowed = rules.allowed('elements.delete', { elements: [ element ] });
+    let deleteAllowed = rules.allowed("elements.delete", {
+      elements: [element],
+    });
 
     if ((0,min_dash__WEBPACK_IMPORTED_MODULE_1__.isArray)(deleteAllowed)) {
-
       // was the element returned as a deletion candidate?
       deleteAllowed = deleteAllowed[0] === element;
     }
 
     if (deleteAllowed) {
       (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.assign)(actions, {
-        'delete': {
-          group: 'edit',
-          className: 'bpmn-icon-trash',
-          title: translate('Remove'),
+        delete: {
+          group: "edit",
+          className: "bpmn-icon-trash",
+          title: translate("Remove"),
           action: {
-            click: removeElement
-          }
-        }
+            click: removeElement,
+          },
+        },
       });
     }
   }
@@ -2035,10 +2056,10 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
 
   function createLinkObjectsEntry(actions) {
     (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.assign)(actions, {
-      'connect': {
-        group: 'connect',
-        className: 'bpmn-icon-connection',
-        title: 'Link object to other objects',
+      connect: {
+        group: "connect",
+        className: "bpmn-icon-connection",
+        title: "Link object to other objects",
         action: {
           click: startConnect,
           dragstart: startConnect,
@@ -2049,10 +2070,10 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
 
   function createLinkNewObjectEntry(actions) {
     (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.assign)(actions, {
-      'append.append-task': appendAction(
-        'od:Object',
-        'od-no-font-icon-object',
-        translate('Link with new object')
+      "append.append-task": appendAction(
+        "od:Object",
+        "od-no-font-icon-object",
+        translate("Link with new object"),
       ),
     });
   }
@@ -2068,39 +2089,40 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
    * @return {Object} descriptor
    */
   function appendAction(type, className, title, options) {
-
-    if (typeof title !== 'string') {
+    if (typeof title !== "string") {
       options = title;
-      title = translate('Append {type}', { type: type.replace(/^bpmn:/, '') });
+      title = translate("Append {type}", { type: type.replace(/^bpmn:/, "") });
     }
 
     function appendStart(event, element) {
-
       var shape = elementFactory.createShape((0,min_dash__WEBPACK_IMPORTED_MODULE_1__.assign)({ type: type }, options));
       create.start(event, shape, {
-        source: element
+        source: element,
       });
     }
 
+    var append = autoPlace
+      ? function (event, element) {
+          var shape = elementFactory.createShape(
+            (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.assign)({ type: type }, options),
+          );
 
-    var append = autoPlace ? function(event, element) {
-      var shape = elementFactory.createShape((0,min_dash__WEBPACK_IMPORTED_MODULE_1__.assign)({ type: type }, options));
-
-      autoPlace.append(element, shape);
-    } : appendStart;
-
+          autoPlace.append(element, shape);
+        }
+      : appendStart;
 
     return {
-      group: 'model',
+      group: "model",
       className: className,
       title: title,
       action: {
         dragstart: appendStart,
-        click: append
-      }
+        click: append,
+      },
     };
   }
 };
+
 
 /***/ }),
 
@@ -2137,9 +2159,10 @@ __webpack_require__.r(__webpack_exports__);
     diagram_js_lib_features_connect__WEBPACK_IMPORTED_MODULE_3__["default"],
     diagram_js_lib_features_create__WEBPACK_IMPORTED_MODULE_4__["default"],
   ],
-  __init__: [ 'contextPadProvider' ],
-  contextPadProvider: [ 'type', _ContextPadProvider__WEBPACK_IMPORTED_MODULE_5__["default"] ]
+  __init__: ["contextPadProvider"],
+  contextPadProvider: ["type", _ContextPadProvider__WEBPACK_IMPORTED_MODULE_5__["default"]],
 });
+
 
 /***/ }),
 
@@ -2158,9 +2181,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
 
 
-var DISALLOWED_PROPERTIES = [
-  'boardElements'
-];
+var DISALLOWED_PROPERTIES = ["boardElements"];
 
 /**
  * @typedef {Function} <moddleCopy.canCopyProperties> listener
@@ -2211,45 +2232,41 @@ function ModdleCopy(eventBus, odFactory, moddle) {
   this._moddle = moddle;
 
   // copy extension elements last
-  eventBus.on('moddleCopy.canCopyProperties', function(context) {
+  eventBus.on("moddleCopy.canCopyProperties", function (context) {
     var propertyNames = context.propertyNames;
 
     if (!propertyNames || !propertyNames.length) {
       return;
     }
 
-    return (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.sortBy)(propertyNames, function(propertyName) {
-      return propertyName === 'extensionElements';
+    return (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.sortBy)(propertyNames, function (propertyName) {
+      return propertyName === "extensionElements";
     });
   });
 
   // default check whether property can be copied
-  eventBus.on('moddleCopy.canCopyProperty', function(context) {
+  eventBus.on("moddleCopy.canCopyProperty", function (context) {
     var parent = context.parent,
-        parentDescriptor = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isObject)(parent) && parent.$descriptor,
-        propertyName = context.propertyName;
+      parentDescriptor = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isObject)(parent) && parent.$descriptor,
+      propertyName = context.propertyName;
 
     if (propertyName && DISALLOWED_PROPERTIES.indexOf(propertyName) !== -1) {
-
       // disallow copying property
       return false;
     }
 
-    if (propertyName &&
+    if (
+      propertyName &&
       parentDescriptor &&
-      !(0,min_dash__WEBPACK_IMPORTED_MODULE_0__.find)(parentDescriptor.properties, (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.matchPattern)({ name: propertyName }))) {
-
+      !(0,min_dash__WEBPACK_IMPORTED_MODULE_0__.find)(parentDescriptor.properties, (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.matchPattern)({ name: propertyName }))
+    ) {
       // disallow copying property
       return false;
     }
   });
 }
 
-ModdleCopy.$inject = [
-  'eventBus',
-  'odFactory',
-  'moddle'
-];
+ModdleCopy.$inject = ["eventBus", "odFactory", "moddle"];
 
 /**
  * Copy model properties of source element to target element.
@@ -2260,19 +2277,23 @@ ModdleCopy.$inject = [
  *
  * @param {ModdleElement}
  */
-ModdleCopy.prototype.copyElement = function(sourceElement, targetElement, propertyNames) {
+ModdleCopy.prototype.copyElement = function (
+  sourceElement,
+  targetElement,
+  propertyNames,
+) {
   var self = this;
 
   if (propertyNames && !(0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isArray)(propertyNames)) {
-    propertyNames = [ propertyNames ];
+    propertyNames = [propertyNames];
   }
 
   propertyNames = propertyNames || getPropertyNames(sourceElement.$descriptor);
 
-  var canCopyProperties = this._eventBus.fire('moddleCopy.canCopyProperties', {
+  var canCopyProperties = this._eventBus.fire("moddleCopy.canCopyProperties", {
     propertyNames: propertyNames,
     sourceElement: sourceElement,
-    targetElement: targetElement
+    targetElement: targetElement,
   });
 
   if (canCopyProperties === false) {
@@ -2284,20 +2305,27 @@ ModdleCopy.prototype.copyElement = function(sourceElement, targetElement, proper
   }
 
   // copy properties
-  (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.forEach)(propertyNames, function(propertyName) {
+  (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.forEach)(propertyNames, function (propertyName) {
     var sourceProperty;
 
     if ((0,min_dash__WEBPACK_IMPORTED_MODULE_0__.has)(sourceElement, propertyName)) {
       sourceProperty = sourceElement.get(propertyName);
     }
 
-    var copiedProperty = self.copyProperty(sourceProperty, targetElement, propertyName);
+    var copiedProperty = self.copyProperty(
+      sourceProperty,
+      targetElement,
+      propertyName,
+    );
 
-    var canSetProperty = self._eventBus.fire('moddleCopy.canSetCopiedProperty', {
-      parent: targetElement,
-      property: copiedProperty,
-      propertyName: propertyName
-    });
+    var canSetProperty = self._eventBus.fire(
+      "moddleCopy.canSetCopiedProperty",
+      {
+        parent: targetElement,
+        property: copiedProperty,
+        propertyName: propertyName,
+      },
+    );
 
     if (canSetProperty === false) {
       return;
@@ -2320,14 +2348,14 @@ ModdleCopy.prototype.copyElement = function(sourceElement, targetElement, proper
  *
  * @returns {*}
  */
-ModdleCopy.prototype.copyProperty = function(property, parent, propertyName) {
+ModdleCopy.prototype.copyProperty = function (property, parent, propertyName) {
   var self = this;
 
   // allow others to copy property
-  var copiedProperty = this._eventBus.fire('moddleCopy.canCopyProperty', {
+  var copiedProperty = this._eventBus.fire("moddleCopy.canCopyProperty", {
     parent: parent,
     property: property,
-    propertyName: propertyName
+    propertyName: propertyName,
   });
 
   // return if copying is NOT allowed
@@ -2336,14 +2364,21 @@ ModdleCopy.prototype.copyProperty = function(property, parent, propertyName) {
   }
 
   if (copiedProperty) {
-    if ((0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isObject)(copiedProperty) && copiedProperty.$type && !copiedProperty.$parent) {
+    if (
+      (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isObject)(copiedProperty) &&
+      copiedProperty.$type &&
+      !copiedProperty.$parent
+    ) {
       copiedProperty.$parent = parent;
     }
 
     return copiedProperty;
   }
 
-  var propertyDescriptor = this._moddle.getPropertyDescriptor(parent, propertyName);
+  var propertyDescriptor = this._moddle.getPropertyDescriptor(
+    parent,
+    propertyName,
+  );
 
   // do NOT copy Ids and references
   if (propertyDescriptor.isId || propertyDescriptor.isReference) {
@@ -2352,20 +2387,23 @@ ModdleCopy.prototype.copyProperty = function(property, parent, propertyName) {
 
   // copy arrays
   if ((0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isArray)(property)) {
-    return (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.reduce)(property, function(childProperties, childProperty) {
+    return (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.reduce)(
+      property,
+      function (childProperties, childProperty) {
+        // recursion
+        copiedProperty = self.copyProperty(childProperty, parent, propertyName);
 
-      // recursion
-      copiedProperty = self.copyProperty(childProperty, parent, propertyName);
+        // copying might NOT be allowed
+        if (copiedProperty) {
+          copiedProperty.$parent = parent;
 
-      // copying might NOT be allowed
-      if (copiedProperty) {
-        copiedProperty.$parent = parent;
+          return childProperties.concat(copiedProperty);
+        }
 
-        return childProperties.concat(copiedProperty);
-      }
-
-      return childProperties;
-    }, []);
+        return childProperties;
+      },
+      [],
+    );
   }
 
   // copy model elements
@@ -2391,15 +2429,19 @@ ModdleCopy.prototype.copyProperty = function(property, parent, propertyName) {
 // helpers //////////
 
 function getPropertyNames(descriptor, keepDefaultProperties) {
-  return (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.reduce)(descriptor.properties, function(properties, property) {
+  return (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.reduce)(
+    descriptor.properties,
+    function (properties, property) {
+      if (keepDefaultProperties && property.default) {
+        return properties;
+      }
 
-    if (keepDefaultProperties && property.default) {
-      return properties;
-    }
-
-    return properties.concat(property.name);
-  }, []);
+      return properties.concat(property.name);
+    },
+    [],
+  );
 }
+
 
 /***/ }),
 
@@ -2422,10 +2464,10 @@ __webpack_require__.r(__webpack_exports__);
 
 function copyProperties(source, target, properties) {
   if (!(0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isArray)(properties)) {
-    properties = [ properties ];
+    properties = [properties];
   }
 
-  (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.forEach)(properties, function(property) {
+  (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.forEach)(properties, function (property) {
     if (!(0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isUndefined)(source[property])) {
       target[property] = source[property];
     }
@@ -2434,10 +2476,10 @@ function copyProperties(source, target, properties) {
 
 function removeProperties(element, properties) {
   if (!(0,min_dash__WEBPACK_IMPORTED_MODULE_0__.isArray)(properties)) {
-    properties = [ properties ];
+    properties = [properties];
   }
 
-  (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.forEach)(properties, function(property) {
+  (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.forEach)(properties, function (property) {
     if (element[property]) {
       delete element[property];
     }
@@ -2446,31 +2488,26 @@ function removeProperties(element, properties) {
 
 var LOW_PRIORITY = 750;
 
-
 function ODCopyPaste(odFactory, eventBus, moddleCopy) {
-
-  eventBus.on('copyPaste.copyElement', LOW_PRIORITY, function(context) {
+  eventBus.on("copyPaste.copyElement", LOW_PRIORITY, function (context) {
     var descriptor = context.descriptor,
-        element = context.element;
+      element = context.element;
 
-    var businessObject = descriptor.oldBusinessObject = (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__.getBusinessObject)(element);
+    var businessObject = (descriptor.oldBusinessObject =
+      (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__.getBusinessObject)(element));
 
     descriptor.type = element.type;
 
-    copyProperties(businessObject, descriptor, 'name');
+    copyProperties(businessObject, descriptor, "name");
 
     descriptor.di = {};
 
     // fill and stroke will be set to DI
-    copyProperties(businessObject.di, descriptor.di, [
-      'fill',
-      'stroke'
-    ]);
+    copyProperties(businessObject.di, descriptor.di, ["fill", "stroke"]);
 
     if (isLabel(descriptor)) {
       return descriptor;
     }
-
   });
 
   var references;
@@ -2480,41 +2517,49 @@ function ODCopyPaste(odFactory, eventBus, moddleCopy) {
 
     // default sequence flows
     if (descriptor.default) {
-
       // relationship cannot be resolved immediately
-      references[ descriptor.default ] = {
+      references[descriptor.default] = {
         element: businessObject,
-        property: 'default'
+        property: "default",
       };
     }
 
-    references = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.omit)(references, (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.reduce)(references, function(array, reference, key) {
-      var element = reference.element,
-          property = reference.property;
+    references = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.omit)(
+      references,
+      (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.reduce)(
+        references,
+        function (array, reference, key) {
+          var element = reference.element,
+            property = reference.property;
 
-      if (key === descriptor.id) {
-        element[ property ] = businessObject;
+          if (key === descriptor.id) {
+            element[property] = businessObject;
 
-        array.push(descriptor.id);
-      }
+            array.push(descriptor.id);
+          }
 
-      return array;
-    }, []));
+          return array;
+        },
+        [],
+      ),
+    );
   }
 
-  eventBus.on('copyPaste.pasteElements', function() {
+  eventBus.on("copyPaste.pasteElements", function () {
     references = {};
   });
 
-  eventBus.on('copyPaste.pasteElement', function(context) {
+  eventBus.on("copyPaste.pasteElement", function (context) {
     var cache = context.cache,
-        descriptor = context.descriptor,
-        oldBusinessObject = descriptor.oldBusinessObject,
-        newBusinessObject;
+      descriptor = context.descriptor,
+      oldBusinessObject = descriptor.oldBusinessObject,
+      newBusinessObject;
 
     // do NOT copy business object if external label
     if (isLabel(descriptor)) {
-      descriptor.businessObject = (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__.getBusinessObject)(cache[ descriptor.labelTarget ]);
+      descriptor.businessObject = (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__.getBusinessObject)(
+        cache[descriptor.labelTarget],
+      );
 
       return;
     }
@@ -2523,28 +2568,19 @@ function ODCopyPaste(odFactory, eventBus, moddleCopy) {
 
     descriptor.businessObject = moddleCopy.copyElement(
       oldBusinessObject,
-      newBusinessObject
+      newBusinessObject,
     );
 
     // resolve references e.g. default sequence flow
     resolveReferences(descriptor, cache);
 
-    copyProperties(descriptor, newBusinessObject, [
-      'color',
-      'name'
-    ]);
+    copyProperties(descriptor, newBusinessObject, ["color", "name"]);
 
-    removeProperties(descriptor, 'oldBusinessObject');
+    removeProperties(descriptor, "oldBusinessObject");
   });
-
 }
 
-
-ODCopyPaste.$inject = [
-  'odFactory',
-  'eventBus',
-  'moddleCopy'
-];
+ODCopyPaste.$inject = ["odFactory", "eventBus", "moddleCopy"];
 
 // helpers //////////
 
@@ -2575,12 +2611,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  __depends__: [
-    diagram_js_lib_features_copy_paste__WEBPACK_IMPORTED_MODULE_0__["default"]
-  ],
-  __init__: [ 'odCopyPaste', 'moddleCopy' ],
-  odCopyPaste: [ 'type', _ODCopyPaste__WEBPACK_IMPORTED_MODULE_1__["default"] ],
-  moddleCopy: [ 'type', _ModdleCopy__WEBPACK_IMPORTED_MODULE_2__["default"] ]
+  __depends__: [diagram_js_lib_features_copy_paste__WEBPACK_IMPORTED_MODULE_0__["default"]],
+  __init__: ["odCopyPaste", "moddleCopy"],
+  odCopyPaste: ["type", _ODCopyPaste__WEBPACK_IMPORTED_MODULE_1__["default"]],
+  moddleCopy: ["type", _ModdleCopy__WEBPACK_IMPORTED_MODULE_2__["default"]],
 });
 
 
@@ -2608,33 +2642,31 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 var HIGH_PRIORITY = 2000;
 
 function ODDiOrdering(eventBus, canvas) {
-
-  eventBus.on('saveXML.start', HIGH_PRIORITY, orderDi);
+  eventBus.on("saveXML.start", HIGH_PRIORITY, orderDi);
 
   function orderDi() {
     var root = canvas.getRootElement(),
-        rootDi = (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_0__.getBusinessObject)(root).di,
-        elements,
-        diElements;
+      rootDi = (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_0__.getBusinessObject)(root).di,
+      elements,
+      diElements;
 
-    elements = (0,diagram_js_lib_util_Elements__WEBPACK_IMPORTED_MODULE_1__.selfAndAllChildren)([ root ], false);
+    elements = (0,diagram_js_lib_util_Elements__WEBPACK_IMPORTED_MODULE_1__.selfAndAllChildren)([root], false);
 
     // only odDi:Shape can be direct children of odDi:Plane
-    elements = (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.filter)(elements, function(element) {
+    elements = (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.filter)(elements, function (element) {
       return element !== root && !element.labelTarget;
     });
 
     diElements = (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.map)(elements, _draw_ODRendererUtil__WEBPACK_IMPORTED_MODULE_3__.getDi);
 
-    rootDi.set('planeElement', diElements);
+    rootDi.set("planeElement", diElements);
   }
 }
 
-ODDiOrdering.$inject = [ 'eventBus', 'canvas' ];
+ODDiOrdering.$inject = ["eventBus", "canvas"];
 
 
 /***/ }),
@@ -2654,11 +2686,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  __init__: [
-    'odDiOrdering'
-  ],
-  odDiOrdering: [ 'type', _ODDiOrdering__WEBPACK_IMPORTED_MODULE_0__["default"] ]
+  __init__: ["odDiOrdering"],
+  odDiOrdering: ["type", _ODDiOrdering__WEBPACK_IMPORTED_MODULE_0__["default"]],
 });
+
 
 /***/ }),
 
@@ -2682,7 +2713,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 /**
  * Registers and executes ODM specific editor actions.
  *
@@ -2694,46 +2724,42 @@ function ODEditorActions(injector) {
 
 (0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(ODEditorActions, diagram_js_lib_features_editor_actions_EditorActions__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
-ODEditorActions.$inject = [
-  'injector'
-];
+ODEditorActions.$inject = ["injector"];
 
 /**
  * Register default actions.
  *
  * @param {Injector} injector
  */
-ODEditorActions.prototype._registerDefaultActions = function(injector) {
-
+ODEditorActions.prototype._registerDefaultActions = function (injector) {
   // (0) invoke super method
 
   diagram_js_lib_features_editor_actions_EditorActions__WEBPACK_IMPORTED_MODULE_0__["default"].prototype._registerDefaultActions.call(this, injector);
 
   // (1) retrieve optional components to integrate with
 
-  var canvas = injector.get('canvas', false);
-  var elementRegistry = injector.get('elementRegistry', false);
-  var selection = injector.get('selection', false);
-  var spaceTool = injector.get('spaceTool', false);
-  var lassoTool = injector.get('lassoTool', false);
-  var handTool = injector.get('handTool', false);
-  var globalConnect = injector.get('globalConnect', false);
-  var distributeElements = injector.get('distributeElements', false);
-  var alignElements = injector.get('alignElements', false);
-  var directEditing = injector.get('directEditing', false);
-  var searchPad = injector.get('searchPad', false);
-  var modeling = injector.get('modeling', false);
+  var canvas = injector.get("canvas", false);
+  var elementRegistry = injector.get("elementRegistry", false);
+  var selection = injector.get("selection", false);
+  var spaceTool = injector.get("spaceTool", false);
+  var lassoTool = injector.get("lassoTool", false);
+  var handTool = injector.get("handTool", false);
+  var globalConnect = injector.get("globalConnect", false);
+  var distributeElements = injector.get("distributeElements", false);
+  var alignElements = injector.get("alignElements", false);
+  var directEditing = injector.get("directEditing", false);
+  var searchPad = injector.get("searchPad", false);
+  var modeling = injector.get("modeling", false);
 
   // (2) check components and register actions
 
   if (canvas && elementRegistry && selection) {
-    this._registerAction('selectElements', function() {
-
+    this._registerAction("selectElements", function () {
       // select all elements except for the invisible
       // root element
       var rootElement = canvas.getRootElement();
 
-      var elements = elementRegistry.filter(function(element) {
+      var elements = elementRegistry.filter(function (element) {
         return element !== rootElement;
       });
 
@@ -2744,33 +2770,33 @@ ODEditorActions.prototype._registerDefaultActions = function(injector) {
   }
 
   if (spaceTool) {
-    this._registerAction('spaceTool', function() {
+    this._registerAction("spaceTool", function () {
       spaceTool.toggle();
     });
   }
 
   if (lassoTool) {
-    this._registerAction('lassoTool', function() {
+    this._registerAction("lassoTool", function () {
       lassoTool.toggle();
     });
   }
 
   if (handTool) {
-    this._registerAction('handTool', function() {
+    this._registerAction("handTool", function () {
       handTool.toggle();
     });
   }
 
   if (globalConnect) {
-    this._registerAction('globalConnectTool', function() {
+    this._registerAction("globalConnectTool", function () {
       globalConnect.toggle();
     });
   }
 
   if (selection && distributeElements) {
-    this._registerAction('distributeElements', function(opts) {
+    this._registerAction("distributeElements", function (opts) {
       var currentSelection = selection.get(),
-          type = opts.type;
+        type = opts.type;
 
       if (currentSelection.length) {
         distributeElements.trigger(currentSelection, type);
@@ -2779,9 +2805,9 @@ ODEditorActions.prototype._registerDefaultActions = function(injector) {
   }
 
   if (selection && alignElements) {
-    this._registerAction('alignElements', function(opts) {
+    this._registerAction("alignElements", function (opts) {
       var currentSelection = selection.get(),
-          type = opts.type;
+        type = opts.type;
 
       if (currentSelection.length) {
         alignElements.trigger(currentSelection, type);
@@ -2790,7 +2816,7 @@ ODEditorActions.prototype._registerDefaultActions = function(injector) {
   }
 
   if (selection && directEditing) {
-    this._registerAction('directEditing', function() {
+    this._registerAction("directEditing", function () {
       var currentSelection = selection.get();
 
       if (currentSelection.length) {
@@ -2800,18 +2826,17 @@ ODEditorActions.prototype._registerDefaultActions = function(injector) {
   }
 
   if (searchPad) {
-    this._registerAction('find', function() {
+    this._registerAction("find", function () {
       searchPad.toggle();
     });
   }
 
   if (canvas && modeling) {
-    this._registerAction('moveToOrigin', function() {
+    this._registerAction("moveToOrigin", function () {
       var rootElement = canvas.getRootElement(),
-          boundingBox;
+        boundingBox;
 
-
-      var elements = elementRegistry.filter(function(element) {
+      var elements = elementRegistry.filter(function (element) {
         return element !== rootElement;
       });
 
@@ -2820,12 +2845,12 @@ ODEditorActions.prototype._registerDefaultActions = function(injector) {
       modeling.moveElements(
         elements,
         { x: -boundingBox.x, y: -boundingBox.y },
-        rootElement
+        rootElement,
       );
     });
   }
-
 };
+
 
 /***/ }),
 
@@ -2847,10 +2872,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  __depends__: [
-    diagram_js_lib_features_editor_actions__WEBPACK_IMPORTED_MODULE_0__["default"]
-  ],
-  editorActions: [ 'type', _ODEditorActions__WEBPACK_IMPORTED_MODULE_1__["default"] ]
+  __depends__: [diagram_js_lib_features_editor_actions__WEBPACK_IMPORTED_MODULE_0__["default"]],
+  editorActions: ["type", _ODEditorActions__WEBPACK_IMPORTED_MODULE_1__["default"]],
 });
 
 
@@ -2868,21 +2891,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ BpmnGridSnapping)
 /* harmony export */ });
 function BpmnGridSnapping(eventBus) {
-  eventBus.on([
-    'create.init',
-    'shape.move.init'
-  ], function(event) {
+  eventBus.on(["create.init", "shape.move.init"], function (event) {
     var context = event.context;
 
     if (!context.gridSnappingContext) {
       context.gridSnappingContext = {};
     }
 
-    context.gridSnappingContext.snapLocation = 'top-left';
+    context.gridSnappingContext.snapLocation = "top-left";
   });
 }
 
-BpmnGridSnapping.$inject = [ 'eventBus' ];
+BpmnGridSnapping.$inject = ["eventBus"];
+
 
 /***/ }),
 
@@ -2906,28 +2927,28 @@ __webpack_require__.r(__webpack_exports__);
 var HIGH_PRIORITY = 2000;
 
 function AutoPlaceBehavior(eventBus, gridSnapping) {
-  eventBus.on('autoPlace', HIGH_PRIORITY, function(context) {
+  eventBus.on("autoPlace", HIGH_PRIORITY, function (context) {
     var source = context.source,
-        sourceMid = (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_0__.getMid)(source),
-        shape = context.shape;
+      sourceMid = (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_0__.getMid)(source),
+      shape = context.shape;
 
     var position = (0,_auto_place_ODAutoPlaceUtil__WEBPACK_IMPORTED_MODULE_1__.getNewShapePosition)(source, shape);
 
-    [ 'x', 'y' ].forEach(function(axis) {
+    ["x", "y"].forEach(function (axis) {
       var options = {};
 
       // do not snap if x/y equal
-      if (position[ axis ] === sourceMid[ axis ]) {
+      if (position[axis] === sourceMid[axis]) {
         return;
       }
 
-      if (position[ axis ] > sourceMid[ axis ]) {
-        options.min = position[ axis ];
+      if (position[axis] > sourceMid[axis]) {
+        options.min = position[axis];
       } else {
-        options.max = position[ axis ];
+        options.max = position[axis];
       }
 
-      position[ axis ] = gridSnapping.snapValue(position[ axis ], options);
+      position[axis] = gridSnapping.snapValue(position[axis], options);
     });
 
     // must be returned to be considered by auto place
@@ -2935,10 +2956,8 @@ function AutoPlaceBehavior(eventBus, gridSnapping) {
   });
 }
 
-AutoPlaceBehavior.$inject = [
-  'eventBus',
-  'gridSnapping'
-];
+AutoPlaceBehavior.$inject = ["eventBus", "gridSnapping"];
+
 
 /***/ }),
 
@@ -2967,43 +2986,47 @@ __webpack_require__.r(__webpack_exports__);
 
 var HIGH_PRIORITY = 3000;
 
-
 /**
  * Snaps connections with Manhattan layout.
  */
-function LayoutConnectionBehavior(eventBus, gridSnapping, modeling) {
+function LayoutConnectionBehavior(
+  eventBus,
+  gridSnapping,
+  modeling,
+) {
   diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"].call(this, eventBus);
 
   this._gridSnapping = gridSnapping;
 
   var self = this;
 
-  this.postExecuted([
-    'connection.create',
-    'connection.layout'
-  ], HIGH_PRIORITY, function(event) {
-    var context = event.context,
+  this.postExecuted(
+    ["connection.create", "connection.layout"],
+    HIGH_PRIORITY,
+    function (event) {
+      var context = event.context,
         connection = context.connection,
         hints = context.hints || {},
         waypoints = connection.waypoints;
 
-    if (hints.connectionStart || hints.connectionEnd || hints.createElementsBehavior === false) {
-      return;
-    }
+      if (
+        hints.connectionStart ||
+        hints.connectionEnd ||
+        hints.createElementsBehavior === false
+      ) {
+        return;
+      }
 
-    if (!hasMiddleSegments(waypoints)) {
-      return;
-    }
+      if (!hasMiddleSegments(waypoints)) {
+        return;
+      }
 
-    modeling.updateWaypoints(connection, self.snapMiddleSegments(waypoints));
-  });
+      modeling.updateWaypoints(connection, self.snapMiddleSegments(waypoints));
+    },
+  );
 }
 
-LayoutConnectionBehavior.$inject = [
-  'eventBus',
-  'gridSnapping',
-  'modeling'
-];
+LayoutConnectionBehavior.$inject = ["eventBus", "gridSnapping", "modeling"];
 
 (0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(LayoutConnectionBehavior, diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
@@ -3014,14 +3037,13 @@ LayoutConnectionBehavior.$inject = [
  *
  * @returns {Array<Point>}
  */
-LayoutConnectionBehavior.prototype.snapMiddleSegments = function(waypoints) {
+LayoutConnectionBehavior.prototype.snapMiddleSegments = function (waypoints) {
   var gridSnapping = this._gridSnapping,
-      snapped;
+    snapped;
 
   waypoints = waypoints.slice();
 
   for (var i = 1; i < waypoints.length - 2; i++) {
-
     snapped = snapSegment(gridSnapping, waypoints[i], waypoints[i + 1]);
 
     waypoints[i] = snapped[0];
@@ -3030,7 +3052,6 @@ LayoutConnectionBehavior.prototype.snapMiddleSegments = function(waypoints) {
 
   return waypoints;
 };
-
 
 // helpers //////////
 
@@ -3053,7 +3074,7 @@ function hasMiddleSegments(waypoints) {
  * @returns {boolean}
  */
 function horizontallyAligned(aligned) {
-  return aligned === 'h';
+  return aligned === "h";
 }
 
 /**
@@ -3064,7 +3085,7 @@ function horizontallyAligned(aligned) {
  * @returns {boolean}
  */
 function verticallyAligned(aligned) {
-  return aligned === 'v';
+  return aligned === "v";
 }
 
 /**
@@ -3075,30 +3096,28 @@ function verticallyAligned(aligned) {
  * @returns {Array}
  */
 function snapSegment(gridSnapping, segmentStart, segmentEnd) {
-
   var aligned = (0,diagram_js_lib_util_Geometry__WEBPACK_IMPORTED_MODULE_2__.pointsAligned)(segmentStart, segmentEnd);
 
   var snapped = {};
 
   if (horizontallyAligned(aligned)) {
-
     // snap horizontally
     snapped.y = gridSnapping.snapValue(segmentStart.y);
   }
 
   if (verticallyAligned(aligned)) {
-
     // snap vertically
     snapped.x = gridSnapping.snapValue(segmentStart.x);
   }
 
-  if ('x' in snapped || 'y' in snapped) {
+  if ("x" in snapped || "y" in snapped) {
     segmentStart = (0,min_dash__WEBPACK_IMPORTED_MODULE_3__.assign)({}, segmentStart, snapped);
     segmentEnd = (0,min_dash__WEBPACK_IMPORTED_MODULE_3__.assign)({}, segmentEnd, snapped);
   }
 
-  return [ segmentStart, segmentEnd ];
+  return [segmentStart, segmentEnd];
 }
+
 
 /***/ }),
 
@@ -3120,12 +3139,13 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __init__: [
-    'gridSnappingAutoPlaceBehavior',
-    'gridSnappingLayoutConnectionBehavior',
+    "gridSnappingAutoPlaceBehavior",
+    "gridSnappingLayoutConnectionBehavior",
   ],
-  gridSnappingAutoPlaceBehavior: [ 'type', _AutoPlaceBehavior__WEBPACK_IMPORTED_MODULE_0__["default"] ],
-  gridSnappingLayoutConnectionBehavior: [ 'type', _LayoutConnectionBehavior__WEBPACK_IMPORTED_MODULE_1__["default"] ]
+  gridSnappingAutoPlaceBehavior: ["type", _AutoPlaceBehavior__WEBPACK_IMPORTED_MODULE_0__["default"]],
+  gridSnappingLayoutConnectionBehavior: ["type", _LayoutConnectionBehavior__WEBPACK_IMPORTED_MODULE_1__["default"]],
 });
+
 
 /***/ }),
 
@@ -3149,13 +3169,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  __depends__: [
-    diagram_js_lib_features_grid_snapping__WEBPACK_IMPORTED_MODULE_0__["default"],
-    _behavior__WEBPACK_IMPORTED_MODULE_1__["default"]
-  ],
-  __init__: [ 'bpmnGridSnapping' ],
-  bpmnGridSnapping: [ 'type', _BpmnGridSnapping__WEBPACK_IMPORTED_MODULE_2__["default"] ]
+  __depends__: [diagram_js_lib_features_grid_snapping__WEBPACK_IMPORTED_MODULE_0__["default"], _behavior__WEBPACK_IMPORTED_MODULE_1__["default"]],
+  __init__: ["bpmnGridSnapping"],
+  bpmnGridSnapping: ["type", _BpmnGridSnapping__WEBPACK_IMPORTED_MODULE_2__["default"]],
 });
+
 
 /***/ }),
 
@@ -3176,7 +3194,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 /**
  * OD specific keyboard bindings.
  *
@@ -3188,10 +3205,7 @@ function ODKeyboardBindings(injector) {
 
 (0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(ODKeyboardBindings, diagram_js_lib_features_keyboard_KeyboardBindings__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
-ODKeyboardBindings.$inject = [
-  'injector'
-];
-
+ODKeyboardBindings.$inject = ["injector"];
 
 /**
  * Register available keyboard bindings.
@@ -3199,10 +3213,16 @@ ODKeyboardBindings.$inject = [
  * @param {Keyboard} keyboard
  * @param {EditorActions} editorActions
  */
-ODKeyboardBindings.prototype.registerBindings = function(keyboard, editorActions) {
-
+ODKeyboardBindings.prototype.registerBindings = function (
+  keyboard,
+  editorActions,
+) {
   // inherit default bindings
-  diagram_js_lib_features_keyboard_KeyboardBindings__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.registerBindings.call(this, keyboard, editorActions);
+  diagram_js_lib_features_keyboard_KeyboardBindings__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.registerBindings.call(
+    this,
+    keyboard,
+    editorActions,
+  );
 
   /**
    * Add keyboard binding if respective editor action
@@ -3212,7 +3232,6 @@ ODKeyboardBindings.prototype.registerBindings = function(keyboard, editorActions
    * @param {Function} fn that implements the key binding
    */
   function addListener(action, fn) {
-
     if (editorActions.isRegistered(action)) {
       keyboard.addListener(fn);
     }
@@ -3220,12 +3239,11 @@ ODKeyboardBindings.prototype.registerBindings = function(keyboard, editorActions
 
   // select all elements
   // CTRL + A
-  addListener('selectElements', function(context) {
-
+  addListener("selectElements", function (context) {
     var event = context.keyEvent;
 
-    if (keyboard.isKey([ 'a', 'A' ], event) && keyboard.isCmd(event)) {
-      editorActions.trigger('selectElements');
+    if (keyboard.isKey(["a", "A"], event) && keyboard.isCmd(event)) {
+      editorActions.trigger("selectElements");
 
       return true;
     }
@@ -3233,12 +3251,11 @@ ODKeyboardBindings.prototype.registerBindings = function(keyboard, editorActions
 
   // search labels
   // CTRL + F
-  addListener('find', function(context) {
-
+  addListener("find", function (context) {
     var event = context.keyEvent;
 
-    if (keyboard.isKey([ 'f', 'F' ], event) && keyboard.isCmd(event)) {
-      editorActions.trigger('find');
+    if (keyboard.isKey(["f", "F"], event) && keyboard.isCmd(event)) {
+      editorActions.trigger("find");
 
       return true;
     }
@@ -3246,16 +3263,15 @@ ODKeyboardBindings.prototype.registerBindings = function(keyboard, editorActions
 
   // activate space tool
   // S
-  addListener('spaceTool', function(context) {
-
+  addListener("spaceTool", function (context) {
     var event = context.keyEvent;
 
     if (keyboard.hasModifier(event)) {
       return;
     }
 
-    if (keyboard.isKey([ 's', 'S' ], event)) {
-      editorActions.trigger('spaceTool');
+    if (keyboard.isKey(["s", "S"], event)) {
+      editorActions.trigger("spaceTool");
 
       return true;
     }
@@ -3263,16 +3279,15 @@ ODKeyboardBindings.prototype.registerBindings = function(keyboard, editorActions
 
   // activate lasso tool
   // L
-  addListener('lassoTool', function(context) {
-
+  addListener("lassoTool", function (context) {
     var event = context.keyEvent;
 
     if (keyboard.hasModifier(event)) {
       return;
     }
 
-    if (keyboard.isKey([ 'l', 'L' ], event)) {
-      editorActions.trigger('lassoTool');
+    if (keyboard.isKey(["l", "L"], event)) {
+      editorActions.trigger("lassoTool");
 
       return true;
     }
@@ -3280,16 +3295,15 @@ ODKeyboardBindings.prototype.registerBindings = function(keyboard, editorActions
 
   // activate hand tool
   // H
-  addListener('handTool', function(context) {
-
+  addListener("handTool", function (context) {
     var event = context.keyEvent;
 
     if (keyboard.hasModifier(event)) {
       return;
     }
 
-    if (keyboard.isKey([ 'h', 'H' ], event)) {
-      editorActions.trigger('handTool');
+    if (keyboard.isKey(["h", "H"], event)) {
+      editorActions.trigger("handTool");
 
       return true;
     }
@@ -3297,22 +3311,21 @@ ODKeyboardBindings.prototype.registerBindings = function(keyboard, editorActions
 
   // activate direct editing
   // E
-  addListener('directEditing', function(context) {
-
+  addListener("directEditing", function (context) {
     var event = context.keyEvent;
 
     if (keyboard.hasModifier(event)) {
       return;
     }
 
-    if (keyboard.isKey([ 'e', 'E' ], event)) {
-      editorActions.trigger('directEditing');
+    if (keyboard.isKey(["e", "E"], event)) {
+      editorActions.trigger("directEditing");
 
       return true;
     }
   });
-
 };
+
 
 /***/ }),
 
@@ -3334,11 +3347,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  __depends__: [
-    diagram_js_lib_features_keyboard__WEBPACK_IMPORTED_MODULE_0__["default"]
-  ],
-  __init__: [ 'keyboardBindings' ],
-  keyboardBindings: [ 'type', _ODKeyboardBindings__WEBPACK_IMPORTED_MODULE_1__["default"] ]
+  __depends__: [diagram_js_lib_features_keyboard__WEBPACK_IMPORTED_MODULE_0__["default"]],
+  __init__: ["keyboardBindings"],
+  keyboardBindings: ["type", _ODKeyboardBindings__WEBPACK_IMPORTED_MODULE_1__["default"]],
 });
 
 
@@ -3358,48 +3369,46 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tiny_svg__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tiny-svg */ "../node_modules/tiny-svg/dist/index.esm.js");
 
 
-var MARKER_HIDDEN = 'djs-element-hidden';
+var MARKER_HIDDEN = "djs-element-hidden";
 
-
-function LabelEditingPreview(
-    eventBus, canvas) {
-
-
+function LabelEditingPreview(eventBus, canvas) {
   var element, gfx;
 
-  eventBus.on('directEditing.activate', function(context) {
+  eventBus.on("directEditing.activate", function (context) {
     var activeProvider = context.active;
 
     element = activeProvider.element.label || activeProvider.element;
-
 
     if (element.labelTarget) {
       canvas.addMarker(element, MARKER_HIDDEN);
     }
   });
 
+  eventBus.on(
+    ["directEditing.complete", "directEditing.cancel"],
+    function (context) {
+      var activeProvider = context.active;
 
-  eventBus.on([ 'directEditing.complete', 'directEditing.cancel' ], function(context) {
-    var activeProvider = context.active;
+      if (activeProvider) {
+        canvas.removeMarker(
+          activeProvider.element.label || activeProvider.element,
+          MARKER_HIDDEN,
+        );
+      }
 
-    if (activeProvider) {
-      canvas.removeMarker(activeProvider.element.label || activeProvider.element, MARKER_HIDDEN);
-    }
+      element = undefined;
 
-    element = undefined;
+      if (gfx) {
+        (0,tiny_svg__WEBPACK_IMPORTED_MODULE_0__.remove)(gfx);
 
-    if (gfx) {
-      (0,tiny_svg__WEBPACK_IMPORTED_MODULE_0__.remove)(gfx);
-
-      gfx = undefined;
-    }
-  });
+        gfx = undefined;
+      }
+    },
+  );
 }
 
-LabelEditingPreview.$inject = [
-  'eventBus',
-  'canvas'
-];
+LabelEditingPreview.$inject = ["eventBus", "canvas"];
+
 
 /***/ }),
 
@@ -3426,11 +3435,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 function LabelEditingProvider(
-    eventBus, odFactory, canvas, directEditing,
-    modeling, resizeHandles, textRenderer) {
-
+  eventBus,
+  odFactory,
+  canvas,
+  directEditing,
+  modeling,
+  resizeHandles,
+  textRenderer,
+) {
   this._odFactory = odFactory;
   this._canvas = canvas;
   this._modeling = modeling;
@@ -3440,53 +3453,54 @@ function LabelEditingProvider(
 
   function decideIfTitelOrAttributesClicked(event) {
     var zoom = canvas.zoom();
-    var titel_attribute_divider_y_coordinate = (event.element.y + 30 - canvas._cachedViewbox.y) * zoom;
+    var titel_attribute_divider_y_coordinate =
+      (event.element.y + 30 - canvas._cachedViewbox.y) * zoom;
     var click_y_coordinate = event.originalEvent.offsetY;
     if (click_y_coordinate >= titel_attribute_divider_y_coordinate) {
-      event.element.businessObject.labelAttribute = 'attributeValues';
+      event.element.businessObject.labelAttribute = "attributeValues";
     } else {
-      event.element.businessObject.labelAttribute = 'name';
+      event.element.businessObject.labelAttribute = "name";
     }
   }
 
   // listen to dblclick on non-root elements
-  eventBus.on('element.dblclick', function(event) {
+  eventBus.on("element.dblclick", function (event) {
     decideIfTitelOrAttributesClicked(event);
     activateDirectEdit(event.element, true);
   });
 
   // complete on followup canvas operation
-  eventBus.on([
-    'autoPlace.start',
-    'canvas.viewbox.changing',
-    'drag.init',
-    'element.mousedown',
-    'popupMenu.open'
-  ], function(event) {
-
-    if (directEditing.isActive()) {
-      directEditing.complete();
-    }
-  });
+  eventBus.on(
+    [
+      "autoPlace.start",
+      "canvas.viewbox.changing",
+      "drag.init",
+      "element.mousedown",
+      "popupMenu.open",
+    ],
+    function (event) {
+      if (directEditing.isActive()) {
+        directEditing.complete();
+      }
+    },
+  );
 
   // cancel on command stack changes
-  eventBus.on([ 'commandStack.changed' ], function(e) {
+  eventBus.on(["commandStack.changed"], function (e) {
     if (directEditing.isActive()) {
       directEditing.cancel();
     }
   });
 
-
-  eventBus.on('directEditing.activate', function(event) {
+  eventBus.on("directEditing.activate", function (event) {
     resizeHandles.removeResizers();
   });
 
-  eventBus.on('create.end', 500, function(event) {
-
+  eventBus.on("create.end", 500, function (event) {
     var context = event.context,
-        element = context.shape,
-        canExecute = event.context.canExecute,
-        isTouch = event.isTouch;
+      element = context.shape,
+      canExecute = event.context.canExecute,
+      isTouch = event.isTouch;
 
     // TODO(nikku): we need to find a way to support the
     // direct editing on mobile devices; right now this will
@@ -3511,30 +3525,26 @@ function LabelEditingProvider(
     activateDirectEdit(element, false);
   });
 
-  eventBus.on('autoPlace.end', 500, function(event) {
+  eventBus.on("autoPlace.end", 500, function (event) {
     activateDirectEdit(event.shape, false);
   });
 
-
   function activateDirectEdit(element, force) {
-    if (force ||
-      (0,_modeling_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_0__.isAny)(element, [ 'od:TextBox', 'od:Object' ])) {
+    if (force || (0,_modeling_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_0__.isAny)(element, ["od:TextBox", "od:Object"])) {
       directEditing.activate(element);
     }
   }
-
 }
 
 LabelEditingProvider.$inject = [
-  'eventBus',
-  'odFactory',
-  'canvas',
-  'directEditing',
-  'modeling',
-  'resizeHandles',
-  'textRenderer'
+  "eventBus",
+  "odFactory",
+  "canvas",
+  "directEditing",
+  "modeling",
+  "resizeHandles",
+  "textRenderer",
 ];
-
 
 /**
  * Activate direct editing for objects and text annotations.
@@ -3543,8 +3553,7 @@ LabelEditingProvider.$inject = [
  *
  * @return {Object} an object with properties bounds (position and size), text and options
  */
-LabelEditingProvider.prototype.activate = function(element) {
-
+LabelEditingProvider.prototype.activate = function (element) {
   // text
   var text = (0,_LabelUtil__WEBPACK_IMPORTED_MODULE_1__.getLabel)(element);
 
@@ -3553,7 +3562,7 @@ LabelEditingProvider.prototype.activate = function(element) {
   }
 
   var context = {
-    text: text
+    text: text,
   };
 
   // bounds
@@ -3564,26 +3573,25 @@ LabelEditingProvider.prototype.activate = function(element) {
   var options = {};
 
   // text boxes
-  if ((0,_modeling_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_0__.isAny)(element, [ 'od:TextBox' ])) {
+  if ((0,_modeling_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_0__.isAny)(element, ["od:TextBox"])) {
     (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)(options, {
-      centerVertically: true
+      centerVertically: true,
     });
   }
 
   // external labels
   if ((0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_3__.isLabelExternal)(element)) {
     (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)(options, {
-      autoResize: true
+      autoResize: true,
     });
   }
 
   (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)(context, {
-    options: options
+    options: options,
   });
 
   return context;
 };
-
 
 /**
  * Get the editing bounding box based on the element's size and position
@@ -3593,7 +3601,7 @@ LabelEditingProvider.prototype.activate = function(element) {
  * @return {Object} an object containing information about position
  *                  and size (fixed or minimum and/or maximum)
  */
-LabelEditingProvider.prototype.getEditingBBox = function(element) {
+LabelEditingProvider.prototype.getEditingBBox = function (element) {
   var canvas = this._canvas;
 
   var target = element.label || element;
@@ -3602,7 +3610,7 @@ LabelEditingProvider.prototype.getEditingBBox = function(element) {
 
   var mid = {
     x: bbox.x + bbox.width / 2,
-    y: bbox.y + bbox.height / 2
+    y: bbox.y + bbox.height / 2,
   };
 
   // default position
@@ -3611,55 +3619,52 @@ LabelEditingProvider.prototype.getEditingBBox = function(element) {
   var zoom = canvas.zoom();
 
   var defaultStyle = this._textRenderer.getDefaultStyle(),
-      externalStyle = this._textRenderer.getExternalStyle();
+    externalStyle = this._textRenderer.getExternalStyle();
 
   // take zoom into account
   var externalFontSize = externalStyle.fontSize * zoom,
-      externalLineHeight = externalStyle.lineHeight,
-      defaultFontSize = defaultStyle.fontSize * zoom,
-      defaultLineHeight = defaultStyle.lineHeight;
+    externalLineHeight = externalStyle.lineHeight,
+    defaultFontSize = defaultStyle.fontSize * zoom,
+    defaultLineHeight = defaultStyle.lineHeight;
 
   var style = {
     fontFamily: this._textRenderer.getDefaultStyle().fontFamily,
-    fontWeight: this._textRenderer.getDefaultStyle().fontWeight
+    fontWeight: this._textRenderer.getDefaultStyle().fontWeight,
   };
 
-
-  if ((0,_modeling_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_0__.isAny)(element, [ 'od:TextBox', 'od:Object' ])) {
-
+  if ((0,_modeling_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_0__.isAny)(element, ["od:TextBox", "od:Object"])) {
     (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)(bounds, {
       width: bbox.width,
-      height: bbox.height
+      height: bbox.height,
     });
 
     (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)(style, {
-      fontSize: defaultFontSize + 'px',
+      fontSize: defaultFontSize + "px",
       lineHeight: defaultLineHeight,
-      paddingTop: (7 * zoom) + 'px',
-      paddingBottom: (7 * zoom) + 'px',
-      paddingLeft: (5 * zoom) + 'px',
-      paddingRight: (5 * zoom) + 'px'
+      paddingTop: 7 * zoom + "px",
+      paddingBottom: 7 * zoom + "px",
+      paddingLeft: 5 * zoom + "px",
+      paddingRight: 5 * zoom + "px",
     });
 
-    if ((0,_modeling_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_0__.isAny)(element, [ 'od:Object' ])) {
-
+    if ((0,_modeling_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_0__.isAny)(element, ["od:Object"])) {
       // Editing attributes should be different.
-      if (element.businessObject.labelAttribute === 'attributeValues') {
+      if (element.businessObject.labelAttribute === "attributeValues") {
         (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)(bounds, {
-          y: bbox.y + (30 * zoom),
-          height: bbox.height - (30 * zoom)
+          y: bbox.y + 30 * zoom,
+          height: bbox.height - 30 * zoom,
         });
       } else {
         (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)(bounds, {
-          height: (30 * zoom)
+          height: 30 * zoom,
         });
       }
     }
   }
 
   var width = 90 * zoom,
-      paddingTop = 7 * zoom,
-      paddingBottom = 4 * zoom;
+    paddingTop = 7 * zoom,
+    paddingBottom = 4 * zoom;
 
   // external labels for events, data elements, gateways, groups and connections
   if (target.labelTarget) {
@@ -3667,29 +3672,30 @@ LabelEditingProvider.prototype.getEditingBBox = function(element) {
       width: width,
       height: bbox.height + paddingTop + paddingBottom,
       x: mid.x - width / 2,
-      y: bbox.y - paddingTop
+      y: bbox.y - paddingTop,
     });
 
     (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)(style, {
-      fontSize: externalFontSize + 'px',
+      fontSize: externalFontSize + "px",
       lineHeight: externalLineHeight,
-      paddingTop: paddingTop + 'px',
-      paddingBottom: paddingBottom + 'px'
+      paddingTop: paddingTop + "px",
+      paddingBottom: paddingBottom + "px",
     });
   }
 
   // external label not yet created
-  if ((0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_3__.isLabelExternal)(target)
-    && !(0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_3__.hasExternalLabel)(target)
-    && !(0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_3__.isLabel)(target)) {
-
+  if (
+    (0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_3__.isLabelExternal)(target) &&
+    !(0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_3__.hasExternalLabel)(target) &&
+    !(0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_3__.isLabel)(target)
+  ) {
     var externalLabelMid = (0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_3__.getExternalLabelMid)(element);
 
     var absoluteBBox = canvas.getAbsoluteBBox({
       x: externalLabelMid.x,
       y: externalLabelMid.y,
       width: 0,
-      height: 0
+      height: 0,
     });
 
     var height = externalFontSize + paddingTop + paddingBottom;
@@ -3698,30 +3704,27 @@ LabelEditingProvider.prototype.getEditingBBox = function(element) {
       width: width,
       height: height,
       x: absoluteBBox.x - width / 2,
-      y: absoluteBBox.y - height / 2
+      y: absoluteBBox.y - height / 2,
     });
 
     (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)(style, {
-      fontSize: externalFontSize + 'px',
+      fontSize: externalFontSize + "px",
       lineHeight: externalLineHeight,
-      paddingTop: paddingTop + 'px',
-      paddingBottom: paddingBottom + 'px'
+      paddingTop: paddingTop + "px",
+      paddingBottom: paddingBottom + "px",
     });
   }
 
   return { bounds: bounds, style: style };
 };
 
-
-LabelEditingProvider.prototype.update = function(element, newLabel) {
-
+LabelEditingProvider.prototype.update = function (element, newLabel) {
   if (isEmptyText(newLabel)) {
     newLabel = null;
   }
 
   this._modeling.updateLabel(element, newLabel);
 };
-
 
 // helpers //////////////////////
 
@@ -3751,8 +3754,8 @@ function getLabelAttr(semantic) {
   if (semantic.labelAttribute) {
     return semantic.labelAttribute;
   }
-  if ((0,_modeling_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_0__.isAny)(semantic, [ 'od:TextBox', 'od:Link', 'od:Object' ])) {
-    return 'name';
+  if ((0,_modeling_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_0__.isAny)(semantic, ["od:TextBox", "od:Link", "od:Object"])) {
+    return "name";
   }
 }
 
@@ -3761,14 +3764,13 @@ function getLabel(element) {
   var attr = getLabelAttr(semantic);
 
   if (attr) {
-    return semantic[attr] || '';
+    return semantic[attr] || "";
   }
 }
 
-
 function setLabel(element, text) {
   var semantic = element.businessObject,
-      attr = getLabelAttr(semantic);
+    attr = getLabelAttr(semantic);
 
   if (attr) {
     semantic[attr] = text;
@@ -3776,6 +3778,7 @@ function setLabel(element, text) {
 
   return element;
 }
+
 
 /***/ }),
 
@@ -3798,15 +3801,13 @@ __webpack_require__.r(__webpack_exports__);
 
 var NULL_DIMENSIONS = {
   width: 0,
-  height: 0
+  height: 0,
 };
-
 
 /**
  * A handler that updates the text of a postit element.
  */
 function UpdateLabelHandler(modeling, textRenderer) {
-
   /**
    * Set the label and return the changed elements.
    *
@@ -3816,7 +3817,6 @@ function UpdateLabelHandler(modeling, textRenderer) {
    * @param {String} text
    */
   function setText(element, text) {
-
     // external label if present
     var label = element.label || element;
 
@@ -3824,19 +3824,20 @@ function UpdateLabelHandler(modeling, textRenderer) {
 
     (0,_LabelUtil__WEBPACK_IMPORTED_MODULE_0__.setLabel)(label, text, labelTarget !== label);
 
-    return [ label, labelTarget ];
+    return [label, labelTarget];
   }
 
   function preExecute(ctx) {
     var element = ctx.element,
-        businessObject = element.businessObject,
-        newLabel = ctx.newLabel;
+      businessObject = element.businessObject,
+      newLabel = ctx.newLabel;
 
-    if (!(0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_1__.isLabel)(element)
-        && (0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_1__.isLabelExternal)(element)
-        && !(0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_1__.hasExternalLabel)(element)
-        && !isEmptyText(newLabel)) {
-
+    if (
+      !(0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_1__.isLabel)(element) &&
+      (0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_1__.isLabelExternal)(element) &&
+      !(0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_1__.hasExternalLabel)(element) &&
+      !isEmptyText(newLabel)
+    ) {
       // create label
       var paddingTop = 7;
 
@@ -3844,12 +3845,12 @@ function UpdateLabelHandler(modeling, textRenderer) {
 
       labelCenter = {
         x: labelCenter.x,
-        y: labelCenter.y + paddingTop
+        y: labelCenter.y + paddingTop,
       };
 
       modeling.createLabel(element, labelCenter, {
-        id: businessObject.id + '_label',
-        businessObject: businessObject
+        id: businessObject.id + "_label",
+        businessObject: businessObject,
       });
     }
   }
@@ -3865,10 +3866,10 @@ function UpdateLabelHandler(modeling, textRenderer) {
 
   function postExecute(ctx) {
     var element = ctx.element,
-        label = element.label || element,
-        newLabel = ctx.newLabel,
-        newBounds = ctx.newBounds,
-        hints = ctx.hints || {};
+      label = element.label || element,
+      newLabel = ctx.newLabel,
+      newBounds = ctx.newBounds,
+      hints = ctx.hints || {};
 
     // ignore internal labels for elements
     if (!(0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_1__.isLabel)(label)) {
@@ -3876,7 +3877,6 @@ function UpdateLabelHandler(modeling, textRenderer) {
     }
 
     if ((0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_1__.isLabel)(label) && isEmptyText(newLabel)) {
-
       if (hints.removeShape !== false) {
         modeling.removeShape(label, { unsetLabel: false });
       }
@@ -3887,7 +3887,7 @@ function UpdateLabelHandler(modeling, textRenderer) {
     var text = (0,_LabelUtil__WEBPACK_IMPORTED_MODULE_0__.getLabel)(label);
 
     // resize element based on label _or_ pre-defined bounds
-    if (typeof newBounds === 'undefined') {
+    if (typeof newBounds === "undefined") {
       newBounds = textRenderer.getExternalLabelBounds(label, text);
     }
 
@@ -3906,17 +3906,14 @@ function UpdateLabelHandler(modeling, textRenderer) {
   this.postExecute = postExecute;
 }
 
-UpdateLabelHandler.$inject = [
-  'modeling',
-  'textRenderer'
-];
-
+UpdateLabelHandler.$inject = ["modeling", "textRenderer"];
 
 // helpers ///////////////////////
 
 function isEmptyText(label) {
   return !label || !label.trim();
 }
+
 
 /***/ }),
 
@@ -3943,19 +3940,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  __depends__: [
-    diagram_js_lib_features_change_support__WEBPACK_IMPORTED_MODULE_1__["default"],
-    diagram_js_lib_features_resize__WEBPACK_IMPORTED_MODULE_2__["default"],
-    diagram_js_direct_editing__WEBPACK_IMPORTED_MODULE_0__["default"]
-  ],
-  __init__: [
-    'labelEditingProvider',
-    'labelEditingPreview'
-  ],
-  labelEditingProvider: [ 'type', _LabelEditingProvider__WEBPACK_IMPORTED_MODULE_3__["default"] ],
-  labelEditingPreview: [ 'type', _LabelEditingPreview__WEBPACK_IMPORTED_MODULE_4__["default"] ]
+  __depends__: [diagram_js_lib_features_change_support__WEBPACK_IMPORTED_MODULE_1__["default"], diagram_js_lib_features_resize__WEBPACK_IMPORTED_MODULE_2__["default"], diagram_js_direct_editing__WEBPACK_IMPORTED_MODULE_0__["default"]],
+  __init__: ["labelEditingProvider", "labelEditingPreview"],
+  labelEditingProvider: ["type", _LabelEditingProvider__WEBPACK_IMPORTED_MODULE_3__["default"]],
+  labelEditingPreview: ["type", _LabelEditingPreview__WEBPACK_IMPORTED_MODULE_4__["default"]],
 });
 
 
@@ -3987,7 +3976,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 /**
  * A od-aware factory for diagram-js shapes
  */
@@ -4001,30 +3989,27 @@ function ElementFactory(odFactory, moddle, translate) {
 
 (0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(ElementFactory, diagram_js_lib_core_ElementFactory__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
-ElementFactory.$inject = [
-  'odFactory',
-  'moddle',
-  'translate'
-];
+ElementFactory.$inject = ["odFactory", "moddle", "translate"];
 
 ElementFactory.prototype.baseCreate = diagram_js_lib_core_ElementFactory__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.create;
 
-ElementFactory.prototype.create = function(elementType, attrs) {
-
+ElementFactory.prototype.create = function (elementType, attrs) {
   // no special magic for labels,
   // we assume their businessObjects have already been created
   // and wired via attrs
-  if (elementType === 'label') {
-    return this.baseCreate(elementType, (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)({ type: 'label' }, _util_LabelUtil__WEBPACK_IMPORTED_MODULE_3__.DEFAULT_LABEL_SIZE, attrs));
+  if (elementType === "label") {
+    return this.baseCreate(
+      elementType,
+      (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)({ type: "label" }, _util_LabelUtil__WEBPACK_IMPORTED_MODULE_3__.DEFAULT_LABEL_SIZE, attrs),
+    );
   }
 
   return this.createOdElement(elementType, attrs);
 };
 
-
-ElementFactory.prototype.createOdElement = function(elementType, attrs) {
+ElementFactory.prototype.createOdElement = function (elementType, attrs) {
   var size,
-      translate = this._translate;
+    translate = this._translate;
 
   attrs = attrs || {};
 
@@ -4032,25 +4017,29 @@ ElementFactory.prototype.createOdElement = function(elementType, attrs) {
 
   if (!businessObject) {
     if (!attrs.type) {
-      throw new Error(translate('no shape type specified'));
+      throw new Error(translate("no shape type specified"));
     }
 
     businessObject = this._odFactory.create(attrs.type);
   }
 
   if (!businessObject.di) {
-    if (elementType === 'root') {
+    if (elementType === "root") {
       businessObject.di = this._odFactory.createDiPlane(businessObject, [], {
-        id: businessObject.id + '_di'
+        id: businessObject.id + "_di",
       });
-    } else if (elementType === 'connection') {
+    } else if (elementType === "connection") {
       businessObject.di = this._odFactory.createDiEdge(businessObject, [], {
-        id: businessObject.id + '_di'
+        id: businessObject.id + "_di",
       });
     } else {
-      businessObject.di = this._odFactory.createDiShape(businessObject, {}, {
-        id: businessObject.id + '_di'
-      });
+      businessObject.di = this._odFactory.createDiShape(
+        businessObject,
+        {},
+        {
+          id: businessObject.id + "_di",
+        },
+      );
     }
   }
 
@@ -4061,31 +4050,32 @@ ElementFactory.prototype.createOdElement = function(elementType, attrs) {
   }
 
   applyAttributes(businessObject, attrs, [
-    'processRef',
-    'isInterrupting',
-    'associationDirection',
-    'isForCompensation'
+    "processRef",
+    "isInterrupting",
+    "associationDirection",
+    "isForCompensation",
   ]);
 
   size = this._getDefaultSize(businessObject);
 
-  attrs = (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)({
-    businessObject: businessObject,
-    id: businessObject.id
-  }, size, attrs);
+  attrs = (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)(
+    {
+      businessObject: businessObject,
+      id: businessObject.id,
+    },
+    size,
+    attrs,
+  );
 
   return this.baseCreate(elementType, attrs);
 };
 
-
-ElementFactory.prototype._getDefaultSize = function(semantic) {
-  if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_4__.is)(semantic, 'od:Object')) {
+ElementFactory.prototype._getDefaultSize = function (semantic) {
+  if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_4__.is)(semantic, "od:Object")) {
     return { width: 150, height: 90 };
   }
   return { width: 100, height: 80 };
 };
-
-
 
 // helpers //////////////////////
 
@@ -4098,8 +4088,7 @@ ElementFactory.prototype._getDefaultSize = function(semantic) {
  * @param {Array<String>} attributeNames name of attributes to apply
  */
 function applyAttributes(element, attrs, attributeNames) {
-
-  (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.forEach)(attributeNames, function(property) {
+  (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.forEach)(attributeNames, function (property) {
     if (attrs[property] !== undefined) {
       applyAttribute(element, attrs, property);
     }
@@ -4119,6 +4108,7 @@ function applyAttribute(element, attrs, attributeName) {
 
   delete attrs[attributeName];
 }
+
 
 /***/ }),
 
@@ -4149,7 +4139,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 /**
  * OD modeling features activator
  *
@@ -4159,9 +4148,11 @@ __webpack_require__.r(__webpack_exports__);
  * @param {ODRules} odRules
  */
 function Modeling(
-    eventBus, elementFactory, commandStack,
-    odRules) {
-
+  eventBus,
+  elementFactory,
+  commandStack,
+  odRules,
+) {
   diagram_js_lib_features_modeling_Modeling__WEBPACK_IMPORTED_MODULE_0__["default"].call(this, eventBus, elementFactory, commandStack);
 
   this._odRules = odRules;
@@ -4169,61 +4160,56 @@ function Modeling(
 
 (0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(Modeling, diagram_js_lib_features_modeling_Modeling__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
-Modeling.$inject = [
-  'eventBus',
-  'elementFactory',
-  'commandStack',
-  'odRules'
-];
+Modeling.$inject = ["eventBus", "elementFactory", "commandStack", "odRules"];
 
-
-Modeling.prototype.getHandlers = function() {
+Modeling.prototype.getHandlers = function () {
   var handlers = diagram_js_lib_features_modeling_Modeling__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.getHandlers.call(this);
 
-  handlers['element.updateProperties'] = _cmd_UpdatePropertiesHandler__WEBPACK_IMPORTED_MODULE_2__["default"];
-  handlers['canvas.updateRoot'] = _cmd_UpdateCanvasRootHandler__WEBPACK_IMPORTED_MODULE_3__["default"];
-  handlers['id.updateClaim'] = _cmd_IdClaimHandler__WEBPACK_IMPORTED_MODULE_4__["default"];
-  handlers['element.updateLabel'] = _label_editing_cmd_UpdateLabelHandler__WEBPACK_IMPORTED_MODULE_5__["default"];
+  handlers["element.updateProperties"] = _cmd_UpdatePropertiesHandler__WEBPACK_IMPORTED_MODULE_2__["default"];
+  handlers["canvas.updateRoot"] = _cmd_UpdateCanvasRootHandler__WEBPACK_IMPORTED_MODULE_3__["default"];
+  handlers["id.updateClaim"] = _cmd_IdClaimHandler__WEBPACK_IMPORTED_MODULE_4__["default"];
+  handlers["element.updateLabel"] = _label_editing_cmd_UpdateLabelHandler__WEBPACK_IMPORTED_MODULE_5__["default"];
 
   return handlers;
 };
 
-
-Modeling.prototype.updateLabel = function(element, newLabel, newBounds, hints) {
-  this._commandStack.execute('element.updateLabel', {
+Modeling.prototype.updateLabel = function (
+  element,
+  newLabel,
+  newBounds,
+  hints,
+) {
+  this._commandStack.execute("element.updateLabel", {
     element: element,
     newLabel: newLabel,
     newBounds: newBounds,
-    hints: hints || {}
+    hints: hints || {},
   });
 };
 
-
-Modeling.prototype.updateProperties = function(element, properties) {
-  this._commandStack.execute('element.updateProperties', {
+Modeling.prototype.updateProperties = function (element, properties) {
+  this._commandStack.execute("element.updateProperties", {
     element: element,
-    properties: properties
+    properties: properties,
   });
 };
 
-Modeling.prototype.claimId = function(id, moddleElement) {
-  this._commandStack.execute('id.updateClaim', {
+Modeling.prototype.claimId = function (id, moddleElement) {
+  this._commandStack.execute("id.updateClaim", {
     id: id,
     element: moddleElement,
-    claiming: true
+    claiming: true,
   });
 };
 
-
-Modeling.prototype.unclaimId = function(id, moddleElement) {
-  this._commandStack.execute('id.updateClaim', {
+Modeling.prototype.unclaimId = function (id, moddleElement) {
+  this._commandStack.execute("id.updateClaim", {
     id: id,
-    element: moddleElement
+    element: moddleElement,
   });
 };
 
-Modeling.prototype.connect = function(source, target, attrs, hints) {
-
+Modeling.prototype.connect = function (source, target, attrs, hints) {
   var odRules = this._odRules;
 
   if (!attrs) {
@@ -4260,44 +4246,38 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 function ODFactory(moddle) {
   this._model = moddle;
 }
 
-ODFactory.$inject = [ 'moddle' ];
+ODFactory.$inject = ["moddle"];
 
-
-ODFactory.prototype._needsId = function(element) {
-  return (0,_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_0__.isAny)(element, [
-    'od:BoardElement'
-  ]);
+ODFactory.prototype._needsId = function (element) {
+  return (0,_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_0__.isAny)(element, ["od:BoardElement"]);
 };
 
-ODFactory.prototype._ensureId = function(element) {
-
+ODFactory.prototype._ensureId = function (element) {
   // generate semantic ids for elements
   // od:Object -> Object_ID
   var prefix;
 
-  if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__.is)(element, 'od:Object')) {
-    prefix = 'Object';
+  if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__.is)(element, "od:Object")) {
+    prefix = "Object";
   } else {
-    prefix = (element.$type || '').replace(/^[^:]*:/g, '');
+    prefix = (element.$type || "").replace(/^[^:]*:/g, "");
   }
 
-  prefix += '_';
+  prefix += "_";
 
   if (!element.id && this._needsId(element)) {
     element.id = this._model.ids.nextPrefixed(prefix, element);
   }
 };
 
-
-ODFactory.prototype.create = function(type, attrs) {
+ODFactory.prototype.create = function (type, attrs) {
   var element = this._model.create(type, attrs || {});
-  if (type === 'od:Object') {
-    element.attributeValues = '';
+  if (type === "od:Object") {
+    element.attributeValues = "";
   }
 
   this._ensureId(element);
@@ -4305,51 +4285,59 @@ ODFactory.prototype.create = function(type, attrs) {
   return element;
 };
 
-
-ODFactory.prototype.createDiLabel = function() {
-  return this.create('odDi:OdLabel', {
-    bounds: this.createDiBounds()
+ODFactory.prototype.createDiLabel = function () {
+  return this.create("odDi:OdLabel", {
+    bounds: this.createDiBounds(),
   });
 };
 
+ODFactory.prototype.createDiShape = function (semantic, bounds, attrs) {
+  return this.create(
+    "odDi:OdShape",
+    (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)(
+      {
+        boardElement: semantic,
+        bounds: this.createDiBounds(bounds),
+      },
+      attrs,
+    ),
+  );
+};
 
-ODFactory.prototype.createDiShape = function(semantic, bounds, attrs) {
+ODFactory.prototype.createDiBounds = function (bounds) {
+  return this.create("dc:Bounds", bounds);
+};
 
-  return this.create('odDi:OdShape', (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)({
+ODFactory.prototype.createDiEdge = function (semantic, waypoints, attrs) {
+  return this.create(
+    "odDi:Link",
+    (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)(
+      {
+        boardElement: semantic,
+      },
+      attrs,
+    ),
+  );
+};
+
+ODFactory.prototype.createDiPlane = function (semantic) {
+  return this.create("odDi:OdPlane", {
     boardElement: semantic,
-    bounds: this.createDiBounds(bounds)
-  }, attrs));
-};
-
-
-ODFactory.prototype.createDiBounds = function(bounds) {
-  return this.create('dc:Bounds', bounds);
-};
-
-ODFactory.prototype.createDiEdge = function(semantic, waypoints, attrs) {
-  return this.create('odDi:Link', (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)({
-    boardElement: semantic
-  }, attrs));
-};
-
-
-ODFactory.prototype.createDiPlane = function(semantic) {
-  return this.create('odDi:OdPlane', {
-    boardElement: semantic
   });
 };
 
-ODFactory.prototype.createDiWaypoints = function(waypoints) {
+ODFactory.prototype.createDiWaypoints = function (waypoints) {
   var self = this;
 
-  return (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.map)(waypoints, function(pos) {
+  return (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.map)(waypoints, function (pos) {
     return self.createDiWaypoint(pos);
   });
 };
 
-ODFactory.prototype.createDiWaypoint = function(point) {
-  return this.create('dc:Point', (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.pick)(point, [ 'x', 'y' ]));
+ODFactory.prototype.createDiWaypoint = function (point) {
+  return this.create("dc:Point", (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.pick)(point, ["x", "y"]));
 };
+
 
 /***/ }),
 
@@ -4386,39 +4374,39 @@ function ODLayouter() {}
 
 (0,inherits_browser__WEBPACK_IMPORTED_MODULE_0__["default"])(ODLayouter, diagram_js_lib_layout_BaseLayouter__WEBPACK_IMPORTED_MODULE_1__["default"]);
 
-
-ODLayouter.prototype.layoutConnection = function(connection, hints) {
+ODLayouter.prototype.layoutConnection = function (connection, hints) {
   if (!hints) {
     hints = {};
   }
 
   var source = hints.source || connection.source,
-      target = hints.target || connection.target,
-      waypoints = hints.waypoints || connection.waypoints,
-      connectionStart = hints.connectionStart,
-      connectionEnd = hints.connectionEnd;
+    target = hints.target || connection.target,
+    waypoints = hints.waypoints || connection.waypoints,
+    connectionStart = hints.connectionStart,
+    connectionEnd = hints.connectionEnd;
 
-  var manhattanOptions,
-      updatedWaypoints;
+  var manhattanOptions, updatedWaypoints;
 
   if (!connectionStart) {
-    connectionStart = getConnectionDocking(waypoints && waypoints[ 0 ], source);
+    connectionStart = getConnectionDocking(waypoints && waypoints[0], source);
   }
 
   if (!connectionEnd) {
-    connectionEnd = getConnectionDocking(waypoints && waypoints[ waypoints.length - 1 ], target);
+    connectionEnd = getConnectionDocking(
+      waypoints && waypoints[waypoints.length - 1],
+      target,
+    );
   }
 
-  if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.is)(connection, 'od:Link')) {
-
+  if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.is)(connection, "od:Link")) {
     // layout all connection between flow elements h:h, except for
     if (source === target) {
       manhattanOptions = {
-        preferredLayouts: getLoopPreferredLayout(source, connection)
+        preferredLayouts: getLoopPreferredLayout(source, connection),
       };
     } else {
       manhattanOptions = {
-        preferredLayouts: [ 'h:h' ]
+        preferredLayouts: ["h:h"],
       };
     }
   }
@@ -4426,40 +4414,42 @@ ODLayouter.prototype.layoutConnection = function(connection, hints) {
   if (manhattanOptions) {
     manhattanOptions = (0,min_dash__WEBPACK_IMPORTED_MODULE_3__.assign)(manhattanOptions, hints);
 
-    updatedWaypoints = (0,diagram_js_lib_layout_ManhattanLayout__WEBPACK_IMPORTED_MODULE_4__.withoutRedundantPoints)((0,diagram_js_lib_layout_ManhattanLayout__WEBPACK_IMPORTED_MODULE_4__.repairConnection)(
-      source,
-      target,
-      connectionStart,
-      connectionEnd,
-      waypoints,
-      manhattanOptions
-    ));
+    updatedWaypoints = (0,diagram_js_lib_layout_ManhattanLayout__WEBPACK_IMPORTED_MODULE_4__.withoutRedundantPoints)(
+      (0,diagram_js_lib_layout_ManhattanLayout__WEBPACK_IMPORTED_MODULE_4__.repairConnection)(
+        source,
+        target,
+        connectionStart,
+        connectionEnd,
+        waypoints,
+        manhattanOptions,
+      ),
+    );
   }
 
-  return updatedWaypoints || [ connectionStart, connectionEnd ];
+  return updatedWaypoints || [connectionStart, connectionEnd];
 };
-
 
 // helpers //////////
 
 function getConnectionDocking(point, shape) {
-  return point ? (point.original || point) : (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_5__.getMid)(shape);
+  return point ? point.original || point : (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_5__.getMid)(shape);
 }
 
 function getLoopPreferredLayout(source, connection) {
   var waypoints = connection.waypoints;
 
-  var orientation = waypoints && waypoints.length && (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_5__.getOrientation)(waypoints[0], source);
+  var orientation =
+    waypoints && waypoints.length && (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_5__.getOrientation)(waypoints[0], source);
 
-  if (orientation === 'top') {
-    return [ 't:r' ];
-  } else if (orientation === 'right') {
-    return [ 'r:b' ];
-  } else if (orientation === 'left') {
-    return [ 'l:t' ];
+  if (orientation === "top") {
+    return ["t:r"];
+  } else if (orientation === "right") {
+    return ["r:b"];
+  } else if (orientation === "left") {
+    return ["l:t"];
   }
 
-  return [ 'b:l' ];
+  return ["b:l"];
 }
 
 
@@ -4499,9 +4489,11 @@ __webpack_require__.r(__webpack_exports__);
  * once changes on the diagram happen
  */
 function ODUpdater(
-    eventBus, odFactory, connectionDocking,
-    translate) {
-
+  eventBus,
+  odFactory,
+  connectionDocking,
+  translate,
+) {
   diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"].call(this, eventBus);
 
   this._odFactory = odFactory;
@@ -4514,8 +4506,8 @@ function ODUpdater(
   // crop connection ends during create/update
   function cropConnection(e) {
     var context = e.context,
-        hints = context.hints || {},
-        connection;
+      hints = context.hints || {},
+      connection;
 
     if (!context.cropped && hints.createElementsBehavior !== false) {
       connection = context.connection;
@@ -4524,18 +4516,13 @@ function ODUpdater(
     }
   }
 
-  this.executed([
-    'connection.layout',
-    'connection.create'
-  ], cropConnection);
+  this.executed(["connection.layout", "connection.create"], cropConnection);
 
-  this.reverted([ 'connection.layout' ], function(e) {
+  this.reverted(["connection.layout"], function (e) {
     delete e.context.cropped;
   });
 
-
   // OD + DI update //////////////////////
-
 
   // update parent
   function updateParent(e) {
@@ -4548,98 +4535,98 @@ function ODUpdater(
     var context = e.context;
 
     var element = context.shape || context.connection,
-
-        // oldParent is the (old) new parent, because we are undoing
-        oldParent = context.parent || context.newParent;
+      // oldParent is the (old) new parent, because we are undoing
+      oldParent = context.parent || context.newParent;
 
     self.updateParent(element, oldParent);
   }
 
-  this.executed([
-    'shape.move',
-    'shape.create',
-    'shape.delete',
-    'connection.create',
-    'connection.move',
-    'connection.delete'
-  ], ifOd(updateParent));
+  this.executed(
+    [
+      "shape.move",
+      "shape.create",
+      "shape.delete",
+      "connection.create",
+      "connection.move",
+      "connection.delete",
+    ],
+    ifOd(updateParent),
+  );
 
-  this.reverted([
-    'shape.move',
-    'shape.create',
-    'shape.delete',
-    'connection.create',
-    'connection.move',
-    'connection.delete'
-  ], ifOd(reverseUpdateParent));
+  this.reverted(
+    [
+      "shape.move",
+      "shape.create",
+      "shape.delete",
+      "connection.create",
+      "connection.move",
+      "connection.delete",
+    ],
+    ifOd(reverseUpdateParent),
+  );
 
   /*
-     * ## Updating Parent
-     *
-     * When morphing a root element
-     * make sure that both the *semantic* and *di* parent of each element
-     * is updated.
-     *
-     */
+   * ## Updating Parent
+   *
+   * When morphing a root element
+   * make sure that both the *semantic* and *di* parent of each element
+   * is updated.
+   *
+   */
   function updateRoot(event) {
     var context = event.context,
-        oldRoot = context.oldRoot,
-        children = oldRoot.children;
+      oldRoot = context.oldRoot,
+      children = oldRoot.children;
 
-    (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.forEach)(children, function(child) {
-      if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.is)(child, 'od:BoardElement')) {
+    (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.forEach)(children, function (child) {
+      if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.is)(child, "od:BoardElement")) {
         self.updateParent(child);
       }
     });
   }
 
-  this.executed([ 'canvas.updateRoot' ], updateRoot);
-  this.reverted([ 'canvas.updateRoot' ], updateRoot);
-
+  this.executed(["canvas.updateRoot"], updateRoot);
+  this.reverted(["canvas.updateRoot"], updateRoot);
 
   // update bounds
   function updateBounds(e) {
     var shape = e.context.shape;
 
-    if (!(0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.is)(shape, 'od:BoardElement')) {
+    if (!(0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.is)(shape, "od:BoardElement")) {
       return;
     }
 
     self.updateBounds(shape);
   }
 
-  this.executed([
-    'shape.move',
-    'shape.create',
-    'shape.resize'
-  ], ifOd(function(event) {
+  this.executed(
+    ["shape.move", "shape.create", "shape.resize"],
+    ifOd(function (event) {
+      // exclude labels because they're handled separately during shape.changed
+      if (event.context.shape.type === "label") {
+        return;
+      }
 
-    // exclude labels because they're handled separately during shape.changed
-    if (event.context.shape.type === 'label') {
-      return;
-    }
+      updateBounds(event);
+    }),
+  );
 
-    updateBounds(event);
-  }));
+  this.reverted(
+    ["shape.move", "shape.create", "shape.resize"],
+    ifOd(function (event) {
+      // exclude labels because they're handled separately during shape.changed
+      if (event.context.shape.type === "label") {
+        return;
+      }
 
-  this.reverted([
-    'shape.move',
-    'shape.create',
-    'shape.resize'
-  ], ifOd(function(event) {
-
-    // exclude labels because they're handled separately during shape.changed
-    if (event.context.shape.type === 'label') {
-      return;
-    }
-
-    updateBounds(event);
-  }));
+      updateBounds(event);
+    }),
+  );
 
   // Handle labels separately. This is necessary, because the label bounds have to be updated
   // every time its shape changes, not only on move, create and resize.
-  eventBus.on('shape.changed', function(event) {
-    if (event.element.type === 'label') {
+  eventBus.on("shape.changed", function (event) {
+    if (event.element.type === "label") {
       updateBounds({ context: { shape: event.element } });
     }
   });
@@ -4649,72 +4636,65 @@ function ODUpdater(
     self.updateConnection(e.context);
   }
 
-  this.executed([
-    'connection.create',
-    'connection.move',
-    'connection.delete',
-    'connection.reconnect'
-  ], ifOd(updateConnection));
+  this.executed(
+    [
+      "connection.create",
+      "connection.move",
+      "connection.delete",
+      "connection.reconnect",
+    ],
+    ifOd(updateConnection),
+  );
 
-  this.reverted([
-    'connection.create',
-    'connection.move',
-    'connection.delete',
-    'connection.reconnect'
-  ], ifOd(updateConnection));
-
+  this.reverted(
+    [
+      "connection.create",
+      "connection.move",
+      "connection.delete",
+      "connection.reconnect",
+    ],
+    ifOd(updateConnection),
+  );
 
   // update waypoints
   function updateConnectionWaypoints(e) {
     self.updateConnectionWaypoints(e.context.connection);
   }
 
-  this.executed([
-    'connection.layout',
-    'connection.move',
-    'connection.updateWaypoints',
-  ], ifOd(updateConnectionWaypoints));
+  this.executed(
+    ["connection.layout", "connection.move", "connection.updateWaypoints"],
+    ifOd(updateConnectionWaypoints),
+  );
 
-  this.reverted([
-    'connection.layout',
-    'connection.move',
-    'connection.updateWaypoints',
-  ], ifOd(updateConnectionWaypoints));
+  this.reverted(
+    ["connection.layout", "connection.move", "connection.updateWaypoints"],
+    ifOd(updateConnectionWaypoints),
+  );
 
   // update attachments
   function updateAttachment(e) {
     self.updateAttachment(e.context);
   }
 
-  this.executed([ 'element.updateAttachment' ], ifOd(updateAttachment));
-  this.reverted([ 'element.updateAttachment' ], ifOd(updateAttachment));
-
+  this.executed(["element.updateAttachment"], ifOd(updateAttachment));
+  this.reverted(["element.updateAttachment"], ifOd(updateAttachment));
 }
-
 
 (0,inherits_browser__WEBPACK_IMPORTED_MODULE_3__["default"])(ODUpdater, diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
-ODUpdater.$inject = [
-  'eventBus',
-  'odFactory',
-  'connectionDocking',
-  'translate'
-];
-
+ODUpdater.$inject = ["eventBus", "odFactory", "connectionDocking", "translate"];
 
 // implementation //////////////////////
 
-ODUpdater.prototype.updateAttachment = function(context) {
-
+ODUpdater.prototype.updateAttachment = function (context) {
   var shape = context.shape,
-      businessObject = shape.businessObject,
-      host = shape.host;
+    businessObject = shape.businessObject,
+    host = shape.host;
 
   businessObject.attachedToRef = host && host.businessObject;
 };
 
-ODUpdater.prototype.updateParent = function(element, oldParent) {
-
+ODUpdater.prototype.updateParent = function (element, oldParent) {
   // do not update label parent
   if ((0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_4__.isLabel)(element)) {
     return;
@@ -4723,17 +4703,15 @@ ODUpdater.prototype.updateParent = function(element, oldParent) {
   var parentShape = element.parent;
 
   var businessObject = element.businessObject,
-      parentBusinessObject = parentShape && parentShape.businessObject,
-      parentDi = parentBusinessObject && parentBusinessObject.di;
+    parentBusinessObject = parentShape && parentShape.businessObject,
+    parentDi = parentBusinessObject && parentBusinessObject.di;
 
   this.updateSemanticParent(businessObject, parentBusinessObject);
 
   this.updateDiParent(businessObject.di, parentDi);
 };
 
-
-ODUpdater.prototype.updateBounds = function(shape) {
-
+ODUpdater.prototype.updateBounds = function (shape) {
   var di = shape.businessObject.di;
 
   var target = (0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_4__.isLabel)(shape) ? this._getLabel(di) : di;
@@ -4742,21 +4720,19 @@ ODUpdater.prototype.updateBounds = function(shape) {
 
   if (!bounds) {
     bounds = this._odFactory.createDiBounds();
-    target.set('bounds', bounds);
+    target.set("bounds", bounds);
   }
 
   (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.assign)(bounds, {
     x: shape.x,
     y: shape.y,
     width: shape.width,
-    height: shape.height
+    height: shape.height,
   });
 };
 
-
-ODUpdater.prototype.updateDiParent = function(di, parentDi) {
-
-  if (parentDi && !(0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.is)(parentDi, 'odDi:OdPlane')) {
+ODUpdater.prototype.updateDiParent = function (di, parentDi) {
+  if (parentDi && !(0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.is)(parentDi, "odDi:OdPlane")) {
     parentDi = parentDi.$parent;
   }
 
@@ -4764,7 +4740,7 @@ ODUpdater.prototype.updateDiParent = function(di, parentDi) {
     return;
   }
 
-  var planeElements = (parentDi || di.$parent).get('planeElement');
+  var planeElements = (parentDi || di.$parent).get("planeElement");
 
   if (parentDi) {
     planeElements.push(di);
@@ -4775,35 +4751,34 @@ ODUpdater.prototype.updateDiParent = function(di, parentDi) {
   }
 };
 
-
-ODUpdater.prototype.updateSemanticParent = function(businessObject, newParent, visualParent) {
-
+ODUpdater.prototype.updateSemanticParent = function (
+  businessObject,
+  newParent,
+  visualParent,
+) {
   var containment,
-      translate = this._translate;
+    translate = this._translate;
 
   if (businessObject.$parent === newParent) {
     return;
   }
 
-
-  if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.is)(businessObject, 'od:BoardElement')) {
-    containment = 'boardElements';
+  if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.is)(businessObject, "od:BoardElement")) {
+    containment = "boardElements";
   }
 
   if (!containment) {
-    throw new Error(translate(
-      'no parent for {element} in {parent}',
-      {
+    throw new Error(
+      translate("no parent for {element} in {parent}", {
         element: businessObject.id,
-        parent: newParent.id
-      }
-    ));
+        parent: newParent.id,
+      }),
+    );
   }
 
   var children;
 
   if (businessObject.$parent) {
-
     // remove from old parent
     children = businessObject.$parent.get(containment);
     (0,diagram_js_lib_util_Collections__WEBPACK_IMPORTED_MODULE_5__.remove)(children, businessObject);
@@ -4812,7 +4787,6 @@ ODUpdater.prototype.updateSemanticParent = function(businessObject, newParent, v
   if (!newParent) {
     businessObject.$parent = null;
   } else {
-
     // add to new parent
     children = newParent.get(containment);
     children.push(businessObject);
@@ -4825,7 +4799,6 @@ ODUpdater.prototype.updateSemanticParent = function(businessObject, newParent, v
     (0,diagram_js_lib_util_Collections__WEBPACK_IMPORTED_MODULE_5__.remove)(children, businessObject);
 
     if (newParent) {
-
       if (!diChildren) {
         diChildren = [];
         newParent.set(containment, diChildren);
@@ -4836,21 +4809,23 @@ ODUpdater.prototype.updateSemanticParent = function(businessObject, newParent, v
   }
 };
 
-ODUpdater.prototype.updateConnection = function(context) {
-
+ODUpdater.prototype.updateConnection = function (context) {
   var connection = context.connection,
-      businessObject = (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.getBusinessObject)(connection),
-      newSource = (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.getBusinessObject)(connection.source),
-      newTarget = (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.getBusinessObject)(connection.target);
+    businessObject = (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.getBusinessObject)(connection),
+    newSource = (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.getBusinessObject)(connection.source),
+    newTarget = (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.getBusinessObject)(connection.target);
 
-  var inverseSet = (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.is)(businessObject, 'od:Link');
+  var inverseSet = (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.is)(businessObject, "od:Link");
 
   if (businessObject.sourceRef !== newSource) {
     if (inverseSet) {
-      (0,diagram_js_lib_util_Collections__WEBPACK_IMPORTED_MODULE_5__.remove)(businessObject.sourceRef && businessObject.sourceRef.get('links'), businessObject);
+      (0,diagram_js_lib_util_Collections__WEBPACK_IMPORTED_MODULE_5__.remove)(
+        businessObject.sourceRef && businessObject.sourceRef.get("links"),
+        businessObject,
+      );
 
-      if (newSource && newSource.get('links')) {
-        newSource.get('links').push(businessObject);
+      if (newSource && newSource.get("links")) {
+        newSource.get("links").push(businessObject);
       }
     }
 
@@ -4863,13 +4838,15 @@ ODUpdater.prototype.updateConnection = function(context) {
   this.updateConnectionWaypoints(connection);
   this.updateDiConnection(businessObject.di, newSource, newTarget);
 };
-ODUpdater.prototype.updateConnectionWaypoints = function(connection) {
-  connection.businessObject.di.set('waypoint', this._odFactory.createDiWaypoints(connection.waypoints));
+ODUpdater.prototype.updateConnectionWaypoints = function (connection) {
+  connection.businessObject.di.set(
+    "waypoint",
+    this._odFactory.createDiWaypoints(connection.waypoints),
+  );
 };
 
 // update existing sourceElement and targetElement di information
-ODUpdater.prototype.updateDiConnection = function(di, newSource, newTarget) {
-
+ODUpdater.prototype.updateDiConnection = function (di, newSource, newTarget) {
   if (di.sourceElement && di.sourceElement.boardElement !== newSource) {
     di.sourceElement = newSource && newSource.di;
   }
@@ -4877,19 +4854,17 @@ ODUpdater.prototype.updateDiConnection = function(di, newSource, newTarget) {
   if (di.targetElement && di.targetElement.boardElement !== newTarget) {
     di.targetElement = newTarget && newTarget.di;
   }
-
 };
 
 // helpers //////////////////////
 
-ODUpdater.prototype._getLabel = function(di) {
+ODUpdater.prototype._getLabel = function (di) {
   if (!di.label) {
     di.label = this._odFactory.createDiLabel();
   }
 
   return di.label;
 };
-
 
 /**
  * Make sure the event listener is only called
@@ -4899,13 +4874,11 @@ ODUpdater.prototype._getLabel = function(di) {
  * @return {Function} guarded function
  */
 function ifOd(fn) {
-
-  return function(event) {
-
+  return function (event) {
     var context = event.context,
-        element = context.shape || context.connection;
+      element = context.shape || context.connection;
 
-    if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.is)(element, 'od:BoardElement')) {
+    if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.is)(element, "od:BoardElement")) {
       fn(event);
     }
   };
@@ -4940,12 +4913,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var ALIGNMENTS = [
-  'top',
-  'bottom',
-  'left',
-  'right'
-];
+var ALIGNMENTS = ["top", "bottom", "left", "right"];
 
 var ELEMENT_LABEL_DISTANCE = 10;
 
@@ -4958,56 +4926,47 @@ var ELEMENT_LABEL_DISTANCE = 10;
  * @param {Modeling} modeling
  */
 function AdaptiveLabelPositioningBehavior(eventBus, modeling) {
-
   diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"].call(this, eventBus);
 
-  this.postExecuted([
-    'connection.create',
-    'connection.layout',
-    'connection.updateWaypoints'
-  ], function(event) {
-    var context = event.context,
+  this.postExecuted(
+    ["connection.create", "connection.layout", "connection.updateWaypoints"],
+    function (event) {
+      var context = event.context,
         connection = context.connection,
         source = connection.source,
         target = connection.target,
         hints = context.hints || {};
 
-    if (hints.createElementsBehavior !== false) {
-      checkLabelAdjustment(source);
-      checkLabelAdjustment(target);
-    }
-  });
+      if (hints.createElementsBehavior !== false) {
+        checkLabelAdjustment(source);
+        checkLabelAdjustment(target);
+      }
+    },
+  );
 
-
-  this.postExecuted([
-    'label.create'
-  ], function(event) {
+  this.postExecuted(["label.create"], function (event) {
     var context = event.context,
-        shape = context.shape,
-        hints = context.hints || {};
+      shape = context.shape,
+      hints = context.hints || {};
 
     if (hints.createElementsBehavior !== false) {
       checkLabelAdjustment(shape.labelTarget);
     }
   });
 
-
-  this.postExecuted([
-    'elements.create'
-  ], function(event) {
+  this.postExecuted(["elements.create"], function (event) {
     var context = event.context,
-        elements = context.elements,
-        hints = context.hints || {};
+      elements = context.elements,
+      hints = context.hints || {};
 
     if (hints.createElementsBehavior !== false) {
-      elements.forEach(function(element) {
+      elements.forEach(function (element) {
         checkLabelAdjustment(element);
       });
     }
   });
 
   function checkLabelAdjustment(element) {
-
     // skip non-existing labels
     if (!(0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_1__.hasExternalLabel)(element)) {
       return;
@@ -5024,10 +4983,9 @@ function AdaptiveLabelPositioningBehavior(eventBus, modeling) {
   }
 
   function adjustLabelPosition(element, orientation) {
-
     var elementMid = (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_2__.getMid)(element),
-        label = element.label,
-        labelMid = (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_2__.getMid)(label);
+      label = element.label,
+      labelMid = (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_2__.getMid)(label);
 
     // ignore labels that are being created
     if (!label.parent) {
@@ -5039,56 +4997,48 @@ function AdaptiveLabelPositioningBehavior(eventBus, modeling) {
     var newLabelMid;
 
     switch (orientation) {
-    case 'top':
-      newLabelMid = {
-        x: elementMid.x,
-        y: elementTrbl.top - ELEMENT_LABEL_DISTANCE - label.height / 2
-      };
+      case "top":
+        newLabelMid = {
+          x: elementMid.x,
+          y: elementTrbl.top - ELEMENT_LABEL_DISTANCE - label.height / 2,
+        };
 
-      break;
+        break;
 
-    case 'left':
+      case "left":
+        newLabelMid = {
+          x: elementTrbl.left - ELEMENT_LABEL_DISTANCE - label.width / 2,
+          y: elementMid.y,
+        };
 
-      newLabelMid = {
-        x: elementTrbl.left - ELEMENT_LABEL_DISTANCE - label.width / 2,
-        y: elementMid.y
-      };
+        break;
 
-      break;
+      case "bottom":
+        newLabelMid = {
+          x: elementMid.x,
+          y: elementTrbl.bottom + ELEMENT_LABEL_DISTANCE + label.height / 2,
+        };
 
-    case 'bottom':
+        break;
 
-      newLabelMid = {
-        x: elementMid.x,
-        y: elementTrbl.bottom + ELEMENT_LABEL_DISTANCE + label.height / 2
-      };
+      case "right":
+        newLabelMid = {
+          x: elementTrbl.right + ELEMENT_LABEL_DISTANCE + label.width / 2,
+          y: elementMid.y,
+        };
 
-      break;
-
-    case 'right':
-
-      newLabelMid = {
-        x: elementTrbl.right + ELEMENT_LABEL_DISTANCE + label.width / 2,
-        y: elementMid.y
-      };
-
-      break;
+        break;
     }
 
     var delta = (0,diagram_js_lib_util_Math__WEBPACK_IMPORTED_MODULE_3__.delta)(newLabelMid, labelMid);
 
     modeling.moveShape(label, delta);
   }
-
 }
 
 (0,inherits_browser__WEBPACK_IMPORTED_MODULE_4__["default"])(AdaptiveLabelPositioningBehavior, diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
-AdaptiveLabelPositioningBehavior.$inject = [
-  'eventBus',
-  'modeling'
-];
-
+AdaptiveLabelPositioningBehavior.$inject = ["eventBus", "modeling"];
 
 // helpers //////////////////////
 
@@ -5100,27 +5050,24 @@ AdaptiveLabelPositioningBehavior.$inject = [
  * @return {Array<String>}
  */
 function getTakenHostAlignments(element) {
-
   var hostElement = element.host,
-      elementMid = (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_2__.getMid)(element),
-      hostOrientation = (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_2__.getOrientation)(elementMid, hostElement);
+    elementMid = (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_2__.getMid)(element),
+    hostOrientation = (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_2__.getOrientation)(elementMid, hostElement);
 
   var freeAlignments;
 
   // check whether there is a multi-orientation, e.g. 'top-left'
-  if (hostOrientation.indexOf('-') >= 0) {
-    freeAlignments = hostOrientation.split('-');
+  if (hostOrientation.indexOf("-") >= 0) {
+    freeAlignments = hostOrientation.split("-");
   } else {
-    freeAlignments = [ hostOrientation ];
+    freeAlignments = [hostOrientation];
   }
 
-  var takenAlignments = ALIGNMENTS.filter(function(alignment) {
-
+  var takenAlignments = ALIGNMENTS.filter(function (alignment) {
     return freeAlignments.indexOf(alignment) === -1;
   });
 
   return takenAlignments;
-
 }
 
 /**
@@ -5131,19 +5078,20 @@ function getTakenHostAlignments(element) {
  * @return {Array<String>}
  */
 function getTakenConnectionAlignments(element) {
-
   var elementMid = (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_2__.getMid)(element);
 
-  var takenAlignments = [].concat(
-    element.incoming.map(function(c) {
-      return c.waypoints[c.waypoints.length - 2 ];
-    }),
-    element.outgoing.map(function(c) {
-      return c.waypoints[1];
-    })
-  ).map(function(point) {
-    return getApproximateOrientation(elementMid, point);
-  });
+  var takenAlignments = []
+    .concat(
+      element.incoming.map(function (c) {
+        return c.waypoints[c.waypoints.length - 2];
+      }),
+      element.outgoing.map(function (c) {
+        return c.waypoints[1];
+      }),
+    )
+    .map(function (point) {
+      return getApproximateOrientation(elementMid, point);
+    });
 
   return takenAlignments;
 }
@@ -5157,7 +5105,6 @@ function getTakenConnectionAlignments(element) {
  * @return {String} positioning identifier
  */
 function getOptimalPosition(element) {
-
   var labelMid = (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_2__.getMid)(element.label);
 
   var elementMid = (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_2__.getMid)(element);
@@ -5176,8 +5123,7 @@ function getOptimalPosition(element) {
     takenAlignments = takenAlignments.concat(takenHostAlignments);
   }
 
-  var freeAlignments = ALIGNMENTS.filter(function(alignment) {
-
+  var freeAlignments = ALIGNMENTS.filter(function (alignment) {
     return takenAlignments.indexOf(alignment) === -1;
   });
 
@@ -5217,34 +5163,32 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 function AppendBehavior(eventBus) {
-
   diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"].call(this, eventBus);
 
   // assign correct shape position unless already set
 
-  this.preExecute('shape.append', function(context) {
-
-    var source = context.source,
+  this.preExecute(
+    "shape.append",
+    function (context) {
+      var source = context.source,
         shape = context.shape;
 
-    if (!context.position) {
-
-      context.position = {
-        x: source.x + source.width + 80 + shape.width / 2,
-        y: source.y + source.height / 2
-      };
-
-    }
-  }, true);
+      if (!context.position) {
+        context.position = {
+          x: source.x + source.width + 80 + shape.width / 2,
+          y: source.y + source.height / 2,
+        };
+      }
+    },
+    true,
+  );
 }
 
 (0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(AppendBehavior, diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
-AppendBehavior.$inject = [
-  'eventBus'
-];
+AppendBehavior.$inject = ["eventBus"];
+
 
 /***/ }),
 
@@ -5268,47 +5212,48 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-function EmptyTextBoxBehavior(eventBus, modeling, directEditing) {
-
+function EmptyTextBoxBehavior(
+  eventBus,
+  modeling,
+  directEditing,
+) {
   diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"].call(this, eventBus);
 
   // delete text box if it has no text
-  this.postExecute('element.updateLabel', function(context) {
-
-    var element = context.element,
+  this.postExecute(
+    "element.updateLabel",
+    function (context) {
+      var element = context.element,
         newLabel = context.newLabel;
 
-    if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__.is)(element, 'od:TextBox') && isEmpty(newLabel)) {
-      modeling.removeElements([ element ]);
-    }
-  }, true);
+      if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__.is)(element, "od:TextBox") && isEmpty(newLabel)) {
+        modeling.removeElements([element]);
+      }
+    },
+    true,
+  );
 
-  eventBus.on('directEditing.cancel', 1001, function(event) {
+  eventBus.on("directEditing.cancel", 1001, function (event) {
     var active = event.active,
-        element = active.element;
+      element = active.element;
 
-    if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__.is)(element, 'od:TextBox') && isEmpty((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__.getBusinessObject)(element).name)) {
+    if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__.is)(element, "od:TextBox") && isEmpty((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__.getBusinessObject)(element).name)) {
       directEditing._active = false;
-      modeling.removeElements([ element ]);
+      modeling.removeElements([element]);
     }
   });
 }
 
 (0,inherits_browser__WEBPACK_IMPORTED_MODULE_2__["default"])(EmptyTextBoxBehavior, diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
-EmptyTextBoxBehavior.$inject = [
-  'eventBus',
-  'modeling',
-  'directEditing'
-];
-
+EmptyTextBoxBehavior.$inject = ["eventBus", "modeling", "directEditing"];
 
 // helpers //////////
 
 function isEmpty(label) {
-  return !label || label === '';
+  return !label || label === "";
 }
+
 
 /***/ }),
 
@@ -5325,7 +5270,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var HIGH_PRIORITY = 1500;
 
-
 /**
  * Correct hover targets in certain situations to improve diagram interaction.
  *
@@ -5334,35 +5278,34 @@ var HIGH_PRIORITY = 1500;
  * @param {Canvas} canvas
  */
 function FixHoverBehavior(elementRegistry, eventBus, canvas) {
-
-  eventBus.on([
-    'create.hover',
-    'create.move',
-    'create.end',
-    'shape.move.hover',
-    'shape.move.move',
-    'shape.move.end'
-  ], HIGH_PRIORITY, function(event) {
-    var context = event.context,
+  eventBus.on(
+    [
+      "create.hover",
+      "create.move",
+      "create.end",
+      "shape.move.hover",
+      "shape.move.move",
+      "shape.move.end",
+    ],
+    HIGH_PRIORITY,
+    function (event) {
+      var context = event.context,
         shape = context.shape || event.shape,
         hover = event.hover;
 
-    var rootElement = canvas.getRootElement();
+      var rootElement = canvas.getRootElement();
 
-    // ensure group & label elements are dropped always onto the root
-    if (hover !== rootElement && shape.labelTarget) {
-      event.hover = rootElement;
-      event.hoverGfx = elementRegistry.getGraphics(event.hover);
-    }
-  });
-
+      // ensure group & label elements are dropped always onto the root
+      if (hover !== rootElement && shape.labelTarget) {
+        event.hover = rootElement;
+        event.hoverGfx = elementRegistry.getGraphics(event.hover);
+      }
+    },
+  );
 }
 
-FixHoverBehavior.$inject = [
-  'elementRegistry',
-  'eventBus',
-  'canvas'
-];
+FixHoverBehavior.$inject = ["elementRegistry", "eventBus", "canvas"];
+
 
 /***/ }),
 
@@ -5383,34 +5326,44 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 /**
  * Fix broken dockings after DI imports.
  *
  * @param {EventBus} eventBus
  */
 function ImportDockingFix(eventBus) {
-
   function adjustDocking(startPoint, nextPoint, elementMid) {
-
     var elementTop = {
       x: elementMid.x,
-      y: elementMid.y - 50
+      y: elementMid.y - 50,
     };
 
     var elementLeft = {
       x: elementMid.x - 50,
-      y: elementMid.y
+      y: elementMid.y,
     };
 
-    var verticalIntersect = (0,_util_LineIntersect__WEBPACK_IMPORTED_MODULE_0__["default"])(startPoint, nextPoint, elementMid, elementTop),
-        horizontalIntersect = (0,_util_LineIntersect__WEBPACK_IMPORTED_MODULE_0__["default"])(startPoint, nextPoint, elementMid, elementLeft);
+    var verticalIntersect = (0,_util_LineIntersect__WEBPACK_IMPORTED_MODULE_0__["default"])(
+        startPoint,
+        nextPoint,
+        elementMid,
+        elementTop,
+      ),
+      horizontalIntersect = (0,_util_LineIntersect__WEBPACK_IMPORTED_MODULE_0__["default"])(
+        startPoint,
+        nextPoint,
+        elementMid,
+        elementLeft,
+      );
 
     // original is horizontal or vertical center cross intersection
     var centerIntersect;
 
     if (verticalIntersect && horizontalIntersect) {
-      if (getDistance(verticalIntersect, elementMid) > getDistance(horizontalIntersect, elementMid)) {
+      if (
+        getDistance(verticalIntersect, elementMid) >
+        getDistance(horizontalIntersect, elementMid)
+      ) {
         centerIntersect = horizontalIntersect;
       } else {
         centerIntersect = verticalIntersect;
@@ -5425,21 +5378,16 @@ function ImportDockingFix(eventBus) {
   function fixDockings(connection) {
     var waypoints = connection.waypoints;
 
-    adjustDocking(
-      waypoints[0],
-      waypoints[1],
-      (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_1__.getMid)(connection.source)
-    );
+    adjustDocking(waypoints[0], waypoints[1], (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_1__.getMid)(connection.source));
 
     adjustDocking(
       waypoints[waypoints.length - 1],
       waypoints[waypoints.length - 2],
-      (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_1__.getMid)(connection.target)
+      (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_1__.getMid)(connection.target),
     );
   }
 
-  eventBus.on('boardElement.added', function(e) {
-
+  eventBus.on("boardElement.added", function (e) {
     var element = e.element;
 
     if (element.waypoints) {
@@ -5448,16 +5396,14 @@ function ImportDockingFix(eventBus) {
   });
 }
 
-ImportDockingFix.$inject = [
-  'eventBus'
-];
-
+ImportDockingFix.$inject = ["eventBus"];
 
 // helpers //////////////////////
 
 function getDistance(p1, p2) {
   return Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
 }
+
 
 /***/ }),
 
@@ -5512,10 +5458,10 @@ __webpack_require__.r(__webpack_exports__);
 
 var DEFAULT_LABEL_DIMENSIONS = {
   width: 90,
-  height: 20
+  height: 20,
 };
 
-var NAME_PROPERTY = 'name';
+var NAME_PROPERTY = "name";
 
 /**
  * A component that makes sure that external labels are added
@@ -5528,16 +5474,18 @@ var NAME_PROPERTY = 'name';
  * @param {TextRenderer} textRenderer
  */
 function LabelBehavior(
-    eventBus, modeling, odFactory,
-    textRenderer) {
-
+  eventBus,
+  modeling,
+  odFactory,
+  textRenderer,
+) {
   diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"].call(this, eventBus);
 
   // update label if name property was updated
-  this.postExecute('element.updateProperties', function(e) {
+  this.postExecute("element.updateProperties", function (e) {
     var context = e.context,
-        element = context.element,
-        properties = context.properties;
+      element = context.element,
+      properties = context.properties;
 
     if (NAME_PROPERTY in properties) {
       modeling.updateLabel(element, properties[NAME_PROPERTY]);
@@ -5545,16 +5493,16 @@ function LabelBehavior(
   });
 
   // create label shape after shape/connection was created
-  this.postExecute([ 'shape.create', 'connection.create' ], function(e) {
+  this.postExecute(["shape.create", "connection.create"], function (e) {
     var context = e.context,
-        hints = context.hints || {};
+      hints = context.hints || {};
 
     if (hints.createElementsBehavior === false) {
       return;
     }
 
     var element = context.shape || context.connection,
-        businessObject = element.businessObject;
+      businessObject = element.businessObject;
 
     if ((0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_1__.isLabel)(element) || !(0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_1__.isLabelExternal)(element)) {
       return;
@@ -5570,22 +5518,22 @@ function LabelBehavior(
     // we don't care about x and y
     var labelDimensions = textRenderer.getExternalLabelBounds(
       DEFAULT_LABEL_DIMENSIONS,
-      (0,_label_editing_LabelUtil__WEBPACK_IMPORTED_MODULE_2__.getLabel)(element)
+      (0,_label_editing_LabelUtil__WEBPACK_IMPORTED_MODULE_2__.getLabel)(element),
     );
 
     modeling.createLabel(element, labelCenter, {
-      id: businessObject.id + '_label',
+      id: businessObject.id + "_label",
       businessObject: businessObject,
       width: labelDimensions.width,
-      height: labelDimensions.height
+      height: labelDimensions.height,
     });
   });
 
   // update label after label shape was deleted
-  this.postExecute('shape.delete', function(event) {
+  this.postExecute("shape.delete", function (event) {
     var context = event.context,
-        labelTarget = context.labelTarget,
-        hints = context.hints || {};
+      labelTarget = context.labelTarget,
+      hints = context.hints || {};
 
     // check if label
     if (labelTarget && hints.unsetLabel !== false) {
@@ -5594,12 +5542,11 @@ function LabelBehavior(
   });
 
   // update di information on label creation
-  this.postExecute([ 'label.create' ], function(event) {
-
+  this.postExecute(["label.create"], function (event) {
     var context = event.context,
-        element = context.shape,
-        businessObject,
-        di;
+      element = context.shape,
+      businessObject,
+      di;
 
     // we want to trigger on real labels only
     if (!element.labelTarget) {
@@ -5607,17 +5554,15 @@ function LabelBehavior(
     }
 
     // we want to trigger on board elements only
-    if (!(0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__.is)(element.labelTarget || element, 'od:BoardElement')) {
+    if (!(0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__.is)(element.labelTarget || element, "od:BoardElement")) {
       return;
     }
 
-    businessObject = element.businessObject,
-    di = businessObject.di;
-
+    (businessObject = element.businessObject), (di = businessObject.di);
 
     if (!di.label) {
-      di.label = odFactory.create('odDi:OdLabel', {
-        bounds: odFactory.create('dc:Bounds')
+      di.label = odFactory.create("odDi:OdLabel", {
+        bounds: odFactory.create("dc:Bounds"),
       });
     }
 
@@ -5625,92 +5570,88 @@ function LabelBehavior(
       x: element.x,
       y: element.y,
       width: element.width,
-      height: element.height
+      height: element.height,
     });
   });
 
   function getVisibleLabelAdjustment(event) {
-
     var context = event.context,
-        connection = context.connection,
-        label = connection.label,
-        hints = (0,min_dash__WEBPACK_IMPORTED_MODULE_4__.assign)({}, context.hints),
-        newWaypoints = context.newWaypoints || connection.waypoints,
-        oldWaypoints = context.oldWaypoints;
+      connection = context.connection,
+      label = connection.label,
+      hints = (0,min_dash__WEBPACK_IMPORTED_MODULE_4__.assign)({}, context.hints),
+      newWaypoints = context.newWaypoints || connection.waypoints,
+      oldWaypoints = context.oldWaypoints;
 
-
-    if (typeof hints.startChanged === 'undefined') {
+    if (typeof hints.startChanged === "undefined") {
       hints.startChanged = !!hints.connectionStart;
     }
 
-    if (typeof hints.endChanged === 'undefined') {
+    if (typeof hints.endChanged === "undefined") {
       hints.endChanged = !!hints.connectionEnd;
     }
 
     return (0,_util_LabelLayoutUtil__WEBPACK_IMPORTED_MODULE_5__.getLabelAdjustment)(label, newWaypoints, oldWaypoints, hints);
   }
 
-  this.postExecute([
-    'connection.layout',
-    'connection.updateWaypoints'
-  ], function(event) {
-    var context = event.context,
+  this.postExecute(
+    ["connection.layout", "connection.updateWaypoints"],
+    function (event) {
+      var context = event.context,
         hints = context.hints || {};
 
-    if (hints.labelBehavior === false) {
-      return;
-    }
+      if (hints.labelBehavior === false) {
+        return;
+      }
 
-    var connection = context.connection,
+      var connection = context.connection,
         label = connection.label,
         labelAdjustment;
 
-    // handle missing label as well as the case
-    // that the label parent does not exist (yet),
-    // because it is being pasted / created via multi element create
-    //
-    // Cf. https://github.com/bpmn-io/bpmn-js/pull/1227
-    if (!label || !label.parent) {
-      return;
-    }
+      // handle missing label as well as the case
+      // that the label parent does not exist (yet),
+      // because it is being pasted / created via multi element create
+      //
+      // Cf. https://github.com/bpmn-io/bpmn-js/pull/1227
+      if (!label || !label.parent) {
+        return;
+      }
 
-    labelAdjustment = getVisibleLabelAdjustment(event);
+      labelAdjustment = getVisibleLabelAdjustment(event);
 
-    modeling.moveShape(label, labelAdjustment);
-  });
-
+      modeling.moveShape(label, labelAdjustment);
+    },
+  );
 
   // keep label position on shape replace
-  this.postExecute([ 'shape.replace' ], function(event) {
+  this.postExecute(["shape.replace"], function (event) {
     var context = event.context,
-        newShape = context.newShape,
-        oldShape = context.oldShape;
+      newShape = context.newShape,
+      oldShape = context.oldShape;
 
     var businessObject = (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__.getBusinessObject)(newShape);
 
-    if (businessObject
-      && (0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_1__.isLabelExternal)(businessObject)
-      && oldShape.label
-      && newShape.label) {
+    if (
+      businessObject &&
+      (0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_1__.isLabelExternal)(businessObject) &&
+      oldShape.label &&
+      newShape.label
+    ) {
       newShape.label.x = oldShape.label.x;
       newShape.label.y = oldShape.label.y;
     }
   });
 
-
   // move external label after resizing
-  this.postExecute('shape.resize', function(event) {
-
+  this.postExecute("shape.resize", function (event) {
     var context = event.context,
-        shape = context.shape,
-        newBounds = context.newBounds,
-        oldBounds = context.oldBounds;
+      shape = context.shape,
+      newBounds = context.newBounds,
+      oldBounds = context.oldBounds;
 
     if ((0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_1__.hasExternalLabel)(shape)) {
-
       var label = shape.label,
-          labelMid = (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_6__.getMid)(label),
-          edges = asEdges(oldBounds);
+        labelMid = (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_6__.getMid)(label),
+        edges = asEdges(oldBounds);
 
       // get nearest border point to label as reference point
       var referencePoint = getReferencePoint(labelMid, edges);
@@ -5718,21 +5659,13 @@ function LabelBehavior(
       var delta = getReferencePointDelta(referencePoint, oldBounds, newBounds);
 
       modeling.moveShape(label, delta);
-
     }
-
   });
-
 }
 
 (0,inherits_browser__WEBPACK_IMPORTED_MODULE_7__["default"])(LabelBehavior, diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
-LabelBehavior.$inject = [
-  'eventBus',
-  'modeling',
-  'odFactory',
-  'textRenderer'
-];
+LabelBehavior.$inject = ["eventBus", "modeling", "odFactory", "textRenderer"];
 
 // helpers //////////////////////
 
@@ -5747,8 +5680,11 @@ LabelBehavior.$inject = [
  * @return {Delta} delta
  */
 function getReferencePointDelta(referencePoint, oldBounds, newBounds) {
-
-  var newReferencePoint = (0,diagram_js_lib_util_AttachUtil__WEBPACK_IMPORTED_MODULE_8__.getNewAttachPoint)(referencePoint, oldBounds, newBounds);
+  var newReferencePoint = (0,diagram_js_lib_util_AttachUtil__WEBPACK_IMPORTED_MODULE_8__.getNewAttachPoint)(
+    referencePoint,
+    oldBounds,
+    newBounds,
+  );
 
   return (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_6__.roundPoint)((0,diagram_js_lib_util_PositionUtil__WEBPACK_IMPORTED_MODULE_9__.delta)(newReferencePoint, referencePoint));
 }
@@ -5763,7 +5699,6 @@ function getReferencePointDelta(referencePoint, oldBounds, newBounds) {
  * @param {Point}
  */
 function getReferencePoint(point, lines) {
-
   if (!lines.length) {
     return;
   }
@@ -5782,46 +5717,50 @@ function getReferencePoint(point, lines) {
  */
 function asEdges(bounds) {
   return [
-    [ // top
+    [
+      // top
       {
         x: bounds.x,
-        y: bounds.y
+        y: bounds.y,
       },
       {
         x: bounds.x + (bounds.width || 0),
-        y: bounds.y
-      }
+        y: bounds.y,
+      },
     ],
-    [ // right
+    [
+      // right
       {
         x: bounds.x + (bounds.width || 0),
-        y: bounds.y
+        y: bounds.y,
       },
       {
         x: bounds.x + (bounds.width || 0),
-        y: bounds.y + (bounds.height || 0)
-      }
+        y: bounds.y + (bounds.height || 0),
+      },
     ],
-    [ // bottom
+    [
+      // bottom
       {
         x: bounds.x,
-        y: bounds.y + (bounds.height || 0)
+        y: bounds.y + (bounds.height || 0),
       },
       {
         x: bounds.x + (bounds.width || 0),
-        y: bounds.y + (bounds.height || 0)
-      }
+        y: bounds.y + (bounds.height || 0),
+      },
     ],
-    [ // left
+    [
+      // left
       {
         x: bounds.x,
-        y: bounds.y
+        y: bounds.y,
       },
       {
         x: bounds.x,
-        y: bounds.y + (bounds.height || 0)
-      }
-    ]
+        y: bounds.y + (bounds.height || 0),
+      },
+    ],
   ];
 }
 
@@ -5833,15 +5772,14 @@ function asEdges(bounds) {
  * @return Array<Point>
  */
 function getNearestLine(point, lines) {
-
-  var distances = lines.map(function(l) {
+  var distances = lines.map(function (l) {
     return {
       line: l,
-      distance: (0,_util_GeometricUtil__WEBPACK_IMPORTED_MODULE_10__.getDistancePointLine)(point, l)
+      distance: (0,_util_GeometricUtil__WEBPACK_IMPORTED_MODULE_10__.getDistancePointLine)(point, l),
     };
   });
 
-  var sorted = (0,min_dash__WEBPACK_IMPORTED_MODULE_4__.sortBy)(distances, 'distance');
+  var sorted = (0,min_dash__WEBPACK_IMPORTED_MODULE_4__.sortBy)(distances, "distance");
 
   return sorted[0].line;
 }
@@ -5869,7 +5807,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 /**
  * Unclaims model IDs on element deletion.
  *
@@ -5881,10 +5818,10 @@ __webpack_require__.r(__webpack_exports__);
 function UnclaimIdBehavior(canvas, injector, moddle, modeling) {
   injector.invoke(diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"], this);
 
-  this.preExecute('shape.delete', function(event) {
+  this.preExecute("shape.delete", function (event) {
     var context = event.context,
-        shape = context.shape,
-        shapeBo = shape.businessObject;
+      shape = context.shape,
+      shapeBo = shape.businessObject;
 
     if ((0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_1__.isLabel)(shape)) {
       return;
@@ -5893,9 +5830,9 @@ function UnclaimIdBehavior(canvas, injector, moddle, modeling) {
     modeling.unclaimId(shapeBo.id, shapeBo);
   });
 
-  this.preExecute('canvas.updateRoot', function() {
+  this.preExecute("canvas.updateRoot", function () {
     var rootElement = canvas.getRootElement(),
-        rootElementBo = rootElement.businessObject;
+      rootElementBo = rootElement.businessObject;
 
     moddle.ids.unclaim(rootElementBo.id);
   });
@@ -5903,7 +5840,8 @@ function UnclaimIdBehavior(canvas, injector, moddle, modeling) {
 
 (0,inherits_browser__WEBPACK_IMPORTED_MODULE_2__["default"])(UnclaimIdBehavior, diagram_js_lib_command_CommandInterceptor__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
-UnclaimIdBehavior.$inject = [ 'canvas', 'injector', 'moddle', 'modeling' ];
+UnclaimIdBehavior.$inject = ["canvas", "injector", "moddle", "modeling"];
+
 
 /***/ }),
 
@@ -5935,21 +5873,21 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __init__: [
-    'adaptiveLabelPositioningBehavior',
-    'appendBehavior',
-    'fixHoverBehavior',
-    'importDockingFix',
-    'labelBehavior',
-    'unclaimIdBehavior',
-    'emptyTextBoxBehavior'
+    "adaptiveLabelPositioningBehavior",
+    "appendBehavior",
+    "fixHoverBehavior",
+    "importDockingFix",
+    "labelBehavior",
+    "unclaimIdBehavior",
+    "emptyTextBoxBehavior",
   ],
-  adaptiveLabelPositioningBehavior: [ 'type', _AdaptiveLabelPositioningBehavior__WEBPACK_IMPORTED_MODULE_0__["default"] ],
-  appendBehavior: [ 'type', _AppendBehavior__WEBPACK_IMPORTED_MODULE_1__["default"] ],
-  fixHoverBehavior: [ 'type', _FixHoverBehavior__WEBPACK_IMPORTED_MODULE_2__["default"] ],
-  importDockingFix: [ 'type', _ImportDockingFix__WEBPACK_IMPORTED_MODULE_3__["default"] ],
-  labelBehavior: [ 'type', _LabelBehavior__WEBPACK_IMPORTED_MODULE_4__["default"] ],
-  unclaimIdBehavior: [ 'type', _UnclaimIdBehavior__WEBPACK_IMPORTED_MODULE_5__["default"] ],
-  emptyTextBoxBehavior: [ 'type', _EmptyTextBoxBehavior__WEBPACK_IMPORTED_MODULE_6__["default"] ]
+  adaptiveLabelPositioningBehavior: ["type", _AdaptiveLabelPositioningBehavior__WEBPACK_IMPORTED_MODULE_0__["default"]],
+  appendBehavior: ["type", _AppendBehavior__WEBPACK_IMPORTED_MODULE_1__["default"]],
+  fixHoverBehavior: ["type", _FixHoverBehavior__WEBPACK_IMPORTED_MODULE_2__["default"]],
+  importDockingFix: ["type", _ImportDockingFix__WEBPACK_IMPORTED_MODULE_3__["default"]],
+  labelBehavior: ["type", _LabelBehavior__WEBPACK_IMPORTED_MODULE_4__["default"]],
+  unclaimIdBehavior: ["type", _UnclaimIdBehavior__WEBPACK_IMPORTED_MODULE_5__["default"]],
+  emptyTextBoxBehavior: ["type", _EmptyTextBoxBehavior__WEBPACK_IMPORTED_MODULE_6__["default"]],
 });
 
 
@@ -5981,7 +5919,6 @@ function vectorLength(v) {
   return Math.sqrt(Math.pow(v.x, 2) + Math.pow(v.y, 2));
 }
 
-
 /**
  * Calculates the angle between a line a the yAxis
  *
@@ -5989,12 +5926,10 @@ function vectorLength(v) {
  * @return {Float}
  */
 function getAngle(line) {
-
   // return value is between 0, 180 and -180, -0
   // @janstuemmel: maybe replace return a/b with b/a
   return Math.atan((line[1].y - line[0].y) / (line[1].x - line[0].x));
 }
-
 
 /**
  * Rotates a vector by a given angle
@@ -6004,12 +5939,13 @@ function getAngle(line) {
  * @return {Vector}
  */
 function rotateVector(vector, angle) {
-  return (!angle) ? vector : {
-    x: Math.cos(angle) * vector.x - Math.sin(angle) * vector.y,
-    y: Math.sin(angle) * vector.x + Math.cos(angle) * vector.y
-  };
+  return !angle
+    ? vector
+    : {
+        x: Math.cos(angle) * vector.x - Math.sin(angle) * vector.y,
+        y: Math.sin(angle) * vector.x + Math.cos(angle) * vector.y,
+      };
 }
-
 
 /**
  * Solves a 2D equation system
@@ -6021,20 +5957,18 @@ function rotateVector(vector, angle) {
  * @return {Float}
  */
 function solveLambaSystem(a, b, c) {
-
   // the 2d system
   var system = [
     { n: a[0] - c[0], lambda: b[0] },
-    { n: a[1] - c[1], lambda: b[1] }
+    { n: a[1] - c[1], lambda: b[1] },
   ];
 
   // solve
   var n = system[0].n * b[0] + system[1].n * b[1],
-      l = system[0].lambda * b[0] + system[1].lambda * b[1];
+    l = system[0].lambda * b[0] + system[1].lambda * b[1];
 
   return -n / l;
 }
-
 
 /**
  * Position of perpendicular foot
@@ -6044,18 +5978,17 @@ function solveLambaSystem(a, b, c) {
  * @return {Point} the perpendicular foot position
  */
 function perpendicularFoot(point, line) {
-
-  var a = line[0], b = line[1];
+  var a = line[0],
+    b = line[1];
 
   // relative position of b from a
   var bd = { x: b.x - a.x, y: b.y - a.y };
 
   // solve equation system to the parametrized vectors param real value
-  var r = solveLambaSystem([ a.x, a.y ], [ bd.x, bd.y ], [ point.x, point.y ]);
+  var r = solveLambaSystem([a.x, a.y], [bd.x, bd.y], [point.x, point.y]);
 
   return { x: a.x + r * bd.x, y: a.y + r * bd.y };
 }
-
 
 /**
  * Calculates the distance between a point and a line
@@ -6065,18 +5998,16 @@ function perpendicularFoot(point, line) {
  * @return {Float} distance
  */
 function getDistancePointLine(point, line) {
-
   var pfPoint = perpendicularFoot(point, line);
 
   // distance vector
   var connectionVector = {
     x: pfPoint.x - point.x,
-    y: pfPoint.y - point.y
+    y: pfPoint.y - point.y,
   };
 
   return vectorLength(connectionVector);
 }
-
 
 /**
  * Calculates the distance between two points
@@ -6086,12 +6017,12 @@ function getDistancePointLine(point, line) {
  * @return {Float} distance
  */
 function getDistancePointPoint(point1, point2) {
-
   return vectorLength({
     x: point1.x - point2.x,
-    y: point1.y - point2.y
+    y: point1.y - point2.y,
   });
 }
+
 
 /***/ }),
 
@@ -6116,18 +6047,20 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-function findNewLabelLineStartIndex(oldWaypoints, newWaypoints, attachment, hints) {
-
+function findNewLabelLineStartIndex(
+  oldWaypoints,
+  newWaypoints,
+  attachment,
+  hints,
+) {
   var index = attachment.segmentIndex;
 
   var offset = newWaypoints.length - oldWaypoints.length;
 
   // segmentMove happened
   if (hints.segmentMove) {
-
     var oldSegmentStartIndex = hints.segmentMove.segmentStartIndex,
-        newSegmentStartIndex = hints.segmentMove.newSegmentStartIndex;
+      newSegmentStartIndex = hints.segmentMove.newSegmentStartIndex;
 
     // if label was on moved segment return new segment index
     if (index === oldSegmentStartIndex) {
@@ -6136,7 +6069,9 @@ function findNewLabelLineStartIndex(oldWaypoints, newWaypoints, attachment, hint
 
     // label is after new segment index
     if (index >= newSegmentStartIndex) {
-      return (index + offset < newSegmentStartIndex) ? newSegmentStartIndex : index + offset;
+      return index + offset < newSegmentStartIndex
+        ? newSegmentStartIndex
+        : index + offset;
     }
 
     // if label is before new segment index
@@ -6145,10 +6080,9 @@ function findNewLabelLineStartIndex(oldWaypoints, newWaypoints, attachment, hint
 
   // bendpointMove happened
   if (hints.bendpointMove) {
-
     var insert = hints.bendpointMove.insert,
-        bendpointIndex = hints.bendpointMove.bendpointIndex,
-        newIndex;
+      bendpointIndex = hints.bendpointMove.bendpointIndex,
+      newIndex;
 
     // waypoints length didnt change
     if (offset === 0) {
@@ -6162,12 +6096,14 @@ function findNewLabelLineStartIndex(oldWaypoints, newWaypoints, attachment, hint
 
     // label before new/removed bendpoint
     if (index < bendpointIndex) {
-
       newIndex = index;
 
       // decide label should take right or left segment
-      if (insert && attachment.type !== 'bendpoint' && bendpointIndex - 1 === index) {
-
+      if (
+        insert &&
+        attachment.type !== "bendpoint" &&
+        bendpointIndex - 1 === index
+      ) {
         var rel = relativePositionMidWaypoint(newWaypoints, bendpointIndex);
 
         if (rel < attachment.relativeLocation) {
@@ -6185,17 +6121,16 @@ function findNewLabelLineStartIndex(oldWaypoints, newWaypoints, attachment, hint
   }
 
   if (hints.connectionStart) {
-    return (index === 0) ? 0 : null;
+    return index === 0 ? 0 : null;
   }
 
   if (hints.connectionEnd) {
-    return (index === oldWaypoints.length - 2) ? newWaypoints.length - 2 : null;
+    return index === oldWaypoints.length - 2 ? newWaypoints.length - 2 : null;
   }
 
   // if nothing fits, return null
   return null;
 }
-
 
 /**
  * Calculate the required adjustment (move delta) for the given label
@@ -6209,16 +6144,20 @@ function findNewLabelLineStartIndex(oldWaypoints, newWaypoints, attachment, hint
  * @return {Point} delta
  */
 function getLabelAdjustment(label, newWaypoints, oldWaypoints, hints) {
-
   var x = 0,
-      y = 0;
+    y = 0;
 
   var labelPosition = getLabelMid(label);
 
   // get closest attachment
   var attachment = (0,_LineAttachmentUtil__WEBPACK_IMPORTED_MODULE_0__.getAttachment)(labelPosition, oldWaypoints),
-      oldLabelLineIndex = attachment.segmentIndex,
-      newLabelLineIndex = findNewLabelLineStartIndex(oldWaypoints, newWaypoints, attachment, hints);
+    oldLabelLineIndex = attachment.segmentIndex,
+    newLabelLineIndex = findNewLabelLineStartIndex(
+      oldWaypoints,
+      newWaypoints,
+      attachment,
+      hints,
+    );
 
   if (newLabelLineIndex === null) {
     return { x: x, y: y };
@@ -6226,24 +6165,22 @@ function getLabelAdjustment(label, newWaypoints, oldWaypoints, hints) {
 
   // should never happen
   // TODO(@janstuemmel): throw an error here when connectionSegmentMove is refactored
-  if (newLabelLineIndex < 0 ||
-      newLabelLineIndex > newWaypoints.length - 2) {
+  if (newLabelLineIndex < 0 || newLabelLineIndex > newWaypoints.length - 2) {
     return { x: x, y: y };
   }
 
   var oldLabelLine = getLine(oldWaypoints, oldLabelLineIndex),
-      newLabelLine = getLine(newWaypoints, newLabelLineIndex),
-      oldFoot = attachment.position;
+    newLabelLine = getLine(newWaypoints, newLabelLineIndex),
+    oldFoot = attachment.position;
 
   var relativeFootPosition = getRelativeFootPosition(oldLabelLine, oldFoot),
-      angleDelta = getAngleDelta(oldLabelLine, newLabelLine);
+    angleDelta = getAngleDelta(oldLabelLine, newLabelLine);
 
   // special rule if label on bendpoint
-  if (attachment.type === 'bendpoint') {
-
+  if (attachment.type === "bendpoint") {
     var offset = newWaypoints.length - oldWaypoints.length,
-        oldBendpointIndex = attachment.bendpointIndex,
-        oldBendpoint = oldWaypoints[oldBendpointIndex];
+      oldBendpointIndex = attachment.bendpointIndex,
+      oldBendpoint = oldWaypoints[oldBendpointIndex];
 
     // bendpoint position hasn't changed, return same position
     if (newWaypoints.indexOf(oldBendpoint) !== -1) {
@@ -6256,26 +6193,40 @@ function getLabelAdjustment(label, newWaypoints, oldWaypoints, hints) {
 
       return {
         x: newBendpoint.x - attachment.position.x,
-        y: newBendpoint.y - attachment.position.y
+        y: newBendpoint.y - attachment.position.y,
       };
     }
 
     // if bendpoints get removed
-    if (offset < 0 && oldBendpointIndex !== 0 && oldBendpointIndex < oldWaypoints.length - 1) {
-      relativeFootPosition = relativePositionMidWaypoint(oldWaypoints, oldBendpointIndex);
+    if (
+      offset < 0 &&
+      oldBendpointIndex !== 0 &&
+      oldBendpointIndex < oldWaypoints.length - 1
+    ) {
+      relativeFootPosition = relativePositionMidWaypoint(
+        oldWaypoints,
+        oldBendpointIndex,
+      );
     }
   }
 
   var newFoot = {
-    x: (newLabelLine[1].x - newLabelLine[0].x) * relativeFootPosition + newLabelLine[0].x,
-    y: (newLabelLine[1].y - newLabelLine[0].y) * relativeFootPosition + newLabelLine[0].y
+    x:
+      (newLabelLine[1].x - newLabelLine[0].x) * relativeFootPosition +
+      newLabelLine[0].x,
+    y:
+      (newLabelLine[1].y - newLabelLine[0].y) * relativeFootPosition +
+      newLabelLine[0].y,
   };
 
   // the rotated vector to label
-  var newLabelVector = (0,_GeometricUtil__WEBPACK_IMPORTED_MODULE_1__.rotateVector)({
-    x: labelPosition.x - oldFoot.x,
-    y: labelPosition.y - oldFoot.y
-  }, angleDelta);
+  var newLabelVector = (0,_GeometricUtil__WEBPACK_IMPORTED_MODULE_1__.rotateVector)(
+    {
+      x: labelPosition.x - oldFoot.x,
+      y: labelPosition.y - oldFoot.y,
+    },
+    angleDelta,
+  );
 
   // the new relative position
   x = newFoot.x + newLabelVector.x - labelPosition.x;
@@ -6283,19 +6234,24 @@ function getLabelAdjustment(label, newWaypoints, oldWaypoints, hints) {
 
   return (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_2__.roundPoint)({
     x: x,
-    y: y
+    y: y,
   });
 }
-
 
 // HELPERS //////////////////////
 
 function relativePositionMidWaypoint(waypoints, idx) {
+  var distanceSegment1 = (0,_GeometricUtil__WEBPACK_IMPORTED_MODULE_1__.getDistancePointPoint)(
+      waypoints[idx - 1],
+      waypoints[idx],
+    ),
+    distanceSegment2 = (0,_GeometricUtil__WEBPACK_IMPORTED_MODULE_1__.getDistancePointPoint)(
+      waypoints[idx],
+      waypoints[idx + 1],
+    );
 
-  var distanceSegment1 = (0,_GeometricUtil__WEBPACK_IMPORTED_MODULE_1__.getDistancePointPoint)(waypoints[idx - 1], waypoints[idx]),
-      distanceSegment2 = (0,_GeometricUtil__WEBPACK_IMPORTED_MODULE_1__.getDistancePointPoint)(waypoints[idx], waypoints[idx + 1]);
-
-  var relativePosition = distanceSegment1 / (distanceSegment1 + distanceSegment2);
+  var relativePosition =
+    distanceSegment1 / (distanceSegment1 + distanceSegment2);
 
   return relativePosition;
 }
@@ -6303,24 +6259,23 @@ function relativePositionMidWaypoint(waypoints, idx) {
 function getLabelMid(label) {
   return {
     x: label.x + label.width / 2,
-    y: label.y + label.height / 2
+    y: label.y + label.height / 2,
   };
 }
 
 function getAngleDelta(l1, l2) {
   var a1 = (0,_GeometricUtil__WEBPACK_IMPORTED_MODULE_1__.getAngle)(l1),
-      a2 = (0,_GeometricUtil__WEBPACK_IMPORTED_MODULE_1__.getAngle)(l2);
+    a2 = (0,_GeometricUtil__WEBPACK_IMPORTED_MODULE_1__.getAngle)(l2);
   return a2 - a1;
 }
 
 function getLine(waypoints, idx) {
-  return [ waypoints[idx], waypoints[idx + 1] ];
+  return [waypoints[idx], waypoints[idx + 1]];
 }
 
 function getRelativeFootPosition(line, foot) {
-
   var length = (0,_GeometricUtil__WEBPACK_IMPORTED_MODULE_1__.getDistancePointPoint)(line[0], line[1]),
-      lengthToFoot = (0,_GeometricUtil__WEBPACK_IMPORTED_MODULE_1__.getDistancePointPoint)(line[0], foot);
+    lengthToFoot = (0,_GeometricUtil__WEBPACK_IMPORTED_MODULE_1__.getDistancePointPoint)(line[0], foot);
 
   return length === 0 ? 0 : lengthToFoot / length;
 }
@@ -6340,9 +6295,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   getAttachment: () => (/* binding */ getAttachment)
 /* harmony export */ });
 var sqrt = Math.sqrt,
-    min = Math.min,
-    max = Math.max,
-    abs = Math.abs;
+  min = Math.min,
+  max = Math.max,
+  abs = Math.abs;
 
 /**
  * Calculate the square (power to two) of a number.
@@ -6394,60 +6349,66 @@ function getDistance(p1, p2) {
  * @return {Object} attachment
  */
 function getAttachment(point, line) {
-
   var idx = 0,
-      segmentStart,
-      segmentEnd,
-      segmentStartDistance,
-      segmentEndDistance,
-      attachmentPosition,
-      minDistance,
-      intersections,
-      attachment,
-      attachmentDistance,
-      closestAttachmentDistance,
-      closestAttachment;
+    segmentStart,
+    segmentEnd,
+    segmentStartDistance,
+    segmentEndDistance,
+    attachmentPosition,
+    minDistance,
+    intersections,
+    attachment,
+    attachmentDistance,
+    closestAttachmentDistance,
+    closestAttachment;
 
   for (idx = 0; idx < line.length - 1; idx++) {
-
     segmentStart = line[idx];
     segmentEnd = line[idx + 1];
 
     if (pointsEqual(segmentStart, segmentEnd)) {
-      intersections = [ segmentStart ];
+      intersections = [segmentStart];
     } else {
       segmentStartDistance = getDistance(point, segmentStart);
       segmentEndDistance = getDistance(point, segmentEnd);
 
       minDistance = min(segmentStartDistance, segmentEndDistance);
 
-      intersections = getCircleSegmentIntersections(segmentStart, segmentEnd, point, minDistance);
+      intersections = getCircleSegmentIntersections(
+        segmentStart,
+        segmentEnd,
+        point,
+        minDistance,
+      );
     }
 
     if (intersections.length < 1) {
-      throw new Error('expected between [1, 2] circle -> line intersections');
+      throw new Error("expected between [1, 2] circle -> line intersections");
     }
 
     // one intersection -> bendpoint attachment
     if (intersections.length === 1) {
       attachment = {
-        type: 'bendpoint',
+        type: "bendpoint",
         position: intersections[0],
         segmentIndex: idx,
-        bendpointIndex: pointsEqual(segmentStart, intersections[0]) ? idx : idx + 1
+        bendpointIndex: pointsEqual(segmentStart, intersections[0])
+          ? idx
+          : idx + 1,
       };
     }
 
     // two intersections -> segment attachment
     if (intersections.length === 2) {
-
       attachmentPosition = mid(intersections[0], intersections[1]);
 
       attachment = {
-        type: 'segment',
+        type: "segment",
         position: attachmentPosition,
         segmentIndex: idx,
-        relativeLocation: getDistance(segmentStart, attachmentPosition) / getDistance(segmentStart, segmentEnd)
+        relativeLocation:
+          getDistance(segmentStart, attachmentPosition) /
+          getDistance(segmentStart, segmentEnd),
       };
     }
 
@@ -6473,7 +6434,6 @@ function getAttachment(point, line) {
  * @return {Array<Point>} intersections
  */
 function getCircleSegmentIntersections(s1, s2, cc, cr) {
-
   var baX = s2.x - s1.x;
   var baY = s2.y - s1.y;
   var caX = cc.x - s1.x;
@@ -6506,24 +6466,24 @@ function getCircleSegmentIntersections(s1, s2, cc, cr) {
 
   var i1 = {
     x: s1.x - baX * abScalingFactor1,
-    y: s1.y - baY * abScalingFactor1
+    y: s1.y - baY * abScalingFactor1,
   };
 
-  if (disc === 0) { // abScalingFactor1 == abScalingFactor2
-    return [ i1 ];
+  if (disc === 0) {
+    // abScalingFactor1 == abScalingFactor2
+    return [i1];
   }
 
   var i2 = {
     x: s1.x - baX * abScalingFactor2,
-    y: s1.y - baY * abScalingFactor2
+    y: s1.y - baY * abScalingFactor2,
   };
 
   // return only points on line segment
-  return [ i1, i2 ].filter(function(p) {
+  return [i1, i2].filter(function (p) {
     return isPointInSegment(p, s1, s2);
   });
 }
-
 
 function isPointInSegment(p, segmentStart, segmentEnd) {
   return (
@@ -6533,7 +6493,6 @@ function isPointInSegment(p, segmentStart, segmentEnd) {
 }
 
 function fenced(n, rangeStart, rangeEnd) {
-
   // use matching threshold to work around
   // precision errors in intersection computation
 
@@ -6552,20 +6511,17 @@ function fenced(n, rangeStart, rangeEnd) {
  * @return {Point}
  */
 function mid(p1, p2) {
-
   return {
     x: (p1.x + p2.x) / 2,
-    y: (p1.y + p2.y) / 2
+    y: (p1.y + p2.y) / 2,
   };
 }
 
 var EQUAL_THRESHOLD = 0.1;
 
 function pointsEqual(p1, p2) {
-
   return (
-    abs(p1.x - p2.x) <= EQUAL_THRESHOLD &&
-    abs(p1.y - p2.y) <= EQUAL_THRESHOLD
+    abs(p1.x - p2.x) <= EQUAL_THRESHOLD && abs(p1.y - p2.y) <= EQUAL_THRESHOLD
   );
 }
 
@@ -6594,13 +6550,13 @@ __webpack_require__.r(__webpack_exports__);
  * @return {Point}
  */
 function lineIntersect(l1s, l1e, l2s, l2e) {
-
   // if the lines intersect, the result contains the x and y of the
   // intersection (treating the lines as infinite) and booleans for
   // whether line segment 1 or line segment 2 contain the point
   var denominator, a, b, c, numerator;
 
-  denominator = ((l2e.y - l2s.y) * (l1e.x - l1s.x)) - ((l2e.x - l2s.x) * (l1e.y - l1s.y));
+  denominator =
+    (l2e.y - l2s.y) * (l1e.x - l1s.x) - (l2e.x - l2s.x) * (l1e.y - l1s.y);
 
   if (denominator == 0) {
     return null;
@@ -6608,17 +6564,18 @@ function lineIntersect(l1s, l1e, l2s, l2e) {
 
   a = l1s.y - l2s.y;
   b = l1s.x - l2s.x;
-  numerator = ((l2e.x - l2s.x) * a) - ((l2e.y - l2s.y) * b);
+  numerator = (l2e.x - l2s.x) * a - (l2e.y - l2s.y) * b;
 
   c = numerator / denominator;
 
   // if we cast these lines infinitely in
   // both directions, they intersect here
   return {
-    x: Math.round(l1s.x + (c * (l1e.x - l1s.x))),
-    y: Math.round(l1s.y + (c * (l1e.y - l1s.y)))
+    x: Math.round(l1s.x + c * (l1e.x - l1s.x)),
+    y: Math.round(l1s.y + c * (l1e.y - l1s.y)),
   };
 }
+
 
 /***/ }),
 
@@ -6637,14 +6594,13 @@ function IdClaimHandler(moddle) {
   this._moddle = moddle;
 }
 
-IdClaimHandler.$inject = [ 'moddle' ];
+IdClaimHandler.$inject = ["moddle"];
 
-
-IdClaimHandler.prototype.execute = function(context) {
+IdClaimHandler.prototype.execute = function (context) {
   var ids = this._moddle.ids,
-      id = context.id,
-      element = context.element,
-      claiming = context.claiming;
+    id = context.id,
+    element = context.element,
+    claiming = context.claiming;
 
   if (claiming) {
     ids.claim(id, element);
@@ -6656,11 +6612,11 @@ IdClaimHandler.prototype.execute = function(context) {
 /**
  * Command revert implementation.
  */
-IdClaimHandler.prototype.revert = function(context) {
+IdClaimHandler.prototype.revert = function (context) {
   var ids = this._moddle.ids,
-      id = context.id,
-      element = context.element,
-      claiming = context.claiming;
+    id = context.id,
+    element = context.element,
+    claiming = context.claiming;
 
   if (claiming) {
     ids.unclaim(id);
@@ -6668,7 +6624,6 @@ IdClaimHandler.prototype.revert = function(context) {
     ids.claim(id, element);
   }
 };
-
 
 
 /***/ }),
@@ -6687,28 +6642,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var diagram_js_lib_util_Collections__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! diagram-js/lib/util/Collections */ "../node_modules/diagram-js/lib/util/Collections.js");
 
 
-
 function UpdateCanvasRootHandler(canvas, modeling) {
   this._canvas = canvas;
   this._modeling = modeling;
 }
 
-UpdateCanvasRootHandler.$inject = [
-  'canvas',
-  'modeling'
-];
+UpdateCanvasRootHandler.$inject = ["canvas", "modeling"];
 
-
-UpdateCanvasRootHandler.prototype.execute = function(context) {
-
+UpdateCanvasRootHandler.prototype.execute = function (context) {
   var canvas = this._canvas;
 
   var newRoot = context.newRoot,
-      newRootBusinessObject = newRoot.businessObject,
-      oldRoot = canvas.getRootElement(),
-      oldRootBusinessObject = oldRoot.businessObject,
-      odDefinitions = oldRootBusinessObject.$parent,
-      diPlane = oldRootBusinessObject.di;
+    newRootBusinessObject = newRoot.businessObject,
+    oldRoot = canvas.getRootElement(),
+    oldRootBusinessObject = oldRoot.businessObject,
+    odDefinitions = oldRootBusinessObject.$parent,
+    diPlane = oldRootBusinessObject.di;
 
   // (1) replace process old <> new root
   canvas.setRootElement(newRoot, true);
@@ -6732,17 +6681,15 @@ UpdateCanvasRootHandler.prototype.execute = function(context) {
   // return [ newRoot, oldRoot ];
 };
 
-
-UpdateCanvasRootHandler.prototype.revert = function(context) {
-
+UpdateCanvasRootHandler.prototype.revert = function (context) {
   var canvas = this._canvas;
 
   var newRoot = context.newRoot,
-      newRootBusinessObject = newRoot.businessObject,
-      oldRoot = context.oldRoot,
-      oldRootBusinessObject = oldRoot.businessObject,
-      odDefinitions = newRootBusinessObject.$parent,
-      diPlane = newRootBusinessObject.di;
+    newRootBusinessObject = newRoot.businessObject,
+    oldRoot = context.oldRoot,
+    oldRootBusinessObject = oldRoot.businessObject,
+    odDefinitions = newRootBusinessObject.$parent,
+    diPlane = newRootBusinessObject.di;
 
   // (1) replace process old <> new root
   canvas.setRootElement(oldRoot, true);
@@ -6764,6 +6711,7 @@ UpdateCanvasRootHandler.prototype.revert = function(context) {
   // return [ newRoot, oldRoot ];
 };
 
+
 /***/ }),
 
 /***/ "../lib/features/modeling/cmd/UpdatePropertiesHandler.js":
@@ -6783,12 +6731,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var ID = 'id',
-    DI = 'di';
+var ID = "id",
+  DI = "di";
 
 var NULL_DIMENSIONS = {
   width: 0,
-  height: 0
+  height: 0,
 };
 
 /**
@@ -6801,9 +6749,12 @@ var NULL_DIMENSIONS = {
  * like to perform automated modeling.
  */
 function UpdatePropertiesHandler(
-    elementRegistry, moddle, translate,
-    modeling, textRenderer) {
-
+  elementRegistry,
+  moddle,
+  translate,
+  modeling,
+  textRenderer,
+) {
   this._elementRegistry = elementRegistry;
   this._moddle = moddle;
   this._translate = translate;
@@ -6812,13 +6763,12 @@ function UpdatePropertiesHandler(
 }
 
 UpdatePropertiesHandler.$inject = [
-  'elementRegistry',
-  'moddle',
-  'translate',
-  'modeling',
-  'textRenderer'
+  "elementRegistry",
+  "moddle",
+  "translate",
+  "modeling",
+  "textRenderer",
 ];
-
 
 // api //////////////////////
 
@@ -6832,22 +6782,22 @@ UpdatePropertiesHandler.$inject = [
  *
  * @return {Array<djs.model.Base>} the updated element
  */
-UpdatePropertiesHandler.prototype.execute = function(context) {
-
+UpdatePropertiesHandler.prototype.execute = function (context) {
   var element = context.element,
-      changed = [ element ],
-      translate = this._translate;
+    changed = [element],
+    translate = this._translate;
 
   if (!element) {
-    throw new Error(translate('element required'));
+    throw new Error(translate("element required"));
   }
 
   var elementRegistry = this._elementRegistry,
-      ids = this._moddle.ids;
+    ids = this._moddle.ids;
 
   var businessObject = element.businessObject,
-      properties = unwrapBusinessObjects(context.properties),
-      oldProperties = context.oldProperties || getProperties(businessObject, properties);
+    properties = unwrapBusinessObjects(context.properties),
+    oldProperties =
+      context.oldProperties || getProperties(businessObject, properties);
 
   if (isIdChange(properties, businessObject)) {
     ids.unclaim(businessObject[ID]);
@@ -6868,10 +6818,9 @@ UpdatePropertiesHandler.prototype.execute = function(context) {
   return changed;
 };
 
-
-UpdatePropertiesHandler.prototype.postExecute = function(context) {
+UpdatePropertiesHandler.prototype.postExecute = function (context) {
   var element = context.element,
-      label = element.label;
+    label = element.label;
 
   var text = label && (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_0__.getBusinessObject)(label).name;
 
@@ -6893,14 +6842,13 @@ UpdatePropertiesHandler.prototype.postExecute = function(context) {
  *
  * @return {djs.model.Base} the updated element
  */
-UpdatePropertiesHandler.prototype.revert = function(context) {
-
+UpdatePropertiesHandler.prototype.revert = function (context) {
   var element = context.element,
-      properties = context.properties,
-      oldProperties = context.oldProperties,
-      businessObject = element.businessObject,
-      elementRegistry = this._elementRegistry,
-      ids = this._moddle.ids;
+    properties = context.properties,
+    oldProperties = context.oldProperties,
+    businessObject = element.businessObject,
+    elementRegistry = this._elementRegistry,
+    ids = this._moddle.ids;
 
   // update properties
   setProperties(businessObject, oldProperties);
@@ -6916,45 +6864,46 @@ UpdatePropertiesHandler.prototype.revert = function(context) {
   return context.changed;
 };
 
-
 function isIdChange(properties, businessObject) {
   return ID in properties && properties[ID] !== businessObject[ID];
 }
 
-
 function getProperties(businessObject, properties) {
   var propertyNames = (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.keys)(properties);
 
-  return (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.reduce)(propertyNames, function(result, key) {
+  return (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.reduce)(
+    propertyNames,
+    function (result, key) {
+      // handle DI separately
+      if (key !== DI) {
+        result[key] = businessObject.get(key);
+      } else {
+        result[key] = getDiProperties(businessObject.di, (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.keys)(properties.di));
+      }
 
-    // handle DI separately
-    if (key !== DI) {
-      result[key] = businessObject.get(key);
-    } else {
-      result[key] = getDiProperties(businessObject.di, (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.keys)(properties.di));
-    }
-
-    return result;
-  }, {});
+      return result;
+    },
+    {},
+  );
 }
-
 
 function getDiProperties(di, propertyNames) {
-  return (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.reduce)(propertyNames, function(result, key) {
-    result[key] = di.get(key);
+  return (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.reduce)(
+    propertyNames,
+    function (result, key) {
+      result[key] = di.get(key);
 
-    return result;
-  }, {});
+      return result;
+    },
+    {},
+  );
 }
 
-
 function setProperties(businessObject, properties) {
-  (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.forEach)(properties, function(value, key) {
-
+  (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.forEach)(properties, function (value, key) {
     if (key !== DI) {
       businessObject.set(key, value);
     } else {
-
       // only update, if businessObject.di exists
       if (businessObject.di) {
         setDiProperties(businessObject.di, value);
@@ -6963,15 +6912,13 @@ function setProperties(businessObject, properties) {
   });
 }
 
-
 function setDiProperties(di, properties) {
-  (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.forEach)(properties, function(value, key) {
+  (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.forEach)(properties, function (value, key) {
     di.set(key, value);
   });
 }
 
-
-var referencePropertyNames = [ 'default' ];
+var referencePropertyNames = ["default"];
 
 /**
  * Make sure we unwrap the actual business object
@@ -6983,10 +6930,9 @@ var referencePropertyNames = [ 'default' ];
  * @return {Object} unwrappedProps
  */
 function unwrapBusinessObjects(properties) {
-
   var unwrappedProps = (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.assign)({}, properties);
 
-  referencePropertyNames.forEach(function(name) {
+  referencePropertyNames.forEach(function (name) {
     if (name in properties) {
       unwrappedProps[name] = (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_0__.getBusinessObject)(unwrappedProps[name]);
     }
@@ -6994,6 +6940,7 @@ function unwrapBusinessObjects(properties) {
 
   return unwrappedProps;
 }
+
 
 /***/ }),
 
@@ -7045,12 +6992,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  __init__: [
-    'modeling',
-    'odUpdater'
-  ],
+  __init__: ["modeling", "odUpdater"],
   __depends__: [
     _behavior__WEBPACK_IMPORTED_MODULE_0__["default"],
     _rules__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -7062,15 +7005,16 @@ __webpack_require__.r(__webpack_exports__);
     diagram_js_lib_features_attach_support__WEBPACK_IMPORTED_MODULE_7__["default"],
     diagram_js_lib_features_selection__WEBPACK_IMPORTED_MODULE_8__["default"],
     diagram_js_lib_features_change_support__WEBPACK_IMPORTED_MODULE_9__["default"],
-    diagram_js_lib_features_space_tool__WEBPACK_IMPORTED_MODULE_10__["default"]
+    diagram_js_lib_features_space_tool__WEBPACK_IMPORTED_MODULE_10__["default"],
   ],
-  odFactory: [ 'type', _ODFactory__WEBPACK_IMPORTED_MODULE_11__["default"] ],
-  odUpdater: [ 'type', _ODUpdater__WEBPACK_IMPORTED_MODULE_12__["default"] ],
-  elementFactory: [ 'type', _ElementFactory__WEBPACK_IMPORTED_MODULE_13__["default"] ],
-  modeling: [ 'type', _Modeling__WEBPACK_IMPORTED_MODULE_14__["default"] ],
-  layouter: [ 'type', _ODLayouter__WEBPACK_IMPORTED_MODULE_15__["default"] ],
-  connectionDocking: [ 'type', diagram_js_lib_layout_CroppingConnectionDocking__WEBPACK_IMPORTED_MODULE_16__["default"] ]
+  odFactory: ["type", _ODFactory__WEBPACK_IMPORTED_MODULE_11__["default"]],
+  odUpdater: ["type", _ODUpdater__WEBPACK_IMPORTED_MODULE_12__["default"]],
+  elementFactory: ["type", _ElementFactory__WEBPACK_IMPORTED_MODULE_13__["default"]],
+  modeling: ["type", _Modeling__WEBPACK_IMPORTED_MODULE_14__["default"]],
+  layouter: ["type", _ODLayouter__WEBPACK_IMPORTED_MODULE_15__["default"]],
+  connectionDocking: ["type", diagram_js_lib_layout_CroppingConnectionDocking__WEBPACK_IMPORTED_MODULE_16__["default"]],
 });
+
 
 /***/ }),
 
@@ -7092,7 +7036,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 /**
  * Return true if element has any of the given types.
  *
@@ -7102,11 +7045,10 @@ __webpack_require__.r(__webpack_exports__);
  * @return {Boolean}
  */
 function isAny(element, types) {
-  return (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.some)(types, function(t) {
+  return (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.some)(types, function (t) {
     return (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_1__.is)(element, t);
   });
 }
-
 
 /**
  * Return the parent of the element with any of the given types.
@@ -7117,9 +7059,8 @@ function isAny(element, types) {
  * @return {djs.model.Base}
  */
 function getParent(element, anyType) {
-
-  if (typeof anyType === 'string') {
-    anyType = [ anyType ];
+  if (typeof anyType === "string") {
+    anyType = [anyType];
   }
 
   while ((element = element.parent)) {
@@ -7130,6 +7071,7 @@ function getParent(element, anyType) {
 
   return null;
 }
+
 
 /***/ }),
 
@@ -7156,7 +7098,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 /**
  * a simple ordering provider that makes sure:
  *
@@ -7164,16 +7105,15 @@ __webpack_require__.r(__webpack_exports__);
  * (1) elements are ordered by a {level} property
  */
 function ODOrderingProvider(eventBus, canvas, translate) {
-
   diagram_js_lib_features_ordering_OrderingProvider__WEBPACK_IMPORTED_MODULE_0__["default"].call(this, eventBus);
 
   var orders = [
-    { type: 'od:Object', order: { level: 5 } },
+    { type: "od:Object", order: { level: 5 } },
     {
-      type: 'od:Link',
+      type: "od:Link",
       order: {
         level: 3,
-      }
+      },
     },
   ];
 
@@ -7182,15 +7122,14 @@ function ODOrderingProvider(eventBus, canvas, translate) {
       return { level: 10 };
     }
 
-    var entry = (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.find)(orders, function(o) {
-      return (0,_modeling_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_2__.isAny)(element, [ o.type ]);
+    var entry = (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.find)(orders, function (o) {
+      return (0,_modeling_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_2__.isAny)(element, [o.type]);
     });
 
-    return entry && entry.order || { level: 1 };
+    return (entry && entry.order) || { level: 1 };
   }
 
   function getOrder(element) {
-
     var order = element.order;
 
     if (!order) {
@@ -7198,18 +7137,16 @@ function ODOrderingProvider(eventBus, canvas, translate) {
     }
 
     if (!order) {
-      throw new Error('no order for <' + element.id + '>');
+      throw new Error("no order for <" + element.id + ">");
     }
 
     return order;
   }
 
   function findActualParent(element, newParent, containers) {
-
     var actualParent = newParent;
 
     while (actualParent) {
-
       if ((0,_modeling_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_2__.isAny)(actualParent, containers)) {
         break;
       }
@@ -7218,37 +7155,35 @@ function ODOrderingProvider(eventBus, canvas, translate) {
     }
 
     if (!actualParent) {
-      throw new Error(translate('no parent for {element} in {parent}', {
-        element: element.id,
-        parent: newParent.id
-      }));
+      throw new Error(
+        translate("no parent for {element} in {parent}", {
+          element: element.id,
+          parent: newParent.id,
+        }),
+      );
     }
 
     return actualParent;
   }
 
-  this.getOrdering = function(element, newParent) {
-
+  this.getOrdering = function (element, newParent) {
     // render labels always on top
     if (element.labelTarget) {
       return {
         parent: canvas.getRootElement(),
-        index: -1
+        index: -1,
       };
     }
 
     var elementOrder = getOrder(element);
 
-
     if (elementOrder.containers) {
       newParent = findActualParent(element, newParent, elementOrder.containers);
     }
 
-
     var currentIndex = newParent.children.indexOf(element);
 
-    var insertIndex = (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.findIndex)(newParent.children, function(child) {
-
+    var insertIndex = (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.findIndex)(newParent.children, function (child) {
       // do not compare with labels, they are created
       // in the wrong order (right after elements) during import and
       // mess up the positioning.
@@ -7258,7 +7193,6 @@ function ODOrderingProvider(eventBus, canvas, translate) {
 
       return elementOrder.level < getOrder(child).level;
     });
-
 
     // if the element is already in the child list at
     // a smaller index, we need to adjust the insert index.
@@ -7272,14 +7206,15 @@ function ODOrderingProvider(eventBus, canvas, translate) {
 
     return {
       index: insertIndex,
-      parent: newParent
+      parent: newParent,
     };
   };
 }
 
-ODOrderingProvider.$inject = [ 'eventBus', 'canvas', 'translate' ];
+ODOrderingProvider.$inject = ["eventBus", "canvas", "translate"];
 
 (0,inherits_browser__WEBPACK_IMPORTED_MODULE_3__["default"])(ODOrderingProvider, diagram_js_lib_features_ordering_OrderingProvider__WEBPACK_IMPORTED_MODULE_0__["default"]);
+
 
 /***/ }),
 
@@ -7301,12 +7236,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  __depends__: [
-    diagram_js_lib_i18n_translate__WEBPACK_IMPORTED_MODULE_0__["default"]
-  ],
-  __init__: [ 'odOrderingProvider' ],
-  odOrderingProvider: [ 'type', _ODOrderingProvider__WEBPACK_IMPORTED_MODULE_1__["default"] ]
+  __depends__: [diagram_js_lib_i18n_translate__WEBPACK_IMPORTED_MODULE_0__["default"]],
+  __init__: ["odOrderingProvider"],
+  odOrderingProvider: ["type", _ODOrderingProvider__WEBPACK_IMPORTED_MODULE_1__["default"]],
 });
+
 
 /***/ }),
 
@@ -7328,9 +7262,15 @@ __webpack_require__.r(__webpack_exports__);
  * A palette provider for od elements.
  */
 function PaletteProvider(
-    palette, create, elementFactory,
-    spaceTool, lassoTool, handTool, globalConnect, translate) {
-
+  palette,
+  create,
+  elementFactory,
+  spaceTool,
+  lassoTool,
+  handTool,
+  globalConnect,
+  translate,
+) {
   this._create = create;
   this._elementFactory = elementFactory;
   this._spaceTool = spaceTool;
@@ -7343,105 +7283,106 @@ function PaletteProvider(
 }
 
 PaletteProvider.$inject = [
-  'palette',
-  'create',
-  'elementFactory',
-  'spaceTool',
-  'lassoTool',
-  'handTool',
-  'globalConnect',
-  'translate'
+  "palette",
+  "create",
+  "elementFactory",
+  "spaceTool",
+  "lassoTool",
+  "handTool",
+  "globalConnect",
+  "translate",
 ];
 
-
-PaletteProvider.prototype.getPaletteEntries = function(element) {
-
+PaletteProvider.prototype.getPaletteEntries = function (element) {
   var actions = {},
-      create = this._create,
-      elementFactory = this._elementFactory,
-      spaceTool = this._spaceTool,
-      lassoTool = this._lassoTool,
-      handTool = this._handTool,
-      globalConnect = this._globalConnect,
-      translate = this._translate;
+    create = this._create,
+    elementFactory = this._elementFactory,
+    spaceTool = this._spaceTool,
+    lassoTool = this._lassoTool,
+    handTool = this._handTool,
+    globalConnect = this._globalConnect,
+    translate = this._translate;
 
   function createAction(type, group, className, title, options) {
-
     function createListener(event) {
       var shape = elementFactory.createShape((0,min_dash__WEBPACK_IMPORTED_MODULE_0__.assign)({ type: type }, options));
       create.start(event, shape);
     }
 
-    var shortType = type.replace(/^od:/, '');
+    var shortType = type.replace(/^od:/, "");
 
     return {
       group: group,
       className: className,
-      title: title || translate('Create {type}', { type: shortType }),
+      title: title || translate("Create {type}", { type: shortType }),
       action: {
         dragstart: createListener,
-        click: createListener
-      }
+        click: createListener,
+      },
     };
   }
 
   (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.assign)(actions, {
-    'hand-tool': {
-      group: 'tools',
-      className: 'bpmn-icon-hand-tool',
-      title: translate('Activate the hand tool'),
+    "hand-tool": {
+      group: "tools",
+      className: "bpmn-icon-hand-tool",
+      title: translate("Activate the hand tool"),
       action: {
-        click: function(event) {
+        click: function (event) {
           handTool.activateHand(event);
-        }
-      }
+        },
+      },
     },
-    'lasso-tool': {
-      group: 'tools',
-      className: 'bpmn-icon-lasso-tool',
-      title: translate('Activate the lasso tool'),
+    "lasso-tool": {
+      group: "tools",
+      className: "bpmn-icon-lasso-tool",
+      title: translate("Activate the lasso tool"),
       action: {
-        click: function(event) {
+        click: function (event) {
           lassoTool.activateSelection(event);
-        }
-      }
+        },
+      },
     },
-    'space-tool': {
-      group: 'tools',
-      className: 'bpmn-icon-space-tool',
-      title: translate('Activate the create/remove space tool'),
+    "space-tool": {
+      group: "tools",
+      className: "bpmn-icon-space-tool",
+      title: translate("Activate the create/remove space tool"),
       action: {
-        click: function(event) {
+        click: function (event) {
           spaceTool.activateSelection(event);
-        }
-      }
+        },
+      },
     },
-    'tool-separator': {
-      group: 'tools',
-      separator: true
+    "tool-separator": {
+      group: "tools",
+      separator: true,
     },
-    'create-object': createAction(
-      'od:Object', 'od-elements', 'od-icon-object',
-      translate('Create object')
+    "create-object": createAction(
+      "od:Object",
+      "od-elements",
+      "od-icon-object",
+      translate("Create object"),
     ),
-    'object-linker': {
-      group: 'od-elements',
-      className: 'bpmn-icon-connection',
-      title: translate('Link objects'),
+    "object-linker": {
+      group: "od-elements",
+      className: "bpmn-icon-connection",
+      title: translate("Link objects"),
       action: {
-        click: function(event) {
+        click: function (event) {
           globalConnect.start(event);
-        }
-      }
+        },
+      },
     },
-    'od-separator': {
-      group: 'od-elements',
-      separator: true
+    "od-separator": {
+      group: "od-elements",
+      separator: true,
     },
-    'create.text-box': createAction(
-      'od:TextBox', 'text', 'pjs-text-box',
-      translate('Create text')
-    )
+    "create.text-box": createAction(
+      "od:TextBox",
+      "text",
+      "pjs-text-box",
+      translate("Create text"),
+    ),
   });
 
   return actions;
@@ -7487,10 +7428,10 @@ __webpack_require__.r(__webpack_exports__);
     diagram_js_lib_features_lasso_tool__WEBPACK_IMPORTED_MODULE_3__["default"],
     diagram_js_lib_features_hand_tool__WEBPACK_IMPORTED_MODULE_4__["default"],
     diagram_js_lib_features_global_connect__WEBPACK_IMPORTED_MODULE_5__["default"],
-    diagram_js_lib_i18n_translate__WEBPACK_IMPORTED_MODULE_6__["default"]
+    diagram_js_lib_i18n_translate__WEBPACK_IMPORTED_MODULE_6__["default"],
   ],
-  __init__: [ 'paletteProvider' ],
-  paletteProvider: [ 'type', _PaletteProvider__WEBPACK_IMPORTED_MODULE_7__["default"] ]
+  __init__: ["paletteProvider"],
+  paletteProvider: ["type", _PaletteProvider__WEBPACK_IMPORTED_MODULE_7__["default"]],
 });
 
 
@@ -7524,7 +7465,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 /**
  * OD specific modeling rule
  */
@@ -7534,21 +7474,20 @@ function ODRules(eventBus) {
 
 (0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(ODRules, diagram_js_lib_features_rules_RuleProvider__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
-ODRules.$inject = [ 'eventBus' ];
+ODRules.$inject = ["eventBus"];
 
-ODRules.prototype.init = function() {
-
-  this.addRule('connection.start', function(context) {
+ODRules.prototype.init = function () {
+  this.addRule("connection.start", function (context) {
     var source = context.source;
 
     return canStartConnection(source);
   });
 
-  this.addRule('connection.create', function(context) {
+  this.addRule("connection.create", function (context) {
     var source = context.source,
-        target = context.target,
-        hints = context.hints || {},
-        targetParent = hints.targetParent;
+      target = context.target,
+      hints = context.hints || {},
+      targetParent = hints.targetParent;
 
     // temporarily set target parent for scoping
     // checks to work
@@ -7559,7 +7498,6 @@ ODRules.prototype.init = function() {
     try {
       return canConnect(source, target);
     } finally {
-
       // unset temporary target parent
       if (targetParent) {
         target.parent = null;
@@ -7567,35 +7505,33 @@ ODRules.prototype.init = function() {
     }
   });
 
-  this.addRule('connection.reconnect', function(context) {
-
+  this.addRule("connection.reconnect", function (context) {
     var connection = context.connection,
-        source = context.source,
-        target = context.target;
+      source = context.source,
+      target = context.target;
 
     return canConnect(source, target, connection);
   });
 
-  this.addRule('connection.updateWaypoints', function(context) {
+  this.addRule("connection.updateWaypoints", function (context) {
     return {
-      type: context.connection.type
+      type: context.connection.type,
     };
   });
 
-  this.addRule('shape.resize', function(context) {
-
+  this.addRule("shape.resize", function (context) {
     var shape = context.shape,
-        newBounds = context.newBounds;
+      newBounds = context.newBounds;
 
     return canResize(shape, newBounds);
   });
 
-  this.addRule('elements.create', function(context) {
+  this.addRule("elements.create", function (context) {
     var elements = context.elements,
-        position = context.position,
-        target = context.target;
+      position = context.position,
+      target = context.target;
 
-    return (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.every)(elements, function(element) {
+    return (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.every)(elements, function (element) {
       if (element.host) {
         return canAttach(element, element.host, null, position);
       }
@@ -7604,38 +7540,33 @@ ODRules.prototype.init = function() {
     });
   });
 
-  this.addRule('elements.move', function(context) {
-
+  this.addRule("elements.move", function (context) {
     var target = context.target,
-        shapes = context.shapes,
-        position = context.position;
+      shapes = context.shapes,
+      position = context.position;
 
-    return canAttach(shapes, target, null, position) ||
-      canMove(shapes, target, position);
+    return (
+      canAttach(shapes, target, null, position) ||
+      canMove(shapes, target, position)
+    );
   });
 
-  this.addRule('shape.create', function(context) {
+  this.addRule("shape.create", function (context) {
     return canCreate(
       context.shape,
       context.target,
       context.source,
-      context.position
+      context.position,
     );
   });
 
-  this.addRule('shape.attach', function(context) {
-
-    return canAttach(
-      context.shape,
-      context.target,
-      null,
-      context.position
-    );
+  this.addRule("shape.attach", function (context) {
+    return canAttach(context.shape, context.target, null, context.position);
   });
 
-  this.addRule('element.copy', function(context) {
+  this.addRule("element.copy", function (context) {
     var element = context.element,
-        elements = context.elements;
+      elements = context.elements;
 
     return canCopy(elements, element);
   });
@@ -7666,7 +7597,6 @@ function isSame(a, b) {
 }
 
 function getParents(element) {
-
   var parents = [];
 
   while (element) {
@@ -7686,7 +7616,7 @@ function isParent(possibleParent, element) {
 }
 
 function isGroup(element) {
-  return (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__.is)(element, 'od:Group') && !element.labelTarget;
+  return (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__.is)(element, "od:Group") && !element.labelTarget;
 }
 
 /**
@@ -7700,28 +7630,25 @@ function canStartConnection(element) {
     return null;
   }
 
-  return (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__.is)(element,
-    'od:Object'
-  );
+  return (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__.is)(element, "od:Object");
 }
 
 function nonExistingOrLabel(element) {
   return !element || (0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_4__.isLabel)(element);
 }
 
-
 function canConnect(source, target) {
   if (nonExistingOrLabel(source) || nonExistingOrLabel(target)) {
     return null;
   }
   if (canConnectLink(source, target)) {
-    return { type: 'od:Link' };
+    return { type: "od:Link" };
   }
   return false;
 }
 
 function canConnectLink(source, target) {
-  return (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__.is)(source, 'od:Object') && (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__.is)(target, 'od:Object');
+  return (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__.is)(source, "od:Object") && (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__.is)(target, "od:Object");
 }
 
 /**
@@ -7730,25 +7657,22 @@ function canConnectLink(source, target) {
  * @return {Boolean}
  */
 function canDrop(element, target) {
-
   // can move labels
   if ((0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_4__.isLabel)(element) || isGroup(element)) {
     return true;
   }
 
   // drop board elements onto boards
-  return (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__.is)(element, 'od:BoardElement') && (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__.is)(target, 'od:OdBoard');
+  return (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__.is)(element, "od:BoardElement") && (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__.is)(target, "od:OdBoard");
 }
 
 function canReplace(elements, target) {
   return target;
 }
 
-
 function canAttach(elements, target) {
-
   if (!Array.isArray(elements)) {
-    elements = [ elements ];
+    elements = [elements];
   }
 
   // only (re-)attach one element at a time
@@ -7763,28 +7687,25 @@ function canAttach(elements, target) {
     return false;
   }
 
-  if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__.is)(target, 'od:BoardElement')) {
+  if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_3__.is)(target, "od:BoardElement")) {
     return false;
   }
 
-  return 'attach';
+  return "attach";
 }
 
-
 function canMove(elements, target) {
-
   // allow default move check to start move operation
   if (!target) {
     return true;
   }
 
-  return elements.every(function(element) {
+  return elements.every(function (element) {
     return canDrop(element, target);
   });
 }
 
 function canCreate(shape, target, source, position) {
-
   if (!target) {
     return false;
   }
@@ -7807,7 +7728,7 @@ function canCreate(shape, target, source, position) {
 }
 
 function canResize(shape, newBounds) {
-  if ((0,_modeling_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_5__.isAny)(shape, [ 'od:Object' ])) {
+  if ((0,_modeling_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_5__.isAny)(shape, ["od:Object"])) {
     return !newBounds || (newBounds.width >= 50 && newBounds.height >= 50);
   }
   return false;
@@ -7838,11 +7759,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  __depends__: [
-    diagram_js_lib_features_rules__WEBPACK_IMPORTED_MODULE_0__["default"]
-  ],
-  __init__: [ 'odRules' ],
-  odRules: [ 'type', _ODRules__WEBPACK_IMPORTED_MODULE_1__["default"] ]
+  __depends__: [diagram_js_lib_features_rules__WEBPACK_IMPORTED_MODULE_0__["default"]],
+  __init__: ["odRules"],
+  odRules: ["type", _ODRules__WEBPACK_IMPORTED_MODULE_1__["default"]],
 });
 
 
@@ -7877,19 +7796,26 @@ function ODCreateMoveSnapping(injector) {
 
 (0,inherits_browser__WEBPACK_IMPORTED_MODULE_1__["default"])(ODCreateMoveSnapping, diagram_js_lib_features_snapping_CreateMoveSnapping__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
-ODCreateMoveSnapping.$inject = [
-  'injector'
-];
+ODCreateMoveSnapping.$inject = ["injector"];
 
-ODCreateMoveSnapping.prototype.initSnap = function(event) {
+ODCreateMoveSnapping.prototype.initSnap = function (event) {
   return diagram_js_lib_features_snapping_CreateMoveSnapping__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.initSnap.call(this, event);
 };
 
-ODCreateMoveSnapping.prototype.addSnapTargetPoints = function(snapPoints, shape, target) {
-  return diagram_js_lib_features_snapping_CreateMoveSnapping__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.addSnapTargetPoints.call(this, snapPoints, shape, target);
+ODCreateMoveSnapping.prototype.addSnapTargetPoints = function (
+  snapPoints,
+  shape,
+  target,
+) {
+  return diagram_js_lib_features_snapping_CreateMoveSnapping__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.addSnapTargetPoints.call(
+    this,
+    snapPoints,
+    shape,
+    target,
+  );
 };
 
-ODCreateMoveSnapping.prototype.getSnapTargets = function(shape, target) {
+ODCreateMoveSnapping.prototype.getSnapTargets = function (shape, target) {
   return diagram_js_lib_features_snapping_CreateMoveSnapping__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.getSnapTargets.call(this, shape, target);
 };
 
@@ -7925,7 +7851,7 @@ var OBJECT_BOUNDS_PADDING = 10;
 
 var TARGET_CENTER_PADDING = 20;
 
-var AXES = [ 'x', 'y' ];
+var AXES = ["x", "y"];
 
 /**
  * Snap during connect.
@@ -7933,57 +7859,54 @@ var AXES = [ 'x', 'y' ];
  * @param {EventBus} eventBus
  */
 function ObjectConnectSnapping(eventBus) {
-  eventBus.on([
-    'connect.hover',
-    'connect.move',
-    'connect.end',
-  ], HIGHER_PRIORITY, function(event) {
-    var context = event.context,
+  eventBus.on(
+    ["connect.hover", "connect.move", "connect.end"],
+    HIGHER_PRIORITY,
+    function (event) {
+      var context = event.context,
         canExecute = context.canExecute,
         start = context.start,
         hover = context.hover;
 
-    // do NOT snap on CMD
-    if (event.originalEvent && (0,diagram_js_lib_features_keyboard_KeyboardUtil__WEBPACK_IMPORTED_MODULE_0__.isCmd)(event.originalEvent)) {
-      return;
-    }
+      // do NOT snap on CMD
+      if (event.originalEvent && (0,diagram_js_lib_features_keyboard_KeyboardUtil__WEBPACK_IMPORTED_MODULE_0__.isCmd)(event.originalEvent)) {
+        return;
+      }
 
-    if (!context.initialConnectionStart) {
-      context.initialConnectionStart = context.connectionStart;
-    }
-
-    // snap hover
-    if (canExecute && hover) {
-      snapToShape(event, hover, getTargetBoundsPadding());
-    }
-
-    if (hover && isAnyType(canExecute, [
-      'od:Link',
-    ])) {
-      context.connectionStart = (0,diagram_js_lib_features_snapping_SnapUtil__WEBPACK_IMPORTED_MODULE_1__.mid)(start);
+      if (!context.initialConnectionStart) {
+        context.initialConnectionStart = context.connectionStart;
+      }
 
       // snap hover
-      if ((0,_modeling_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_2__.isAny)(hover, [ 'od:Object' ])) {
-        snapToTargetMid(event, hover);
+      if (canExecute && hover) {
+        snapToShape(event, hover, getTargetBoundsPadding());
       }
-    }
-  });
+
+      if (hover && isAnyType(canExecute, ["od:Link"])) {
+        context.connectionStart = (0,diagram_js_lib_features_snapping_SnapUtil__WEBPACK_IMPORTED_MODULE_1__.mid)(start);
+
+        // snap hover
+        if ((0,_modeling_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_2__.isAny)(hover, ["od:Object"])) {
+          snapToTargetMid(event, hover);
+        }
+      }
+    },
+  );
 }
 
-ObjectConnectSnapping.$inject = [ 'eventBus' ];
-
+ObjectConnectSnapping.$inject = ["eventBus"];
 
 // helpers //////////
 
 // snap to target if event in target
 function snapToShape(event, target, padding) {
-  AXES.forEach(function(axis) {
+  AXES.forEach(function (axis) {
     var dimensionForAxis = getDimensionForAxis(axis, target);
 
-    if (event[ axis ] < target[ axis ] + padding) {
-      (0,diagram_js_lib_features_snapping_SnapUtil__WEBPACK_IMPORTED_MODULE_1__.setSnapped)(event, axis, target[ axis ] + padding);
-    } else if (event[ axis ] > target[ axis ] + dimensionForAxis - padding) {
-      (0,diagram_js_lib_features_snapping_SnapUtil__WEBPACK_IMPORTED_MODULE_1__.setSnapped)(event, axis, target[ axis ] + dimensionForAxis - padding);
+    if (event[axis] < target[axis] + padding) {
+      (0,diagram_js_lib_features_snapping_SnapUtil__WEBPACK_IMPORTED_MODULE_1__.setSnapped)(event, axis, target[axis] + padding);
+    } else if (event[axis] > target[axis] + dimensionForAxis - padding) {
+      (0,diagram_js_lib_features_snapping_SnapUtil__WEBPACK_IMPORTED_MODULE_1__.setSnapped)(event, axis, target[axis] + dimensionForAxis - padding);
     }
   });
 }
@@ -7992,9 +7915,9 @@ function snapToShape(event, target, padding) {
 function snapToTargetMid(event, target) {
   var targetMid = (0,diagram_js_lib_features_snapping_SnapUtil__WEBPACK_IMPORTED_MODULE_1__.mid)(target);
 
-  AXES.forEach(function(axis) {
+  AXES.forEach(function (axis) {
     if (isMid(event, target, axis)) {
-      (0,diagram_js_lib_features_snapping_SnapUtil__WEBPACK_IMPORTED_MODULE_1__.setSnapped)(event, axis, targetMid[ axis ]);
+      (0,diagram_js_lib_features_snapping_SnapUtil__WEBPACK_IMPORTED_MODULE_1__.setSnapped)(event, axis, targetMid[axis]);
     }
   });
 }
@@ -8004,13 +7927,13 @@ function isType(attrs, type) {
 }
 
 function isAnyType(attrs, types) {
-  return (0,min_dash__WEBPACK_IMPORTED_MODULE_3__.some)(types, function(type) {
+  return (0,min_dash__WEBPACK_IMPORTED_MODULE_3__.some)(types, function (type) {
     return isType(attrs, type);
   });
 }
 
 function getDimensionForAxis(axis, element) {
-  return axis === 'x' ? element.width : element.height;
+  return axis === "x" ? element.width : element.height;
 }
 
 function getTargetBoundsPadding() {
@@ -8018,9 +7941,13 @@ function getTargetBoundsPadding() {
 }
 
 function isMid(event, target, axis) {
-  return event[ axis ] > target[ axis ] + TARGET_CENTER_PADDING
-    && event[ axis ] < target[ axis ] + getDimensionForAxis(axis, target) - TARGET_CENTER_PADDING;
+  return (
+    event[axis] > target[axis] + TARGET_CENTER_PADDING &&
+    event[axis] <
+      target[axis] + getDimensionForAxis(axis, target) - TARGET_CENTER_PADDING
+  );
 }
+
 
 /***/ }),
 
@@ -8043,14 +7970,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  __depends__: [ diagram_js_lib_features_snapping__WEBPACK_IMPORTED_MODULE_0__["default"] ],
-  __init__: [
-    'connectSnapping',
-    'createMoveSnapping'
-  ],
-  connectSnapping: [ 'type', _ObjectConnectSnapping__WEBPACK_IMPORTED_MODULE_1__["default"] ],
-  createMoveSnapping: [ 'type', _ODCreateMoveSnapping__WEBPACK_IMPORTED_MODULE_2__["default"] ]
+  __depends__: [diagram_js_lib_features_snapping__WEBPACK_IMPORTED_MODULE_0__["default"]],
+  __init__: ["connectSnapping", "createMoveSnapping"],
+  connectSnapping: ["type", _ObjectConnectSnapping__WEBPACK_IMPORTED_MODULE_1__["default"]],
+  createMoveSnapping: ["type", _ODCreateMoveSnapping__WEBPACK_IMPORTED_MODULE_2__["default"]],
 });
+
 
 /***/ }),
 
@@ -8077,12 +8002,12 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 /**
-* The importodDi:agram error.
-*
-* @typedef {Error} importodDi:agramError
-*
-* @property {Array<string>} warnings
-*/
+ * The importodDi:agram error.
+ *
+ * @typedef {Error} importodDi:agramError
+ *
+ * @property {Array<string>} warnings
+ */
 
 /**
  * Import the definitions into a diagram.
@@ -8097,13 +8022,10 @@ __webpack_require__.r(__webpack_exports__);
  * Returns {Promise<importodDi:agramResult, importodDi:agramError>}
  */
 function importOdDiagram(diagram, definitions, rootBoard) {
-
-  var importer,
-      eventBus,
-      translate;
+  var importer, eventBus, translate;
 
   var error,
-      warnings = [];
+    warnings = [];
 
   /**
    * Walk the diagram semantically, importing (=drawing)
@@ -8113,20 +8035,18 @@ function importOdDiagram(diagram, definitions, rootBoard) {
    * @param {ModdleElement<ODRootBoard>} rootBoard
    */
   function render(definitions, rootBoard) {
-
     var visitor = {
-
-      root: function(element) {
+      root: function (element) {
         return importer.add(element);
       },
 
-      element: function(element, parentShape) {
+      element: function (element, parentShape) {
         return importer.add(element, parentShape);
       },
 
-      error: function(message, context) {
+      error: function (message, context) {
         warnings.push({ message: message, context: context });
-      }
+      },
     };
 
     var walker = new _OdTreeWalker__WEBPACK_IMPORTED_MODULE_0__["default"](visitor, translate);
@@ -8136,19 +8056,19 @@ function importOdDiagram(diagram, definitions, rootBoard) {
     walker.handleDefinitions(definitions, rootBoard);
   }
 
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     try {
-      importer = diagram.get('odImporter');
-      eventBus = diagram.get('eventBus');
-      translate = diagram.get('translate');
+      importer = diagram.get("odImporter");
+      eventBus = diagram.get("eventBus");
+      translate = diagram.get("translate");
 
-      eventBus.fire('import.render.start', { definitions: definitions });
+      eventBus.fire("import.render.start", { definitions: definitions });
 
       render(definitions, rootBoard);
 
-      eventBus.fire('import.render.complete', {
+      eventBus.fire("import.render.complete", {
         error: error,
-        warnings: warnings
+        warnings: warnings,
       });
 
       return resolve({ warnings: warnings });
@@ -8157,6 +8077,7 @@ function importOdDiagram(diagram, definitions, rootBoard) {
     }
   });
 }
+
 
 /***/ }),
 
@@ -8188,23 +8109,29 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 function elementData(semantic, attrs) {
-  return (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.assign)({
-    id: semantic.id,
-    type: semantic.$type,
-    businessObject: semantic
-  }, attrs);
+  return (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.assign)(
+    {
+      id: semantic.id,
+      type: semantic.$type,
+      businessObject: semantic,
+    },
+    attrs,
+  );
 }
 
 function notYetDrawn(translate, semantic, refSemantic, property) {
-  return new Error(translate('element {element} referenced by {referenced}#{property} not yet drawn', {
-    element: (0,_Util__WEBPACK_IMPORTED_MODULE_1__.elementToString)(refSemantic),
-    referenced: (0,_Util__WEBPACK_IMPORTED_MODULE_1__.elementToString)(semantic),
-    property: property
-  }));
+  return new Error(
+    translate(
+      "element {element} referenced by {referenced}#{property} not yet drawn",
+      {
+        element: (0,_Util__WEBPACK_IMPORTED_MODULE_1__.elementToString)(refSemantic),
+        referenced: (0,_Util__WEBPACK_IMPORTED_MODULE_1__.elementToString)(semantic),
+        property: property,
+      },
+    ),
+  );
 }
-
 
 /**
  * An importer that adds od elements to the canvas
@@ -8217,9 +8144,13 @@ function notYetDrawn(translate, semantic, refSemantic, property) {
  * @param {TextRenderer} textRenderer
  */
 function OdImporter(
-    eventBus, canvas, elementFactory,
-    elementRegistry, translate, textRenderer) {
-
+  eventBus,
+  canvas,
+  elementFactory,
+  elementRegistry,
+  translate,
+  textRenderer,
+) {
   this._eventBus = eventBus;
   this._canvas = canvas;
   this._elementFactory = elementFactory;
@@ -8229,33 +8160,30 @@ function OdImporter(
 }
 
 OdImporter.$inject = [
-  'eventBus',
-  'canvas',
-  'elementFactory',
-  'elementRegistry',
-  'translate',
-  'textRenderer'
+  "eventBus",
+  "canvas",
+  "elementFactory",
+  "elementRegistry",
+  "translate",
+  "textRenderer",
 ];
-
 
 /**
  * Add od element (semantic) to the canvas onto the
  * specified parent shape.
  */
-OdImporter.prototype.add = function(semantic, parentElement) {
-
+OdImporter.prototype.add = function (semantic, parentElement) {
   var di = semantic.di,
-      element,
-      translate = this._translate,
-      hidden;
+    element,
+    translate = this._translate,
+    hidden;
 
   var parentIndex;
 
   // ROOT ELEMENT
   // handle the special case that we deal with a
   // invisible root element
-  if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.is)(di, 'odDi:OdPlane')) {
-
+  if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.is)(di, "odDi:OdPlane")) {
     // add a virtual element (not being drawn)
     element = this._elementFactory.createRoot(elementData(semantic));
 
@@ -8263,49 +8191,51 @@ OdImporter.prototype.add = function(semantic, parentElement) {
   }
 
   // SHAPE
-  else if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.is)(di, 'odDi:OdShape')) {
-
+  else if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.is)(di, "odDi:OdShape")) {
     var isFrame = isFrameElement(semantic);
 
     hidden = parentElement && (parentElement.hidden || parentElement.collapsed);
 
     var bounds = semantic.di.bounds;
 
-    element = this._elementFactory.createShape(elementData(semantic, {
-      hidden: hidden,
-      x: Math.round(bounds.x),
-      y: Math.round(bounds.y),
-      width: Math.round(bounds.width),
-      height: Math.round(bounds.height),
-      isFrame: isFrame
-    }));
+    element = this._elementFactory.createShape(
+      elementData(semantic, {
+        hidden: hidden,
+        x: Math.round(bounds.x),
+        y: Math.round(bounds.y),
+        width: Math.round(bounds.width),
+        height: Math.round(bounds.height),
+        isFrame: isFrame,
+      }),
+    );
 
     this._canvas.addShape(element, parentElement, parentIndex);
   }
 
   // CONNECTION
-  else if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.is)(di, 'odDi:Link')) {
-
+  else if ((0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.is)(di, "odDi:Link")) {
     var source = this._getSource(semantic),
-        target = this._getTarget(semantic);
+      target = this._getTarget(semantic);
 
     hidden = parentElement && (parentElement.hidden || parentElement.collapsed);
 
-    element = this._elementFactory.createConnection(elementData(semantic, {
-      hidden: hidden,
-      source: source,
-      target: target,
-      waypoints: getWaypoints(semantic, source, target)
-    }));
+    element = this._elementFactory.createConnection(
+      elementData(semantic, {
+        hidden: hidden,
+        source: source,
+        target: target,
+        waypoints: getWaypoints(semantic, source, target),
+      }),
+    );
 
     this._canvas.addConnection(element, parentElement, 0);
-  }
-
-  else {
-    throw new Error(translate('unknown di {di} for element {semantic}', {
-      di: (0,_Util__WEBPACK_IMPORTED_MODULE_1__.elementToString)(di),
-      semantic: (0,_Util__WEBPACK_IMPORTED_MODULE_1__.elementToString)(semantic)
-    }));
+  } else {
+    throw new Error(
+      translate("unknown di {di} for element {semantic}", {
+        di: (0,_Util__WEBPACK_IMPORTED_MODULE_1__.elementToString)(di),
+        semantic: (0,_Util__WEBPACK_IMPORTED_MODULE_1__.elementToString)(semantic),
+      }),
+    );
   }
 
   // (optional) LABEL
@@ -8313,25 +8243,22 @@ OdImporter.prototype.add = function(semantic, parentElement) {
     this.addLabel(semantic, element);
   }
 
-
-  this._eventBus.fire('boardElement.added', { element: element });
+  this._eventBus.fire("boardElement.added", { element: element });
 
   return element;
 };
 
 function getWaypoints(bo, source, target) {
-
   var waypoints = bo.di.waypoint;
 
   if (!waypoints || waypoints.length < 2) {
-    return [ (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_5__.getMid)(source), (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_5__.getMid)(target) ];
+    return [(0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_5__.getMid)(source), (0,diagram_js_lib_layout_LayoutUtil__WEBPACK_IMPORTED_MODULE_5__.getMid)(target)];
   }
 
-  return waypoints.map(function(p) {
+  return waypoints.map(function (p) {
     return { x: p.x, y: p.y };
   });
 }
-
 
 /**
  * Attach the boundary element to the given host
@@ -8339,21 +8266,31 @@ function getWaypoints(bo, source, target) {
  * @param {ModdleElement} boundarySemantic
  * @param {djs.model.Base} boundaryElement
  */
-OdImporter.prototype._attachBoundary = function(boundarySemantic, boundaryElement) {
+OdImporter.prototype._attachBoundary = function (
+  boundarySemantic,
+  boundaryElement,
+) {
   var translate = this._translate;
   var hostSemantic = boundarySemantic.attachedToRef;
 
   if (!hostSemantic) {
-    throw new Error(translate('missing {semantic}#attachedToRef', {
-      semantic: (0,_Util__WEBPACK_IMPORTED_MODULE_1__.elementToString)(boundarySemantic)
-    }));
+    throw new Error(
+      translate("missing {semantic}#attachedToRef", {
+        semantic: (0,_Util__WEBPACK_IMPORTED_MODULE_1__.elementToString)(boundarySemantic),
+      }),
+    );
   }
 
   var host = this._elementRegistry.get(hostSemantic.id),
-      attachers = host && host.attachers;
+    attachers = host && host.attachers;
 
   if (!host) {
-    throw notYetDrawn(translate, boundarySemantic, hostSemantic, 'attachedToRef');
+    throw notYetDrawn(
+      translate,
+      boundarySemantic,
+      hostSemantic,
+      "attachedToRef",
+    );
   }
 
   // wire element.host <> host.attachers
@@ -8368,35 +8305,33 @@ OdImporter.prototype._attachBoundary = function(boundarySemantic, boundaryElemen
   }
 };
 
-
 /**
  * add label for an element
  */
-OdImporter.prototype.addLabel = function(semantic, element) {
-  var bounds,
-      text,
-      label;
+OdImporter.prototype.addLabel = function (semantic, element) {
+  var bounds, text, label;
 
   bounds = (0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_3__.getExternalLabelBounds)(semantic, element);
 
   text = (0,_features_label_editing_LabelUtil__WEBPACK_IMPORTED_MODULE_4__.getLabel)(element);
 
   if (text) {
-
     // get corrected bounds from actual layouted text
     bounds = this._textRenderer.getExternalLabelBounds(bounds, text);
   }
 
-  label = this._elementFactory.createLabel(elementData(semantic, {
-    id: semantic.id + '_label',
-    labelTarget: element,
-    type: 'label',
-    hidden: element.hidden || !(0,_features_label_editing_LabelUtil__WEBPACK_IMPORTED_MODULE_4__.getLabel)(element),
-    x: Math.round(bounds.x),
-    y: Math.round(bounds.y),
-    width: Math.round(bounds.width),
-    height: Math.round(bounds.height)
-  }));
+  label = this._elementFactory.createLabel(
+    elementData(semantic, {
+      id: semantic.id + "_label",
+      labelTarget: element,
+      type: "label",
+      hidden: element.hidden || !(0,_features_label_editing_LabelUtil__WEBPACK_IMPORTED_MODULE_4__.getLabel)(element),
+      x: Math.round(bounds.x),
+      y: Math.round(bounds.y),
+      width: Math.round(bounds.width),
+      height: Math.round(bounds.height),
+    }),
+  );
 
   return this._canvas.addShape(label, element.parent);
 };
@@ -8406,14 +8341,12 @@ OdImporter.prototype.addLabel = function(semantic, element) {
  *
  * @throws {Error} if the end is not yet drawn
  */
-OdImporter.prototype._getEnd = function(semantic, side) {
-
+OdImporter.prototype._getEnd = function (semantic, side) {
   var element,
-      refSemantic,
-      translate = this._translate;
+    refSemantic,
+    translate = this._translate;
 
-  refSemantic = semantic[side + 'Ref'];
-
+  refSemantic = semantic[side + "Ref"];
 
   element = refSemantic && this._getElement(refSemantic);
 
@@ -8422,34 +8355,35 @@ OdImporter.prototype._getEnd = function(semantic, side) {
   }
 
   if (refSemantic) {
-    throw notYetDrawn(translate, semantic, refSemantic, side + 'Ref');
+    throw notYetDrawn(translate, semantic, refSemantic, side + "Ref");
   } else {
-    throw new Error(translate('{semantic}#{side} Ref not specified', {
-      semantic: (0,_Util__WEBPACK_IMPORTED_MODULE_1__.elementToString)(semantic),
-      side: side
-    }));
+    throw new Error(
+      translate("{semantic}#{side} Ref not specified", {
+        semantic: (0,_Util__WEBPACK_IMPORTED_MODULE_1__.elementToString)(semantic),
+        side: side,
+      }),
+    );
   }
 };
 
-OdImporter.prototype._getSource = function(semantic) {
-  return this._getEnd(semantic, 'source');
+OdImporter.prototype._getSource = function (semantic) {
+  return this._getEnd(semantic, "source");
 };
 
-OdImporter.prototype._getTarget = function(semantic) {
-  return this._getEnd(semantic, 'target');
+OdImporter.prototype._getTarget = function (semantic) {
+  return this._getEnd(semantic, "target");
 };
 
-
-OdImporter.prototype._getElement = function(semantic) {
+OdImporter.prototype._getElement = function (semantic) {
   return this._elementRegistry.get(semantic.id);
 };
-
 
 // helpers //////////
 
 function isFrameElement(semantic) {
-  return (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.is)(semantic, 'od:Group');
+  return (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_2__.is)(semantic, "od:Group");
 }
+
 
 /***/ }),
 
@@ -8475,8 +8409,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var diRefs = new (object_refs__WEBPACK_IMPORTED_MODULE_0___default())(
-  { name: 'boardElement', enumerable: true },
-  { name: 'di', configurable: true }
+  { name: "boardElement", enumerable: true },
+  { name: "di", configurable: true },
 );
 
 /**
@@ -8491,20 +8425,17 @@ function is(element, type) {
   return element.$instanceOf(type);
 }
 
-
 /**
  * Find a suitable display candidate for definitions where the DI does not
  * correctly specify one.
  */
 function findDisplayCandidate(definitions) {
-  return (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.find)(definitions.rootElements, function(e) {
-    return is(e, 'od:OdBoard');
+  return (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.find)(definitions.rootElements, function (e) {
+    return is(e, "od:OdBoard");
   });
 }
 
-
 function OdTreeWalker(handler, translate) {
-
   // list of containers already walked
   var handledElements = {};
 
@@ -8519,13 +8450,14 @@ function OdTreeWalker(handler, translate) {
   }
 
   function visit(element, ctx) {
-
     var gfx = element.gfx;
 
     // avoid multiple rendering of elements
     if (gfx) {
       throw new Error(
-        translate('already rendered {element}', { element: (0,_Util__WEBPACK_IMPORTED_MODULE_2__.elementToString)(element) })
+        translate("already rendered {element}", {
+          element: (0,_Util__WEBPACK_IMPORTED_MODULE_2__.elementToString)(element),
+        }),
       );
     }
 
@@ -8534,7 +8466,6 @@ function OdTreeWalker(handler, translate) {
   }
 
   function visitIfDi(element, ctx) {
-
     try {
       var gfx = element.di && visit(element, ctx);
 
@@ -8544,7 +8475,11 @@ function OdTreeWalker(handler, translate) {
     } catch (e) {
       logError(e.message, { element: element, error: e });
 
-      console.error(translate('failed to import {element}', { element: (0,_Util__WEBPACK_IMPORTED_MODULE_2__.elementToString)(element) }));
+      console.error(
+        translate("failed to import {element}", {
+          element: (0,_Util__WEBPACK_IMPORTED_MODULE_2__.elementToString)(element),
+        }),
+      );
       console.error(e);
     }
   }
@@ -8565,21 +8500,21 @@ function OdTreeWalker(handler, translate) {
     if (boardElement) {
       if (boardElement.di) {
         logError(
-          translate('multiple DI elements defined for {element}', {
-            element: (0,_Util__WEBPACK_IMPORTED_MODULE_2__.elementToString)(boardElement)
+          translate("multiple DI elements defined for {element}", {
+            element: (0,_Util__WEBPACK_IMPORTED_MODULE_2__.elementToString)(boardElement),
           }),
-          { element: boardElement }
+          { element: boardElement },
         );
       } else {
-        diRefs.bind(boardElement, 'di');
+        diRefs.bind(boardElement, "di");
         boardElement.di = di;
       }
     } else {
       logError(
-        translate('no boardElement referenced in {element}', {
-          element: (0,_Util__WEBPACK_IMPORTED_MODULE_2__.elementToString)(di)
+        translate("no boardElement referenced in {element}", {
+          element: (0,_Util__WEBPACK_IMPORTED_MODULE_2__.elementToString)(di),
         }),
-        { element: di }
+        { element: di },
       );
     }
   }
@@ -8602,25 +8537,23 @@ function OdTreeWalker(handler, translate) {
     visitIfDi(sequenceFlow, context);
   }
 
-
   // Semantic handling //////////////////////
 
   /**
-     * Handle definitions and return the rendered board (if any)
-     *
-     * @param {ModdleElement} definitions to walk and import
-     * @param {ModdleElement} [rootBoard] specific board to import and display
-     *
-     * @throws {Error} if no diagram to display could be found
-     */
+   * Handle definitions and return the rendered board (if any)
+   *
+   * @param {ModdleElement} definitions to walk and import
+   * @param {ModdleElement} [rootBoard] specific board to import and display
+   *
+   * @throws {Error} if no diagram to display could be found
+   */
   function handleDefinitions(definitions, rootBoard) {
-
     // make sure we walk the correct boardElement
 
     var rootBoards = definitions.rootBoards;
 
     if (rootBoard && rootBoards.indexOf(rootBoard) === -1) {
-      throw new Error(translate('rootBoard not part of od:Definitions'));
+      throw new Error(translate("rootBoard not part of od:Definitions"));
     }
 
     if (!rootBoard && rootBoards && rootBoards.length) {
@@ -8629,7 +8562,7 @@ function OdTreeWalker(handler, translate) {
 
     // no root board -> nothing to import
     if (!rootBoard) {
-      throw new Error(translate('no rootBoard to display'));
+      throw new Error(translate("no rootBoard to display"));
     }
 
     // load DI from selected root board only
@@ -8638,10 +8571,11 @@ function OdTreeWalker(handler, translate) {
     var plane = rootBoard.plane;
 
     if (!plane) {
-      throw new Error(translate(
-        'no plane for {element}',
-        { element: (0,_Util__WEBPACK_IMPORTED_MODULE_2__.elementToString)(rootBoard) }
-      ));
+      throw new Error(
+        translate("no plane for {element}", {
+          element: (0,_Util__WEBPACK_IMPORTED_MODULE_2__.elementToString)(rootBoard),
+        }),
+      );
     }
 
     var rootElement = plane.boardElement;
@@ -8652,14 +8586,16 @@ function OdTreeWalker(handler, translate) {
       rootElement = findDisplayCandidate(definitions);
 
       if (!rootElement) {
-        throw new Error(translate('no board to display'));
+        throw new Error(translate("no board to display"));
       } else {
-
         logError(
-          translate('correcting missing boardElement on {plane} to {rootElement}', {
-            plane: (0,_Util__WEBPACK_IMPORTED_MODULE_2__.elementToString)(plane),
-            rootElement: (0,_Util__WEBPACK_IMPORTED_MODULE_2__.elementToString)(rootElement)
-          })
+          translate(
+            "correcting missing boardElement on {plane} to {rootElement}",
+            {
+              plane: (0,_Util__WEBPACK_IMPORTED_MODULE_2__.elementToString)(plane),
+              rootElement: (0,_Util__WEBPACK_IMPORTED_MODULE_2__.elementToString)(rootElement),
+            },
+          ),
         );
 
         // correct DI on the fly
@@ -8670,7 +8606,7 @@ function OdTreeWalker(handler, translate) {
 
     var ctx = visitRoot(rootElement, plane);
 
-    if (is(rootElement, 'od:OdBoard')) {
+    if (is(rootElement, "od:OdBoard")) {
       handleOdBoard(rootElement, ctx);
     }
 
@@ -8679,9 +8615,9 @@ function OdTreeWalker(handler, translate) {
   }
 
   function handleBoardElements(boardElements, context) {
-    (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.forEach)(boardElements, function(element) {
-      if (is(element, 'od:Link')) {
-        deferred.push(function() {
+    (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.forEach)(boardElements, function (element) {
+      if (is(element, "od:Link")) {
+        deferred.push(function () {
           handleSequenceFlow(element, context);
         });
       } else {
@@ -8698,7 +8634,6 @@ function OdTreeWalker(handler, translate) {
   }
 
   function handleDeferred() {
-
     var fn;
 
     // drain deferred until empty
@@ -8709,15 +8644,15 @@ function OdTreeWalker(handler, translate) {
     }
   }
 
-
   // API //////////////////////
 
   return {
     handleDeferred: handleDeferred,
     handleDefinitions: handleDefinitions,
-    registerDi: registerDi
+    registerDi: registerDi,
   };
 }
+
 
 /***/ }),
 
@@ -8734,11 +8669,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 function elementToString(e) {
   if (!e) {
-    return '<null>';
+    return "<null>";
   }
 
-  return '<' + e.$type + (e.id ? ' id="' + e.id : '') + '" />';
+  return "<" + e.$type + (e.id ? ' id="' + e.id : "") + '" />';
 }
+
 
 /***/ }),
 
@@ -8760,11 +8696,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  __depends__: [
-    diagram_js_lib_i18n_translate__WEBPACK_IMPORTED_MODULE_0__["default"]
-  ],
-  odImporter: [ 'type', _OdImporter__WEBPACK_IMPORTED_MODULE_1__["default"] ]
+  __depends__: [diagram_js_lib_i18n_translate__WEBPACK_IMPORTED_MODULE_0__["default"]],
+  odImporter: ["type", _OdImporter__WEBPACK_IMPORTED_MODULE_1__["default"]],
 });
+
 
 /***/ }),
 
@@ -8832,10 +8767,10 @@ ODModdle.prototype = Object.create(moddle__WEBPACK_IMPORTED_MODULE_0__.Moddle.pr
  *
  * @returns {Promise<ParseResult, ParseError>}
  */
-ODModdle.prototype.fromXML = function(xmlStr, typeName, options) {
+ODModdle.prototype.fromXML = function (xmlStr, typeName, options) {
   if (!(0,min_dash__WEBPACK_IMPORTED_MODULE_1__.isString)(typeName)) {
     options = typeName;
-    typeName = 'od:Definitions';
+    typeName = "od:Definitions";
   }
 
   var reader = new moddle_xml__WEBPACK_IMPORTED_MODULE_2__.Reader((0,min_dash__WEBPACK_IMPORTED_MODULE_1__.assign)({ model: this, lax: false }, options));
@@ -8860,15 +8795,15 @@ ODModdle.prototype.fromXML = function(xmlStr, typeName, options) {
  *
  * @returns {Promise<SerializationResult, Error>}
  */
-ODModdle.prototype.toXML = function(element, options) {
+ODModdle.prototype.toXML = function (element, options) {
   var writer = new moddle_xml__WEBPACK_IMPORTED_MODULE_2__.Writer(options);
 
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     try {
       var result = writer.toXML(element);
 
       return resolve({
-        xml: result
+        xml: result,
       });
     } catch (err) {
       return reject(err);
@@ -8896,7 +8831,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _resources_od_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./resources/od.json */ "../lib/moddle/resources/od.json");
 /* harmony import */ var _resources_odDi_json__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./resources/odDi.json */ "../lib/moddle/resources/odDi.json");
 /* harmony import */ var _resources_dc_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./resources/dc.json */ "../lib/moddle/resources/dc.json");
-
 
 
 
@@ -8949,14 +8883,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 var DEFAULT_LABEL_SIZE = {
   width: 90,
-  height: 20
+  height: 20,
 };
 
 var FLOW_LABEL_INDENT = 15;
-
 
 /**
  * Returns true if the given semantic has an external label
@@ -8965,7 +8897,7 @@ var FLOW_LABEL_INDENT = 15;
  * @return {Boolean} true if has label
  */
 function isLabelExternal(semantic) {
-  return (0,_ModelUtil__WEBPACK_IMPORTED_MODULE_0__.is)(semantic, 'od:Link');
+  return (0,_ModelUtil__WEBPACK_IMPORTED_MODULE_0__.is)(semantic, "od:Link");
 }
 
 /**
@@ -8985,7 +8917,6 @@ function hasExternalLabel(element) {
  * @return {Point} the label position
  */
 function getFlowLabelPosition(waypoints) {
-
   // get the waypoints mid
   var mid = waypoints.length / 2 - 1;
 
@@ -8999,7 +8930,7 @@ function getFlowLabelPosition(waypoints) {
   var angle = Math.atan((second.y - first.y) / (second.x - first.x));
 
   var x = position.x,
-      y = position.y;
+    y = position.y;
 
   if (Math.abs(angle) < Math.PI / 2) {
     y -= FLOW_LABEL_INDENT;
@@ -9017,7 +8948,6 @@ function getFlowLabelPosition(waypoints) {
  * @return {Point} the mid point
  */
 function getWaypointsMid(waypoints) {
-
   var mid = waypoints.length / 2 - 1;
 
   var first = waypoints[Math.floor(mid)];
@@ -9025,10 +8955,9 @@ function getWaypointsMid(waypoints) {
 
   return {
     x: first.x + (second.x - first.x) / 2,
-    y: first.y + (second.y - first.y) / 2
+    y: first.y + (second.y - first.y) / 2,
   };
 }
-
 
 function getExternalLabelMid(element) {
   if (element.waypoints) {
@@ -9036,11 +8965,10 @@ function getExternalLabelMid(element) {
   } else {
     return {
       x: element.x + element.width / 2,
-      y: element.y + element.height + DEFAULT_LABEL_SIZE.height / 2
+      y: element.y + element.height + DEFAULT_LABEL_SIZE.height / 2,
     };
   }
 }
-
 
 /**
  * Returns the bounds of an elements label, parsed from the elements DI or
@@ -9050,36 +8978,37 @@ function getExternalLabelMid(element) {
  * @param {djs.model.Base} element
  */
 function getExternalLabelBounds(semantic, element) {
-
   var mid,
-      size,
-      bounds,
-      di = semantic.di,
-      label = di.label;
+    size,
+    bounds,
+    di = semantic.di,
+    label = di.label;
 
   if (label && label.bounds) {
     bounds = label.bounds;
 
     size = {
       width: Math.max(DEFAULT_LABEL_SIZE.width, bounds.width),
-      height: bounds.height
+      height: bounds.height,
     };
 
     mid = {
       x: bounds.x + bounds.width / 2,
-      y: bounds.y + bounds.height / 2
+      y: bounds.y + bounds.height / 2,
     };
   } else {
-
     mid = getExternalLabelMid(element);
 
     size = DEFAULT_LABEL_SIZE;
   }
 
-  return (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.assign)({
-    x: mid.x - size.width / 2,
-    y: mid.y - size.height / 2
-  }, size);
+  return (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.assign)(
+    {
+      x: mid.x - size.width / 2,
+      y: mid.y - size.height / 2,
+    },
+    size,
+  );
 }
 
 function isLabel(element) {
@@ -9112,9 +9041,8 @@ __webpack_require__.r(__webpack_exports__);
 function is(element, type) {
   var bo = getBusinessObject(element);
 
-  return bo && (typeof bo.$instanceOf === 'function') && bo.$instanceOf(type);
+  return bo && typeof bo.$instanceOf === "function" && bo.$instanceOf(type);
 }
-
 
 /**
  * Return the business object for a given element.
@@ -9126,6 +9054,7 @@ function is(element, type) {
 function getBusinessObject(element) {
   return (element && element.businessObject) || element;
 }
+
 
 /***/ }),
 
@@ -9150,74 +9079,81 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+var BPMNIO_LOGO_SVG =
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 58 23"><path fill="currentColor" d="M7.75 3.8v.58c0 1.7-.52 2.78-1.67 3.32C7.46 8.24 8 9.5 8 11.24v1.34c0 2.54-1.35 3.9-3.93 3.9H0V0h3.91c2.68 0 3.84 1.25 3.84 3.8zM2.59 2.35V6.7H3.6c.97 0 1.56-.42 1.56-1.74v-.92c0-1.18-.4-1.7-1.32-1.7zm0 6.7v5.07h1.48c.87 0 1.34-.4 1.34-1.63v-1.43c0-1.53-.5-2-1.67-2H2.6zm14.65-4.98v2.14c0 2.64-1.27 4.08-3.87 4.08h-1.22v6.2H9.56V0h3.82c2.59 0 3.86 1.44 3.86 4.07zm-5.09-1.71v5.57h1.22c.83 0 1.28-.37 1.28-1.55V3.91c0-1.18-.45-1.56-1.28-1.56h-1.22zm11.89 9.34L25.81 0h3.6v16.48h-2.44V4.66l-1.8 11.82h-2.45L20.8 4.83v11.65h-2.26V0h3.6zm9.56-7.15v11.93h-2.33V0h3.25l2.66 9.87V0h2.31v16.48h-2.66zm10.25 9.44v2.5h-2.5v-2.5zM50 4.16C50 1.52 51.38.02 53.93.02c2.54 0 3.93 1.5 3.93 4.14v8.37c0 2.64-1.4 4.14-3.93 4.14-2.55 0-3.93-1.5-3.93-4.14zm2.58 8.53c0 1.18.52 1.63 1.35 1.63.82 0 1.34-.45 1.34-1.63V4c0-1.17-.52-1.62-1.34-1.62-.83 0-1.35.45-1.35 1.62zM0 18.7h57.86V23H0zM45.73 0h2.6v2.58h-2.6zm2.59 16.48V4.16h-2.59v12.32z"></path></svg>';
 
-var BPMNIO_LOGO_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 58 23"><path fill="currentColor" d="M7.75 3.8v.58c0 1.7-.52 2.78-1.67 3.32C7.46 8.24 8 9.5 8 11.24v1.34c0 2.54-1.35 3.9-3.93 3.9H0V0h3.91c2.68 0 3.84 1.25 3.84 3.8zM2.59 2.35V6.7H3.6c.97 0 1.56-.42 1.56-1.74v-.92c0-1.18-.4-1.7-1.32-1.7zm0 6.7v5.07h1.48c.87 0 1.34-.4 1.34-1.63v-1.43c0-1.53-.5-2-1.67-2H2.6zm14.65-4.98v2.14c0 2.64-1.27 4.08-3.87 4.08h-1.22v6.2H9.56V0h3.82c2.59 0 3.86 1.44 3.86 4.07zm-5.09-1.71v5.57h1.22c.83 0 1.28-.37 1.28-1.55V3.91c0-1.18-.45-1.56-1.28-1.56h-1.22zm11.89 9.34L25.81 0h3.6v16.48h-2.44V4.66l-1.8 11.82h-2.45L20.8 4.83v11.65h-2.26V0h3.6zm9.56-7.15v11.93h-2.33V0h3.25l2.66 9.87V0h2.31v16.48h-2.66zm10.25 9.44v2.5h-2.5v-2.5zM50 4.16C50 1.52 51.38.02 53.93.02c2.54 0 3.93 1.5 3.93 4.14v8.37c0 2.64-1.4 4.14-3.93 4.14-2.55 0-3.93-1.5-3.93-4.14zm2.58 8.53c0 1.18.52 1.63 1.35 1.63.82 0 1.34-.45 1.34-1.63V4c0-1.17-.52-1.62-1.34-1.62-.83 0-1.35.45-1.35 1.62zM0 18.7h57.86V23H0zM45.73 0h2.6v2.58h-2.6zm2.59 16.48V4.16h-2.59v12.32z"></path></svg>';
+var BPMNIO_LOGO_URL =
+  "data:image/svg+xml," + encodeURIComponent(BPMNIO_LOGO_SVG);
 
-var BPMNIO_LOGO_URL = 'data:image/svg+xml,' + encodeURIComponent(BPMNIO_LOGO_SVG);
-
-var BPMNIO_IMG = '<img width="52" height="52" src="' + BPMNIO_LOGO_URL + '" />';
+var BPMNIO_IMG =
+  '<img width="52" height="52" src="' + BPMNIO_LOGO_URL + '" />';
 
 function css(attrs) {
-  return attrs.join(';');
+  return attrs.join(";");
 }
 
 var LIGHTBOX_STYLES = css([
-  'z-index: 1001',
-  'position: fixed',
-  'top: 0',
-  'left: 0',
-  'right: 0',
-  'bottom: 0'
+  "z-index: 1001",
+  "position: fixed",
+  "top: 0",
+  "left: 0",
+  "right: 0",
+  "bottom: 0",
 ]);
 
 var BACKDROP_STYLES = css([
-  'width: 100%',
-  'height: 100%',
-  'background: rgba(0,0,0,0.2)'
+  "width: 100%",
+  "height: 100%",
+  "background: rgba(0,0,0,0.2)",
 ]);
 
 var NOTICE_STYLES = css([
-  'position: absolute',
-  'left: 50%',
-  'top: 40%',
-  'margin: 0 -130px',
-  'width: 260px',
-  'padding: 10px',
-  'background: white',
-  'border: solid 1px #AAA',
-  'border-radius: 3px',
-  'font-family: Helvetica, Arial, sans-serif',
-  'font-size: 14px',
-  'line-height: 1.2em'
+  "position: absolute",
+  "left: 50%",
+  "top: 40%",
+  "margin: 0 -130px",
+  "width: 260px",
+  "padding: 10px",
+  "background: white",
+  "border: solid 1px #AAA",
+  "border-radius: 3px",
+  "font-family: Helvetica, Arial, sans-serif",
+  "font-size: 14px",
+  "line-height: 1.2em",
 ]);
 
 var LIGHTBOX_MARKUP =
-  '<div class="bjs-powered-by-lightbox" style="' + LIGHTBOX_STYLES + '">' +
-  '<div class="backdrop" style="' + BACKDROP_STYLES + '"></div>' +
-  '<div class="notice" style="' + NOTICE_STYLES + '">' +
+  '<div class="bjs-powered-by-lightbox" style="' +
+  LIGHTBOX_STYLES +
+  '">' +
+  '<div class="backdrop" style="' +
+  BACKDROP_STYLES +
+  '"></div>' +
+  '<div class="notice" style="' +
+  NOTICE_STYLES +
+  '">' +
   '<a href="http://bpmn.io" target="_blank" style="float: left; margin-right: 10px">' +
   BPMNIO_IMG +
-  '</a>' +
-  'Web-based tooling for BPMN, DMN and CMMN diagrams ' +
+  "</a>" +
+  "Web-based tooling for BPMN, DMN and CMMN diagrams " +
   'powered by <a href="http://bpmn.io" target="_blank">bpmn.io</a>.' +
-  '</div>' +
-  '</div>';
-
+  "</div>" +
+  "</div>";
 
 var lightbox;
 
 function open() {
-
   if (!lightbox) {
     lightbox = (0,min_dom__WEBPACK_IMPORTED_MODULE_0__.domify)(LIGHTBOX_MARKUP);
 
-    min_dom__WEBPACK_IMPORTED_MODULE_0__.delegate.bind(lightbox, '.backdrop', 'click', function(event) {
+    min_dom__WEBPACK_IMPORTED_MODULE_0__.delegate.bind(lightbox, ".backdrop", "click", function (event) {
       document.body.removeChild(lightbox);
     });
   }
 
   document.body.appendChild(lightbox);
 }
+
 
 /***/ }),
 
@@ -46983,13 +46919,14 @@ var ___CSS_LOADER_URL_REPLACEMENT_4___ = _starter_node_modules_css_loader_dist_r
 var ___CSS_LOADER_URL_REPLACEMENT_5___ = _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_4___, { hash: "#od" });
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, `@font-face {
-  font-family: 'od';
+  font-family: "od";
   src: url(${___CSS_LOADER_URL_REPLACEMENT_0___});
-  src: url(${___CSS_LOADER_URL_REPLACEMENT_1___}) format('embedded-opentype'),
-       url(${___CSS_LOADER_URL_REPLACEMENT_2___}) format('woff2'),
-       url(${___CSS_LOADER_URL_REPLACEMENT_3___}) format('woff'),
-       url(${___CSS_LOADER_URL_REPLACEMENT_4___}) format('truetype'),
-       url(${___CSS_LOADER_URL_REPLACEMENT_5___}) format('svg');
+  src:
+    url(${___CSS_LOADER_URL_REPLACEMENT_1___}) format("embedded-opentype"),
+    url(${___CSS_LOADER_URL_REPLACEMENT_2___}) format("woff2"),
+    url(${___CSS_LOADER_URL_REPLACEMENT_3___}) format("woff"),
+    url(${___CSS_LOADER_URL_REPLACEMENT_4___}) format("truetype"),
+    url(${___CSS_LOADER_URL_REPLACEMENT_5___}) format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -47003,7 +46940,8 @@ ___CSS_LOADER_EXPORT___.push([module.id, `@font-face {
   }
 }
 */
-[class^="od-icon-"]:before, [class*=" od-icon-"]:before {
+[class^="od-icon-"]:before,
+[class*=" od-icon-"]:before {
   font-family: "od";
   font-style: normal;
   font-weight: normal;
@@ -47012,7 +46950,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `@font-face {
   display: inline-block;
   text-decoration: inherit;
   width: 1em;
-  margin-right: .2em;
+  margin-right: 0.2em;
   text-align: center;
   /* opacity: .8; */
 
@@ -47025,7 +46963,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `@font-face {
 
   /* Animation center compensation - margins should be symmetric */
   /* remove if not needed */
-  margin-left: .2em;
+  margin-left: 0.2em;
 
   /* you can be more comfortable with increased icons size */
   /* font-size: 120%; */
@@ -47038,8 +46976,10 @@ ___CSS_LOADER_EXPORT___.push([module.id, `@font-face {
   /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
 
-.od-icon-object:before { content: '\\e800'; } /* '' */
-`, "",{"version":3,"sources":["webpack://./../assets/css/od.css"],"names":[],"mappings":"AAAA;EACE,iBAAiB;EACjB,4CAAmC;EACnC;;;;4DAIoD;EACpD,mBAAmB;EACnB,kBAAkB;AACpB;AACA,gGAAgG;AAChG,2FAA2F;AAC3F;;;;;;;CAOC;AACD;EACE,iBAAiB;EACjB,kBAAkB;EAClB,mBAAmB;EACnB,YAAY;;EAEZ,qBAAqB;EACrB,wBAAwB;EACxB,UAAU;EACV,kBAAkB;EAClB,kBAAkB;EAClB,iBAAiB;;EAEjB,gEAAgE;EAChE,oBAAoB;EACpB,oBAAoB;;EAEpB,8CAA8C;EAC9C,gBAAgB;;EAEhB,gEAAgE;EAChE,yBAAyB;EACzB,iBAAiB;;EAEjB,0DAA0D;EAC1D,qBAAqB;;EAErB,6CAA6C;EAC7C,mCAAmC;EACnC,kCAAkC;;EAElC,4BAA4B;EAC5B,uDAAuD;AACzD;;AAEA,yBAAyB,gBAAgB,EAAE,EAAE,QAAQ","sourcesContent":["@font-face {\r\n  font-family: 'od';\r\n  src: url('../font/od.eot?89616440');\r\n  src: url('../font/od.eot?89616440#iefix') format('embedded-opentype'),\r\n       url('../font/od.woff2?89616440') format('woff2'),\r\n       url('../font/od.woff?89616440') format('woff'),\r\n       url('../font/od.ttf?89616440') format('truetype'),\r\n       url('../font/od.svg?89616440#od') format('svg');\r\n  font-weight: normal;\r\n  font-style: normal;\r\n}\r\n/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */\r\n/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */\r\n/*\r\n@media screen and (-webkit-min-device-pixel-ratio:0) {\r\n  @font-face {\r\n    font-family: 'od';\r\n    src: url('../font/od.svg?89616440#od') format('svg');\r\n  }\r\n}\r\n*/\r\n[class^=\"od-icon-\"]:before, [class*=\" od-icon-\"]:before {\r\n  font-family: \"od\";\r\n  font-style: normal;\r\n  font-weight: normal;\r\n  speak: never;\r\n\r\n  display: inline-block;\r\n  text-decoration: inherit;\r\n  width: 1em;\r\n  margin-right: .2em;\r\n  text-align: center;\r\n  /* opacity: .8; */\r\n\r\n  /* For safety - reset parent styles, that can break glyph codes*/\r\n  font-variant: normal;\r\n  text-transform: none;\r\n\r\n  /* fix buttons height, for twitter bootstrap */\r\n  line-height: 1em;\r\n\r\n  /* Animation center compensation - margins should be symmetric */\r\n  /* remove if not needed */\r\n  margin-left: .2em;\r\n\r\n  /* you can be more comfortable with increased icons size */\r\n  /* font-size: 120%; */\r\n\r\n  /* Font smoothing. That was taken from TWBS */\r\n  -webkit-font-smoothing: antialiased;\r\n  -moz-osx-font-smoothing: grayscale;\r\n\r\n  /* Uncomment for 3D effect */\r\n  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */\r\n}\r\n\r\n.od-icon-object:before { content: '\\e800'; } /* '' */\r\n"],"sourceRoot":""}]);
+.od-icon-object:before {
+  content: "\\e800";
+} /* '' */
+`, "",{"version":3,"sources":["webpack://./../assets/css/od.css"],"names":[],"mappings":"AAAA;EACE,iBAAiB;EACjB,4CAAmC;EACnC;;;;;yDAKiD;EACjD,mBAAmB;EACnB,kBAAkB;AACpB;AACA,gGAAgG;AAChG,2FAA2F;AAC3F;;;;;;;CAOC;AACD;;EAEE,iBAAiB;EACjB,kBAAkB;EAClB,mBAAmB;EACnB,YAAY;;EAEZ,qBAAqB;EACrB,wBAAwB;EACxB,UAAU;EACV,mBAAmB;EACnB,kBAAkB;EAClB,iBAAiB;;EAEjB,gEAAgE;EAChE,oBAAoB;EACpB,oBAAoB;;EAEpB,8CAA8C;EAC9C,gBAAgB;;EAEhB,gEAAgE;EAChE,yBAAyB;EACzB,kBAAkB;;EAElB,0DAA0D;EAC1D,qBAAqB;;EAErB,6CAA6C;EAC7C,mCAAmC;EACnC,kCAAkC;;EAElC,4BAA4B;EAC5B,uDAAuD;AACzD;;AAEA;EACE,gBAAgB;AAClB,EAAE,QAAQ","sourcesContent":["@font-face {\n  font-family: \"od\";\n  src: url(\"../font/od.eot?89616440\");\n  src:\n    url(\"../font/od.eot?89616440#iefix\") format(\"embedded-opentype\"),\n    url(\"../font/od.woff2?89616440\") format(\"woff2\"),\n    url(\"../font/od.woff?89616440\") format(\"woff\"),\n    url(\"../font/od.ttf?89616440\") format(\"truetype\"),\n    url(\"../font/od.svg?89616440#od\") format(\"svg\");\n  font-weight: normal;\n  font-style: normal;\n}\n/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */\n/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */\n/*\n@media screen and (-webkit-min-device-pixel-ratio:0) {\n  @font-face {\n    font-family: 'od';\n    src: url('../font/od.svg?89616440#od') format('svg');\n  }\n}\n*/\n[class^=\"od-icon-\"]:before,\n[class*=\" od-icon-\"]:before {\n  font-family: \"od\";\n  font-style: normal;\n  font-weight: normal;\n  speak: never;\n\n  display: inline-block;\n  text-decoration: inherit;\n  width: 1em;\n  margin-right: 0.2em;\n  text-align: center;\n  /* opacity: .8; */\n\n  /* For safety - reset parent styles, that can break glyph codes*/\n  font-variant: normal;\n  text-transform: none;\n\n  /* fix buttons height, for twitter bootstrap */\n  line-height: 1em;\n\n  /* Animation center compensation - margins should be symmetric */\n  /* remove if not needed */\n  margin-left: 0.2em;\n\n  /* you can be more comfortable with increased icons size */\n  /* font-size: 120%; */\n\n  /* Font smoothing. That was taken from TWBS */\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n\n  /* Uncomment for 3D effect */\n  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */\n}\n\n.od-icon-object:before {\n  content: \"\\e800\";\n} /* '' */\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -47099,15 +47039,24 @@ ___CSS_LOADER_EXPORT___.push([module.id, `@font-face {
   font-display: swap;
 }
 
-@font-face {font-family: "Font Awesome 5 Free Solid";
+@font-face {
+  font-family: "Font Awesome 5 Free Solid";
   src: url(${___CSS_LOADER_URL_REPLACEMENT_1___}); /* IE9*/
-  src: url(${___CSS_LOADER_URL_REPLACEMENT_2___}) format("embedded-opentype"), /* IE6-IE8 */
-  url(${___CSS_LOADER_URL_REPLACEMENT_3___}) format("woff2"), /* chrome、firefox */
-  url(${___CSS_LOADER_URL_REPLACEMENT_4___}) format("woff"), /* chrome、firefox */
-  url(${___CSS_LOADER_URL_REPLACEMENT_5___}) format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
-  url(${___CSS_LOADER_URL_REPLACEMENT_6___}) format("svg"); /* iOS 4.1- */
+  src:
+    url(${___CSS_LOADER_URL_REPLACEMENT_2___})
+      format("embedded-opentype"),
+    /* IE6-IE8 */ url(${___CSS_LOADER_URL_REPLACEMENT_3___})
+      format("woff2"),
+    /* chrome、firefox */
+      url(${___CSS_LOADER_URL_REPLACEMENT_4___})
+      format("woff"),
+    /* chrome、firefox */
+      url(${___CSS_LOADER_URL_REPLACEMENT_5___})
+      format("truetype"),
+    /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+      url(${___CSS_LOADER_URL_REPLACEMENT_6___})
+      format("svg"); /* iOS 4.1- */
 }
-
 
 /* OVERWRITING Diagram.js */
 .djs-palette {
@@ -47126,7 +47075,8 @@ ul {
   list-style-type: none;
 }
 
-button:hover, a:hover {
+button:hover,
+a:hover {
   cursor: pointer;
 }
 
@@ -47159,7 +47109,8 @@ button:hover, a:hover {
   margin-right: 10px;
 }
 
-.pjs-buttons > ul > li > a, .pjs-buttons button {
+.pjs-buttons > ul > li > a,
+.pjs-buttons button {
   color: black;
   background-color: #f8f8f8;
   border-radius: 3px;
@@ -47187,8 +47138,9 @@ button:hover, a:hover {
   text-decoration: none;
 }
 
-.pjs-buttons a.pjs-buttons-active, .pjs-buttons button.pjs-buttons-active {
-  opacity: 1.0;
+.pjs-buttons a.pjs-buttons-active,
+.pjs-buttons button.pjs-buttons-active {
+  opacity: 1;
   box-shadow: 0px 2px 2px 0 rgba(0, 0, 0, 0.1);
 }
 
@@ -47201,7 +47153,7 @@ button:hover, a:hover {
 }
 
 .pjs-tooltip .pjs-tooltiptext {
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: "IBM Plex Sans", sans-serif;
   visibility: hidden;
   width: 120px;
   background-color: black;
@@ -47245,7 +47197,7 @@ button:hover, a:hover {
 }
 
 .pjs-text-box:before {
-  content: 'Abc';
+  content: "Abc";
   font-size: medium;
 }
 
@@ -47258,14 +47210,14 @@ button:hover, a:hover {
 }
 
 [class*=" pjs-general-icon"]::before {
-    font-style: normal;
-    font-weight: normal;
-    speak: none;
-    display: inline-block;
-    text-decoration: inherit;
-    text-align: center;
-    font-variant: normal;
-    text-transform: none;
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+  display: inline-block;
+  text-decoration: inherit;
+  text-align: center;
+  font-variant: normal;
+  text-transform: none;
 }
 
 .pjs-general-icon {
@@ -47286,11 +47238,11 @@ button:hover, a:hover {
   margin-top: 4px;
   font-size: 13px;
   text-align: left;
-  color:#555555;
+  color: #555555;
 }
 
-.pjs-io-dialog-text-hint .pjs-tooltip .pjs-tooltiptext  {
-    margin-left: -80px !important;
+.pjs-io-dialog-text-hint .pjs-tooltip .pjs-tooltiptext {
+  margin-left: -80px !important;
 }
 
 /* flex box grid */
@@ -47321,12 +47273,16 @@ button:hover, a:hover {
   box-sizing: border-box;
 }
 
-.pjs-box, .pjs-box-first, .pjs-box-large, .pjs-box-nested, .pjs-box-row {
+.pjs-box,
+.pjs-box-first,
+.pjs-box-large,
+.pjs-box-nested,
+.pjs-box-row {
   position: relative;
   box-sizing: border-box;
   min-height: 1rem;
   margin-bottom: 0;
-  border: 1px solid #FFF;
+  border: 1px solid #fff;
   border-radius: 2px;
   overflow: hidden;
   text-align: center;
@@ -47334,9 +47290,9 @@ button:hover, a:hover {
 }
 
 .pjs-text {
-    color: black;
-    font-size: 13px;
-    font-weight: bold;
+  color: black;
+  font-size: 13px;
+  font-weight: bold;
 }
 
 .pjs-ui-element {
@@ -47351,7 +47307,8 @@ button:hover {
   cursor: pointer;
 }
 
-input, textarea {
+input,
+textarea {
   width: 100%;
   text-align: left;
   padding: 6px 10px;
@@ -47361,7 +47318,7 @@ input, textarea {
 }
 
 .pjs-labeled-input {
-  position:relative;
+  position: relative;
 }
 
 .pjs-section-spacer {
@@ -47385,7 +47342,7 @@ input, textarea {
 }
 
 .pjs-io-dialog.pjs-io-dialog-open::before {
-  content: '';
+  content: "";
   position: fixed;
   left: 0;
   top: 0;
@@ -47409,14 +47366,14 @@ input, textarea {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
   border-radius: 2px;
   height: auto;
- }
+}
 
 .pjs-io-dialog-section {
-  padding-top:10px;
+  padding-top: 10px;
 }
 
 .pjs-io-dialog-section.pjs-first {
-  padding-top:0px;
+  padding-top: 0px;
 }
 
 .pjs-io-dialog-local {
@@ -47451,12 +47408,10 @@ input, textarea {
 }
 
 .pjs-buttons.pjs-image-selection-submit-wrapper button:active {
-  opacity: 1.0;
+  opacity: 1;
   box-shadow: 0px 2px 2px 0 rgba(0, 0, 0, 0.1);
 }
-
-
-`, "",{"version":3,"sources":["webpack://./../assets/odm.css"],"names":[],"mappings":"AAIA;EACE,uBAAuB;EACvB,4CAAmD;EACnD,kBAAkB;AACpB;;AAEA,YAAY,wCAAwC;EAClD,4CAAiE,EAAE,OAAO;EAC1E;;;;uDAIoG,EAAE,aAAa;AACrH;;;AAGA,2BAA2B;AAC3B;EACE,qDAAqD;AACvD;;AAEA,YAAY;AACZ;EACE,YAAY;EACZ,gBAAgB;AAClB;;AAEA;EACE,UAAU;EACV,SAAS;EACT,qBAAqB;AACvB;;AAEA;EACE,eAAe;AACjB;;AAEA;EACE,cAAc;AAChB;;AAEA;EACE,yBAAyB;AAC3B;;AAEA;EACE,qCAAqC;AACvC;;AAEA;EACE,eAAe;AACjB;;AAEA;EACE,cAAc;EACd,UAAU;EACV,SAAS;EACT,gBAAgB;EAChB,gBAAgB;AAClB;;AAEA;EACE,qBAAqB;EACrB,kBAAkB;AACpB;;AAEA;EACE,YAAY;EACZ,yBAAyB;EACzB,kBAAkB;EAClB,qBAAqB;EACrB,iBAAiB;EACjB,eAAe;EACf,iBAAiB;EACjB,kBAAkB;EAClB,yBAAyB;AAC3B;;AAEA;EACE,eAAe;AACjB;;AAEA;EACE,YAAY;EACZ,qBAAqB;AACvB;;AAEA;;;EAGE,YAAY;EACZ,qBAAqB;AACvB;;AAEA;EACE,YAAY;EACZ,4CAA4C;AAC9C;;AAEA,aAAa;;AAEb;EACE,kBAAkB;EAClB,qBAAqB;EACrB,+BAA+B;AACjC;;AAEA;EACE,wCAAwC;EACxC,kBAAkB;EAClB,YAAY;EACZ,uBAAuB;EACvB,WAAW;EACX,kBAAkB;EAClB,kBAAkB;EAClB,cAAc;EACd,aAAa;EACb,kBAAkB;EAClB,UAAU;EACV,YAAY;EACZ,SAAS;EACT,kBAAkB;;EAElB,iEAAiE;EACjE,UAAU;EACV,sBAAsB;AACxB;;AAEA;EACE,mBAAmB;EACnB,UAAU;AACZ;;AAEA;EACE,YAAY;EACZ,kBAAkB;EAClB,SAAS,EAAE,iCAAiC;EAC5C,SAAS;EACT,iBAAiB;EACjB,iBAAiB;EACjB,mBAAmB;EACnB,uDAAuD;AACzD;;AAEA,mBAAmB;;AAEnB;EACE,qHAAqH;EACrH,gDAAgS;AAClS;;AAEA;EACE,cAAc;EACd,iBAAiB;AACnB;;AAEA;EACE,qBAAqB;AACvB;;AAEA;EACE,WAAW;AACb;;AAEA;IACI,kBAAkB;IAClB,mBAAmB;IACnB,WAAW;IACX,qBAAqB;IACrB,wBAAwB;IACxB,kBAAkB;IAClB,oBAAoB;IACpB,oBAAoB;AACxB;;AAEA;EACE,wCAAwC;EACxC,kBAAkB;AACpB;;AAEA;EACE,YAAY;EACZ,yBAAyB;EACzB,kBAAkB;EAClB,qBAAqB;EACrB,eAAe;EACf,yBAAyB;AAC3B;;AAEA;EACE,eAAe;EACf,eAAe;EACf,gBAAgB;EAChB,aAAa;AACf;;AAEA;IACI,6BAA6B;AACjC;;AAEA,kBAAkB;;AAElB;EACE,sBAAsB;EACtB,oBAAoB;EACpB,oBAAoB;EACpB,aAAa;EACb,mBAAmB;EACnB,kBAAkB;EAClB,cAAc;EACd,8BAA8B;EAC9B,6BAA6B;EAC7B,uBAAuB;EACvB,mBAAmB;EACnB,2BAA2B;EAC3B,uBAAuB;AACzB;;AAEA;EACE,mBAAmB;EACnB,oBAAoB;EACpB,YAAY;EACZ,0BAA0B;EAC1B,aAAa;EACb,eAAe;EACf,sBAAsB;AACxB;;AAEA;EACE,kBAAkB;EAClB,sBAAsB;EACtB,gBAAgB;EAChB,gBAAgB;EAChB,sBAAsB;EACtB,kBAAkB;EAClB,gBAAgB;EAChB,kBAAkB;EAClB,WAAW;AACb;;AAEA;IACI,YAAY;IACZ,eAAe;IACf,iBAAiB;AACrB;;AAEA;EACE,YAAY;EACZ,yBAAyB;EACzB,qBAAqB;EACrB,eAAe;EACf,yBAAyB;AAC3B;;AAEA;EACE,eAAe;AACjB;;AAEA;EACE,WAAW;EACX,gBAAgB;EAChB,iBAAiB;EACjB,2BAA2B;EAC3B,8BAA8B;EAC9B,sBAAsB;AACxB;;AAEA;EACE,iBAAiB;AACnB;;AAEA;EACE,WAAW;EACX,WAAW;EACX,yBAAyB;AAC3B;;AAEA;EACE,eAAe;EACf,YAAY;EACZ,SAAS;EACT,mBAAmB;EACnB,UAAU;EACV,iBAAiB;EACjB,4BAA4B;EAC5B,wCAAwC;EACxC,kBAAkB;EAClB,YAAY;EACZ,aAAa;AACf;;AAEA;EACE,WAAW;EACX,eAAe;EACf,OAAO;EACP,MAAM;EACN,SAAS;EACT,QAAQ;EACR,gBAAgB;EAChB,YAAY;EACZ,aAAa;AACf;;AAEA;EACE,iBAAiB;EACjB,aAAa;EACb,eAAe;EACf,YAAY;EACZ,SAAS;EACT,mBAAmB;EACnB,UAAU;EACV,iBAAiB;EACjB,4BAA4B;EAC5B,wCAAwC;EACxC,kBAAkB;EAClB,YAAY;CACb;;AAED;EACE,gBAAgB;AAClB;;AAEA;EACE,eAAe;AACjB;;AAEA;EACE,aAAa;EACb,iBAAiB;EACjB,wCAAwC;EACxC,kBAAkB;EAClB,YAAY;AACd;;AAEA;EACE,eAAe;AACjB;;AAEA;EACE,WAAW;EACX,gBAAgB;EAChB,gBAAgB;EAChB,sBAAsB;AACxB;;AAEA;EACE,kBAAkB;AACpB;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,YAAY;EACZ,4CAA4C;AAC9C","sourcesContent":["@import '../node_modules/diagram-js/assets/diagram-js.css';\r\n@import '../node_modules/bpmn-font/dist/css/bpmn.css';\r\n@import url('./css/od.css');\r\n\r\n@font-face {\r\n  font-family: \"IBM Plex\";\r\n  src: url(\"./ibm-plex-font/IBMPlexSans-Regular.ttf\");\r\n  font-display: swap;\r\n}\r\n\r\n@font-face {font-family: \"Font Awesome 5 Free Solid\";\r\n  src: url(\"./font-awesome-5/29f589f173dcc69ef6c805b711894998.eot\"); /* IE9*/\r\n  src: url(\"./font-awesome-5/29f589f173dcc69ef6c805b711894998.eot?#iefix\") format(\"embedded-opentype\"), /* IE6-IE8 */\r\n  url(\"./font-awesome-5/29f589f173dcc69ef6c805b711894998.woff2\") format(\"woff2\"), /* chrome、firefox */\r\n  url(\"./font-awesome-5/29f589f173dcc69ef6c805b711894998.woff\") format(\"woff\"), /* chrome、firefox */\r\n  url(\"./font-awesome-5/29f589f173dcc69ef6c805b711894998.ttf\") format(\"truetype\"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/\r\n  url(\"./font-awesome-5/29f589f173dcc69ef6c805b711894998.svg#Font Awesome 5 Free Solid\") format(\"svg\"); /* iOS 4.1- */\r\n}\r\n\r\n\r\n/* OVERWRITING Diagram.js */\r\n.djs-palette {\r\n  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2) !important;\r\n}\r\n\r\n/* General */\r\nbutton {\r\n  border: none;\r\n  background: none;\r\n}\r\n\r\nul {\r\n  padding: 0;\r\n  margin: 0;\r\n  list-style-type: none;\r\n}\r\n\r\nbutton:hover, a:hover {\r\n  cursor: pointer;\r\n}\r\n\r\n.pjs-error {\r\n  color: #ff0000;\r\n}\r\n\r\n.pjs-visible {\r\n  display: block !important;\r\n}\r\n\r\n.pjs-first {\r\n  /* DONT CHANGE. USED AS PSEUDOCLASS */\r\n}\r\n\r\n.pjs-buttons {\r\n  position: fixed;\r\n}\r\n\r\n.pjs-buttons > ul {\r\n  display: block;\r\n  padding: 0;\r\n  margin: 0;\r\n  margin-top: 10px;\r\n  list-style: none;\r\n}\r\n\r\n.pjs-buttons > ul > li {\r\n  display: inline-block;\r\n  margin-right: 10px;\r\n}\r\n\r\n.pjs-buttons > ul > li > a, .pjs-buttons button {\r\n  color: black;\r\n  background-color: #f8f8f8;\r\n  border-radius: 3px;\r\n  display: inline-block;\r\n  padding: 6px 10px;\r\n  font-size: 13px;\r\n  font-weight: bold;\r\n  text-align: center;\r\n  border: solid 1px #cdcdcd;\r\n}\r\n\r\n.pjs-buttons button:hover {\r\n  cursor: pointer;\r\n}\r\n\r\n.pjs-buttons a {\r\n  opacity: 0.3;\r\n  text-decoration: none;\r\n}\r\n\r\n.pjs-button-disabled,\r\n.pjs-button-disabled:hover,\r\n.pjs-button-disabled:active {\r\n  opacity: 0.3;\r\n  text-decoration: none;\r\n}\r\n\r\n.pjs-buttons a.pjs-buttons-active, .pjs-buttons button.pjs-buttons-active {\r\n  opacity: 1.0;\r\n  box-shadow: 0px 2px 2px 0 rgba(0, 0, 0, 0.1);\r\n}\r\n\r\n/* tool tip */\r\n\r\n.pjs-tooltip {\r\n  position: relative;\r\n  display: inline-block;\r\n  border-bottom: 1px dotted black;\r\n}\r\n\r\n.pjs-tooltip .pjs-tooltiptext {\r\n  font-family: 'IBM Plex Sans', sans-serif;\r\n  visibility: hidden;\r\n  width: 120px;\r\n  background-color: black;\r\n  color: #fff;\r\n  text-align: center;\r\n  border-radius: 6px;\r\n  padding: 5px 0;\r\n  padding: 20px;\r\n  position: absolute;\r\n  z-index: 1;\r\n  bottom: 100%;\r\n  left: 50%;\r\n  margin-left: -60px;\r\n\r\n  /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */\r\n  opacity: 0;\r\n  transition: opacity 1s;\r\n}\r\n\r\n.pjs-tooltip:hover .pjs-tooltiptext {\r\n  visibility: visible;\r\n  opacity: 1;\r\n}\r\n\r\n.pjs-tooltip .pjs-tooltiptext::after {\r\n  content: \" \";\r\n  position: absolute;\r\n  top: 100%; /* At the bottom of the tooltip */\r\n  left: 50%;\r\n  margin-left: -5px;\r\n  border-width: 5px;\r\n  border-style: solid;\r\n  border-color: black transparent transparent transparent;\r\n}\r\n\r\n/* canvas drawing */\r\n\r\n.od-no-font-icon-object {\r\n  /* We use this in the context pad because the icon from the font is not scaled properly. TODO Tim: Investigate this */\r\n  content: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='%23000' stroke-width='1.5' width='46' height='46'%3E%3Crect x='10' y='13' width='26' height='20'/%3E%0Astroke='black' /%3E%3Cline x1='10' y1='19' x2='36' y2='19' stroke='black' /%3E%3C/svg%3E\");\r\n}\r\n\r\n.pjs-text-box:before {\r\n  content: 'Abc';\r\n  font-size: medium;\r\n}\r\n\r\n.pjs-horizontal {\r\n  display: inline-block;\r\n}\r\n\r\n.pjs-horizontal li {\r\n  float: left;\r\n}\r\n\r\n[class*=\" pjs-general-icon\"]::before {\r\n    font-style: normal;\r\n    font-weight: normal;\r\n    speak: none;\r\n    display: inline-block;\r\n    text-decoration: inherit;\r\n    text-align: center;\r\n    font-variant: normal;\r\n    text-transform: none;\r\n}\r\n\r\n.pjs-general-icon {\r\n  font-family: \"Font Awesome 5 Free Solid\";\r\n  line-height: 1.2em;\r\n}\r\n\r\n.pjs-ui-element-bordered {\r\n  color: black;\r\n  background-color: #f8f8f8;\r\n  border-radius: 3px;\r\n  display: inline-block;\r\n  font-size: 13px;\r\n  border: solid 1px #cdcdcd;\r\n}\r\n\r\n.pjs-io-dialog-text-hint {\r\n  margin-top: 4px;\r\n  font-size: 13px;\r\n  text-align: left;\r\n  color:#555555;\r\n}\r\n\r\n.pjs-io-dialog-text-hint .pjs-tooltip .pjs-tooltiptext  {\r\n    margin-left: -80px !important;\r\n}\r\n\r\n/* flex box grid */\r\n\r\n.pjs-row {\r\n  box-sizing: border-box;\r\n  display: -webkit-box;\r\n  display: -ms-flexbox;\r\n  display: flex;\r\n  -webkit-box-flex: 0;\r\n  -ms-flex: 0 1 auto;\r\n  flex: 0 1 auto;\r\n  -webkit-box-orient: horizontal;\r\n  -webkit-box-direction: normal;\r\n  -ms-flex-direction: row;\r\n  flex-direction: row;\r\n  -ms-flex-wrap: wrap-reverse;\r\n  flex-wrap: wrap-reverse;\r\n}\r\n\r\n.pjs-col-xs {\r\n  -webkit-box-flex: 1;\r\n  -ms-flex-positive: 1;\r\n  flex-grow: 1;\r\n  -ms-flex-preferred-size: 0;\r\n  flex-basis: 0;\r\n  max-width: 100%;\r\n  box-sizing: border-box;\r\n}\r\n\r\n.pjs-box, .pjs-box-first, .pjs-box-large, .pjs-box-nested, .pjs-box-row {\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  min-height: 1rem;\r\n  margin-bottom: 0;\r\n  border: 1px solid #FFF;\r\n  border-radius: 2px;\r\n  overflow: hidden;\r\n  text-align: center;\r\n  color: #fff;\r\n}\r\n\r\n.pjs-text {\r\n    color: black;\r\n    font-size: 13px;\r\n    font-weight: bold;\r\n}\r\n\r\n.pjs-ui-element {\r\n  color: black;\r\n  background-color: #f8f8f8;\r\n  display: inline-block;\r\n  font-size: 13px;\r\n  border: solid 1px #cdcdcd;\r\n}\r\n\r\nbutton:hover {\r\n  cursor: pointer;\r\n}\r\n\r\ninput, textarea {\r\n  width: 100%;\r\n  text-align: left;\r\n  padding: 6px 10px;\r\n  -moz-box-sizing: border-box;\r\n  -webkit-box-sizing: border-box;\r\n  box-sizing: border-box;\r\n}\r\n\r\n.pjs-labeled-input {\r\n  position:relative;\r\n}\r\n\r\n.pjs-section-spacer {\r\n  width: 100%;\r\n  height: 1px;\r\n  background-color: #555555;\r\n}\r\n\r\n.pjs-io-dialog {\r\n  position: fixed;\r\n  width: 600px;\r\n  left: 50%;\r\n  margin-left: -300px;\r\n  top: 100px;\r\n  background: white;\r\n  padding: 10px 30px 20px 30px;\r\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);\r\n  border-radius: 2px;\r\n  height: auto;\r\n  z-index: 1001;\r\n}\r\n\r\n.pjs-io-dialog.pjs-io-dialog-open::before {\r\n  content: '';\r\n  position: fixed;\r\n  left: 0;\r\n  top: 0;\r\n  bottom: 0;\r\n  right: 0;\r\n  background: #666;\r\n  opacity: 0.2;\r\n  z-index: 1001;\r\n}\r\n\r\n.pjs-io-dialog .pjs-io-dialog-content {\r\n  background: white;\r\n  z-index: 1001;\r\n  position: fixed;\r\n  width: 600px;\r\n  left: 50%;\r\n  margin-left: -300px;\r\n  top: 100px;\r\n  background: white;\r\n  padding: 10px 30px 20px 30px;\r\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);\r\n  border-radius: 2px;\r\n  height: auto;\r\n }\r\n\r\n.pjs-io-dialog-section {\r\n  padding-top:10px;\r\n}\r\n\r\n.pjs-io-dialog-section.pjs-first {\r\n  padding-top:0px;\r\n}\r\n\r\n.pjs-io-dialog-local {\r\n  padding: 10px;\r\n  background: white;\r\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);\r\n  border-radius: 2px;\r\n  height: auto;\r\n}\r\n\r\n.pjs-io-dialog-local .pjs-box-row {\r\n  min-width: 40px;\r\n}\r\n\r\n.pjs-io-dialog-local .pjs-box-row img {\r\n  width: 100%;\r\n  max-width: 100px;\r\n  object-fit: fill;\r\n  vertical-align: middle;\r\n}\r\n\r\n.pjs-buttons.pjs-image-selection-submit-wrapper {\r\n  position: relative;\r\n}\r\n\r\n.pjs-buttons.pjs-image-selection-submit-wrapper button {\r\n  width: 100%;\r\n}\r\n\r\n.pjs-buttons.pjs-image-selection-submit-wrapper button:hover {\r\n  color: #555;\r\n}\r\n\r\n.pjs-buttons.pjs-image-selection-submit-wrapper button:active {\r\n  opacity: 1.0;\r\n  box-shadow: 0px 2px 2px 0 rgba(0, 0, 0, 0.1);\r\n}\r\n\r\n\r\n"],"sourceRoot":""}]);
+`, "",{"version":3,"sources":["webpack://./../assets/odm.css"],"names":[],"mappings":"AAIA;EACE,uBAAuB;EACvB,4CAAmD;EACnD,kBAAkB;AACpB;;AAEA;EACE,wCAAwC;EACxC,4CAAiE,EAAE,OAAO;EAC1E;;;;;;;;;;;;;mBAaiB,EAAE,aAAa;AAClC;;AAEA,2BAA2B;AAC3B;EACE,qDAAqD;AACvD;;AAEA,YAAY;AACZ;EACE,YAAY;EACZ,gBAAgB;AAClB;;AAEA;EACE,UAAU;EACV,SAAS;EACT,qBAAqB;AACvB;;AAEA;;EAEE,eAAe;AACjB;;AAEA;EACE,cAAc;AAChB;;AAEA;EACE,yBAAyB;AAC3B;;AAEA;EACE,qCAAqC;AACvC;;AAEA;EACE,eAAe;AACjB;;AAEA;EACE,cAAc;EACd,UAAU;EACV,SAAS;EACT,gBAAgB;EAChB,gBAAgB;AAClB;;AAEA;EACE,qBAAqB;EACrB,kBAAkB;AACpB;;AAEA;;EAEE,YAAY;EACZ,yBAAyB;EACzB,kBAAkB;EAClB,qBAAqB;EACrB,iBAAiB;EACjB,eAAe;EACf,iBAAiB;EACjB,kBAAkB;EAClB,yBAAyB;AAC3B;;AAEA;EACE,eAAe;AACjB;;AAEA;EACE,YAAY;EACZ,qBAAqB;AACvB;;AAEA;;;EAGE,YAAY;EACZ,qBAAqB;AACvB;;AAEA;;EAEE,UAAU;EACV,4CAA4C;AAC9C;;AAEA,aAAa;;AAEb;EACE,kBAAkB;EAClB,qBAAqB;EACrB,+BAA+B;AACjC;;AAEA;EACE,wCAAwC;EACxC,kBAAkB;EAClB,YAAY;EACZ,uBAAuB;EACvB,WAAW;EACX,kBAAkB;EAClB,kBAAkB;EAClB,cAAc;EACd,aAAa;EACb,kBAAkB;EAClB,UAAU;EACV,YAAY;EACZ,SAAS;EACT,kBAAkB;;EAElB,iEAAiE;EACjE,UAAU;EACV,sBAAsB;AACxB;;AAEA;EACE,mBAAmB;EACnB,UAAU;AACZ;;AAEA;EACE,YAAY;EACZ,kBAAkB;EAClB,SAAS,EAAE,iCAAiC;EAC5C,SAAS;EACT,iBAAiB;EACjB,iBAAiB;EACjB,mBAAmB;EACnB,uDAAuD;AACzD;;AAEA,mBAAmB;;AAEnB;EACE,qHAAqH;EACrH,gDAAgS;AAClS;;AAEA;EACE,cAAc;EACd,iBAAiB;AACnB;;AAEA;EACE,qBAAqB;AACvB;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,kBAAkB;EAClB,mBAAmB;EACnB,WAAW;EACX,qBAAqB;EACrB,wBAAwB;EACxB,kBAAkB;EAClB,oBAAoB;EACpB,oBAAoB;AACtB;;AAEA;EACE,wCAAwC;EACxC,kBAAkB;AACpB;;AAEA;EACE,YAAY;EACZ,yBAAyB;EACzB,kBAAkB;EAClB,qBAAqB;EACrB,eAAe;EACf,yBAAyB;AAC3B;;AAEA;EACE,eAAe;EACf,eAAe;EACf,gBAAgB;EAChB,cAAc;AAChB;;AAEA;EACE,6BAA6B;AAC/B;;AAEA,kBAAkB;;AAElB;EACE,sBAAsB;EACtB,oBAAoB;EACpB,oBAAoB;EACpB,aAAa;EACb,mBAAmB;EACnB,kBAAkB;EAClB,cAAc;EACd,8BAA8B;EAC9B,6BAA6B;EAC7B,uBAAuB;EACvB,mBAAmB;EACnB,2BAA2B;EAC3B,uBAAuB;AACzB;;AAEA;EACE,mBAAmB;EACnB,oBAAoB;EACpB,YAAY;EACZ,0BAA0B;EAC1B,aAAa;EACb,eAAe;EACf,sBAAsB;AACxB;;AAEA;;;;;EAKE,kBAAkB;EAClB,sBAAsB;EACtB,gBAAgB;EAChB,gBAAgB;EAChB,sBAAsB;EACtB,kBAAkB;EAClB,gBAAgB;EAChB,kBAAkB;EAClB,WAAW;AACb;;AAEA;EACE,YAAY;EACZ,eAAe;EACf,iBAAiB;AACnB;;AAEA;EACE,YAAY;EACZ,yBAAyB;EACzB,qBAAqB;EACrB,eAAe;EACf,yBAAyB;AAC3B;;AAEA;EACE,eAAe;AACjB;;AAEA;;EAEE,WAAW;EACX,gBAAgB;EAChB,iBAAiB;EACjB,2BAA2B;EAC3B,8BAA8B;EAC9B,sBAAsB;AACxB;;AAEA;EACE,kBAAkB;AACpB;;AAEA;EACE,WAAW;EACX,WAAW;EACX,yBAAyB;AAC3B;;AAEA;EACE,eAAe;EACf,YAAY;EACZ,SAAS;EACT,mBAAmB;EACnB,UAAU;EACV,iBAAiB;EACjB,4BAA4B;EAC5B,wCAAwC;EACxC,kBAAkB;EAClB,YAAY;EACZ,aAAa;AACf;;AAEA;EACE,WAAW;EACX,eAAe;EACf,OAAO;EACP,MAAM;EACN,SAAS;EACT,QAAQ;EACR,gBAAgB;EAChB,YAAY;EACZ,aAAa;AACf;;AAEA;EACE,iBAAiB;EACjB,aAAa;EACb,eAAe;EACf,YAAY;EACZ,SAAS;EACT,mBAAmB;EACnB,UAAU;EACV,iBAAiB;EACjB,4BAA4B;EAC5B,wCAAwC;EACxC,kBAAkB;EAClB,YAAY;AACd;;AAEA;EACE,iBAAiB;AACnB;;AAEA;EACE,gBAAgB;AAClB;;AAEA;EACE,aAAa;EACb,iBAAiB;EACjB,wCAAwC;EACxC,kBAAkB;EAClB,YAAY;AACd;;AAEA;EACE,eAAe;AACjB;;AAEA;EACE,WAAW;EACX,gBAAgB;EAChB,gBAAgB;EAChB,sBAAsB;AACxB;;AAEA;EACE,kBAAkB;AACpB;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,UAAU;EACV,4CAA4C;AAC9C","sourcesContent":["@import \"../node_modules/diagram-js/assets/diagram-js.css\";\n@import \"../node_modules/bpmn-font/dist/css/bpmn.css\";\n@import url(\"./css/od.css\");\n\n@font-face {\n  font-family: \"IBM Plex\";\n  src: url(\"./ibm-plex-font/IBMPlexSans-Regular.ttf\");\n  font-display: swap;\n}\n\n@font-face {\n  font-family: \"Font Awesome 5 Free Solid\";\n  src: url(\"./font-awesome-5/29f589f173dcc69ef6c805b711894998.eot\"); /* IE9*/\n  src:\n    url(\"./font-awesome-5/29f589f173dcc69ef6c805b711894998.eot?#iefix\")\n      format(\"embedded-opentype\"),\n    /* IE6-IE8 */ url(\"./font-awesome-5/29f589f173dcc69ef6c805b711894998.woff2\")\n      format(\"woff2\"),\n    /* chrome、firefox */\n      url(\"./font-awesome-5/29f589f173dcc69ef6c805b711894998.woff\")\n      format(\"woff\"),\n    /* chrome、firefox */\n      url(\"./font-awesome-5/29f589f173dcc69ef6c805b711894998.ttf\")\n      format(\"truetype\"),\n    /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/\n      url(\"./font-awesome-5/29f589f173dcc69ef6c805b711894998.svg#Font Awesome 5 Free Solid\")\n      format(\"svg\"); /* iOS 4.1- */\n}\n\n/* OVERWRITING Diagram.js */\n.djs-palette {\n  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2) !important;\n}\n\n/* General */\nbutton {\n  border: none;\n  background: none;\n}\n\nul {\n  padding: 0;\n  margin: 0;\n  list-style-type: none;\n}\n\nbutton:hover,\na:hover {\n  cursor: pointer;\n}\n\n.pjs-error {\n  color: #ff0000;\n}\n\n.pjs-visible {\n  display: block !important;\n}\n\n.pjs-first {\n  /* DONT CHANGE. USED AS PSEUDOCLASS */\n}\n\n.pjs-buttons {\n  position: fixed;\n}\n\n.pjs-buttons > ul {\n  display: block;\n  padding: 0;\n  margin: 0;\n  margin-top: 10px;\n  list-style: none;\n}\n\n.pjs-buttons > ul > li {\n  display: inline-block;\n  margin-right: 10px;\n}\n\n.pjs-buttons > ul > li > a,\n.pjs-buttons button {\n  color: black;\n  background-color: #f8f8f8;\n  border-radius: 3px;\n  display: inline-block;\n  padding: 6px 10px;\n  font-size: 13px;\n  font-weight: bold;\n  text-align: center;\n  border: solid 1px #cdcdcd;\n}\n\n.pjs-buttons button:hover {\n  cursor: pointer;\n}\n\n.pjs-buttons a {\n  opacity: 0.3;\n  text-decoration: none;\n}\n\n.pjs-button-disabled,\n.pjs-button-disabled:hover,\n.pjs-button-disabled:active {\n  opacity: 0.3;\n  text-decoration: none;\n}\n\n.pjs-buttons a.pjs-buttons-active,\n.pjs-buttons button.pjs-buttons-active {\n  opacity: 1;\n  box-shadow: 0px 2px 2px 0 rgba(0, 0, 0, 0.1);\n}\n\n/* tool tip */\n\n.pjs-tooltip {\n  position: relative;\n  display: inline-block;\n  border-bottom: 1px dotted black;\n}\n\n.pjs-tooltip .pjs-tooltiptext {\n  font-family: \"IBM Plex Sans\", sans-serif;\n  visibility: hidden;\n  width: 120px;\n  background-color: black;\n  color: #fff;\n  text-align: center;\n  border-radius: 6px;\n  padding: 5px 0;\n  padding: 20px;\n  position: absolute;\n  z-index: 1;\n  bottom: 100%;\n  left: 50%;\n  margin-left: -60px;\n\n  /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */\n  opacity: 0;\n  transition: opacity 1s;\n}\n\n.pjs-tooltip:hover .pjs-tooltiptext {\n  visibility: visible;\n  opacity: 1;\n}\n\n.pjs-tooltip .pjs-tooltiptext::after {\n  content: \" \";\n  position: absolute;\n  top: 100%; /* At the bottom of the tooltip */\n  left: 50%;\n  margin-left: -5px;\n  border-width: 5px;\n  border-style: solid;\n  border-color: black transparent transparent transparent;\n}\n\n/* canvas drawing */\n\n.od-no-font-icon-object {\n  /* We use this in the context pad because the icon from the font is not scaled properly. TODO Tim: Investigate this */\n  content: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='%23000' stroke-width='1.5' width='46' height='46'%3E%3Crect x='10' y='13' width='26' height='20'/%3E%0Astroke='black' /%3E%3Cline x1='10' y1='19' x2='36' y2='19' stroke='black' /%3E%3C/svg%3E\");\n}\n\n.pjs-text-box:before {\n  content: \"Abc\";\n  font-size: medium;\n}\n\n.pjs-horizontal {\n  display: inline-block;\n}\n\n.pjs-horizontal li {\n  float: left;\n}\n\n[class*=\" pjs-general-icon\"]::before {\n  font-style: normal;\n  font-weight: normal;\n  speak: none;\n  display: inline-block;\n  text-decoration: inherit;\n  text-align: center;\n  font-variant: normal;\n  text-transform: none;\n}\n\n.pjs-general-icon {\n  font-family: \"Font Awesome 5 Free Solid\";\n  line-height: 1.2em;\n}\n\n.pjs-ui-element-bordered {\n  color: black;\n  background-color: #f8f8f8;\n  border-radius: 3px;\n  display: inline-block;\n  font-size: 13px;\n  border: solid 1px #cdcdcd;\n}\n\n.pjs-io-dialog-text-hint {\n  margin-top: 4px;\n  font-size: 13px;\n  text-align: left;\n  color: #555555;\n}\n\n.pjs-io-dialog-text-hint .pjs-tooltip .pjs-tooltiptext {\n  margin-left: -80px !important;\n}\n\n/* flex box grid */\n\n.pjs-row {\n  box-sizing: border-box;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-flex: 0;\n  -ms-flex: 0 1 auto;\n  flex: 0 1 auto;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n  -ms-flex-direction: row;\n  flex-direction: row;\n  -ms-flex-wrap: wrap-reverse;\n  flex-wrap: wrap-reverse;\n}\n\n.pjs-col-xs {\n  -webkit-box-flex: 1;\n  -ms-flex-positive: 1;\n  flex-grow: 1;\n  -ms-flex-preferred-size: 0;\n  flex-basis: 0;\n  max-width: 100%;\n  box-sizing: border-box;\n}\n\n.pjs-box,\n.pjs-box-first,\n.pjs-box-large,\n.pjs-box-nested,\n.pjs-box-row {\n  position: relative;\n  box-sizing: border-box;\n  min-height: 1rem;\n  margin-bottom: 0;\n  border: 1px solid #fff;\n  border-radius: 2px;\n  overflow: hidden;\n  text-align: center;\n  color: #fff;\n}\n\n.pjs-text {\n  color: black;\n  font-size: 13px;\n  font-weight: bold;\n}\n\n.pjs-ui-element {\n  color: black;\n  background-color: #f8f8f8;\n  display: inline-block;\n  font-size: 13px;\n  border: solid 1px #cdcdcd;\n}\n\nbutton:hover {\n  cursor: pointer;\n}\n\ninput,\ntextarea {\n  width: 100%;\n  text-align: left;\n  padding: 6px 10px;\n  -moz-box-sizing: border-box;\n  -webkit-box-sizing: border-box;\n  box-sizing: border-box;\n}\n\n.pjs-labeled-input {\n  position: relative;\n}\n\n.pjs-section-spacer {\n  width: 100%;\n  height: 1px;\n  background-color: #555555;\n}\n\n.pjs-io-dialog {\n  position: fixed;\n  width: 600px;\n  left: 50%;\n  margin-left: -300px;\n  top: 100px;\n  background: white;\n  padding: 10px 30px 20px 30px;\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);\n  border-radius: 2px;\n  height: auto;\n  z-index: 1001;\n}\n\n.pjs-io-dialog.pjs-io-dialog-open::before {\n  content: \"\";\n  position: fixed;\n  left: 0;\n  top: 0;\n  bottom: 0;\n  right: 0;\n  background: #666;\n  opacity: 0.2;\n  z-index: 1001;\n}\n\n.pjs-io-dialog .pjs-io-dialog-content {\n  background: white;\n  z-index: 1001;\n  position: fixed;\n  width: 600px;\n  left: 50%;\n  margin-left: -300px;\n  top: 100px;\n  background: white;\n  padding: 10px 30px 20px 30px;\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);\n  border-radius: 2px;\n  height: auto;\n}\n\n.pjs-io-dialog-section {\n  padding-top: 10px;\n}\n\n.pjs-io-dialog-section.pjs-first {\n  padding-top: 0px;\n}\n\n.pjs-io-dialog-local {\n  padding: 10px;\n  background: white;\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);\n  border-radius: 2px;\n  height: auto;\n}\n\n.pjs-io-dialog-local .pjs-box-row {\n  min-width: 40px;\n}\n\n.pjs-io-dialog-local .pjs-box-row img {\n  width: 100%;\n  max-width: 100px;\n  object-fit: fill;\n  vertical-align: middle;\n}\n\n.pjs-buttons.pjs-image-selection-submit-wrapper {\n  position: relative;\n}\n\n.pjs-buttons.pjs-image-selection-submit-wrapper button {\n  width: 100%;\n}\n\n.pjs-buttons.pjs-image-selection-submit-wrapper button:hover {\n  color: #555;\n}\n\n.pjs-buttons.pjs-image-selection-submit-wrapper button:active {\n  opacity: 1;\n  box-shadow: 0px 2px 2px 0 rgba(0, 0, 0, 0.1);\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -64056,10 +64011,10 @@ __webpack_require__.r(__webpack_exports__);
 
 // modeler instance
 const modeler = new object_diagram_modeler_lib_Modeler__WEBPACK_IMPORTED_MODULE_4__["default"]({
-  container: '#canvas',
+  container: "#canvas",
   keyboard: {
     bindTo: window,
-  }
+  },
 });
 
 /* screen interaction */
@@ -64091,38 +64046,44 @@ const state = {
   fullScreen: false,
   keyboardHelp: false,
 };
-document.getElementById('js-toggle-fullscreen').addEventListener('click', function() {
-  state.fullScreen = !state.fullScreen;
-  if (state.fullScreen) {
-    enterFullscreen(document.documentElement);
-  } else {
-    exitFullscreen();
-  }
-});
-document.getElementById('js-toggle-keyboard-help').addEventListener('click', function() {
-  state.keyboardHelp = !state.keyboardHelp;
-  let displayProp = 'none';
-  if (state.keyboardHelp) {
-    displayProp = 'block';
-  }
-  document.getElementById('io-dialog-main').style.display = displayProp;
-});
-document.getElementById('io-dialog-main').addEventListener('click', function() {
-  state.keyboardHelp = !state.keyboardHelp;
-  let displayProp = 'none';
-  if (!state.keyboardHelp) {
-    document.getElementById('io-dialog-main').style.display = displayProp;
-  }
-});
+document
+  .getElementById("js-toggle-fullscreen")
+  .addEventListener("click", function () {
+    state.fullScreen = !state.fullScreen;
+    if (state.fullScreen) {
+      enterFullscreen(document.documentElement);
+    } else {
+      exitFullscreen();
+    }
+  });
+document
+  .getElementById("js-toggle-keyboard-help")
+  .addEventListener("click", function () {
+    state.keyboardHelp = !state.keyboardHelp;
+    let displayProp = "none";
+    if (state.keyboardHelp) {
+      displayProp = "block";
+    }
+    document.getElementById("io-dialog-main").style.display = displayProp;
+  });
+document
+  .getElementById("io-dialog-main")
+  .addEventListener("click", function () {
+    state.keyboardHelp = !state.keyboardHelp;
+    let displayProp = "none";
+    if (!state.keyboardHelp) {
+      document.getElementById("io-dialog-main").style.display = displayProp;
+    }
+  });
 
 /* file functions */
 function openFile(file, callback) {
-
   // check file api availability
   if (!window.FileReader) {
     return window.alert(
-      'Looks like you use an older browser that does not support drag and drop. ' +
-      'Try using a modern browser such as Chrome, Firefox or Internet Explorer > 10.');
+      "Looks like you use an older browser that does not support drag and drop. " +
+        "Try using a modern browser such as Chrome, Firefox or Internet Explorer > 10.",
+    );
   }
 
   // no file chosen
@@ -64132,8 +64093,7 @@ function openFile(file, callback) {
 
   const reader = new FileReader();
 
-  reader.onload = function(e) {
-
+  reader.onload = function (e) {
     const xml = e.target.result;
 
     callback(xml);
@@ -64142,22 +64102,23 @@ function openFile(file, callback) {
   reader.readAsText(file);
 }
 
-const fileInput = jquery__WEBPACK_IMPORTED_MODULE_0___default()('<input type="file" />').appendTo(document.body).css({
-  width: 1,
-  height: 1,
-  display: 'none',
-  overflow: 'hidden'
-}).on('change', function(e) {
-  openFile(e.target.files[0], openBoard);
-});
-
+const fileInput = jquery__WEBPACK_IMPORTED_MODULE_0___default()('<input type="file" />')
+  .appendTo(document.body)
+  .css({
+    width: 1,
+    height: 1,
+    display: "none",
+    overflow: "hidden",
+  })
+  .on("change", function (e) {
+    openFile(e.target.files[0], openBoard);
+  });
 
 function openBoard(xml) {
-
   // import board
-  modeler.importXML(xml).catch(function(err) {
+  modeler.importXML(xml).catch(function (err) {
     if (err) {
-      return console.error('could not import od board', err);
+      return console.error("could not import od board", err);
     }
   });
 }
@@ -64171,16 +64132,15 @@ function saveBoard() {
 }
 
 // bootstrap board functions
-jquery__WEBPACK_IMPORTED_MODULE_0___default()(function() {
+jquery__WEBPACK_IMPORTED_MODULE_0___default()(function () {
+  const downloadLink = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#js-download-board");
+  const downloadSvgLink = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#js-download-svg");
 
-  const downloadLink = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#js-download-board');
-  const downloadSvgLink = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#js-download-svg');
+  const openNew = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#js-open-new");
+  const openExistingBoard = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#js-open-board");
 
-  const openNew = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#js-open-new');
-  const openExistingBoard = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#js-open-board');
-
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.buttons a').click(function(e) {
-    if (!jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).is('.active')) {
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()(".buttons a").click(function (e) {
+    if (!jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).is(".active")) {
       e.preventDefault();
       e.stopPropagation();
     }
@@ -64190,52 +64150,49 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(function() {
     const encodedData = encodeURIComponent(data);
 
     if (data) {
-      link.addClass('active').attr({
-        'href': 'data:application/xml;charset=UTF-8,' + encodedData,
-        'download': name
+      link.addClass("active").attr({
+        href: "data:application/xml;charset=UTF-8," + encodedData,
+        download: name,
       });
     } else {
-      link.removeClass('active');
+      link.removeClass("active");
     }
   }
 
-  const exportArtifacts = debounce(function() {
-
-    saveSVG().then(function(result) {
-      setEncoded(downloadSvgLink, 'object-diagram.svg', result.svg);
+  const exportArtifacts = debounce(function () {
+    saveSVG().then(function (result) {
+      setEncoded(downloadSvgLink, "object-diagram.svg", result.svg);
     });
 
-    saveBoard().then(function(result) {
-      setEncoded(downloadLink, 'object-diagram.xml', result.xml);
+    saveBoard().then(function (result) {
+      setEncoded(downloadLink, "object-diagram.xml", result.xml);
     });
   }, 500);
 
-  modeler.on('commandStack.changed', exportArtifacts);
-  modeler.on('import.done', exportArtifacts);
+  modeler.on("commandStack.changed", exportArtifacts);
+  modeler.on("import.done", exportArtifacts);
 
-  openNew.on('click', function() {
+  openNew.on("click", function () {
     openBoard(_resources_emptyBoard_xml__WEBPACK_IMPORTED_MODULE_2__["default"]);
   });
 
-  openExistingBoard.on('click', function() {
+  openExistingBoard.on("click", function () {
     const input = jquery__WEBPACK_IMPORTED_MODULE_0___default()(fileInput);
 
     // clear input so that previously selected file can be reopened
-    input.val('');
-    input.trigger('click');
+    input.val("");
+    input.trigger("click");
   });
-
 });
 
 openBoard(_resources_sampleBoard_xml__WEBPACK_IMPORTED_MODULE_3__["default"]);
-
 
 // helpers //////////////////////
 
 function debounce(fn, timeout) {
   let timer;
 
-  return function() {
+  return function () {
     if (timer) {
       clearTimeout(timer);
     }

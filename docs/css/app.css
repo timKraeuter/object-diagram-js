@@ -1,5 +1,7 @@
-html, body, #canvas {
-  font-family: 'IBM Plex Sans', sans-serif;
+html,
+body,
+#canvas {
+  font-family: "IBM Plex Sans", sans-serif;
   height: 100%;
   padding: 0;
   margin: 0;
@@ -15,20 +17,20 @@ html, body, #canvas {
 }
 
 .bottom-buttons a.active {
-  opacity: 1.0;
+  opacity: 1;
   box-shadow: 0px 2px 2px 0 rgba(0, 0, 0, 0.1);
 }
 
 /* screen interaction helpers & modal */
 
-#io-dialog-main{
-  display:none; /*default*/
+#io-dialog-main {
+  display: none; /*default*/
 }
 
 #io-editing-tools-buttons {
   display: block;
-  position:fixed;
-  top:0px;
+  position: fixed;
+  top: 0px;
   right: 0px;
   list-style: none;
   padding: 5px;
@@ -36,7 +38,7 @@ html, body, #canvas {
 }
 
 #io-editing-tools-buttons button:hover {
-    color: #333333;
+  color: #333333;
 }
 
 .icon-keyboard {
@@ -47,7 +49,7 @@ html, body, #canvas {
 }
 
 .icon-keyboard::before {
-  content: '\f11c';
+  content: "\f11c";
   display: inline-block;
   line-height: 1.2em;
 }
@@ -60,11 +62,11 @@ html, body, #canvas {
 }
 
 .icon-resize-full::before {
-  content: '\f31e';
+  content: "\f31e";
   display: inline-block;
 }
 
 .keybindings-dialog .binding {
-	padding: 5px 10px;
-	font-family: monospace;
+  padding: 5px 10px;
+  font-family: monospace;
 }
