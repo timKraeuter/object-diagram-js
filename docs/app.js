@@ -195,8 +195,8 @@ function BaseViewer(options) {
  *
  * You can use these events to hook into the life-cycle.
  *
- * @param {String} xml the Postit xml
- * @param {ModdleElement<PostitRootBoard>|String} [rootBoard] Postit board or id of board to render (if not provided, the first one will be rendered)
+ * @param {String} xml the OD xml
+ * @param {ModdleElement<PostitRootBoard>|String} [rootBoard] OD board or id of board to render (if not provided, the first one will be rendered)
  *
  * @returns {Promise<ImportXMLResult, ImportXMLError>}
  */
@@ -926,7 +926,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var initialDiagram =
+const initialDiagram =
   `<?xml version="1.0" encoding="UTF-8"?>
 <od:definitions xmlns:od="http://tk/schema/od" xmlns:odDi="http://tk/schema/odDi">
     <od:odBoard id="Board_debug" />
@@ -1002,7 +1002,7 @@ Modeler.prototype._modelingModules = [
   diagram_js_lib_features_move__WEBPACK_IMPORTED_MODULE_23__["default"],
   _features_palette__WEBPACK_IMPORTED_MODULE_24__["default"],
   diagram_js_lib_features_resize__WEBPACK_IMPORTED_MODULE_25__["default"],
-  _features_snapping__WEBPACK_IMPORTED_MODULE_26__["default"],
+  _features_snapping__WEBPACK_IMPORTED_MODULE_26__["default"]
 ];
 
 
@@ -4151,7 +4151,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /**
- * Postit modeling features activator
+ * OD modeling features activator
  *
  * @param {EventBus} eventBus
  * @param {ElementFactory} elementFactory
@@ -8890,8 +8890,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
-/* harmony import */ var _Moddle__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Moddle */ "../lib/moddle/Moddle.js");
+/* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
+/* harmony import */ var _Moddle__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Moddle */ "../lib/moddle/Moddle.js");
+/* harmony import */ var _resources_db_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./resources/db.json */ "../lib/moddle/resources/db.json");
 /* harmony import */ var _resources_od_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./resources/od.json */ "../lib/moddle/resources/od.json");
 /* harmony import */ var _resources_odDi_json__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./resources/odDi.json */ "../lib/moddle/resources/odDi.json");
 /* harmony import */ var _resources_dc_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./resources/dc.json */ "../lib/moddle/resources/dc.json");
@@ -8904,16 +8905,20 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var packages = {
+
+const packages = {
   od: _resources_od_json__WEBPACK_IMPORTED_MODULE_0__,
   odDi: _resources_odDi_json__WEBPACK_IMPORTED_MODULE_1__,
   dc: _resources_dc_json__WEBPACK_IMPORTED_MODULE_2__,
+
+  // TODO: Debug API should preferably not be loaded here.
+  db: _resources_db_json__WEBPACK_IMPORTED_MODULE_3__,
 };
 
 /* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__(additionalPackages, options) {
-  var pks = (0,min_dash__WEBPACK_IMPORTED_MODULE_3__.assign)({}, packages, additionalPackages);
+  const pks = (0,min_dash__WEBPACK_IMPORTED_MODULE_4__.assign)({}, packages, additionalPackages);
 
-  return new _Moddle__WEBPACK_IMPORTED_MODULE_4__["default"](pks, options);
+  return new _Moddle__WEBPACK_IMPORTED_MODULE_5__["default"](pks, options);
 }
 
 
@@ -63846,6 +63851,17 @@ Moddle.prototype.getTypeDescriptor = function(type) {
 
 /***/ }),
 
+/***/ "../lib/moddle/resources/db.json":
+/*!***************************************!*\
+  !*** ../lib/moddle/resources/db.json ***!
+  \***************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = JSON.parse('{"name":"debug api","uri":"http://tk/schema/db","prefix":"db","xml":{"tagAlias":"lowerCase"},"types":[{"name":"ObjectDiagram","properties":[{"name":"object","isMany":true,"type":"Object"},{"name":"link","isMany":true,"type":"Link"},{"name":"primitiveRootValue","isMany":true,"type":"PrimitiveRootValue"}]},{"name":"Object","properties":[{"name":"id","isAttr":true,"isId":true,"type":"String"},{"name":"attributeValue","isMany":true,"type":"AttributeValue"},{"name":"link","isMany":true,"type":"Link","isReference":true},{"name":"variableName","isAttr":true,"type":"String"},{"name":"type","isAttr":true,"type":"String"}]},{"name":"AttributeValue","properties":[{"name":"name","isAttr":true,"type":"String"},{"name":"type","isAttr":true,"type":"String"},{"name":"value","isAttr":true,"type":"String"}]},{"name":"Link","properties":[{"name":"id","isAttr":true,"isId":true,"type":"String"},{"name":"type","isAttr":true,"type":"String"},{"name":"from","isAttr":true,"isReference":true,"type":"Object"},{"name":"to","isAttr":true,"isReference":true,"type":"Object"}]},{"name":"PrimitiveRootValue","properties":[{"name":"variableName","isAttr":true,"type":"String"},{"name":"type","isAttr":true,"type":"String"},{"name":"value","isAttr":true,"type":"String"}]}]}');
+
+/***/ }),
+
 /***/ "../lib/moddle/resources/dc.json":
 /*!***************************************!*\
   !*** ../lib/moddle/resources/dc.json ***!
@@ -64039,7 +64055,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 // modeler instance
-var modeler = new object_diagram_modeler_lib_Modeler__WEBPACK_IMPORTED_MODULE_4__["default"]({
+const modeler = new object_diagram_modeler_lib_Modeler__WEBPACK_IMPORTED_MODULE_4__["default"]({
   container: '#canvas',
   keyboard: {
     bindTo: window,
@@ -64114,11 +64130,11 @@ function openFile(file, callback) {
     return;
   }
 
-  var reader = new FileReader();
+  const reader = new FileReader();
 
   reader.onload = function(e) {
 
-    var xml = e.target.result;
+    const xml = e.target.result;
 
     callback(xml);
   };
@@ -64126,7 +64142,7 @@ function openFile(file, callback) {
   reader.readAsText(file);
 }
 
-var fileInput = jquery__WEBPACK_IMPORTED_MODULE_0___default()('<input type="file" />').appendTo(document.body).css({
+const fileInput = jquery__WEBPACK_IMPORTED_MODULE_0___default()('<input type="file" />').appendTo(document.body).css({
   width: 1,
   height: 1,
   display: 'none',
@@ -64157,11 +64173,11 @@ function saveBoard() {
 // bootstrap board functions
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(function() {
 
-  var downloadLink = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#js-download-board');
-  var downloadSvgLink = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#js-download-svg');
+  const downloadLink = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#js-download-board');
+  const downloadSvgLink = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#js-download-svg');
 
-  var openNew = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#js-open-new');
-  var openExistingBoard = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#js-open-board');
+  const openNew = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#js-open-new');
+  const openExistingBoard = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#js-open-board');
 
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('.buttons a').click(function(e) {
     if (!jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).is('.active')) {
@@ -64171,7 +64187,7 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(function() {
   });
 
   function setEncoded(link, name, data) {
-    var encodedData = encodeURIComponent(data);
+    const encodedData = encodeURIComponent(data);
 
     if (data) {
       link.addClass('active').attr({
@@ -64183,7 +64199,7 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(function() {
     }
   }
 
-  var exportArtifacts = debounce(function() {
+  const exportArtifacts = debounce(function() {
 
     saveSVG().then(function(result) {
       setEncoded(downloadSvgLink, 'object-diagram.svg', result.svg);
@@ -64195,13 +64211,14 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(function() {
   }, 500);
 
   modeler.on('commandStack.changed', exportArtifacts);
+  modeler.on('import.done', exportArtifacts);
 
   openNew.on('click', function() {
     openBoard(_resources_emptyBoard_xml__WEBPACK_IMPORTED_MODULE_2__["default"]);
   });
 
   openExistingBoard.on('click', function() {
-    var input = jquery__WEBPACK_IMPORTED_MODULE_0___default()(fileInput);
+    const input = jquery__WEBPACK_IMPORTED_MODULE_0___default()(fileInput);
 
     // clear input so that previously selected file can be reopened
     input.val('');
@@ -64216,7 +64233,7 @@ openBoard(_resources_sampleBoard_xml__WEBPACK_IMPORTED_MODULE_3__["default"]);
 // helpers //////////////////////
 
 function debounce(fn, timeout) {
-  var timer;
+  let timer;
 
   return function() {
     if (timer) {
