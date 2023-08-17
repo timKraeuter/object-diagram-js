@@ -159,6 +159,9 @@ $(function() {
   }, 500);
 
   odDebugger.on('commandStack.changed', exportArtifacts);
+  odDebugger.on('debugger.data.new', function(event) {
+    this.importXML(event.xml);
+  }, this);
   odDebugger.on('import.done', exportArtifacts);
 
   openExistingBoard.on('click', function() {

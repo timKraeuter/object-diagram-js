@@ -56,10 +56,6 @@ export default function BaseViewer(options) {
   /* </project-logo> */
 
   this._init(this._container, this._moddle, options);
-
-  this.on('debugger.data.new', function(event) {
-    this.importXML(event.xml);
-  }, this);
 }
 
 inherits(BaseViewer, Diagram);

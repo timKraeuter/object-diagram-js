@@ -10,15 +10,17 @@ import ODDescriptors from './resources/od.json';
 import DiDescriptors from './resources/odDi.json';
 import DcDescriptors from './resources/dc.json';
 
-var packages = {
+const packages = {
   od: ODDescriptors,
   odDi: DiDescriptors,
   dc: DcDescriptors,
+
+  // TODO: Debug API should preferably not be loaded here.
   db: DBDescriptors,
 };
 
 export default function(additionalPackages, options) {
-  var pks = assign({}, packages, additionalPackages);
+  const pks = assign({}, packages, additionalPackages);
 
   return new Moddle(pks, options);
 }
