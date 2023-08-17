@@ -1,9 +1,5 @@
 node_modules/
-docs/
 public/
+.idea/
 
-dist/
-coverage/
-.idea
-*.iml
-.DS_Store
+docs/
