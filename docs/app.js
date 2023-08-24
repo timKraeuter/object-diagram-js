@@ -2072,7 +2072,7 @@ ContextPadProvider.prototype.getContextPadEntries = function (element) {
     (0,min_dash__WEBPACK_IMPORTED_MODULE_1__.assign)(actions, {
       "append.append-task": appendAction(
         "od:Object",
-        "od-no-font-icon-object",
+        "od-icon-object",
         translate("Link with new object"),
       ),
     });
@@ -46950,7 +46950,6 @@ ___CSS_LOADER_EXPORT___.push([module.id, `@font-face {
   display: inline-block;
   text-decoration: inherit;
   width: 1em;
-  margin-right: 0.2em;
   text-align: center;
   /* opacity: .8; */
 
@@ -46960,10 +46959,6 @@ ___CSS_LOADER_EXPORT___.push([module.id, `@font-face {
 
   /* fix buttons height, for twitter bootstrap */
   line-height: 1em;
-
-  /* Animation center compensation - margins should be symmetric */
-  /* remove if not needed */
-  margin-left: 0.2em;
 
   /* you can be more comfortable with increased icons size */
   /* font-size: 120%; */
@@ -46979,7 +46974,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `@font-face {
 .od-icon-object:before {
   content: "\\e800";
 } /* '' */
-`, "",{"version":3,"sources":["webpack://./../assets/css/od.css"],"names":[],"mappings":"AAAA;EACE,iBAAiB;EACjB,4CAAmC;EACnC;;;;;yDAKiD;EACjD,mBAAmB;EACnB,kBAAkB;AACpB;AACA,gGAAgG;AAChG,2FAA2F;AAC3F;;;;;;;CAOC;AACD;;EAEE,iBAAiB;EACjB,kBAAkB;EAClB,mBAAmB;EACnB,YAAY;;EAEZ,qBAAqB;EACrB,wBAAwB;EACxB,UAAU;EACV,mBAAmB;EACnB,kBAAkB;EAClB,iBAAiB;;EAEjB,gEAAgE;EAChE,oBAAoB;EACpB,oBAAoB;;EAEpB,8CAA8C;EAC9C,gBAAgB;;EAEhB,gEAAgE;EAChE,yBAAyB;EACzB,kBAAkB;;EAElB,0DAA0D;EAC1D,qBAAqB;;EAErB,6CAA6C;EAC7C,mCAAmC;EACnC,kCAAkC;;EAElC,4BAA4B;EAC5B,uDAAuD;AACzD;;AAEA;EACE,gBAAgB;AAClB,EAAE,QAAQ","sourcesContent":["@font-face {\n  font-family: \"od\";\n  src: url(\"../font/od.eot?89616440\");\n  src:\n    url(\"../font/od.eot?89616440#iefix\") format(\"embedded-opentype\"),\n    url(\"../font/od.woff2?89616440\") format(\"woff2\"),\n    url(\"../font/od.woff?89616440\") format(\"woff\"),\n    url(\"../font/od.ttf?89616440\") format(\"truetype\"),\n    url(\"../font/od.svg?89616440#od\") format(\"svg\");\n  font-weight: normal;\n  font-style: normal;\n}\n/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */\n/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */\n/*\n@media screen and (-webkit-min-device-pixel-ratio:0) {\n  @font-face {\n    font-family: 'od';\n    src: url('../font/od.svg?89616440#od') format('svg');\n  }\n}\n*/\n[class^=\"od-icon-\"]:before,\n[class*=\" od-icon-\"]:before {\n  font-family: \"od\";\n  font-style: normal;\n  font-weight: normal;\n  speak: never;\n\n  display: inline-block;\n  text-decoration: inherit;\n  width: 1em;\n  margin-right: 0.2em;\n  text-align: center;\n  /* opacity: .8; */\n\n  /* For safety - reset parent styles, that can break glyph codes*/\n  font-variant: normal;\n  text-transform: none;\n\n  /* fix buttons height, for twitter bootstrap */\n  line-height: 1em;\n\n  /* Animation center compensation - margins should be symmetric */\n  /* remove if not needed */\n  margin-left: 0.2em;\n\n  /* you can be more comfortable with increased icons size */\n  /* font-size: 120%; */\n\n  /* Font smoothing. That was taken from TWBS */\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n\n  /* Uncomment for 3D effect */\n  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */\n}\n\n.od-icon-object:before {\n  content: \"\\e800\";\n} /* '' */\n"],"sourceRoot":""}]);
+`, "",{"version":3,"sources":["webpack://./../assets/css/od.css"],"names":[],"mappings":"AAAA;EACE,iBAAiB;EACjB,4CAAmC;EACnC;;;;;yDAKiD;EACjD,mBAAmB;EACnB,kBAAkB;AACpB;AACA,gGAAgG;AAChG,2FAA2F;AAC3F;;;;;;;CAOC;AACD;;EAEE,iBAAiB;EACjB,kBAAkB;EAClB,mBAAmB;EACnB,YAAY;;EAEZ,qBAAqB;EACrB,wBAAwB;EACxB,UAAU;EACV,kBAAkB;EAClB,iBAAiB;;EAEjB,gEAAgE;EAChE,oBAAoB;EACpB,oBAAoB;;EAEpB,8CAA8C;EAC9C,gBAAgB;;EAEhB,0DAA0D;EAC1D,qBAAqB;;EAErB,6CAA6C;EAC7C,mCAAmC;EACnC,kCAAkC;;EAElC,4BAA4B;EAC5B,uDAAuD;AACzD;;AAEA;EACE,gBAAgB;AAClB,EAAE,QAAQ","sourcesContent":["@font-face {\r\n  font-family: \"od\";\r\n  src: url(\"../font/od.eot?89616440\");\r\n  src:\r\n    url(\"../font/od.eot?89616440#iefix\") format(\"embedded-opentype\"),\r\n    url(\"../font/od.woff2?89616440\") format(\"woff2\"),\r\n    url(\"../font/od.woff?89616440\") format(\"woff\"),\r\n    url(\"../font/od.ttf?89616440\") format(\"truetype\"),\r\n    url(\"../font/od.svg?89616440#od\") format(\"svg\");\r\n  font-weight: normal;\r\n  font-style: normal;\r\n}\r\n/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */\r\n/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */\r\n/*\r\n@media screen and (-webkit-min-device-pixel-ratio:0) {\r\n  @font-face {\r\n    font-family: 'od';\r\n    src: url('../font/od.svg?89616440#od') format('svg');\r\n  }\r\n}\r\n*/\r\n[class^=\"od-icon-\"]:before,\r\n[class*=\" od-icon-\"]:before {\r\n  font-family: \"od\";\r\n  font-style: normal;\r\n  font-weight: normal;\r\n  speak: never;\r\n\r\n  display: inline-block;\r\n  text-decoration: inherit;\r\n  width: 1em;\r\n  text-align: center;\r\n  /* opacity: .8; */\r\n\r\n  /* For safety - reset parent styles, that can break glyph codes*/\r\n  font-variant: normal;\r\n  text-transform: none;\r\n\r\n  /* fix buttons height, for twitter bootstrap */\r\n  line-height: 1em;\r\n\r\n  /* you can be more comfortable with increased icons size */\r\n  /* font-size: 120%; */\r\n\r\n  /* Font smoothing. That was taken from TWBS */\r\n  -webkit-font-smoothing: antialiased;\r\n  -moz-osx-font-smoothing: grayscale;\r\n\r\n  /* Uncomment for 3D effect */\r\n  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */\r\n}\r\n\r\n.od-icon-object:before {\r\n  content: \"\\e800\";\r\n} /* '' */\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -47004,61 +46999,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _starter_node_modules_css_loader_dist_cjs_js_node_modules_diagram_js_assets_diagram_js_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! -!../starter/node_modules/css-loader/dist/cjs.js!../node_modules/diagram-js/assets/diagram-js.css */ "./node_modules/css-loader/dist/cjs.js!../node_modules/diagram-js/assets/diagram-js.css");
 /* harmony import */ var _starter_node_modules_css_loader_dist_cjs_js_node_modules_bpmn_font_dist_css_bpmn_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! -!../starter/node_modules/css-loader/dist/cjs.js!../node_modules/bpmn-font/dist/css/bpmn.css */ "./node_modules/css-loader/dist/cjs.js!../node_modules/bpmn-font/dist/css/bpmn.css");
 /* harmony import */ var _starter_node_modules_css_loader_dist_cjs_js_css_od_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! -!../starter/node_modules/css-loader/dist/cjs.js!./css/od.css */ "./node_modules/css-loader/dist/cjs.js!../assets/css/od.css");
-/* harmony import */ var _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../starter/node_modules/css-loader/dist/runtime/getUrl.js */ "./node_modules/css-loader/dist/runtime/getUrl.js");
-/* harmony import */ var _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_5__);
 // Imports
 
 
 
 
 
-
-var ___CSS_LOADER_URL_IMPORT_0___ = new URL(/* asset import */ __webpack_require__(/*! ./ibm-plex-font/IBMPlexSans-Regular.ttf */ "../assets/ibm-plex-font/IBMPlexSans-Regular.ttf"), __webpack_require__.b);
-var ___CSS_LOADER_URL_IMPORT_1___ = new URL(/* asset import */ __webpack_require__(/*! ./font-awesome-5/29f589f173dcc69ef6c805b711894998.eot */ "../assets/font-awesome-5/29f589f173dcc69ef6c805b711894998.eot"), __webpack_require__.b);
-var ___CSS_LOADER_URL_IMPORT_2___ = new URL(/* asset import */ __webpack_require__(/*! ./font-awesome-5/29f589f173dcc69ef6c805b711894998.woff2 */ "../assets/font-awesome-5/29f589f173dcc69ef6c805b711894998.woff2"), __webpack_require__.b);
-var ___CSS_LOADER_URL_IMPORT_3___ = new URL(/* asset import */ __webpack_require__(/*! ./font-awesome-5/29f589f173dcc69ef6c805b711894998.woff */ "../assets/font-awesome-5/29f589f173dcc69ef6c805b711894998.woff"), __webpack_require__.b);
-var ___CSS_LOADER_URL_IMPORT_4___ = new URL(/* asset import */ __webpack_require__(/*! ./font-awesome-5/29f589f173dcc69ef6c805b711894998.ttf */ "../assets/font-awesome-5/29f589f173dcc69ef6c805b711894998.ttf"), __webpack_require__.b);
-var ___CSS_LOADER_URL_IMPORT_5___ = new URL(/* asset import */ __webpack_require__(/*! ./font-awesome-5/29f589f173dcc69ef6c805b711894998.svg */ "../assets/font-awesome-5/29f589f173dcc69ef6c805b711894998.svg"), __webpack_require__.b);
-var ___CSS_LOADER_URL_IMPORT_6___ = new URL(/* asset import */ __webpack_require__(/*! data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 fill=%27none%27 stroke=%27%23000%27 stroke-width=%271.5%27 width=%2746%27 height=%2746%27%3E%3Crect x=%2710%27 y=%2713%27 width=%2726%27 height=%2720%27/%3E%0Astroke=%27black%27 /%3E%3Cline x1=%2710%27 y1=%2719%27 x2=%2736%27 y2=%2719%27 stroke=%27black%27 /%3E%3C/svg%3E */ "data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 fill=%27none%27 stroke=%27%23000%27 stroke-width=%271.5%27 width=%2746%27 height=%2746%27%3E%3Crect x=%2710%27 y=%2713%27 width=%2726%27 height=%2720%27/%3E%0Astroke=%27black%27 /%3E%3Cline x1=%2710%27 y1=%2719%27 x2=%2736%27 y2=%2719%27 stroke=%27black%27 /%3E%3C/svg%3E"), __webpack_require__.b);
 var ___CSS_LOADER_EXPORT___ = _starter_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_starter_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 ___CSS_LOADER_EXPORT___.i(_starter_node_modules_css_loader_dist_cjs_js_node_modules_diagram_js_assets_diagram_js_css__WEBPACK_IMPORTED_MODULE_2__["default"]);
 ___CSS_LOADER_EXPORT___.i(_starter_node_modules_css_loader_dist_cjs_js_node_modules_bpmn_font_dist_css_bpmn_css__WEBPACK_IMPORTED_MODULE_3__["default"]);
 ___CSS_LOADER_EXPORT___.i(_starter_node_modules_css_loader_dist_cjs_js_css_od_css__WEBPACK_IMPORTED_MODULE_4__["default"]);
-var ___CSS_LOADER_URL_REPLACEMENT_0___ = _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_5___default()(___CSS_LOADER_URL_IMPORT_0___);
-var ___CSS_LOADER_URL_REPLACEMENT_1___ = _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_5___default()(___CSS_LOADER_URL_IMPORT_1___);
-var ___CSS_LOADER_URL_REPLACEMENT_2___ = _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_5___default()(___CSS_LOADER_URL_IMPORT_1___, { hash: "?#iefix" });
-var ___CSS_LOADER_URL_REPLACEMENT_3___ = _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_5___default()(___CSS_LOADER_URL_IMPORT_2___);
-var ___CSS_LOADER_URL_REPLACEMENT_4___ = _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_5___default()(___CSS_LOADER_URL_IMPORT_3___);
-var ___CSS_LOADER_URL_REPLACEMENT_5___ = _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_5___default()(___CSS_LOADER_URL_IMPORT_4___);
-var ___CSS_LOADER_URL_REPLACEMENT_6___ = _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_5___default()(___CSS_LOADER_URL_IMPORT_5___, { hash: "#Font Awesome 5 Free Solid" });
-var ___CSS_LOADER_URL_REPLACEMENT_7___ = _starter_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_5___default()(___CSS_LOADER_URL_IMPORT_6___);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, `@font-face {
-  font-family: "IBM Plex";
-  src: url(${___CSS_LOADER_URL_REPLACEMENT_0___});
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Font Awesome 5 Free Solid";
-  src: url(${___CSS_LOADER_URL_REPLACEMENT_1___}); /* IE9*/
-  src:
-    url(${___CSS_LOADER_URL_REPLACEMENT_2___})
-      format("embedded-opentype"),
-    /* IE6-IE8 */ url(${___CSS_LOADER_URL_REPLACEMENT_3___})
-      format("woff2"),
-    /* chrome、firefox */
-      url(${___CSS_LOADER_URL_REPLACEMENT_4___})
-      format("woff"),
-    /* chrome、firefox */
-      url(${___CSS_LOADER_URL_REPLACEMENT_5___})
-      format("truetype"),
-    /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
-      url(${___CSS_LOADER_URL_REPLACEMENT_6___})
-      format("svg"); /* iOS 4.1- */
-}
-
-/* OVERWRITING Diagram.js */
+___CSS_LOADER_EXPORT___.push([module.id, `/* OVERWRITING Diagram.js */
 .djs-palette {
   box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2) !important;
 }
@@ -47190,11 +47142,6 @@ a:hover {
 }
 
 /* canvas drawing */
-
-.od-no-font-icon-object {
-  /* We use this in the context pad because the icon from the font is not scaled properly. TODO Tim: Investigate this */
-  content: url(${___CSS_LOADER_URL_REPLACEMENT_7___});
-}
 
 .pjs-text-box:before {
   content: "Abc";
@@ -47411,7 +47358,7 @@ textarea {
   opacity: 1;
   box-shadow: 0px 2px 2px 0 rgba(0, 0, 0, 0.1);
 }
-`, "",{"version":3,"sources":["webpack://./../assets/odm.css"],"names":[],"mappings":"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","sourcesContent":["@import \"../node_modules/diagram-js/assets/diagram-js.css\";\n@import \"../node_modules/bpmn-font/dist/css/bpmn.css\";\n@import url(\"./css/od.css\");\n\n@font-face {\n  font-family: \"IBM Plex\";\n  src: url(\"./ibm-plex-font/IBMPlexSans-Regular.ttf\");\n  font-display: swap;\n}\n\n@font-face {\n  font-family: \"Font Awesome 5 Free Solid\";\n  src: url(\"./font-awesome-5/29f589f173dcc69ef6c805b711894998.eot\"); /* IE9*/\n  src:\n    url(\"./font-awesome-5/29f589f173dcc69ef6c805b711894998.eot?#iefix\")\n      format(\"embedded-opentype\"),\n    /* IE6-IE8 */ url(\"./font-awesome-5/29f589f173dcc69ef6c805b711894998.woff2\")\n      format(\"woff2\"),\n    /* chrome、firefox */\n      url(\"./font-awesome-5/29f589f173dcc69ef6c805b711894998.woff\")\n      format(\"woff\"),\n    /* chrome、firefox */\n      url(\"./font-awesome-5/29f589f173dcc69ef6c805b711894998.ttf\")\n      format(\"truetype\"),\n    /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/\n      url(\"./font-awesome-5/29f589f173dcc69ef6c805b711894998.svg#Font Awesome 5 Free Solid\")\n      format(\"svg\"); /* iOS 4.1- */\n}\n\n/* OVERWRITING Diagram.js */\n.djs-palette {\n  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2) !important;\n}\n\n/* General */\nbutton {\n  border: none;\n  background: none;\n}\n\nul {\n  padding: 0;\n  margin: 0;\n  list-style-type: none;\n}\n\nbutton:hover,\na:hover {\n  cursor: pointer;\n}\n\n.pjs-error {\n  color: #ff0000;\n}\n\n.pjs-visible {\n  display: block !important;\n}\n\n.pjs-first {\n  /* DONT CHANGE. USED AS PSEUDOCLASS */\n}\n\n.pjs-buttons {\n  position: fixed;\n}\n\n.pjs-buttons > ul {\n  display: block;\n  padding: 0;\n  margin: 0;\n  margin-top: 10px;\n  list-style: none;\n}\n\n.pjs-buttons > ul > li {\n  display: inline-block;\n  margin-right: 10px;\n}\n\n.pjs-buttons > ul > li > a,\n.pjs-buttons button {\n  color: black;\n  background-color: #f8f8f8;\n  border-radius: 3px;\n  display: inline-block;\n  padding: 6px 10px;\n  font-size: 13px;\n  font-weight: bold;\n  text-align: center;\n  border: solid 1px #cdcdcd;\n}\n\n.pjs-buttons button:hover {\n  cursor: pointer;\n}\n\n.pjs-buttons a {\n  opacity: 0.3;\n  text-decoration: none;\n}\n\n.pjs-button-disabled,\n.pjs-button-disabled:hover,\n.pjs-button-disabled:active {\n  opacity: 0.3;\n  text-decoration: none;\n}\n\n.pjs-buttons a.pjs-buttons-active,\n.pjs-buttons button.pjs-buttons-active {\n  opacity: 1;\n  box-shadow: 0px 2px 2px 0 rgba(0, 0, 0, 0.1);\n}\n\n/* tool tip */\n\n.pjs-tooltip {\n  position: relative;\n  display: inline-block;\n  border-bottom: 1px dotted black;\n}\n\n.pjs-tooltip .pjs-tooltiptext {\n  font-family: \"IBM Plex Sans\", sans-serif;\n  visibility: hidden;\n  width: 120px;\n  background-color: black;\n  color: #fff;\n  text-align: center;\n  border-radius: 6px;\n  padding: 5px 0;\n  padding: 20px;\n  position: absolute;\n  z-index: 1;\n  bottom: 100%;\n  left: 50%;\n  margin-left: -60px;\n\n  /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */\n  opacity: 0;\n  transition: opacity 1s;\n}\n\n.pjs-tooltip:hover .pjs-tooltiptext {\n  visibility: visible;\n  opacity: 1;\n}\n\n.pjs-tooltip .pjs-tooltiptext::after {\n  content: \" \";\n  position: absolute;\n  top: 100%; /* At the bottom of the tooltip */\n  left: 50%;\n  margin-left: -5px;\n  border-width: 5px;\n  border-style: solid;\n  border-color: black transparent transparent transparent;\n}\n\n/* canvas drawing */\n\n.od-no-font-icon-object {\n  /* We use this in the context pad because the icon from the font is not scaled properly. TODO Tim: Investigate this */\n  content: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='%23000' stroke-width='1.5' width='46' height='46'%3E%3Crect x='10' y='13' width='26' height='20'/%3E%0Astroke='black' /%3E%3Cline x1='10' y1='19' x2='36' y2='19' stroke='black' /%3E%3C/svg%3E\");\n}\n\n.pjs-text-box:before {\n  content: \"Abc\";\n  font-size: medium;\n}\n\n.pjs-horizontal {\n  display: inline-block;\n}\n\n.pjs-horizontal li {\n  float: left;\n}\n\n[class*=\" pjs-general-icon\"]::before {\n  font-style: normal;\n  font-weight: normal;\n  speak: none;\n  display: inline-block;\n  text-decoration: inherit;\n  text-align: center;\n  font-variant: normal;\n  text-transform: none;\n}\n\n.pjs-general-icon {\n  font-family: \"Font Awesome 5 Free Solid\";\n  line-height: 1.2em;\n}\n\n.pjs-ui-element-bordered {\n  color: black;\n  background-color: #f8f8f8;\n  border-radius: 3px;\n  display: inline-block;\n  font-size: 13px;\n  border: solid 1px #cdcdcd;\n}\n\n.pjs-io-dialog-text-hint {\n  margin-top: 4px;\n  font-size: 13px;\n  text-align: left;\n  color: #555555;\n}\n\n.pjs-io-dialog-text-hint .pjs-tooltip .pjs-tooltiptext {\n  margin-left: -80px !important;\n}\n\n/* flex box grid */\n\n.pjs-row {\n  box-sizing: border-box;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-flex: 0;\n  -ms-flex: 0 1 auto;\n  flex: 0 1 auto;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n  -ms-flex-direction: row;\n  flex-direction: row;\n  -ms-flex-wrap: wrap-reverse;\n  flex-wrap: wrap-reverse;\n}\n\n.pjs-col-xs {\n  -webkit-box-flex: 1;\n  -ms-flex-positive: 1;\n  flex-grow: 1;\n  -ms-flex-preferred-size: 0;\n  flex-basis: 0;\n  max-width: 100%;\n  box-sizing: border-box;\n}\n\n.pjs-box,\n.pjs-box-first,\n.pjs-box-large,\n.pjs-box-nested,\n.pjs-box-row {\n  position: relative;\n  box-sizing: border-box;\n  min-height: 1rem;\n  margin-bottom: 0;\n  border: 1px solid #fff;\n  border-radius: 2px;\n  overflow: hidden;\n  text-align: center;\n  color: #fff;\n}\n\n.pjs-text {\n  color: black;\n  font-size: 13px;\n  font-weight: bold;\n}\n\n.pjs-ui-element {\n  color: black;\n  background-color: #f8f8f8;\n  display: inline-block;\n  font-size: 13px;\n  border: solid 1px #cdcdcd;\n}\n\nbutton:hover {\n  cursor: pointer;\n}\n\ninput,\ntextarea {\n  width: 100%;\n  text-align: left;\n  padding: 6px 10px;\n  -moz-box-sizing: border-box;\n  -webkit-box-sizing: border-box;\n  box-sizing: border-box;\n}\n\n.pjs-labeled-input {\n  position: relative;\n}\n\n.pjs-section-spacer {\n  width: 100%;\n  height: 1px;\n  background-color: #555555;\n}\n\n.pjs-io-dialog {\n  position: fixed;\n  width: 600px;\n  left: 50%;\n  margin-left: -300px;\n  top: 100px;\n  background: white;\n  padding: 10px 30px 20px 30px;\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);\n  border-radius: 2px;\n  height: auto;\n  z-index: 1001;\n}\n\n.pjs-io-dialog.pjs-io-dialog-open::before {\n  content: \"\";\n  position: fixed;\n  left: 0;\n  top: 0;\n  bottom: 0;\n  right: 0;\n  background: #666;\n  opacity: 0.2;\n  z-index: 1001;\n}\n\n.pjs-io-dialog .pjs-io-dialog-content {\n  background: white;\n  z-index: 1001;\n  position: fixed;\n  width: 600px;\n  left: 50%;\n  margin-left: -300px;\n  top: 100px;\n  background: white;\n  padding: 10px 30px 20px 30px;\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);\n  border-radius: 2px;\n  height: auto;\n}\n\n.pjs-io-dialog-section {\n  padding-top: 10px;\n}\n\n.pjs-io-dialog-section.pjs-first {\n  padding-top: 0px;\n}\n\n.pjs-io-dialog-local {\n  padding: 10px;\n  background: white;\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);\n  border-radius: 2px;\n  height: auto;\n}\n\n.pjs-io-dialog-local .pjs-box-row {\n  min-width: 40px;\n}\n\n.pjs-io-dialog-local .pjs-box-row img {\n  width: 100%;\n  max-width: 100px;\n  object-fit: fill;\n  vertical-align: middle;\n}\n\n.pjs-buttons.pjs-image-selection-submit-wrapper {\n  position: relative;\n}\n\n.pjs-buttons.pjs-image-selection-submit-wrapper button {\n  width: 100%;\n}\n\n.pjs-buttons.pjs-image-selection-submit-wrapper button:hover {\n  color: #555;\n}\n\n.pjs-buttons.pjs-image-selection-submit-wrapper button:active {\n  opacity: 1;\n  box-shadow: 0px 2px 2px 0 rgba(0, 0, 0, 0.1);\n}\n"],"sourceRoot":""}]);
+`, "",{"version":3,"sources":["webpack://./../assets/odm.css"],"names":[],"mappings":"AAIA,2BAA2B;AAC3B;EACE,qDAAqD;AACvD;;AAEA,YAAY;AACZ;EACE,YAAY;EACZ,gBAAgB;AAClB;;AAEA;EACE,UAAU;EACV,SAAS;EACT,qBAAqB;AACvB;;AAEA;;EAEE,eAAe;AACjB;;AAEA;EACE,cAAc;AAChB;;AAEA;EACE,yBAAyB;AAC3B;;AAEA;EACE,qCAAqC;AACvC;;AAEA;EACE,eAAe;AACjB;;AAEA;EACE,cAAc;EACd,UAAU;EACV,SAAS;EACT,gBAAgB;EAChB,gBAAgB;AAClB;;AAEA;EACE,qBAAqB;EACrB,kBAAkB;AACpB;;AAEA;;EAEE,YAAY;EACZ,yBAAyB;EACzB,kBAAkB;EAClB,qBAAqB;EACrB,iBAAiB;EACjB,eAAe;EACf,iBAAiB;EACjB,kBAAkB;EAClB,yBAAyB;AAC3B;;AAEA;EACE,eAAe;AACjB;;AAEA;EACE,YAAY;EACZ,qBAAqB;AACvB;;AAEA;;;EAGE,YAAY;EACZ,qBAAqB;AACvB;;AAEA;;EAEE,UAAU;EACV,4CAA4C;AAC9C;;AAEA,aAAa;;AAEb;EACE,kBAAkB;EAClB,qBAAqB;EACrB,+BAA+B;AACjC;;AAEA;EACE,wCAAwC;EACxC,kBAAkB;EAClB,YAAY;EACZ,uBAAuB;EACvB,WAAW;EACX,kBAAkB;EAClB,kBAAkB;EAClB,cAAc;EACd,aAAa;EACb,kBAAkB;EAClB,UAAU;EACV,YAAY;EACZ,SAAS;EACT,kBAAkB;;EAElB,iEAAiE;EACjE,UAAU;EACV,sBAAsB;AACxB;;AAEA;EACE,mBAAmB;EACnB,UAAU;AACZ;;AAEA;EACE,YAAY;EACZ,kBAAkB;EAClB,SAAS,EAAE,iCAAiC;EAC5C,SAAS;EACT,iBAAiB;EACjB,iBAAiB;EACjB,mBAAmB;EACnB,uDAAuD;AACzD;;AAEA,mBAAmB;;AAEnB;EACE,cAAc;EACd,iBAAiB;AACnB;;AAEA;EACE,qBAAqB;AACvB;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,kBAAkB;EAClB,mBAAmB;EACnB,WAAW;EACX,qBAAqB;EACrB,wBAAwB;EACxB,kBAAkB;EAClB,oBAAoB;EACpB,oBAAoB;AACtB;;AAEA;EACE,wCAAwC;EACxC,kBAAkB;AACpB;;AAEA;EACE,YAAY;EACZ,yBAAyB;EACzB,kBAAkB;EAClB,qBAAqB;EACrB,eAAe;EACf,yBAAyB;AAC3B;;AAEA;EACE,eAAe;EACf,eAAe;EACf,gBAAgB;EAChB,cAAc;AAChB;;AAEA;EACE,6BAA6B;AAC/B;;AAEA,kBAAkB;;AAElB;EACE,sBAAsB;EACtB,oBAAoB;EACpB,oBAAoB;EACpB,aAAa;EACb,mBAAmB;EACnB,kBAAkB;EAClB,cAAc;EACd,8BAA8B;EAC9B,6BAA6B;EAC7B,uBAAuB;EACvB,mBAAmB;EACnB,2BAA2B;EAC3B,uBAAuB;AACzB;;AAEA;EACE,mBAAmB;EACnB,oBAAoB;EACpB,YAAY;EACZ,0BAA0B;EAC1B,aAAa;EACb,eAAe;EACf,sBAAsB;AACxB;;AAEA;;;;;EAKE,kBAAkB;EAClB,sBAAsB;EACtB,gBAAgB;EAChB,gBAAgB;EAChB,sBAAsB;EACtB,kBAAkB;EAClB,gBAAgB;EAChB,kBAAkB;EAClB,WAAW;AACb;;AAEA;EACE,YAAY;EACZ,eAAe;EACf,iBAAiB;AACnB;;AAEA;EACE,YAAY;EACZ,yBAAyB;EACzB,qBAAqB;EACrB,eAAe;EACf,yBAAyB;AAC3B;;AAEA;EACE,eAAe;AACjB;;AAEA;;EAEE,WAAW;EACX,gBAAgB;EAChB,iBAAiB;EACjB,2BAA2B;EAC3B,8BAA8B;EAC9B,sBAAsB;AACxB;;AAEA;EACE,kBAAkB;AACpB;;AAEA;EACE,WAAW;EACX,WAAW;EACX,yBAAyB;AAC3B;;AAEA;EACE,eAAe;EACf,YAAY;EACZ,SAAS;EACT,mBAAmB;EACnB,UAAU;EACV,iBAAiB;EACjB,4BAA4B;EAC5B,wCAAwC;EACxC,kBAAkB;EAClB,YAAY;EACZ,aAAa;AACf;;AAEA;EACE,WAAW;EACX,eAAe;EACf,OAAO;EACP,MAAM;EACN,SAAS;EACT,QAAQ;EACR,gBAAgB;EAChB,YAAY;EACZ,aAAa;AACf;;AAEA;EACE,iBAAiB;EACjB,aAAa;EACb,eAAe;EACf,YAAY;EACZ,SAAS;EACT,mBAAmB;EACnB,UAAU;EACV,iBAAiB;EACjB,4BAA4B;EAC5B,wCAAwC;EACxC,kBAAkB;EAClB,YAAY;AACd;;AAEA;EACE,iBAAiB;AACnB;;AAEA;EACE,gBAAgB;AAClB;;AAEA;EACE,aAAa;EACb,iBAAiB;EACjB,wCAAwC;EACxC,kBAAkB;EAClB,YAAY;AACd;;AAEA;EACE,eAAe;AACjB;;AAEA;EACE,WAAW;EACX,gBAAgB;EAChB,gBAAgB;EAChB,sBAAsB;AACxB;;AAEA;EACE,kBAAkB;AACpB;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,UAAU;EACV,4CAA4C;AAC9C","sourcesContent":["@import \"../node_modules/diagram-js/assets/diagram-js.css\";\r\n@import \"../node_modules/bpmn-font/dist/css/bpmn.css\";\r\n@import url(\"./css/od.css\");\r\n\r\n/* OVERWRITING Diagram.js */\r\n.djs-palette {\r\n  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2) !important;\r\n}\r\n\r\n/* General */\r\nbutton {\r\n  border: none;\r\n  background: none;\r\n}\r\n\r\nul {\r\n  padding: 0;\r\n  margin: 0;\r\n  list-style-type: none;\r\n}\r\n\r\nbutton:hover,\r\na:hover {\r\n  cursor: pointer;\r\n}\r\n\r\n.pjs-error {\r\n  color: #ff0000;\r\n}\r\n\r\n.pjs-visible {\r\n  display: block !important;\r\n}\r\n\r\n.pjs-first {\r\n  /* DONT CHANGE. USED AS PSEUDOCLASS */\r\n}\r\n\r\n.pjs-buttons {\r\n  position: fixed;\r\n}\r\n\r\n.pjs-buttons > ul {\r\n  display: block;\r\n  padding: 0;\r\n  margin: 0;\r\n  margin-top: 10px;\r\n  list-style: none;\r\n}\r\n\r\n.pjs-buttons > ul > li {\r\n  display: inline-block;\r\n  margin-right: 10px;\r\n}\r\n\r\n.pjs-buttons > ul > li > a,\r\n.pjs-buttons button {\r\n  color: black;\r\n  background-color: #f8f8f8;\r\n  border-radius: 3px;\r\n  display: inline-block;\r\n  padding: 6px 10px;\r\n  font-size: 13px;\r\n  font-weight: bold;\r\n  text-align: center;\r\n  border: solid 1px #cdcdcd;\r\n}\r\n\r\n.pjs-buttons button:hover {\r\n  cursor: pointer;\r\n}\r\n\r\n.pjs-buttons a {\r\n  opacity: 0.3;\r\n  text-decoration: none;\r\n}\r\n\r\n.pjs-button-disabled,\r\n.pjs-button-disabled:hover,\r\n.pjs-button-disabled:active {\r\n  opacity: 0.3;\r\n  text-decoration: none;\r\n}\r\n\r\n.pjs-buttons a.pjs-buttons-active,\r\n.pjs-buttons button.pjs-buttons-active {\r\n  opacity: 1;\r\n  box-shadow: 0px 2px 2px 0 rgba(0, 0, 0, 0.1);\r\n}\r\n\r\n/* tool tip */\r\n\r\n.pjs-tooltip {\r\n  position: relative;\r\n  display: inline-block;\r\n  border-bottom: 1px dotted black;\r\n}\r\n\r\n.pjs-tooltip .pjs-tooltiptext {\r\n  font-family: \"IBM Plex Sans\", sans-serif;\r\n  visibility: hidden;\r\n  width: 120px;\r\n  background-color: black;\r\n  color: #fff;\r\n  text-align: center;\r\n  border-radius: 6px;\r\n  padding: 5px 0;\r\n  padding: 20px;\r\n  position: absolute;\r\n  z-index: 1;\r\n  bottom: 100%;\r\n  left: 50%;\r\n  margin-left: -60px;\r\n\r\n  /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */\r\n  opacity: 0;\r\n  transition: opacity 1s;\r\n}\r\n\r\n.pjs-tooltip:hover .pjs-tooltiptext {\r\n  visibility: visible;\r\n  opacity: 1;\r\n}\r\n\r\n.pjs-tooltip .pjs-tooltiptext::after {\r\n  content: \" \";\r\n  position: absolute;\r\n  top: 100%; /* At the bottom of the tooltip */\r\n  left: 50%;\r\n  margin-left: -5px;\r\n  border-width: 5px;\r\n  border-style: solid;\r\n  border-color: black transparent transparent transparent;\r\n}\r\n\r\n/* canvas drawing */\r\n\r\n.pjs-text-box:before {\r\n  content: \"Abc\";\r\n  font-size: medium;\r\n}\r\n\r\n.pjs-horizontal {\r\n  display: inline-block;\r\n}\r\n\r\n.pjs-horizontal li {\r\n  float: left;\r\n}\r\n\r\n[class*=\" pjs-general-icon\"]::before {\r\n  font-style: normal;\r\n  font-weight: normal;\r\n  speak: none;\r\n  display: inline-block;\r\n  text-decoration: inherit;\r\n  text-align: center;\r\n  font-variant: normal;\r\n  text-transform: none;\r\n}\r\n\r\n.pjs-general-icon {\r\n  font-family: \"Font Awesome 5 Free Solid\";\r\n  line-height: 1.2em;\r\n}\r\n\r\n.pjs-ui-element-bordered {\r\n  color: black;\r\n  background-color: #f8f8f8;\r\n  border-radius: 3px;\r\n  display: inline-block;\r\n  font-size: 13px;\r\n  border: solid 1px #cdcdcd;\r\n}\r\n\r\n.pjs-io-dialog-text-hint {\r\n  margin-top: 4px;\r\n  font-size: 13px;\r\n  text-align: left;\r\n  color: #555555;\r\n}\r\n\r\n.pjs-io-dialog-text-hint .pjs-tooltip .pjs-tooltiptext {\r\n  margin-left: -80px !important;\r\n}\r\n\r\n/* flex box grid */\r\n\r\n.pjs-row {\r\n  box-sizing: border-box;\r\n  display: -webkit-box;\r\n  display: -ms-flexbox;\r\n  display: flex;\r\n  -webkit-box-flex: 0;\r\n  -ms-flex: 0 1 auto;\r\n  flex: 0 1 auto;\r\n  -webkit-box-orient: horizontal;\r\n  -webkit-box-direction: normal;\r\n  -ms-flex-direction: row;\r\n  flex-direction: row;\r\n  -ms-flex-wrap: wrap-reverse;\r\n  flex-wrap: wrap-reverse;\r\n}\r\n\r\n.pjs-col-xs {\r\n  -webkit-box-flex: 1;\r\n  -ms-flex-positive: 1;\r\n  flex-grow: 1;\r\n  -ms-flex-preferred-size: 0;\r\n  flex-basis: 0;\r\n  max-width: 100%;\r\n  box-sizing: border-box;\r\n}\r\n\r\n.pjs-box,\r\n.pjs-box-first,\r\n.pjs-box-large,\r\n.pjs-box-nested,\r\n.pjs-box-row {\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  min-height: 1rem;\r\n  margin-bottom: 0;\r\n  border: 1px solid #fff;\r\n  border-radius: 2px;\r\n  overflow: hidden;\r\n  text-align: center;\r\n  color: #fff;\r\n}\r\n\r\n.pjs-text {\r\n  color: black;\r\n  font-size: 13px;\r\n  font-weight: bold;\r\n}\r\n\r\n.pjs-ui-element {\r\n  color: black;\r\n  background-color: #f8f8f8;\r\n  display: inline-block;\r\n  font-size: 13px;\r\n  border: solid 1px #cdcdcd;\r\n}\r\n\r\nbutton:hover {\r\n  cursor: pointer;\r\n}\r\n\r\ninput,\r\ntextarea {\r\n  width: 100%;\r\n  text-align: left;\r\n  padding: 6px 10px;\r\n  -moz-box-sizing: border-box;\r\n  -webkit-box-sizing: border-box;\r\n  box-sizing: border-box;\r\n}\r\n\r\n.pjs-labeled-input {\r\n  position: relative;\r\n}\r\n\r\n.pjs-section-spacer {\r\n  width: 100%;\r\n  height: 1px;\r\n  background-color: #555555;\r\n}\r\n\r\n.pjs-io-dialog {\r\n  position: fixed;\r\n  width: 600px;\r\n  left: 50%;\r\n  margin-left: -300px;\r\n  top: 100px;\r\n  background: white;\r\n  padding: 10px 30px 20px 30px;\r\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);\r\n  border-radius: 2px;\r\n  height: auto;\r\n  z-index: 1001;\r\n}\r\n\r\n.pjs-io-dialog.pjs-io-dialog-open::before {\r\n  content: \"\";\r\n  position: fixed;\r\n  left: 0;\r\n  top: 0;\r\n  bottom: 0;\r\n  right: 0;\r\n  background: #666;\r\n  opacity: 0.2;\r\n  z-index: 1001;\r\n}\r\n\r\n.pjs-io-dialog .pjs-io-dialog-content {\r\n  background: white;\r\n  z-index: 1001;\r\n  position: fixed;\r\n  width: 600px;\r\n  left: 50%;\r\n  margin-left: -300px;\r\n  top: 100px;\r\n  background: white;\r\n  padding: 10px 30px 20px 30px;\r\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);\r\n  border-radius: 2px;\r\n  height: auto;\r\n}\r\n\r\n.pjs-io-dialog-section {\r\n  padding-top: 10px;\r\n}\r\n\r\n.pjs-io-dialog-section.pjs-first {\r\n  padding-top: 0px;\r\n}\r\n\r\n.pjs-io-dialog-local {\r\n  padding: 10px;\r\n  background: white;\r\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);\r\n  border-radius: 2px;\r\n  height: auto;\r\n}\r\n\r\n.pjs-io-dialog-local .pjs-box-row {\r\n  min-width: 40px;\r\n}\r\n\r\n.pjs-io-dialog-local .pjs-box-row img {\r\n  width: 100%;\r\n  max-width: 100px;\r\n  object-fit: fill;\r\n  vertical-align: middle;\r\n}\r\n\r\n.pjs-buttons.pjs-image-selection-submit-wrapper {\r\n  position: relative;\r\n}\r\n\r\n.pjs-buttons.pjs-image-selection-submit-wrapper button {\r\n  width: 100%;\r\n}\r\n\r\n.pjs-buttons.pjs-image-selection-submit-wrapper button:hover {\r\n  color: #555;\r\n}\r\n\r\n.pjs-buttons.pjs-image-selection-submit-wrapper button:active {\r\n  opacity: 1;\r\n  box-shadow: 0px 2px 2px 0 rgba(0, 0, 0, 0.1);\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -59865,72 +59812,6 @@ module.exports = styleTagTransform;
 
 /***/ }),
 
-/***/ "data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 fill=%27none%27 stroke=%27%23000%27 stroke-width=%271.5%27 width=%2746%27 height=%2746%27%3E%3Crect x=%2710%27 y=%2713%27 width=%2726%27 height=%2720%27/%3E%0Astroke=%27black%27 /%3E%3Cline x1=%2710%27 y1=%2719%27 x2=%2736%27 y2=%2719%27 stroke=%27black%27 /%3E%3C/svg%3E":
-/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 fill=%27none%27 stroke=%27%23000%27 stroke-width=%271.5%27 width=%2746%27 height=%2746%27%3E%3Crect x=%2710%27 y=%2713%27 width=%2726%27 height=%2720%27/%3E%0Astroke=%27black%27 /%3E%3Cline x1=%2710%27 y1=%2719%27 x2=%2736%27 y2=%2719%27 stroke=%27black%27 /%3E%3C/svg%3E ***!
-  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((module) => {
-
-"use strict";
-module.exports = "data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 fill=%27none%27 stroke=%27%23000%27 stroke-width=%271.5%27 width=%2746%27 height=%2746%27%3E%3Crect x=%2710%27 y=%2713%27 width=%2726%27 height=%2720%27/%3E%0Astroke=%27black%27 /%3E%3Cline x1=%2710%27 y1=%2719%27 x2=%2736%27 y2=%2719%27 stroke=%27black%27 /%3E%3C/svg%3E";
-
-/***/ }),
-
-/***/ "../assets/font-awesome-5/29f589f173dcc69ef6c805b711894998.eot":
-/*!*********************************************************************!*\
-  !*** ../assets/font-awesome-5/29f589f173dcc69ef6c805b711894998.eot ***!
-  \*********************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-"use strict";
-module.exports = __webpack_require__.p + "29f589f173dcc69ef6c805b711894998.eot";
-
-/***/ }),
-
-/***/ "../assets/font-awesome-5/29f589f173dcc69ef6c805b711894998.svg":
-/*!*********************************************************************!*\
-  !*** ../assets/font-awesome-5/29f589f173dcc69ef6c805b711894998.svg ***!
-  \*********************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-"use strict";
-module.exports = __webpack_require__.p + "29f589f173dcc69ef6c805b711894998.svg";
-
-/***/ }),
-
-/***/ "../assets/font-awesome-5/29f589f173dcc69ef6c805b711894998.ttf":
-/*!*********************************************************************!*\
-  !*** ../assets/font-awesome-5/29f589f173dcc69ef6c805b711894998.ttf ***!
-  \*********************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-"use strict";
-module.exports = __webpack_require__.p + "29f589f173dcc69ef6c805b711894998.ttf";
-
-/***/ }),
-
-/***/ "../assets/font-awesome-5/29f589f173dcc69ef6c805b711894998.woff":
-/*!**********************************************************************!*\
-  !*** ../assets/font-awesome-5/29f589f173dcc69ef6c805b711894998.woff ***!
-  \**********************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-"use strict";
-module.exports = __webpack_require__.p + "29f589f173dcc69ef6c805b711894998.woff";
-
-/***/ }),
-
-/***/ "../assets/font-awesome-5/29f589f173dcc69ef6c805b711894998.woff2":
-/*!***********************************************************************!*\
-  !*** ../assets/font-awesome-5/29f589f173dcc69ef6c805b711894998.woff2 ***!
-  \***********************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-"use strict";
-module.exports = __webpack_require__.p + "29f589f173dcc69ef6c805b711894998.woff2";
-
-/***/ }),
-
 /***/ "../assets/font/od.eot?89616440":
 /*!**************************************!*\
   !*** ../assets/font/od.eot?89616440 ***!
@@ -59983,17 +59864,6 @@ module.exports = __webpack_require__.p + "od.woff2";
 
 "use strict";
 module.exports = __webpack_require__.p + "od.woff";
-
-/***/ }),
-
-/***/ "../assets/ibm-plex-font/IBMPlexSans-Regular.ttf":
-/*!*******************************************************!*\
-  !*** ../assets/ibm-plex-font/IBMPlexSans-Regular.ttf ***!
-  \*******************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-"use strict";
-module.exports = __webpack_require__.p + "IBMPlexSans-Regular.ttf";
 
 /***/ }),
 
