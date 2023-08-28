@@ -1,10 +1,10 @@
 {
   "name": "object-diagram-modeler",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "An object diagram toolkit and modeler",
   "main": "index.js",
   "files": [
-    "dist",
+    "assets",
     "lib",
     "!.eslintrc"
   ],
