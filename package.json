@@ -1,6 +1,6 @@
 {
   "name": "object-diagram-modeler",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "all": "run-s lint test",
     "lint": "eslint .",
@@ -17,6 +17,10 @@
   "author": {
     "name": "Tim Kräuter",
     "url": "https://timkraeuter.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/timKraeuter/object-diagram-modeler.git"
   },
   "license": "SEE LICENSE IN LICENSE",
   "sideEffects": [
