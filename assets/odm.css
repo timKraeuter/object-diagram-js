@@ -1,5 +1,5 @@
-@import "../node_modules/diagram-js/assets/diagram-js.css";
-@import "../node_modules/bpmn-font/dist/css/bpmn.css";
+@import "~diagram-js/assets/diagram-js.css";
+@import "~bpmn-font/dist/css/bpmn.css";
 @import url("./css/od.css");
 
 @font-face {
