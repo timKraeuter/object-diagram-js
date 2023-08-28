@@ -1,6 +1,13 @@
 {
   "name": "object-diagram-modeler",
-  "version": "1.0.1",
+  "version": "1.0.2",
+  "description": "An object diagram toolkit and modeler",
+  "main": "index.js",
+  "files": [
+    "dist",
+    "lib",
+    "!.eslintrc"
+  ],
   "scripts": {
     "all": "run-s lint test",
     "lint": "eslint .",
