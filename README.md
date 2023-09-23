@@ -7,6 +7,7 @@
 This folder contains the source code for an [object diagram modeler](https://timkraeuter.com/object-diagram-modeler/) library based on **diagram-js**.
 
 ### Usage
+
 The project is published as a [npm package](https://www.npmjs.com/package/object-diagram-modeler).
 Usage is similar to [bpmn-js](https://github.com/bpmn-io/bpmn-js) and is shown in `/starter`.
 
