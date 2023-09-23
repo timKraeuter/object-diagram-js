@@ -3423,10 +3423,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ LabelEditingProvider)
 /* harmony export */ });
-/* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
-/* harmony import */ var _LabelUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LabelUtil */ "../lib/features/label-editing/LabelUtil.js");
-/* harmony import */ var _modeling_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../modeling/util/ModelingUtil */ "../lib/features/modeling/util/ModelingUtil.js");
-/* harmony import */ var _util_LabelUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/LabelUtil */ "../lib/util/LabelUtil.js");
+/* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
+/* harmony import */ var _LabelUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./LabelUtil */ "../lib/features/label-editing/LabelUtil.js");
+/* harmony import */ var _modeling_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../modeling/util/ModelingUtil */ "../lib/features/modeling/util/ModelingUtil.js");
+/* harmony import */ var _util_LabelUtil__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../util/LabelUtil */ "../lib/util/LabelUtil.js");
+/* harmony import */ var _util_ModelUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../util/ModelUtil */ "../lib/util/ModelUtil.js");
+
 
 
 
@@ -3452,11 +3454,14 @@ function LabelEditingProvider(
   directEditing.registerProvider(this);
 
   function decideIfTitelOrAttributesClicked(event) {
-    var zoom = canvas.zoom();
-    var titel_attribute_divider_y_coordinate =
+    const zoom = canvas.zoom();
+    const titel_attribute_divider_y_coordinate =
       (event.element.y + 30 - canvas._cachedViewbox.y) * zoom;
-    var click_y_coordinate = event.originalEvent.offsetY;
-    if (click_y_coordinate >= titel_attribute_divider_y_coordinate) {
+    const click_y_coordinate = event.originalEvent.offsetY;
+    if (
+      (0,_util_ModelUtil__WEBPACK_IMPORTED_MODULE_0__.is)(event.element, "od:Object") &&
+      click_y_coordinate >= titel_attribute_divider_y_coordinate
+    ) {
       event.element.businessObject.labelAttribute = "attributeValues";
     } else {
       event.element.businessObject.labelAttribute = "name";
@@ -3530,7 +3535,7 @@ function LabelEditingProvider(
   });
 
   function activateDirectEdit(element, force) {
-    if (force || (0,_modeling_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_0__.isAny)(element, ["od:TextBox", "od:Object"])) {
+    if (force || (0,_modeling_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_1__.isAny)(element, ["od:TextBox", "od:Object"])) {
       directEditing.activate(element);
     }
   }
@@ -3555,7 +3560,7 @@ LabelEditingProvider.$inject = [
  */
 LabelEditingProvider.prototype.activate = function (element) {
   // text
-  var text = (0,_LabelUtil__WEBPACK_IMPORTED_MODULE_1__.getLabel)(element);
+  var text = (0,_LabelUtil__WEBPACK_IMPORTED_MODULE_2__.getLabel)(element);
 
   if (text === undefined) {
     return;
@@ -3568,25 +3573,25 @@ LabelEditingProvider.prototype.activate = function (element) {
   // bounds
   var bounds = this.getEditingBBox(element);
 
-  (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)(context, bounds);
+  (0,min_dash__WEBPACK_IMPORTED_MODULE_3__.assign)(context, bounds);
 
   var options = {};
 
   // text boxes
-  if ((0,_modeling_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_0__.isAny)(element, ["od:TextBox"])) {
-    (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)(options, {
+  if ((0,_modeling_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_1__.isAny)(element, ["od:TextBox"])) {
+    (0,min_dash__WEBPACK_IMPORTED_MODULE_3__.assign)(options, {
       centerVertically: true,
     });
   }
 
   // external labels
-  if ((0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_3__.isLabelExternal)(element)) {
-    (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)(options, {
+  if ((0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_4__.isLabelExternal)(element)) {
+    (0,min_dash__WEBPACK_IMPORTED_MODULE_3__.assign)(options, {
       autoResize: true,
     });
   }
 
-  (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)(context, {
+  (0,min_dash__WEBPACK_IMPORTED_MODULE_3__.assign)(context, {
     options: options,
   });
 
@@ -3632,13 +3637,13 @@ LabelEditingProvider.prototype.getEditingBBox = function (element) {
     fontWeight: this._textRenderer.getDefaultStyle().fontWeight,
   };
 
-  if ((0,_modeling_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_0__.isAny)(element, ["od:TextBox", "od:Object"])) {
-    (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)(bounds, {
+  if ((0,_modeling_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_1__.isAny)(element, ["od:TextBox", "od:Object"])) {
+    (0,min_dash__WEBPACK_IMPORTED_MODULE_3__.assign)(bounds, {
       width: bbox.width,
       height: bbox.height,
     });
 
-    (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)(style, {
+    (0,min_dash__WEBPACK_IMPORTED_MODULE_3__.assign)(style, {
       fontSize: defaultFontSize + "px",
       lineHeight: defaultLineHeight,
       paddingTop: 7 * zoom + "px",
@@ -3647,15 +3652,15 @@ LabelEditingProvider.prototype.getEditingBBox = function (element) {
       paddingRight: 5 * zoom + "px",
     });
 
-    if ((0,_modeling_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_0__.isAny)(element, ["od:Object"])) {
+    if ((0,_modeling_util_ModelingUtil__WEBPACK_IMPORTED_MODULE_1__.isAny)(element, ["od:Object"])) {
       // Editing attributes should be different.
       if (element.businessObject.labelAttribute === "attributeValues") {
-        (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)(bounds, {
+        (0,min_dash__WEBPACK_IMPORTED_MODULE_3__.assign)(bounds, {
           y: bbox.y + 30 * zoom,
           height: bbox.height - 30 * zoom,
         });
       } else {
-        (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)(bounds, {
+        (0,min_dash__WEBPACK_IMPORTED_MODULE_3__.assign)(bounds, {
           height: 30 * zoom,
         });
       }
@@ -3668,14 +3673,14 @@ LabelEditingProvider.prototype.getEditingBBox = function (element) {
 
   // external labels for events, data elements, gateways, groups and connections
   if (target.labelTarget) {
-    (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)(bounds, {
+    (0,min_dash__WEBPACK_IMPORTED_MODULE_3__.assign)(bounds, {
       width: width,
       height: bbox.height + paddingTop + paddingBottom,
       x: mid.x - width / 2,
       y: bbox.y - paddingTop,
     });
 
-    (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)(style, {
+    (0,min_dash__WEBPACK_IMPORTED_MODULE_3__.assign)(style, {
       fontSize: externalFontSize + "px",
       lineHeight: externalLineHeight,
       paddingTop: paddingTop + "px",
@@ -3685,11 +3690,11 @@ LabelEditingProvider.prototype.getEditingBBox = function (element) {
 
   // external label not yet created
   if (
-    (0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_3__.isLabelExternal)(target) &&
-    !(0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_3__.hasExternalLabel)(target) &&
-    !(0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_3__.isLabel)(target)
+    (0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_4__.isLabelExternal)(target) &&
+    !(0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_4__.hasExternalLabel)(target) &&
+    !(0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_4__.isLabel)(target)
   ) {
-    var externalLabelMid = (0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_3__.getExternalLabelMid)(element);
+    var externalLabelMid = (0,_util_LabelUtil__WEBPACK_IMPORTED_MODULE_4__.getExternalLabelMid)(element);
 
     var absoluteBBox = canvas.getAbsoluteBBox({
       x: externalLabelMid.x,
@@ -3700,14 +3705,14 @@ LabelEditingProvider.prototype.getEditingBBox = function (element) {
 
     var height = externalFontSize + paddingTop + paddingBottom;
 
-    (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)(bounds, {
+    (0,min_dash__WEBPACK_IMPORTED_MODULE_3__.assign)(bounds, {
       width: width,
       height: height,
       x: absoluteBBox.x - width / 2,
       y: absoluteBBox.y - height / 2,
     });
 
-    (0,min_dash__WEBPACK_IMPORTED_MODULE_2__.assign)(style, {
+    (0,min_dash__WEBPACK_IMPORTED_MODULE_3__.assign)(style, {
       fontSize: externalFontSize + "px",
       lineHeight: externalLineHeight,
       paddingTop: paddingTop + "px",
@@ -11121,9 +11126,9 @@ Canvas.prototype._init = function(config) {
 
   const viewport = this._viewport = createGroup(svg, 'viewport');
 
-  // debounce canvas.viewbox.changed events
-  // for smoother diagram interaction
-  if (config.deferUpdate !== false) {
+  // debounce canvas.viewbox.changed events when deferUpdate is set
+  // to help with potential performance issues
+  if (config.deferUpdate) {
     this._viewboxChanged = (0,min_dash__WEBPACK_IMPORTED_MODULE_0__.debounce)((0,min_dash__WEBPACK_IMPORTED_MODULE_0__.bind)(this._viewboxChanged, this), 300);
   }
 
@@ -12145,6 +12150,11 @@ Canvas.prototype.scrollToElement = function(element, padding) {
 
   if (rootElement !== this.getRootElement()) {
     this.setRootElement(rootElement);
+  }
+
+  // element is rootElement, do not change viewport
+  if (rootElement === element) {
+    return;
   }
 
   if (!padding) {
@@ -46974,7 +46984,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `@font-face {
 .od-icon-object:before {
   content: "\\e800";
 } /* '' */
-`, "",{"version":3,"sources":["webpack://./../assets/css/od.css"],"names":[],"mappings":"AAAA;EACE,iBAAiB;EACjB,4CAAmC;EACnC;;;;;yDAKiD;EACjD,mBAAmB;EACnB,kBAAkB;AACpB;AACA,gGAAgG;AAChG,2FAA2F;AAC3F;;;;;;;CAOC;AACD;;EAEE,iBAAiB;EACjB,kBAAkB;EAClB,mBAAmB;EACnB,YAAY;;EAEZ,qBAAqB;EACrB,wBAAwB;EACxB,UAAU;EACV,kBAAkB;EAClB,iBAAiB;;EAEjB,gEAAgE;EAChE,oBAAoB;EACpB,oBAAoB;;EAEpB,8CAA8C;EAC9C,gBAAgB;;EAEhB,0DAA0D;EAC1D,qBAAqB;;EAErB,6CAA6C;EAC7C,mCAAmC;EACnC,kCAAkC;;EAElC,4BAA4B;EAC5B,uDAAuD;AACzD;;AAEA;EACE,gBAAgB;AAClB,EAAE,QAAQ","sourcesContent":["@font-face {\r\n  font-family: \"od\";\r\n  src: url(\"../font/od.eot?89616440\");\r\n  src:\r\n    url(\"../font/od.eot?89616440#iefix\") format(\"embedded-opentype\"),\r\n    url(\"../font/od.woff2?89616440\") format(\"woff2\"),\r\n    url(\"../font/od.woff?89616440\") format(\"woff\"),\r\n    url(\"../font/od.ttf?89616440\") format(\"truetype\"),\r\n    url(\"../font/od.svg?89616440#od\") format(\"svg\");\r\n  font-weight: normal;\r\n  font-style: normal;\r\n}\r\n/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */\r\n/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */\r\n/*\r\n@media screen and (-webkit-min-device-pixel-ratio:0) {\r\n  @font-face {\r\n    font-family: 'od';\r\n    src: url('../font/od.svg?89616440#od') format('svg');\r\n  }\r\n}\r\n*/\r\n[class^=\"od-icon-\"]:before,\r\n[class*=\" od-icon-\"]:before {\r\n  font-family: \"od\";\r\n  font-style: normal;\r\n  font-weight: normal;\r\n  speak: never;\r\n\r\n  display: inline-block;\r\n  text-decoration: inherit;\r\n  width: 1em;\r\n  text-align: center;\r\n  /* opacity: .8; */\r\n\r\n  /* For safety - reset parent styles, that can break glyph codes*/\r\n  font-variant: normal;\r\n  text-transform: none;\r\n\r\n  /* fix buttons height, for twitter bootstrap */\r\n  line-height: 1em;\r\n\r\n  /* you can be more comfortable with increased icons size */\r\n  /* font-size: 120%; */\r\n\r\n  /* Font smoothing. That was taken from TWBS */\r\n  -webkit-font-smoothing: antialiased;\r\n  -moz-osx-font-smoothing: grayscale;\r\n\r\n  /* Uncomment for 3D effect */\r\n  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */\r\n}\r\n\r\n.od-icon-object:before {\r\n  content: \"\\e800\";\r\n} /* '' */\r\n"],"sourceRoot":""}]);
+`, "",{"version":3,"sources":["webpack://./../assets/css/od.css"],"names":[],"mappings":"AAAA;EACE,iBAAiB;EACjB,4CAAmC;EACnC;;;;;yDAKiD;EACjD,mBAAmB;EACnB,kBAAkB;AACpB;AACA,gGAAgG;AAChG,2FAA2F;AAC3F;;;;;;;CAOC;AACD;;EAEE,iBAAiB;EACjB,kBAAkB;EAClB,mBAAmB;EACnB,YAAY;;EAEZ,qBAAqB;EACrB,wBAAwB;EACxB,UAAU;EACV,kBAAkB;EAClB,iBAAiB;;EAEjB,gEAAgE;EAChE,oBAAoB;EACpB,oBAAoB;;EAEpB,8CAA8C;EAC9C,gBAAgB;;EAEhB,0DAA0D;EAC1D,qBAAqB;;EAErB,6CAA6C;EAC7C,mCAAmC;EACnC,kCAAkC;;EAElC,4BAA4B;EAC5B,uDAAuD;AACzD;;AAEA;EACE,gBAAgB;AAClB,EAAE,QAAQ","sourcesContent":["@font-face {\n  font-family: \"od\";\n  src: url(\"../font/od.eot?89616440\");\n  src:\n    url(\"../font/od.eot?89616440#iefix\") format(\"embedded-opentype\"),\n    url(\"../font/od.woff2?89616440\") format(\"woff2\"),\n    url(\"../font/od.woff?89616440\") format(\"woff\"),\n    url(\"../font/od.ttf?89616440\") format(\"truetype\"),\n    url(\"../font/od.svg?89616440#od\") format(\"svg\");\n  font-weight: normal;\n  font-style: normal;\n}\n/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */\n/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */\n/*\n@media screen and (-webkit-min-device-pixel-ratio:0) {\n  @font-face {\n    font-family: 'od';\n    src: url('../font/od.svg?89616440#od') format('svg');\n  }\n}\n*/\n[class^=\"od-icon-\"]:before,\n[class*=\" od-icon-\"]:before {\n  font-family: \"od\";\n  font-style: normal;\n  font-weight: normal;\n  speak: never;\n\n  display: inline-block;\n  text-decoration: inherit;\n  width: 1em;\n  text-align: center;\n  /* opacity: .8; */\n\n  /* For safety - reset parent styles, that can break glyph codes*/\n  font-variant: normal;\n  text-transform: none;\n\n  /* fix buttons height, for twitter bootstrap */\n  line-height: 1em;\n\n  /* you can be more comfortable with increased icons size */\n  /* font-size: 120%; */\n\n  /* Font smoothing. That was taken from TWBS */\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n\n  /* Uncomment for 3D effect */\n  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */\n}\n\n.od-icon-object:before {\n  content: \"\\e800\";\n} /* '' */\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -47028,19 +47038,19 @@ ___CSS_LOADER_EXPORT___.push([module.id, `@font-face {
   font-family: "Font Awesome 5 Free Solid";
   src: url(${___CSS_LOADER_URL_REPLACEMENT_0___}); /* IE9*/
   src:
-          url(${___CSS_LOADER_URL_REPLACEMENT_1___})
-          format("embedded-opentype"),
-            /* IE6-IE8 */ url(${___CSS_LOADER_URL_REPLACEMENT_2___})
-          format("woff2"),
-            /* chrome、firefox */
-          url(${___CSS_LOADER_URL_REPLACEMENT_3___})
-          format("woff"),
-            /* chrome、firefox */
-          url(${___CSS_LOADER_URL_REPLACEMENT_4___})
-          format("truetype"),
-            /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
-          url(${___CSS_LOADER_URL_REPLACEMENT_5___})
-          format("svg"); /* iOS 4.1- */
+    url(${___CSS_LOADER_URL_REPLACEMENT_1___})
+      format("embedded-opentype"),
+    /* IE6-IE8 */ url(${___CSS_LOADER_URL_REPLACEMENT_2___})
+      format("woff2"),
+    /* chrome、firefox */
+      url(${___CSS_LOADER_URL_REPLACEMENT_3___})
+      format("woff"),
+    /* chrome、firefox */
+      url(${___CSS_LOADER_URL_REPLACEMENT_4___})
+      format("truetype"),
+    /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+      url(${___CSS_LOADER_URL_REPLACEMENT_5___})
+      format("svg"); /* iOS 4.1- */
 }
 
 /* OVERWRITING Diagram.js */
@@ -47391,7 +47401,7 @@ textarea {
   opacity: 1;
   box-shadow: 0px 2px 2px 0 rgba(0, 0, 0, 0.1);
 }
-`, "",{"version":3,"sources":["webpack://./../assets/odm.css"],"names":[],"mappings":"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","sourcesContent":["@import \"../node_modules/diagram-js/assets/diagram-js.css\";\r\n@import \"../node_modules/bpmn-font/dist/css/bpmn.css\";\r\n@import url(\"./css/od.css\");\r\n\r\n@font-face {\r\n  font-family: \"Font Awesome 5 Free Solid\";\r\n  src: url(\"./font-awesome-5/29f589f173dcc69ef6c805b711894998.eot\"); /* IE9*/\r\n  src:\r\n          url(\"./font-awesome-5/29f589f173dcc69ef6c805b711894998.eot?#iefix\")\r\n          format(\"embedded-opentype\"),\r\n            /* IE6-IE8 */ url(\"./font-awesome-5/29f589f173dcc69ef6c805b711894998.woff2\")\r\n          format(\"woff2\"),\r\n            /* chrome、firefox */\r\n          url(\"./font-awesome-5/29f589f173dcc69ef6c805b711894998.woff\")\r\n          format(\"woff\"),\r\n            /* chrome、firefox */\r\n          url(\"./font-awesome-5/29f589f173dcc69ef6c805b711894998.ttf\")\r\n          format(\"truetype\"),\r\n            /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/\r\n          url(\"./font-awesome-5/29f589f173dcc69ef6c805b711894998.svg#Font Awesome 5 Free Solid\")\r\n          format(\"svg\"); /* iOS 4.1- */\r\n}\r\n\r\n/* OVERWRITING Diagram.js */\r\n.djs-palette {\r\n  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2) !important;\r\n}\r\n\r\n/* General */\r\nbutton {\r\n  border: none;\r\n  background: none;\r\n}\r\n\r\nul {\r\n  padding: 0;\r\n  margin: 0;\r\n  list-style-type: none;\r\n}\r\n\r\nbutton:hover,\r\na:hover {\r\n  cursor: pointer;\r\n}\r\n\r\n.pjs-error {\r\n  color: #ff0000;\r\n}\r\n\r\n.pjs-visible {\r\n  display: block !important;\r\n}\r\n\r\n.pjs-first {\r\n  /* DONT CHANGE. USED AS PSEUDOCLASS */\r\n}\r\n\r\n.pjs-buttons {\r\n  position: fixed;\r\n}\r\n\r\n.pjs-buttons > ul {\r\n  display: block;\r\n  padding: 0;\r\n  margin: 0;\r\n  margin-top: 10px;\r\n  list-style: none;\r\n}\r\n\r\n.pjs-buttons > ul > li {\r\n  display: inline-block;\r\n  margin-right: 10px;\r\n}\r\n\r\n.pjs-buttons > ul > li > a,\r\n.pjs-buttons button {\r\n  color: black;\r\n  background-color: #f8f8f8;\r\n  border-radius: 3px;\r\n  display: inline-block;\r\n  padding: 6px 10px;\r\n  font-size: 13px;\r\n  font-weight: bold;\r\n  text-align: center;\r\n  border: solid 1px #cdcdcd;\r\n}\r\n\r\n.pjs-buttons button:hover {\r\n  cursor: pointer;\r\n}\r\n\r\n.pjs-buttons a {\r\n  opacity: 0.3;\r\n  text-decoration: none;\r\n}\r\n\r\n.pjs-button-disabled,\r\n.pjs-button-disabled:hover,\r\n.pjs-button-disabled:active {\r\n  opacity: 0.3;\r\n  text-decoration: none;\r\n}\r\n\r\n.pjs-buttons a.pjs-buttons-active,\r\n.pjs-buttons button.pjs-buttons-active {\r\n  opacity: 1;\r\n  box-shadow: 0px 2px 2px 0 rgba(0, 0, 0, 0.1);\r\n}\r\n\r\n/* tool tip */\r\n\r\n.pjs-tooltip {\r\n  position: relative;\r\n  display: inline-block;\r\n  border-bottom: 1px dotted black;\r\n}\r\n\r\n.pjs-tooltip .pjs-tooltiptext {\r\n  font-family: \"IBM Plex Sans\", sans-serif;\r\n  visibility: hidden;\r\n  width: 120px;\r\n  background-color: black;\r\n  color: #fff;\r\n  text-align: center;\r\n  border-radius: 6px;\r\n  padding: 5px 0;\r\n  padding: 20px;\r\n  position: absolute;\r\n  z-index: 1;\r\n  bottom: 100%;\r\n  left: 50%;\r\n  margin-left: -60px;\r\n\r\n  /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */\r\n  opacity: 0;\r\n  transition: opacity 1s;\r\n}\r\n\r\n.pjs-tooltip:hover .pjs-tooltiptext {\r\n  visibility: visible;\r\n  opacity: 1;\r\n}\r\n\r\n.pjs-tooltip .pjs-tooltiptext::after {\r\n  content: \" \";\r\n  position: absolute;\r\n  top: 100%; /* At the bottom of the tooltip */\r\n  left: 50%;\r\n  margin-left: -5px;\r\n  border-width: 5px;\r\n  border-style: solid;\r\n  border-color: black transparent transparent transparent;\r\n}\r\n\r\n/* canvas drawing */\r\n\r\n.pjs-text-box:before {\r\n  content: \"Abc\";\r\n  font-size: medium;\r\n}\r\n\r\n.pjs-horizontal {\r\n  display: inline-block;\r\n}\r\n\r\n.pjs-horizontal li {\r\n  float: left;\r\n}\r\n\r\n[class*=\" pjs-general-icon\"]::before {\r\n  font-style: normal;\r\n  font-weight: normal;\r\n  speak: none;\r\n  display: inline-block;\r\n  text-decoration: inherit;\r\n  text-align: center;\r\n  font-variant: normal;\r\n  text-transform: none;\r\n}\r\n\r\n.pjs-general-icon {\r\n  font-family: \"Font Awesome 5 Free Solid\";\r\n  line-height: 1.2em;\r\n}\r\n\r\n.pjs-ui-element-bordered {\r\n  color: black;\r\n  background-color: #f8f8f8;\r\n  border-radius: 3px;\r\n  display: inline-block;\r\n  font-size: 13px;\r\n  border: solid 1px #cdcdcd;\r\n}\r\n\r\n.pjs-io-dialog-text-hint {\r\n  margin-top: 4px;\r\n  font-size: 13px;\r\n  text-align: left;\r\n  color: #555555;\r\n}\r\n\r\n.pjs-io-dialog-text-hint .pjs-tooltip .pjs-tooltiptext {\r\n  margin-left: -80px !important;\r\n}\r\n\r\n/* flex box grid */\r\n\r\n.pjs-row {\r\n  box-sizing: border-box;\r\n  display: -webkit-box;\r\n  display: -ms-flexbox;\r\n  display: flex;\r\n  -webkit-box-flex: 0;\r\n  -ms-flex: 0 1 auto;\r\n  flex: 0 1 auto;\r\n  -webkit-box-orient: horizontal;\r\n  -webkit-box-direction: normal;\r\n  -ms-flex-direction: row;\r\n  flex-direction: row;\r\n  -ms-flex-wrap: wrap-reverse;\r\n  flex-wrap: wrap-reverse;\r\n}\r\n\r\n.pjs-col-xs {\r\n  -webkit-box-flex: 1;\r\n  -ms-flex-positive: 1;\r\n  flex-grow: 1;\r\n  -ms-flex-preferred-size: 0;\r\n  flex-basis: 0;\r\n  max-width: 100%;\r\n  box-sizing: border-box;\r\n}\r\n\r\n.pjs-box,\r\n.pjs-box-first,\r\n.pjs-box-large,\r\n.pjs-box-nested,\r\n.pjs-box-row {\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  min-height: 1rem;\r\n  margin-bottom: 0;\r\n  border: 1px solid #fff;\r\n  border-radius: 2px;\r\n  overflow: hidden;\r\n  text-align: center;\r\n  color: #fff;\r\n}\r\n\r\n.pjs-text {\r\n  color: black;\r\n  font-size: 13px;\r\n  font-weight: bold;\r\n}\r\n\r\n.pjs-ui-element {\r\n  color: black;\r\n  background-color: #f8f8f8;\r\n  display: inline-block;\r\n  font-size: 13px;\r\n  border: solid 1px #cdcdcd;\r\n}\r\n\r\nbutton:hover {\r\n  cursor: pointer;\r\n}\r\n\r\ninput,\r\ntextarea {\r\n  width: 100%;\r\n  text-align: left;\r\n  padding: 6px 10px;\r\n  -moz-box-sizing: border-box;\r\n  -webkit-box-sizing: border-box;\r\n  box-sizing: border-box;\r\n}\r\n\r\n.pjs-labeled-input {\r\n  position: relative;\r\n}\r\n\r\n.pjs-section-spacer {\r\n  width: 100%;\r\n  height: 1px;\r\n  background-color: #555555;\r\n}\r\n\r\n.pjs-io-dialog {\r\n  position: fixed;\r\n  width: 600px;\r\n  left: 50%;\r\n  margin-left: -300px;\r\n  top: 100px;\r\n  background: white;\r\n  padding: 10px 30px 20px 30px;\r\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);\r\n  border-radius: 2px;\r\n  height: auto;\r\n  z-index: 1001;\r\n}\r\n\r\n.pjs-io-dialog.pjs-io-dialog-open::before {\r\n  content: \"\";\r\n  position: fixed;\r\n  left: 0;\r\n  top: 0;\r\n  bottom: 0;\r\n  right: 0;\r\n  background: #666;\r\n  opacity: 0.2;\r\n  z-index: 1001;\r\n}\r\n\r\n.pjs-io-dialog .pjs-io-dialog-content {\r\n  background: white;\r\n  z-index: 1001;\r\n  position: fixed;\r\n  width: 600px;\r\n  left: 50%;\r\n  margin-left: -300px;\r\n  top: 100px;\r\n  background: white;\r\n  padding: 10px 30px 20px 30px;\r\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);\r\n  border-radius: 2px;\r\n  height: auto;\r\n}\r\n\r\n.pjs-io-dialog-section {\r\n  padding-top: 10px;\r\n}\r\n\r\n.pjs-io-dialog-section.pjs-first {\r\n  padding-top: 0px;\r\n}\r\n\r\n.pjs-io-dialog-local {\r\n  padding: 10px;\r\n  background: white;\r\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);\r\n  border-radius: 2px;\r\n  height: auto;\r\n}\r\n\r\n.pjs-io-dialog-local .pjs-box-row {\r\n  min-width: 40px;\r\n}\r\n\r\n.pjs-io-dialog-local .pjs-box-row img {\r\n  width: 100%;\r\n  max-width: 100px;\r\n  object-fit: fill;\r\n  vertical-align: middle;\r\n}\r\n\r\n.pjs-buttons.pjs-image-selection-submit-wrapper {\r\n  position: relative;\r\n}\r\n\r\n.pjs-buttons.pjs-image-selection-submit-wrapper button {\r\n  width: 100%;\r\n}\r\n\r\n.pjs-buttons.pjs-image-selection-submit-wrapper button:hover {\r\n  color: #555;\r\n}\r\n\r\n.pjs-buttons.pjs-image-selection-submit-wrapper button:active {\r\n  opacity: 1;\r\n  box-shadow: 0px 2px 2px 0 rgba(0, 0, 0, 0.1);\r\n}\r\n"],"sourceRoot":""}]);
+`, "",{"version":3,"sources":["webpack://./../assets/odm.css"],"names":[],"mappings":"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","sourcesContent":["@import \"~diagram-js/assets/diagram-js.css\";\r\n@import \"~bpmn-font/dist/css/bpmn.css\";\r\n@import url(\"./css/od.css\");\r\n\r\n@font-face {\r\n  font-family: \"Font Awesome 5 Free Solid\";\r\n  src: url(\"./font-awesome-5/29f589f173dcc69ef6c805b711894998.eot\"); /* IE9*/\r\n  src:\r\n    url(\"./font-awesome-5/29f589f173dcc69ef6c805b711894998.eot?#iefix\")\r\n      format(\"embedded-opentype\"),\r\n    /* IE6-IE8 */ url(\"./font-awesome-5/29f589f173dcc69ef6c805b711894998.woff2\")\r\n      format(\"woff2\"),\r\n    /* chrome、firefox */\r\n      url(\"./font-awesome-5/29f589f173dcc69ef6c805b711894998.woff\")\r\n      format(\"woff\"),\r\n    /* chrome、firefox */\r\n      url(\"./font-awesome-5/29f589f173dcc69ef6c805b711894998.ttf\")\r\n      format(\"truetype\"),\r\n    /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/\r\n      url(\"./font-awesome-5/29f589f173dcc69ef6c805b711894998.svg#Font Awesome 5 Free Solid\")\r\n      format(\"svg\"); /* iOS 4.1- */\r\n}\r\n\r\n/* OVERWRITING Diagram.js */\r\n.djs-palette {\r\n  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2) !important;\r\n}\r\n\r\n/* General */\r\nbutton {\r\n  border: none;\r\n  background: none;\r\n}\r\n\r\nul {\r\n  padding: 0;\r\n  margin: 0;\r\n  list-style-type: none;\r\n}\r\n\r\nbutton:hover,\r\na:hover {\r\n  cursor: pointer;\r\n}\r\n\r\n.pjs-error {\r\n  color: #ff0000;\r\n}\r\n\r\n.pjs-visible {\r\n  display: block !important;\r\n}\r\n\r\n.pjs-first {\r\n  /* DONT CHANGE. USED AS PSEUDOCLASS */\r\n}\r\n\r\n.pjs-buttons {\r\n  position: fixed;\r\n}\r\n\r\n.pjs-buttons > ul {\r\n  display: block;\r\n  padding: 0;\r\n  margin: 0;\r\n  margin-top: 10px;\r\n  list-style: none;\r\n}\r\n\r\n.pjs-buttons > ul > li {\r\n  display: inline-block;\r\n  margin-right: 10px;\r\n}\r\n\r\n.pjs-buttons > ul > li > a,\r\n.pjs-buttons button {\r\n  color: black;\r\n  background-color: #f8f8f8;\r\n  border-radius: 3px;\r\n  display: inline-block;\r\n  padding: 6px 10px;\r\n  font-size: 13px;\r\n  font-weight: bold;\r\n  text-align: center;\r\n  border: solid 1px #cdcdcd;\r\n}\r\n\r\n.pjs-buttons button:hover {\r\n  cursor: pointer;\r\n}\r\n\r\n.pjs-buttons a {\r\n  opacity: 0.3;\r\n  text-decoration: none;\r\n}\r\n\r\n.pjs-button-disabled,\r\n.pjs-button-disabled:hover,\r\n.pjs-button-disabled:active {\r\n  opacity: 0.3;\r\n  text-decoration: none;\r\n}\r\n\r\n.pjs-buttons a.pjs-buttons-active,\r\n.pjs-buttons button.pjs-buttons-active {\r\n  opacity: 1;\r\n  box-shadow: 0px 2px 2px 0 rgba(0, 0, 0, 0.1);\r\n}\r\n\r\n/* tool tip */\r\n\r\n.pjs-tooltip {\r\n  position: relative;\r\n  display: inline-block;\r\n  border-bottom: 1px dotted black;\r\n}\r\n\r\n.pjs-tooltip .pjs-tooltiptext {\r\n  font-family: \"IBM Plex Sans\", sans-serif;\r\n  visibility: hidden;\r\n  width: 120px;\r\n  background-color: black;\r\n  color: #fff;\r\n  text-align: center;\r\n  border-radius: 6px;\r\n  padding: 5px 0;\r\n  padding: 20px;\r\n  position: absolute;\r\n  z-index: 1;\r\n  bottom: 100%;\r\n  left: 50%;\r\n  margin-left: -60px;\r\n\r\n  /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */\r\n  opacity: 0;\r\n  transition: opacity 1s;\r\n}\r\n\r\n.pjs-tooltip:hover .pjs-tooltiptext {\r\n  visibility: visible;\r\n  opacity: 1;\r\n}\r\n\r\n.pjs-tooltip .pjs-tooltiptext::after {\r\n  content: \" \";\r\n  position: absolute;\r\n  top: 100%; /* At the bottom of the tooltip */\r\n  left: 50%;\r\n  margin-left: -5px;\r\n  border-width: 5px;\r\n  border-style: solid;\r\n  border-color: black transparent transparent transparent;\r\n}\r\n\r\n/* canvas drawing */\r\n\r\n.pjs-text-box:before {\r\n  content: \"Abc\";\r\n  font-size: medium;\r\n}\r\n\r\n.pjs-horizontal {\r\n  display: inline-block;\r\n}\r\n\r\n.pjs-horizontal li {\r\n  float: left;\r\n}\r\n\r\n[class*=\" pjs-general-icon\"]::before {\r\n  font-style: normal;\r\n  font-weight: normal;\r\n  speak: none;\r\n  display: inline-block;\r\n  text-decoration: inherit;\r\n  text-align: center;\r\n  font-variant: normal;\r\n  text-transform: none;\r\n}\r\n\r\n.pjs-general-icon {\r\n  font-family: \"Font Awesome 5 Free Solid\";\r\n  line-height: 1.2em;\r\n}\r\n\r\n.pjs-ui-element-bordered {\r\n  color: black;\r\n  background-color: #f8f8f8;\r\n  border-radius: 3px;\r\n  display: inline-block;\r\n  font-size: 13px;\r\n  border: solid 1px #cdcdcd;\r\n}\r\n\r\n.pjs-io-dialog-text-hint {\r\n  margin-top: 4px;\r\n  font-size: 13px;\r\n  text-align: left;\r\n  color: #555555;\r\n}\r\n\r\n.pjs-io-dialog-text-hint .pjs-tooltip .pjs-tooltiptext {\r\n  margin-left: -80px !important;\r\n}\r\n\r\n/* flex box grid */\r\n\r\n.pjs-row {\r\n  box-sizing: border-box;\r\n  display: -webkit-box;\r\n  display: -ms-flexbox;\r\n  display: flex;\r\n  -webkit-box-flex: 0;\r\n  -ms-flex: 0 1 auto;\r\n  flex: 0 1 auto;\r\n  -webkit-box-orient: horizontal;\r\n  -webkit-box-direction: normal;\r\n  -ms-flex-direction: row;\r\n  flex-direction: row;\r\n  -ms-flex-wrap: wrap-reverse;\r\n  flex-wrap: wrap-reverse;\r\n}\r\n\r\n.pjs-col-xs {\r\n  -webkit-box-flex: 1;\r\n  -ms-flex-positive: 1;\r\n  flex-grow: 1;\r\n  -ms-flex-preferred-size: 0;\r\n  flex-basis: 0;\r\n  max-width: 100%;\r\n  box-sizing: border-box;\r\n}\r\n\r\n.pjs-box,\r\n.pjs-box-first,\r\n.pjs-box-large,\r\n.pjs-box-nested,\r\n.pjs-box-row {\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  min-height: 1rem;\r\n  margin-bottom: 0;\r\n  border: 1px solid #fff;\r\n  border-radius: 2px;\r\n  overflow: hidden;\r\n  text-align: center;\r\n  color: #fff;\r\n}\r\n\r\n.pjs-text {\r\n  color: black;\r\n  font-size: 13px;\r\n  font-weight: bold;\r\n}\r\n\r\n.pjs-ui-element {\r\n  color: black;\r\n  background-color: #f8f8f8;\r\n  display: inline-block;\r\n  font-size: 13px;\r\n  border: solid 1px #cdcdcd;\r\n}\r\n\r\nbutton:hover {\r\n  cursor: pointer;\r\n}\r\n\r\ninput,\r\ntextarea {\r\n  width: 100%;\r\n  text-align: left;\r\n  padding: 6px 10px;\r\n  -moz-box-sizing: border-box;\r\n  -webkit-box-sizing: border-box;\r\n  box-sizing: border-box;\r\n}\r\n\r\n.pjs-labeled-input {\r\n  position: relative;\r\n}\r\n\r\n.pjs-section-spacer {\r\n  width: 100%;\r\n  height: 1px;\r\n  background-color: #555555;\r\n}\r\n\r\n.pjs-io-dialog {\r\n  position: fixed;\r\n  width: 600px;\r\n  left: 50%;\r\n  margin-left: -300px;\r\n  top: 100px;\r\n  background: white;\r\n  padding: 10px 30px 20px 30px;\r\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);\r\n  border-radius: 2px;\r\n  height: auto;\r\n  z-index: 1001;\r\n}\r\n\r\n.pjs-io-dialog.pjs-io-dialog-open::before {\r\n  content: \"\";\r\n  position: fixed;\r\n  left: 0;\r\n  top: 0;\r\n  bottom: 0;\r\n  right: 0;\r\n  background: #666;\r\n  opacity: 0.2;\r\n  z-index: 1001;\r\n}\r\n\r\n.pjs-io-dialog .pjs-io-dialog-content {\r\n  background: white;\r\n  z-index: 1001;\r\n  position: fixed;\r\n  width: 600px;\r\n  left: 50%;\r\n  margin-left: -300px;\r\n  top: 100px;\r\n  background: white;\r\n  padding: 10px 30px 20px 30px;\r\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);\r\n  border-radius: 2px;\r\n  height: auto;\r\n}\r\n\r\n.pjs-io-dialog-section {\r\n  padding-top: 10px;\r\n}\r\n\r\n.pjs-io-dialog-section.pjs-first {\r\n  padding-top: 0px;\r\n}\r\n\r\n.pjs-io-dialog-local {\r\n  padding: 10px;\r\n  background: white;\r\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);\r\n  border-radius: 2px;\r\n  height: auto;\r\n}\r\n\r\n.pjs-io-dialog-local .pjs-box-row {\r\n  min-width: 40px;\r\n}\r\n\r\n.pjs-io-dialog-local .pjs-box-row img {\r\n  width: 100%;\r\n  max-width: 100px;\r\n  object-fit: fill;\r\n  vertical-align: middle;\r\n}\r\n\r\n.pjs-buttons.pjs-image-selection-submit-wrapper {\r\n  position: relative;\r\n}\r\n\r\n.pjs-buttons.pjs-image-selection-submit-wrapper button {\r\n  width: 100%;\r\n}\r\n\r\n.pjs-buttons.pjs-image-selection-submit-wrapper button:hover {\r\n  color: #555;\r\n}\r\n\r\n.pjs-buttons.pjs-image-selection-submit-wrapper button:active {\r\n  opacity: 1;\r\n  box-shadow: 0px 2px 2px 0 rgba(0, 0, 0, 0.1);\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
