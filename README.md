@@ -1,6 +1,6 @@
 [![Build & Test](https://github.com/timKraeuter/object-diagram-modeler/actions/workflows/ci.yml/badge.svg)](https://github.com/timKraeuter/object-diagram-modeler/actions/workflows/ci.yml)
 
-## Try the object diagram modeler [here](https://timkraeuter.com/object-diagram-modeler/).
+## [Try the object diagram modeler here](https://timkraeuter.com/object-diagram-modeler/).
 
 ## Object diagram modeler
 
