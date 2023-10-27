@@ -27,6 +27,10 @@ body,
   display: none; /*default*/
 }
 
+#help-dialog-main{
+  display:none; /*default*/
+}
+
 #io-editing-tools-buttons {
   display: block;
   position: fixed;
@@ -49,7 +53,7 @@ body,
 }
 
 .icon-keyboard::before {
-  content: "\f11c";
+  content: "\e802";
   display: inline-block;
   line-height: 1.2em;
 }
@@ -62,7 +66,19 @@ body,
 }
 
 .icon-resize-full::before {
-  content: "\f31e";
+  content: "\e801";
+  display: inline-block;
+}
+
+.icon-question {
+  box-sizing: border-box;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1.2em;
+}
+
+.icon-question::before {
+  content: '\e803';
   display: inline-block;
 }
 

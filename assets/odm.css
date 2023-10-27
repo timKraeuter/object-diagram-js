@@ -4,20 +4,20 @@
 
 @font-face {
   font-family: "Font Awesome 5 Free Solid";
-  src: url("./font-awesome-5/29f589f173dcc69ef6c805b711894998.eot"); /* IE9*/
+  src: url("./font-awesome-5/fa.eot"); /* IE9*/
   src:
-    url("./font-awesome-5/29f589f173dcc69ef6c805b711894998.eot?#iefix")
+      url("./font-awesome-5/fa.eot?#iefix")
       format("embedded-opentype"),
-    /* IE6-IE8 */ url("./font-awesome-5/29f589f173dcc69ef6c805b711894998.woff2")
+        /* IE6-IE8 */ url("./font-awesome-5/fa.woff2")
       format("woff2"),
-    /* chrome、firefox */
-      url("./font-awesome-5/29f589f173dcc69ef6c805b711894998.woff")
+        /* chrome、firefox */
+      url("./font-awesome-5/fa.woff")
       format("woff"),
-    /* chrome、firefox */
-      url("./font-awesome-5/29f589f173dcc69ef6c805b711894998.ttf")
+        /* chrome、firefox */
+      url("./font-awesome-5/fa.ttf")
       format("truetype"),
-    /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
-      url("./font-awesome-5/29f589f173dcc69ef6c805b711894998.svg#Font Awesome 5 Free Solid")
+        /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+      url("./font-awesome-5/fa.svg#Font Awesome 5 Free Solid")
       format("svg"); /* iOS 4.1- */
 }
 

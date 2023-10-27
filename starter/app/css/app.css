@@ -49,7 +49,7 @@ body,
 }
 
 .icon-keyboard::before {
-  content: "\f11c";
+  content: "\e802";
   display: inline-block;
   line-height: 1.2em;
 }
@@ -62,7 +62,7 @@ body,
 }
 
 .icon-resize-full::before {
-  content: "\f31e";
+  content: "\e801";
   display: inline-block;
 }
 

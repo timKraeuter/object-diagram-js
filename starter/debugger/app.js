@@ -39,6 +39,7 @@ function exitFullscreen() {
 const state = {
   fullScreen: false,
   keyboardHelp: false,
+  help: false
 };
 document
   .getElementById("js-toggle-fullscreen")
@@ -69,6 +70,21 @@ document
       document.getElementById("io-dialog-main").style.display = displayProp;
     }
   });
+document.getElementById('js-toggle-help').addEventListener('click', function() {
+  state.help = !state.help;
+  let displayProp = 'none';
+  if (state.help) {
+    displayProp = 'block';
+  }
+  document.getElementById('help-dialog-main').style.display = displayProp;
+});
+document.getElementById('help-dialog-main').addEventListener('click', function() {
+  state.help = !state.help;
+  let displayProp = 'none';
+  if (!state.help) {
+    document.getElementById('help-dialog-main').style.display = displayProp;
+  }
+});
 
 /* file functions */
 function openFile(file, callback) {
