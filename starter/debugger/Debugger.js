@@ -7,6 +7,7 @@ import OverlaysModule from "diagram-js/lib/features/overlays";
 import WebsocketConnectorModule from "./websocket";
 
 import BaseViewer from "object-diagram-modeler/lib/BaseViewer";
+import Modeler from "../../lib/Modeler";
 
 export default function Debugger(options) {
   BaseViewer.call(this, options);
@@ -15,13 +16,14 @@ export default function Debugger(options) {
 inherits(Debugger, BaseViewer);
 
 // modules the viewer is composed of
-Debugger.prototype._modules = [
-  CoreModule,
-  TranslateModule,
-  SelectionModule,
-  OverlaysModule,
-  WebsocketConnectorModule,
-];
+Debugger.prototype._modules =
+    Modeler.prototype._interactionModules.concat([
+      CoreModule,
+      TranslateModule,
+      SelectionModule,
+      OverlaysModule,
+      WebsocketConnectorModule
+    ]);
 
 // default moddle extensions the viewer is composed of
 Debugger.prototype._moddleExtensions = {};
