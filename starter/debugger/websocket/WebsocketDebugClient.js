@@ -1,9 +1,9 @@
 import Moddle from "object-diagram-modeler/lib/moddle";
 import ELK from "elkjs/lib/elk.bundled.js";
+import DebuggingDescriptors from "./db.json";
 
-// Rename this to debug api client or something
 const websocket_url = "ws://localhost:8071/debug";
-export default function WebsocketConnector(eventBus) {
+export default function WebsocketDebugClient(eventBus) {
   // listen to dblclick on non-root elements
   eventBus.on("element.dblclick", (event) => {
     if (event.element && event.element.type === "od:Object") {
@@ -26,12 +26,12 @@ export default function WebsocketConnector(eventBus) {
   };
   this.setOnMessageHandler(eventBus, {});
 }
-WebsocketConnector.prototype.$inject = ["eventBus"];
+WebsocketDebugClient.prototype.$inject = ["eventBus"];
 
 const OBJECT_FONT_SIZE = "19.2px"; // 16px * 1.2 = 19.2px (Objects)
 const LINK_FONT_SIZE = "18px"; // 15px * 1.2 = 18px (Objects)
 
-WebsocketConnector.prototype.setOnMessageHandler = function (
+WebsocketDebugClient.prototype.setOnMessageHandler = function (
   eventBus,
   lastBoard,
 ) {
@@ -284,7 +284,7 @@ WebsocketConnector.prototype.setOnMessageHandler = function (
   }
 
   function visualizeDebugData(xmlData) {
-    const moddle = new Moddle();
+    const moddle = new Moddle({db: DebuggingDescriptors});
 
     // Parse xml.
     moddle
@@ -353,6 +353,6 @@ WebsocketConnector.prototype.setOnMessageHandler = function (
   };
 };
 
-WebsocketConnector.prototype.sendMessage = function (message) {
+WebsocketDebugClient.prototype.sendMessage = function (message) {
   this.webSocket.send(message);
 };

@@ -4,7 +4,7 @@ import CoreModule from "object-diagram-modeler/lib/core";
 import TranslateModule from "diagram-js/lib/i18n/translate";
 import SelectionModule from "diagram-js/lib/features/selection";
 import OverlaysModule from "diagram-js/lib/features/overlays";
-import WebsocketConnectorModule from "./websocket";
+import WebsocketDebugClientModule from "./websocket";
 
 import BaseViewer from "object-diagram-modeler/lib/BaseViewer";
 import Modeler from "../../lib/Modeler";
@@ -22,8 +22,5 @@ Debugger.prototype._modules =
       TranslateModule,
       SelectionModule,
       OverlaysModule,
-      WebsocketConnectorModule
+      WebsocketDebugClientModule
     ]);
-
-// default moddle extensions the viewer is composed of
-Debugger.prototype._moddleExtensions = {};
