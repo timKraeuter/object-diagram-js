@@ -8830,13 +8830,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
-/* harmony import */ var _Moddle__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Moddle */ "../lib/moddle/Moddle.js");
-/* harmony import */ var _resources_db_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./resources/db.json */ "../lib/moddle/resources/db.json");
+/* harmony import */ var min_dash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! min-dash */ "../node_modules/min-dash/dist/index.esm.js");
+/* harmony import */ var _Moddle__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Moddle */ "../lib/moddle/Moddle.js");
 /* harmony import */ var _resources_od_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./resources/od.json */ "../lib/moddle/resources/od.json");
 /* harmony import */ var _resources_odDi_json__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./resources/odDi.json */ "../lib/moddle/resources/odDi.json");
 /* harmony import */ var _resources_dc_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./resources/dc.json */ "../lib/moddle/resources/dc.json");
-
 
 
 
@@ -8849,15 +8847,12 @@ const packages = {
   od: _resources_od_json__WEBPACK_IMPORTED_MODULE_0__,
   odDi: _resources_odDi_json__WEBPACK_IMPORTED_MODULE_1__,
   dc: _resources_dc_json__WEBPACK_IMPORTED_MODULE_2__,
-
-  // TODO: Debug API should preferably not be loaded here.
-  db: _resources_db_json__WEBPACK_IMPORTED_MODULE_3__,
 };
 
 /* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__(additionalPackages, options) {
-  const pks = (0,min_dash__WEBPACK_IMPORTED_MODULE_4__.assign)({}, packages, additionalPackages);
+  const pks = (0,min_dash__WEBPACK_IMPORTED_MODULE_3__.assign)({}, packages, additionalPackages);
 
-  return new _Moddle__WEBPACK_IMPORTED_MODULE_5__["default"](pks, options);
+  return new _Moddle__WEBPACK_IMPORTED_MODULE_4__["default"](pks, options);
 }
 
 
@@ -47018,11 +47013,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var ___CSS_LOADER_URL_IMPORT_0___ = new URL(/* asset import */ __webpack_require__(/*! ./font-awesome-5/29f589f173dcc69ef6c805b711894998.eot */ "../assets/font-awesome-5/29f589f173dcc69ef6c805b711894998.eot"), __webpack_require__.b);
-var ___CSS_LOADER_URL_IMPORT_1___ = new URL(/* asset import */ __webpack_require__(/*! ./font-awesome-5/29f589f173dcc69ef6c805b711894998.woff2 */ "../assets/font-awesome-5/29f589f173dcc69ef6c805b711894998.woff2"), __webpack_require__.b);
-var ___CSS_LOADER_URL_IMPORT_2___ = new URL(/* asset import */ __webpack_require__(/*! ./font-awesome-5/29f589f173dcc69ef6c805b711894998.woff */ "../assets/font-awesome-5/29f589f173dcc69ef6c805b711894998.woff"), __webpack_require__.b);
-var ___CSS_LOADER_URL_IMPORT_3___ = new URL(/* asset import */ __webpack_require__(/*! ./font-awesome-5/29f589f173dcc69ef6c805b711894998.ttf */ "../assets/font-awesome-5/29f589f173dcc69ef6c805b711894998.ttf"), __webpack_require__.b);
-var ___CSS_LOADER_URL_IMPORT_4___ = new URL(/* asset import */ __webpack_require__(/*! ./font-awesome-5/29f589f173dcc69ef6c805b711894998.svg */ "../assets/font-awesome-5/29f589f173dcc69ef6c805b711894998.svg"), __webpack_require__.b);
+var ___CSS_LOADER_URL_IMPORT_0___ = new URL(/* asset import */ __webpack_require__(/*! ./font-awesome-5/fa.eot */ "../assets/font-awesome-5/fa.eot"), __webpack_require__.b);
+var ___CSS_LOADER_URL_IMPORT_1___ = new URL(/* asset import */ __webpack_require__(/*! ./font-awesome-5/fa.woff2 */ "../assets/font-awesome-5/fa.woff2"), __webpack_require__.b);
+var ___CSS_LOADER_URL_IMPORT_2___ = new URL(/* asset import */ __webpack_require__(/*! ./font-awesome-5/fa.woff */ "../assets/font-awesome-5/fa.woff"), __webpack_require__.b);
+var ___CSS_LOADER_URL_IMPORT_3___ = new URL(/* asset import */ __webpack_require__(/*! ./font-awesome-5/fa.ttf */ "../assets/font-awesome-5/fa.ttf"), __webpack_require__.b);
+var ___CSS_LOADER_URL_IMPORT_4___ = new URL(/* asset import */ __webpack_require__(/*! ./font-awesome-5/fa.svg */ "../assets/font-awesome-5/fa.svg"), __webpack_require__.b);
 var ___CSS_LOADER_EXPORT___ = _starter_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_starter_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 ___CSS_LOADER_EXPORT___.i(_starter_node_modules_css_loader_dist_cjs_js_node_modules_diagram_js_assets_diagram_js_css__WEBPACK_IMPORTED_MODULE_2__["default"]);
 ___CSS_LOADER_EXPORT___.i(_starter_node_modules_css_loader_dist_cjs_js_node_modules_bpmn_font_dist_css_bpmn_css__WEBPACK_IMPORTED_MODULE_3__["default"]);
@@ -47038,17 +47033,17 @@ ___CSS_LOADER_EXPORT___.push([module.id, `@font-face {
   font-family: "Font Awesome 5 Free Solid";
   src: url(${___CSS_LOADER_URL_REPLACEMENT_0___}); /* IE9*/
   src:
-    url(${___CSS_LOADER_URL_REPLACEMENT_1___})
+      url(${___CSS_LOADER_URL_REPLACEMENT_1___})
       format("embedded-opentype"),
-    /* IE6-IE8 */ url(${___CSS_LOADER_URL_REPLACEMENT_2___})
+        /* IE6-IE8 */ url(${___CSS_LOADER_URL_REPLACEMENT_2___})
       format("woff2"),
-    /* chrome、firefox */
+        /* chrome、firefox */
       url(${___CSS_LOADER_URL_REPLACEMENT_3___})
       format("woff"),
-    /* chrome、firefox */
+        /* chrome、firefox */
       url(${___CSS_LOADER_URL_REPLACEMENT_4___})
       format("truetype"),
-    /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+        /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
       url(${___CSS_LOADER_URL_REPLACEMENT_5___})
       format("svg"); /* iOS 4.1- */
 }
@@ -47401,7 +47396,7 @@ textarea {
   opacity: 1;
   box-shadow: 0px 2px 2px 0 rgba(0, 0, 0, 0.1);
 }
-`, "",{"version":3,"sources":["webpack://./../assets/odm.css"],"names":[],"mappings":"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","sourcesContent":["@import \"~diagram-js/assets/diagram-js.css\";\r\n@import \"~bpmn-font/dist/css/bpmn.css\";\r\n@import url(\"./css/od.css\");\r\n\r\n@font-face {\r\n  font-family: \"Font Awesome 5 Free Solid\";\r\n  src: url(\"./font-awesome-5/29f589f173dcc69ef6c805b711894998.eot\"); /* IE9*/\r\n  src:\r\n    url(\"./font-awesome-5/29f589f173dcc69ef6c805b711894998.eot?#iefix\")\r\n      format(\"embedded-opentype\"),\r\n    /* IE6-IE8 */ url(\"./font-awesome-5/29f589f173dcc69ef6c805b711894998.woff2\")\r\n      format(\"woff2\"),\r\n    /* chrome、firefox */\r\n      url(\"./font-awesome-5/29f589f173dcc69ef6c805b711894998.woff\")\r\n      format(\"woff\"),\r\n    /* chrome、firefox */\r\n      url(\"./font-awesome-5/29f589f173dcc69ef6c805b711894998.ttf\")\r\n      format(\"truetype\"),\r\n    /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/\r\n      url(\"./font-awesome-5/29f589f173dcc69ef6c805b711894998.svg#Font Awesome 5 Free Solid\")\r\n      format(\"svg\"); /* iOS 4.1- */\r\n}\r\n\r\n/* OVERWRITING Diagram.js */\r\n.djs-palette {\r\n  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2) !important;\r\n}\r\n\r\n/* General */\r\nbutton {\r\n  border: none;\r\n  background: none;\r\n}\r\n\r\nul {\r\n  padding: 0;\r\n  margin: 0;\r\n  list-style-type: none;\r\n}\r\n\r\nbutton:hover,\r\na:hover {\r\n  cursor: pointer;\r\n}\r\n\r\n.pjs-error {\r\n  color: #ff0000;\r\n}\r\n\r\n.pjs-visible {\r\n  display: block !important;\r\n}\r\n\r\n.pjs-first {\r\n  /* DONT CHANGE. USED AS PSEUDOCLASS */\r\n}\r\n\r\n.pjs-buttons {\r\n  position: fixed;\r\n}\r\n\r\n.pjs-buttons > ul {\r\n  display: block;\r\n  padding: 0;\r\n  margin: 0;\r\n  margin-top: 10px;\r\n  list-style: none;\r\n}\r\n\r\n.pjs-buttons > ul > li {\r\n  display: inline-block;\r\n  margin-right: 10px;\r\n}\r\n\r\n.pjs-buttons > ul > li > a,\r\n.pjs-buttons button {\r\n  color: black;\r\n  background-color: #f8f8f8;\r\n  border-radius: 3px;\r\n  display: inline-block;\r\n  padding: 6px 10px;\r\n  font-size: 13px;\r\n  font-weight: bold;\r\n  text-align: center;\r\n  border: solid 1px #cdcdcd;\r\n}\r\n\r\n.pjs-buttons button:hover {\r\n  cursor: pointer;\r\n}\r\n\r\n.pjs-buttons a {\r\n  opacity: 0.3;\r\n  text-decoration: none;\r\n}\r\n\r\n.pjs-button-disabled,\r\n.pjs-button-disabled:hover,\r\n.pjs-button-disabled:active {\r\n  opacity: 0.3;\r\n  text-decoration: none;\r\n}\r\n\r\n.pjs-buttons a.pjs-buttons-active,\r\n.pjs-buttons button.pjs-buttons-active {\r\n  opacity: 1;\r\n  box-shadow: 0px 2px 2px 0 rgba(0, 0, 0, 0.1);\r\n}\r\n\r\n/* tool tip */\r\n\r\n.pjs-tooltip {\r\n  position: relative;\r\n  display: inline-block;\r\n  border-bottom: 1px dotted black;\r\n}\r\n\r\n.pjs-tooltip .pjs-tooltiptext {\r\n  font-family: \"IBM Plex Sans\", sans-serif;\r\n  visibility: hidden;\r\n  width: 120px;\r\n  background-color: black;\r\n  color: #fff;\r\n  text-align: center;\r\n  border-radius: 6px;\r\n  padding: 5px 0;\r\n  padding: 20px;\r\n  position: absolute;\r\n  z-index: 1;\r\n  bottom: 100%;\r\n  left: 50%;\r\n  margin-left: -60px;\r\n\r\n  /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */\r\n  opacity: 0;\r\n  transition: opacity 1s;\r\n}\r\n\r\n.pjs-tooltip:hover .pjs-tooltiptext {\r\n  visibility: visible;\r\n  opacity: 1;\r\n}\r\n\r\n.pjs-tooltip .pjs-tooltiptext::after {\r\n  content: \" \";\r\n  position: absolute;\r\n  top: 100%; /* At the bottom of the tooltip */\r\n  left: 50%;\r\n  margin-left: -5px;\r\n  border-width: 5px;\r\n  border-style: solid;\r\n  border-color: black transparent transparent transparent;\r\n}\r\n\r\n/* canvas drawing */\r\n\r\n.pjs-text-box:before {\r\n  content: \"Abc\";\r\n  font-size: medium;\r\n}\r\n\r\n.pjs-horizontal {\r\n  display: inline-block;\r\n}\r\n\r\n.pjs-horizontal li {\r\n  float: left;\r\n}\r\n\r\n[class*=\" pjs-general-icon\"]::before {\r\n  font-style: normal;\r\n  font-weight: normal;\r\n  speak: none;\r\n  display: inline-block;\r\n  text-decoration: inherit;\r\n  text-align: center;\r\n  font-variant: normal;\r\n  text-transform: none;\r\n}\r\n\r\n.pjs-general-icon {\r\n  font-family: \"Font Awesome 5 Free Solid\";\r\n  line-height: 1.2em;\r\n}\r\n\r\n.pjs-ui-element-bordered {\r\n  color: black;\r\n  background-color: #f8f8f8;\r\n  border-radius: 3px;\r\n  display: inline-block;\r\n  font-size: 13px;\r\n  border: solid 1px #cdcdcd;\r\n}\r\n\r\n.pjs-io-dialog-text-hint {\r\n  margin-top: 4px;\r\n  font-size: 13px;\r\n  text-align: left;\r\n  color: #555555;\r\n}\r\n\r\n.pjs-io-dialog-text-hint .pjs-tooltip .pjs-tooltiptext {\r\n  margin-left: -80px !important;\r\n}\r\n\r\n/* flex box grid */\r\n\r\n.pjs-row {\r\n  box-sizing: border-box;\r\n  display: -webkit-box;\r\n  display: -ms-flexbox;\r\n  display: flex;\r\n  -webkit-box-flex: 0;\r\n  -ms-flex: 0 1 auto;\r\n  flex: 0 1 auto;\r\n  -webkit-box-orient: horizontal;\r\n  -webkit-box-direction: normal;\r\n  -ms-flex-direction: row;\r\n  flex-direction: row;\r\n  -ms-flex-wrap: wrap-reverse;\r\n  flex-wrap: wrap-reverse;\r\n}\r\n\r\n.pjs-col-xs {\r\n  -webkit-box-flex: 1;\r\n  -ms-flex-positive: 1;\r\n  flex-grow: 1;\r\n  -ms-flex-preferred-size: 0;\r\n  flex-basis: 0;\r\n  max-width: 100%;\r\n  box-sizing: border-box;\r\n}\r\n\r\n.pjs-box,\r\n.pjs-box-first,\r\n.pjs-box-large,\r\n.pjs-box-nested,\r\n.pjs-box-row {\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  min-height: 1rem;\r\n  margin-bottom: 0;\r\n  border: 1px solid #fff;\r\n  border-radius: 2px;\r\n  overflow: hidden;\r\n  text-align: center;\r\n  color: #fff;\r\n}\r\n\r\n.pjs-text {\r\n  color: black;\r\n  font-size: 13px;\r\n  font-weight: bold;\r\n}\r\n\r\n.pjs-ui-element {\r\n  color: black;\r\n  background-color: #f8f8f8;\r\n  display: inline-block;\r\n  font-size: 13px;\r\n  border: solid 1px #cdcdcd;\r\n}\r\n\r\nbutton:hover {\r\n  cursor: pointer;\r\n}\r\n\r\ninput,\r\ntextarea {\r\n  width: 100%;\r\n  text-align: left;\r\n  padding: 6px 10px;\r\n  -moz-box-sizing: border-box;\r\n  -webkit-box-sizing: border-box;\r\n  box-sizing: border-box;\r\n}\r\n\r\n.pjs-labeled-input {\r\n  position: relative;\r\n}\r\n\r\n.pjs-section-spacer {\r\n  width: 100%;\r\n  height: 1px;\r\n  background-color: #555555;\r\n}\r\n\r\n.pjs-io-dialog {\r\n  position: fixed;\r\n  width: 600px;\r\n  left: 50%;\r\n  margin-left: -300px;\r\n  top: 100px;\r\n  background: white;\r\n  padding: 10px 30px 20px 30px;\r\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);\r\n  border-radius: 2px;\r\n  height: auto;\r\n  z-index: 1001;\r\n}\r\n\r\n.pjs-io-dialog.pjs-io-dialog-open::before {\r\n  content: \"\";\r\n  position: fixed;\r\n  left: 0;\r\n  top: 0;\r\n  bottom: 0;\r\n  right: 0;\r\n  background: #666;\r\n  opacity: 0.2;\r\n  z-index: 1001;\r\n}\r\n\r\n.pjs-io-dialog .pjs-io-dialog-content {\r\n  background: white;\r\n  z-index: 1001;\r\n  position: fixed;\r\n  width: 600px;\r\n  left: 50%;\r\n  margin-left: -300px;\r\n  top: 100px;\r\n  background: white;\r\n  padding: 10px 30px 20px 30px;\r\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);\r\n  border-radius: 2px;\r\n  height: auto;\r\n}\r\n\r\n.pjs-io-dialog-section {\r\n  padding-top: 10px;\r\n}\r\n\r\n.pjs-io-dialog-section.pjs-first {\r\n  padding-top: 0px;\r\n}\r\n\r\n.pjs-io-dialog-local {\r\n  padding: 10px;\r\n  background: white;\r\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);\r\n  border-radius: 2px;\r\n  height: auto;\r\n}\r\n\r\n.pjs-io-dialog-local .pjs-box-row {\r\n  min-width: 40px;\r\n}\r\n\r\n.pjs-io-dialog-local .pjs-box-row img {\r\n  width: 100%;\r\n  max-width: 100px;\r\n  object-fit: fill;\r\n  vertical-align: middle;\r\n}\r\n\r\n.pjs-buttons.pjs-image-selection-submit-wrapper {\r\n  position: relative;\r\n}\r\n\r\n.pjs-buttons.pjs-image-selection-submit-wrapper button {\r\n  width: 100%;\r\n}\r\n\r\n.pjs-buttons.pjs-image-selection-submit-wrapper button:hover {\r\n  color: #555;\r\n}\r\n\r\n.pjs-buttons.pjs-image-selection-submit-wrapper button:active {\r\n  opacity: 1;\r\n  box-shadow: 0px 2px 2px 0 rgba(0, 0, 0, 0.1);\r\n}\r\n"],"sourceRoot":""}]);
+`, "",{"version":3,"sources":["webpack://./../assets/odm.css"],"names":[],"mappings":"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","sourcesContent":["@import \"~diagram-js/assets/diagram-js.css\";\r\n@import \"~bpmn-font/dist/css/bpmn.css\";\r\n@import url(\"./css/od.css\");\r\n\r\n@font-face {\r\n  font-family: \"Font Awesome 5 Free Solid\";\r\n  src: url(\"./font-awesome-5/fa.eot\"); /* IE9*/\r\n  src:\r\n      url(\"./font-awesome-5/fa.eot?#iefix\")\r\n      format(\"embedded-opentype\"),\r\n        /* IE6-IE8 */ url(\"./font-awesome-5/fa.woff2\")\r\n      format(\"woff2\"),\r\n        /* chrome、firefox */\r\n      url(\"./font-awesome-5/fa.woff\")\r\n      format(\"woff\"),\r\n        /* chrome、firefox */\r\n      url(\"./font-awesome-5/fa.ttf\")\r\n      format(\"truetype\"),\r\n        /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/\r\n      url(\"./font-awesome-5/fa.svg#Font Awesome 5 Free Solid\")\r\n      format(\"svg\"); /* iOS 4.1- */\r\n}\r\n\r\n/* OVERWRITING Diagram.js */\r\n.djs-palette {\r\n  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2) !important;\r\n}\r\n\r\n/* General */\r\nbutton {\r\n  border: none;\r\n  background: none;\r\n}\r\n\r\nul {\r\n  padding: 0;\r\n  margin: 0;\r\n  list-style-type: none;\r\n}\r\n\r\nbutton:hover,\r\na:hover {\r\n  cursor: pointer;\r\n}\r\n\r\n.pjs-error {\r\n  color: #ff0000;\r\n}\r\n\r\n.pjs-visible {\r\n  display: block !important;\r\n}\r\n\r\n.pjs-first {\r\n  /* DONT CHANGE. USED AS PSEUDOCLASS */\r\n}\r\n\r\n.pjs-buttons {\r\n  position: fixed;\r\n}\r\n\r\n.pjs-buttons > ul {\r\n  display: block;\r\n  padding: 0;\r\n  margin: 0;\r\n  margin-top: 10px;\r\n  list-style: none;\r\n}\r\n\r\n.pjs-buttons > ul > li {\r\n  display: inline-block;\r\n  margin-right: 10px;\r\n}\r\n\r\n.pjs-buttons > ul > li > a,\r\n.pjs-buttons button {\r\n  color: black;\r\n  background-color: #f8f8f8;\r\n  border-radius: 3px;\r\n  display: inline-block;\r\n  padding: 6px 10px;\r\n  font-size: 13px;\r\n  font-weight: bold;\r\n  text-align: center;\r\n  border: solid 1px #cdcdcd;\r\n}\r\n\r\n.pjs-buttons button:hover {\r\n  cursor: pointer;\r\n}\r\n\r\n.pjs-buttons a {\r\n  opacity: 0.3;\r\n  text-decoration: none;\r\n}\r\n\r\n.pjs-button-disabled,\r\n.pjs-button-disabled:hover,\r\n.pjs-button-disabled:active {\r\n  opacity: 0.3;\r\n  text-decoration: none;\r\n}\r\n\r\n.pjs-buttons a.pjs-buttons-active,\r\n.pjs-buttons button.pjs-buttons-active {\r\n  opacity: 1;\r\n  box-shadow: 0px 2px 2px 0 rgba(0, 0, 0, 0.1);\r\n}\r\n\r\n/* tool tip */\r\n\r\n.pjs-tooltip {\r\n  position: relative;\r\n  display: inline-block;\r\n  border-bottom: 1px dotted black;\r\n}\r\n\r\n.pjs-tooltip .pjs-tooltiptext {\r\n  font-family: \"IBM Plex Sans\", sans-serif;\r\n  visibility: hidden;\r\n  width: 120px;\r\n  background-color: black;\r\n  color: #fff;\r\n  text-align: center;\r\n  border-radius: 6px;\r\n  padding: 5px 0;\r\n  padding: 20px;\r\n  position: absolute;\r\n  z-index: 1;\r\n  bottom: 100%;\r\n  left: 50%;\r\n  margin-left: -60px;\r\n\r\n  /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */\r\n  opacity: 0;\r\n  transition: opacity 1s;\r\n}\r\n\r\n.pjs-tooltip:hover .pjs-tooltiptext {\r\n  visibility: visible;\r\n  opacity: 1;\r\n}\r\n\r\n.pjs-tooltip .pjs-tooltiptext::after {\r\n  content: \" \";\r\n  position: absolute;\r\n  top: 100%; /* At the bottom of the tooltip */\r\n  left: 50%;\r\n  margin-left: -5px;\r\n  border-width: 5px;\r\n  border-style: solid;\r\n  border-color: black transparent transparent transparent;\r\n}\r\n\r\n/* canvas drawing */\r\n\r\n.pjs-text-box:before {\r\n  content: \"Abc\";\r\n  font-size: medium;\r\n}\r\n\r\n.pjs-horizontal {\r\n  display: inline-block;\r\n}\r\n\r\n.pjs-horizontal li {\r\n  float: left;\r\n}\r\n\r\n[class*=\" pjs-general-icon\"]::before {\r\n  font-style: normal;\r\n  font-weight: normal;\r\n  speak: none;\r\n  display: inline-block;\r\n  text-decoration: inherit;\r\n  text-align: center;\r\n  font-variant: normal;\r\n  text-transform: none;\r\n}\r\n\r\n.pjs-general-icon {\r\n  font-family: \"Font Awesome 5 Free Solid\";\r\n  line-height: 1.2em;\r\n}\r\n\r\n.pjs-ui-element-bordered {\r\n  color: black;\r\n  background-color: #f8f8f8;\r\n  border-radius: 3px;\r\n  display: inline-block;\r\n  font-size: 13px;\r\n  border: solid 1px #cdcdcd;\r\n}\r\n\r\n.pjs-io-dialog-text-hint {\r\n  margin-top: 4px;\r\n  font-size: 13px;\r\n  text-align: left;\r\n  color: #555555;\r\n}\r\n\r\n.pjs-io-dialog-text-hint .pjs-tooltip .pjs-tooltiptext {\r\n  margin-left: -80px !important;\r\n}\r\n\r\n/* flex box grid */\r\n\r\n.pjs-row {\r\n  box-sizing: border-box;\r\n  display: -webkit-box;\r\n  display: -ms-flexbox;\r\n  display: flex;\r\n  -webkit-box-flex: 0;\r\n  -ms-flex: 0 1 auto;\r\n  flex: 0 1 auto;\r\n  -webkit-box-orient: horizontal;\r\n  -webkit-box-direction: normal;\r\n  -ms-flex-direction: row;\r\n  flex-direction: row;\r\n  -ms-flex-wrap: wrap-reverse;\r\n  flex-wrap: wrap-reverse;\r\n}\r\n\r\n.pjs-col-xs {\r\n  -webkit-box-flex: 1;\r\n  -ms-flex-positive: 1;\r\n  flex-grow: 1;\r\n  -ms-flex-preferred-size: 0;\r\n  flex-basis: 0;\r\n  max-width: 100%;\r\n  box-sizing: border-box;\r\n}\r\n\r\n.pjs-box,\r\n.pjs-box-first,\r\n.pjs-box-large,\r\n.pjs-box-nested,\r\n.pjs-box-row {\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  min-height: 1rem;\r\n  margin-bottom: 0;\r\n  border: 1px solid #fff;\r\n  border-radius: 2px;\r\n  overflow: hidden;\r\n  text-align: center;\r\n  color: #fff;\r\n}\r\n\r\n.pjs-text {\r\n  color: black;\r\n  font-size: 13px;\r\n  font-weight: bold;\r\n}\r\n\r\n.pjs-ui-element {\r\n  color: black;\r\n  background-color: #f8f8f8;\r\n  display: inline-block;\r\n  font-size: 13px;\r\n  border: solid 1px #cdcdcd;\r\n}\r\n\r\nbutton:hover {\r\n  cursor: pointer;\r\n}\r\n\r\ninput,\r\ntextarea {\r\n  width: 100%;\r\n  text-align: left;\r\n  padding: 6px 10px;\r\n  -moz-box-sizing: border-box;\r\n  -webkit-box-sizing: border-box;\r\n  box-sizing: border-box;\r\n}\r\n\r\n.pjs-labeled-input {\r\n  position: relative;\r\n}\r\n\r\n.pjs-section-spacer {\r\n  width: 100%;\r\n  height: 1px;\r\n  background-color: #555555;\r\n}\r\n\r\n.pjs-io-dialog {\r\n  position: fixed;\r\n  width: 600px;\r\n  left: 50%;\r\n  margin-left: -300px;\r\n  top: 100px;\r\n  background: white;\r\n  padding: 10px 30px 20px 30px;\r\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);\r\n  border-radius: 2px;\r\n  height: auto;\r\n  z-index: 1001;\r\n}\r\n\r\n.pjs-io-dialog.pjs-io-dialog-open::before {\r\n  content: \"\";\r\n  position: fixed;\r\n  left: 0;\r\n  top: 0;\r\n  bottom: 0;\r\n  right: 0;\r\n  background: #666;\r\n  opacity: 0.2;\r\n  z-index: 1001;\r\n}\r\n\r\n.pjs-io-dialog .pjs-io-dialog-content {\r\n  background: white;\r\n  z-index: 1001;\r\n  position: fixed;\r\n  width: 600px;\r\n  left: 50%;\r\n  margin-left: -300px;\r\n  top: 100px;\r\n  background: white;\r\n  padding: 10px 30px 20px 30px;\r\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);\r\n  border-radius: 2px;\r\n  height: auto;\r\n}\r\n\r\n.pjs-io-dialog-section {\r\n  padding-top: 10px;\r\n}\r\n\r\n.pjs-io-dialog-section.pjs-first {\r\n  padding-top: 0px;\r\n}\r\n\r\n.pjs-io-dialog-local {\r\n  padding: 10px;\r\n  background: white;\r\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);\r\n  border-radius: 2px;\r\n  height: auto;\r\n}\r\n\r\n.pjs-io-dialog-local .pjs-box-row {\r\n  min-width: 40px;\r\n}\r\n\r\n.pjs-io-dialog-local .pjs-box-row img {\r\n  width: 100%;\r\n  max-width: 100px;\r\n  object-fit: fill;\r\n  vertical-align: middle;\r\n}\r\n\r\n.pjs-buttons.pjs-image-selection-submit-wrapper {\r\n  position: relative;\r\n}\r\n\r\n.pjs-buttons.pjs-image-selection-submit-wrapper button {\r\n  width: 100%;\r\n}\r\n\r\n.pjs-buttons.pjs-image-selection-submit-wrapper button:hover {\r\n  color: #555;\r\n}\r\n\r\n.pjs-buttons.pjs-image-selection-submit-wrapper button:active {\r\n  opacity: 1;\r\n  box-shadow: 0px 2px 2px 0 rgba(0, 0, 0, 0.1);\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -59855,58 +59850,58 @@ module.exports = styleTagTransform;
 
 /***/ }),
 
-/***/ "../assets/font-awesome-5/29f589f173dcc69ef6c805b711894998.eot":
-/*!*********************************************************************!*\
-  !*** ../assets/font-awesome-5/29f589f173dcc69ef6c805b711894998.eot ***!
-  \*********************************************************************/
+/***/ "../assets/font-awesome-5/fa.eot":
+/*!***************************************!*\
+  !*** ../assets/font-awesome-5/fa.eot ***!
+  \***************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
-module.exports = __webpack_require__.p + "29f589f173dcc69ef6c805b711894998.eot";
+module.exports = __webpack_require__.p + "fa.eot";
 
 /***/ }),
 
-/***/ "../assets/font-awesome-5/29f589f173dcc69ef6c805b711894998.svg":
-/*!*********************************************************************!*\
-  !*** ../assets/font-awesome-5/29f589f173dcc69ef6c805b711894998.svg ***!
-  \*********************************************************************/
+/***/ "../assets/font-awesome-5/fa.svg":
+/*!***************************************!*\
+  !*** ../assets/font-awesome-5/fa.svg ***!
+  \***************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
-module.exports = __webpack_require__.p + "29f589f173dcc69ef6c805b711894998.svg";
+module.exports = __webpack_require__.p + "fa.svg";
 
 /***/ }),
 
-/***/ "../assets/font-awesome-5/29f589f173dcc69ef6c805b711894998.ttf":
-/*!*********************************************************************!*\
-  !*** ../assets/font-awesome-5/29f589f173dcc69ef6c805b711894998.ttf ***!
-  \*********************************************************************/
+/***/ "../assets/font-awesome-5/fa.ttf":
+/*!***************************************!*\
+  !*** ../assets/font-awesome-5/fa.ttf ***!
+  \***************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
-module.exports = __webpack_require__.p + "29f589f173dcc69ef6c805b711894998.ttf";
+module.exports = __webpack_require__.p + "fa.ttf";
 
 /***/ }),
 
-/***/ "../assets/font-awesome-5/29f589f173dcc69ef6c805b711894998.woff":
-/*!**********************************************************************!*\
-  !*** ../assets/font-awesome-5/29f589f173dcc69ef6c805b711894998.woff ***!
-  \**********************************************************************/
+/***/ "../assets/font-awesome-5/fa.woff":
+/*!****************************************!*\
+  !*** ../assets/font-awesome-5/fa.woff ***!
+  \****************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
-module.exports = __webpack_require__.p + "29f589f173dcc69ef6c805b711894998.woff";
+module.exports = __webpack_require__.p + "fa.woff";
 
 /***/ }),
 
-/***/ "../assets/font-awesome-5/29f589f173dcc69ef6c805b711894998.woff2":
-/*!***********************************************************************!*\
-  !*** ../assets/font-awesome-5/29f589f173dcc69ef6c805b711894998.woff2 ***!
-  \***********************************************************************/
+/***/ "../assets/font-awesome-5/fa.woff2":
+/*!*****************************************!*\
+  !*** ../assets/font-awesome-5/fa.woff2 ***!
+  \*****************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
-module.exports = __webpack_require__.p + "29f589f173dcc69ef6c805b711894998.woff2";
+module.exports = __webpack_require__.p + "fa.woff2";
 
 /***/ }),
 
@@ -63771,17 +63766,6 @@ Moddle.prototype.getTypeDescriptor = function(type) {
 
 //# sourceMappingURL=index.esm.js.map
 
-
-/***/ }),
-
-/***/ "../lib/moddle/resources/db.json":
-/*!***************************************!*\
-  !*** ../lib/moddle/resources/db.json ***!
-  \***************************************/
-/***/ ((module) => {
-
-"use strict";
-module.exports = JSON.parse('{"name":"debug api","uri":"http://tk/schema/db","prefix":"db","xml":{"tagAlias":"lowerCase"},"types":[{"name":"ObjectDiagram","properties":[{"name":"object","isMany":true,"type":"Object"},{"name":"link","isMany":true,"type":"Link"},{"name":"primitiveRootValue","isMany":true,"type":"PrimitiveRootValue"}]},{"name":"Object","properties":[{"name":"id","isAttr":true,"isId":true,"type":"String"},{"name":"attributeValue","isMany":true,"type":"AttributeValue"},{"name":"link","isMany":true,"type":"Link","isReference":true},{"name":"variableName","isAttr":true,"type":"String"},{"name":"type","isAttr":true,"type":"String"}]},{"name":"AttributeValue","properties":[{"name":"name","isAttr":true,"type":"String"},{"name":"type","isAttr":true,"type":"String"},{"name":"value","isAttr":true,"type":"String"}]},{"name":"Link","properties":[{"name":"id","isAttr":true,"isId":true,"type":"String"},{"name":"type","isAttr":true,"type":"String"},{"name":"from","isAttr":true,"isReference":true,"type":"Object"},{"name":"to","isAttr":true,"isReference":true,"type":"Object"}]},{"name":"PrimitiveRootValue","properties":[{"name":"variableName","isAttr":true,"type":"String"},{"name":"type","isAttr":true,"type":"String"},{"name":"value","isAttr":true,"type":"String"}]}]}');
 
 /***/ }),
 
