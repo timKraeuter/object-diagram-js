@@ -155,6 +155,7 @@ $(function () {
   nextDebugState.on("click", next);
 });
 const previousDebugState = $("#previous-state");
+const currentState = $("#current-state");
 const nextDebugState = $("#next-state");
 
 let config = {
@@ -165,8 +166,23 @@ let currentStep = 0;
 
 function loadCurrentDebugStep() {
   disableOrEnableNextAndPreviousButtons();
+  setCurrentStepCSSAndHTML();
   let savedDebugStep = savedDebugSteps[currentStep];
   odDebugger.importXML(savedDebugStep);
+}
+
+function setCurrentStepCSSAndHTML() {
+  if (currentStep === 0) {
+    currentState.text("Debug Data");
+    currentState.css("left", "49.5%")
+    return;
+  }
+  currentState.css("left", "48%")
+  if (currentStep === 1) {
+    currentState.text(`Debug Data -${currentStep.toString()} Step`);
+    return;
+  }
+  currentState.text(`Debug Data -${currentStep.toString()} Steps`);
 }
 
 function disableOrEnableNextAndPreviousButtons() {

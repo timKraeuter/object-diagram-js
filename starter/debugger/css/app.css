@@ -17,6 +17,11 @@ body,
   bottom: 20px;
 }
 
+.current-state {
+  left: 49.5%;
+  bottom: 25px;
+}
+
 .disabled {
   opacity: 0.4;
 }
@@ -36,7 +41,7 @@ body,
 
 .bottom-buttons a.active {
   opacity: 1;
-  box-shadow: 0px 2px 2px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
 }
 
 /* screen interaction helpers & modal */
@@ -52,8 +57,8 @@ body,
 #io-editing-tools-buttons {
   display: block;
   position: fixed;
-  top: 0px;
-  right: 0px;
+  top: 0;
+  right: 0;
   list-style: none;
   padding: 5px;
   margin: 0;
