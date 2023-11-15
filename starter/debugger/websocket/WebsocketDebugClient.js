@@ -3,6 +3,9 @@ import ELK from "elkjs/lib/elk.bundled.js";
 import DebuggingDescriptors from "./db.json";
 
 const websocket_url = "ws://localhost:8071/debug";
+let config = {
+  savedDebugSteps: 0
+}
 export default function WebsocketDebugClient(eventBus) {
   // listen to dblclick on non-root elements
   eventBus.on("element.dblclick", (event) => {
@@ -35,6 +38,30 @@ WebsocketDebugClient.prototype.setOnMessageHandler = function (
   eventBus,
   lastBoard,
 ) {
+  this.webSocket.onmessage = function (event) {
+    const data = JSON.parse(event.data);
+    if (data.type === "error") {
+      console.error("Websocket error message received:" + data.content);
+      return;
+    }
+    if (data.type === "config") {
+      saveConfig(data.content);
+      return;
+    }
+    if (data.type === "loadChildren") {
+      addLoadedChildrenToVisualization(data.content);
+      return;
+    }
+    if (data.type === "nextDebugStep") {
+      visualizeDebugData(data.content);
+    }
+  };
+
+  function saveConfig(content) {
+    config = JSON.parse(content);
+    console.log("Configuration received:", config);
+  }
+
   function mapSemantic(moddle, apiData) {
     let board = moddle.create("od:OdBoard");
     board.id = "Board_debug";
@@ -336,21 +363,6 @@ WebsocketDebugClient.prototype.setOnMessageHandler = function (
       })
       .catch((reason) => console.log(reason));
   }
-
-  this.webSocket.onmessage = function (event) {
-    const data = JSON.parse(event.data);
-    if (data.type === "error") {
-      console.error("Websocket error message received:" + data.content);
-      return;
-    }
-    if (data.type === "loadChildren") {
-      addLoadedChildrenToVisualization(data.content);
-      return;
-    }
-    if (data.type === "nextDebugStep") {
-      visualizeDebugData(data.content);
-    }
-  };
 };
 
 WebsocketDebugClient.prototype.sendMessage = function (message) {
