@@ -95,31 +95,35 @@
 
 <div class="bottom-buttons pjs-buttons">
   <ul>
-    <li>open</li>
-    <li>
-      <button
-          id="js-open-board"
-          class="pjs-buttons-active"
-          title="open XML board"
-      >
-        Object diagram XML file
-      </button>
-    </li>
-  </ul>
-
-  <ul>
     <li>download</li>
     <li>
-      <a id="js-download-board" href title="download XML board">
+      <a id="js-download-board" href title="Download as XML file">
         Object diagram XML file
       </a>
     </li>
     <li>
-      <a id="js-download-svg" href title="download as SVG image">
+      <a id="js-download-svg" href title="Download as SVG image">
         SVG image
       </a>
     </li>
   </ul>
+</div>
+
+<div id="previous-state" class="pjs-buttons previous-state disabled">
+  <button
+      class="pjs-buttons-active"
+      title="Previous debugging data"
+  >
+    Previous
+  </button>
+</div>
+<div id="next-state" class="pjs-buttons next-state disabled">
+  <button
+      class="pjs-buttons-active"
+      title="Next debugging data"
+  >
+    Next
+  </button>
 </div>
 </body>
 <script src="app.js"></script>

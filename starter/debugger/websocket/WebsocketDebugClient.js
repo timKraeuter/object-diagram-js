@@ -3,9 +3,7 @@ import ELK from "elkjs/lib/elk.bundled.js";
 import DebuggingDescriptors from "./db.json";
 
 const websocket_url = "ws://localhost:8071/debug";
-let config = {
-  savedDebugSteps: 0
-}
+
 export default function WebsocketDebugClient(eventBus) {
   // listen to dblclick on non-root elements
   eventBus.on("element.dblclick", (event) => {
@@ -45,7 +43,7 @@ WebsocketDebugClient.prototype.setOnMessageHandler = function (
       return;
     }
     if (data.type === "config") {
-      saveConfig(data.content);
+      eventBus.fire("debugger.config", data);
       return;
     }
     if (data.type === "loadChildren") {
@@ -56,11 +54,6 @@ WebsocketDebugClient.prototype.setOnMessageHandler = function (
       visualizeDebugData(data.content);
     }
   };
-
-  function saveConfig(content) {
-    config = JSON.parse(content);
-    console.log("Configuration received:", config);
-  }
 
   function mapSemantic(moddle, apiData) {
     let board = moddle.create("od:OdBoard");
@@ -323,7 +316,6 @@ WebsocketDebugClient.prototype.setOnMessageHandler = function (
         lastBoard = board;
 
         await addLayoutInformation(moddle, definitions, board);
-
         moddle.toXML(definitions).then((xml) => {
           eventBus.fire("debugger.data.new", xml);
         });

@@ -12,8 +12,26 @@ body,
   left: 20px;
 }
 
+.previous-state {
+  left: 40%;
+  bottom: 20px;
+}
+
+.disabled {
+  opacity: 0.4;
+}
+
+.previous-state button:hover, .next-state button:hover {
+  background-color: #fbdbc0;
+}
+
+.next-state {
+  left: 60%;
+  bottom: 20px;
+}
+
 .bottom-buttons a:hover {
-  color: #555;
+  background-color: #fbdbc0;
 }
 
 .bottom-buttons a.active {
