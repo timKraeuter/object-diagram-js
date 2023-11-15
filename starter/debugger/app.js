@@ -151,18 +151,8 @@ $(function () {
       }
   );
 
-  previousDebugState.on("click", () => {
-    if (currentStep < savedDebugSteps.length - 1) {
-      currentStep++;
-      loadCurrentDebugStep();
-    }
-  });
-  nextDebugState.on("click", () => {
-    if (currentStep > 0) {
-      currentStep--;
-      loadCurrentDebugStep();
-    }
-  });
+  previousDebugState.on("click", previous);
+  nextDebugState.on("click", next);
 });
 const previousDebugState = $("#previous-state");
 const nextDebugState = $("#next-state");
@@ -201,6 +191,7 @@ function saveConfig(data) {
 
 function saveDebugStep(xml) {
   savedDebugSteps.unshift(xml);
+  currentStep = 0;
   limitSavedDebugSteps();
   disableOrEnableNextAndPreviousButtons();
 }
@@ -212,6 +203,29 @@ function limitSavedDebugSteps() {
     savedDebugSteps.length = config.savedDebugSteps + 1;
   }
 }
+
+function previous() {
+  if (currentStep < savedDebugSteps.length - 1) {
+    currentStep++;
+    loadCurrentDebugStep();
+  }
+}
+
+function next() {
+  if (currentStep > 0) {
+    currentStep--;
+    loadCurrentDebugStep();
+  }
+}
+
+document.addEventListener('keyup', (event) => {
+  if (event.code === "ArrowRight") {
+    next();
+  }
+  if (event.code === "ArrowLeft") {
+    previous();
+  }
+}, false);
 
 // helpers //////////////////////
 
