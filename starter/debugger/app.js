@@ -179,7 +179,7 @@ function loadCurrentDebugStep() {
   odDebugger.importXML(savedDebugStep);
 }
 
-function disableOrEnableNextAndPreviousButtons(data) {
+function disableOrEnableNextAndPreviousButtons() {
   const value = "disabled";
   if (currentStep + 1 >= savedDebugSteps.length) {
     previousDebugState.addClass(value);
