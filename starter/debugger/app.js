@@ -199,6 +199,14 @@ function saveConfig(data) {
   config = JSON.parse(data.content);
   console.log("Configuration received:", config);
   limitSavedDebugSteps();
+  resetCurrentStepIfNeeded();
+}
+
+function resetCurrentStepIfNeeded() {
+  if (currentStep !== 0) {
+    currentStep = 0;
+    loadCurrentDebugStep();
+  }
 }
 
 function saveDebugStep(xml) {
