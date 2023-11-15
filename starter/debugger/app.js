@@ -211,8 +211,13 @@ function resetCurrentStepIfNeeded() {
 
 function saveDebugStep(xml) {
   savedDebugSteps.unshift(xml);
-  currentStep = 0;
   limitSavedDebugSteps();
+
+  if (currentStep !== 0) {
+    currentStep = 0;
+    setCurrentStepCSSAndHTML();
+  }
+
   disableOrEnableNextAndPreviousButtons();
 }
 
