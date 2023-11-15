@@ -16,11 +16,10 @@ export default function Debugger(options) {
 inherits(Debugger, BaseViewer);
 
 // modules the viewer is composed of
-Debugger.prototype._modules =
-    Modeler.prototype._interactionModules.concat([
-      CoreModule,
-      TranslateModule,
-      SelectionModule,
-      OverlaysModule,
-      WebsocketDebugClientModule
-    ]);
+Debugger.prototype._modules = Modeler.prototype._interactionModules.concat([
+  CoreModule,
+  TranslateModule,
+  SelectionModule,
+  OverlaysModule,
+  WebsocketDebugClientModule,
+]);

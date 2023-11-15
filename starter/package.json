@@ -14,7 +14,9 @@
     "startDebugger": "run-s devDebugger",
     "devDebugger": "run-p buildDebugger:watch serve",
     "buildDebugger:watch": "webpack -w --env debuggerDev",
-    "buildDebugger:deploy": "webpack --env debuggerDeploy"
+    "buildDebugger:deploy": "webpack --env debuggerDeploy",
+    "pCheck": "prettier . --check",
+    "pWrite": "prettier . --write"
   },
   "private": "true",
   "keywords": [
@@ -41,9 +43,10 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
+    "elkjs": "^0.8.2",
+    "inherits": "^2.0.4",
     "jquery": "^3.7.0",
     "object-diagram-modeler": "file:../",
-    "inherits": "^2.0.4",
-    "elkjs": "^0.8.2"
+    "prettier": "^3.1.0"
   }
 }

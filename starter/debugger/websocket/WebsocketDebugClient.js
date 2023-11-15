@@ -304,7 +304,7 @@ WebsocketDebugClient.prototype.setOnMessageHandler = function (
   }
 
   function visualizeDebugData(xmlData) {
-    const moddle = new Moddle({db: DebuggingDescriptors});
+    const moddle = new Moddle({ db: DebuggingDescriptors });
 
     // Parse xml.
     moddle

@@ -26,7 +26,8 @@ body,
   opacity: 0.4;
 }
 
-.previous-state button:hover, .next-state button:hover {
+.previous-state button:hover,
+.next-state button:hover {
   background-color: #fbdbc0;
 }
 
@@ -50,8 +51,8 @@ body,
   display: none; /*default*/
 }
 
-#help-dialog-main{
-  display:none; /*default*/
+#help-dialog-main {
+  display: none; /*default*/
 }
 
 #io-editing-tools-buttons {
@@ -101,7 +102,7 @@ body,
 }
 
 .icon-question::before {
-  content: '\e803';
+  content: "\e803";
   display: inline-block;
 }
 

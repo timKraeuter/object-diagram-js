@@ -39,61 +39,63 @@ function exitFullscreen() {
 const state = {
   fullScreen: false,
   keyboardHelp: false,
-  help: false
+  help: false,
 };
 document
-.getElementById("js-toggle-fullscreen")
-.addEventListener("click", function () {
-  state.fullScreen = !state.fullScreen;
-  if (state.fullScreen) {
-    enterFullscreen(document.documentElement);
-  } else {
-    exitFullscreen();
-  }
-});
+  .getElementById("js-toggle-fullscreen")
+  .addEventListener("click", function () {
+    state.fullScreen = !state.fullScreen;
+    if (state.fullScreen) {
+      enterFullscreen(document.documentElement);
+    } else {
+      exitFullscreen();
+    }
+  });
 document
-.getElementById("js-toggle-keyboard-help")
-.addEventListener("click", function () {
-  state.keyboardHelp = !state.keyboardHelp;
-  let displayProp = "none";
-  if (state.keyboardHelp) {
-    displayProp = "block";
-  }
-  document.getElementById("io-dialog-main").style.display = displayProp;
-});
-document
-.getElementById("io-dialog-main")
-.addEventListener("click", function () {
-  state.keyboardHelp = !state.keyboardHelp;
-  let displayProp = "none";
-  if (!state.keyboardHelp) {
+  .getElementById("js-toggle-keyboard-help")
+  .addEventListener("click", function () {
+    state.keyboardHelp = !state.keyboardHelp;
+    let displayProp = "none";
+    if (state.keyboardHelp) {
+      displayProp = "block";
+    }
     document.getElementById("io-dialog-main").style.display = displayProp;
-  }
-});
-document.getElementById('js-toggle-help').addEventListener('click',
-    function () {
-      state.help = !state.help;
-      let displayProp = 'none';
-      if (state.help) {
-        displayProp = 'block';
-      }
-      document.getElementById('help-dialog-main').style.display = displayProp;
-    });
-document.getElementById('help-dialog-main').addEventListener('click',
-    function () {
-      state.help = !state.help;
-      let displayProp = 'none';
-      if (!state.help) {
-        document.getElementById('help-dialog-main').style.display = displayProp;
-      }
-    });
+  });
+document
+  .getElementById("io-dialog-main")
+  .addEventListener("click", function () {
+    state.keyboardHelp = !state.keyboardHelp;
+    let displayProp = "none";
+    if (!state.keyboardHelp) {
+      document.getElementById("io-dialog-main").style.display = displayProp;
+    }
+  });
+document
+  .getElementById("js-toggle-help")
+  .addEventListener("click", function () {
+    state.help = !state.help;
+    let displayProp = "none";
+    if (state.help) {
+      displayProp = "block";
+    }
+    document.getElementById("help-dialog-main").style.display = displayProp;
+  });
+document
+  .getElementById("help-dialog-main")
+  .addEventListener("click", function () {
+    state.help = !state.help;
+    let displayProp = "none";
+    if (!state.help) {
+      document.getElementById("help-dialog-main").style.display = displayProp;
+    }
+  });
 
 function saveSVG() {
   return odDebugger.saveSVG();
 }
 
 function saveBoard() {
-  return odDebugger.saveXML({format: true});
+  return odDebugger.saveXML({ format: true });
 }
 
 // bootstrap board functions
@@ -136,20 +138,14 @@ $(function () {
 
   // Debugging specific
 
-  odDebugger.on(
-      "debugger.data.new",
-      event => {
-        odDebugger.importXML(event.xml);
-        saveDebugStep(event.xml);
-      }
-  );
+  odDebugger.on("debugger.data.new", (event) => {
+    odDebugger.importXML(event.xml);
+    saveDebugStep(event.xml);
+  });
 
-  odDebugger.on(
-      "debugger.config",
-      event => {
-        saveConfig(event);
-      }
-  );
+  odDebugger.on("debugger.config", (event) => {
+    saveConfig(event);
+  });
 
   previousDebugState.on("click", previous);
   nextDebugState.on("click", next);
@@ -159,8 +155,8 @@ const currentState = $("#current-state");
 const nextDebugState = $("#next-state");
 
 let config = {
-  savedDebugSteps: 0
-}
+  savedDebugSteps: 0,
+};
 let savedDebugSteps = [];
 let currentStep = 0;
 
@@ -174,10 +170,10 @@ function loadCurrentDebugStep() {
 function setCurrentStepCSSAndHTML() {
   if (currentStep === 0) {
     currentState.text("Debug Data");
-    currentState.css("left", "49.5%")
+    currentState.css("left", "49.5%");
     return;
   }
-  currentState.css("left", "48%")
+  currentState.css("left", "48%");
   if (currentStep === 1) {
     currentState.text(`Debug Data -${currentStep.toString()} Step`);
     return;
@@ -234,14 +230,18 @@ function next() {
   }
 }
 
-document.addEventListener('keyup', (event) => {
-  if (event.code === "ArrowRight") {
-    next();
-  }
-  if (event.code === "ArrowLeft") {
-    previous();
-  }
-}, false);
+document.addEventListener(
+  "keyup",
+  (event) => {
+    if (event.code === "ArrowRight") {
+      next();
+    }
+    if (event.code === "ArrowLeft") {
+      previous();
+    }
+  },
+  false,
+);
 
 // helpers //////////////////////
 
