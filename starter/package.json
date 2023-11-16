@@ -40,13 +40,13 @@
     "serve": "^14.2.1",
     "style-loader": "^3.3.3",
     "webpack": "^5.89.0",
-    "webpack-cli": "^5.1.4"
+    "webpack-cli": "^5.1.4",
+    "prettier": "^3.1.0"
   },
   "dependencies": {
     "elkjs": "^0.8.2",
     "inherits": "^2.0.4",
     "jquery": "^3.7.0",
-    "object-diagram-modeler": "file:../",
-    "prettier": "^3.1.0"
+    "object-diagram-modeler": "file:../"
   }
 }

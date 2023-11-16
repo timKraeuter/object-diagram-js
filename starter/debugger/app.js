@@ -1,5 +1,3 @@
-import $ from "jquery";
-
 import "object-diagram-modeler/assets/odm.css";
 import ODDebugger from "./Debugger";
 
@@ -109,73 +107,66 @@ function saveBoard() {
 }
 
 // bootstrap board functions
-$(function () {
-  const downloadLink = $("#js-download-board");
-  const downloadSvgLink = $("#js-download-svg");
+const downloadLink = document.getElementById("js-download-board");
+const downloadSvgLink = document.getElementById("js-download-svg");
 
-  $(".buttons a").click(function (e) {
-    if (!$(this).is(".active")) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-  });
+function setEncoded(link, name, data) {
+  const encodedData = encodeURIComponent(data);
 
-  function setEncoded(link, name, data) {
-    const encodedData = encodeURIComponent(data);
-
-    if (data) {
-      link.addClass("active").attr({
-        href: "data:application/xml;charset=UTF-8," + encodedData,
-        download: name,
-      });
-    } else {
-      link.removeClass("active");
-    }
+  if (data) {
+    link.classList.add("active");
+    link.setAttribute(
+      "href",
+      "data:application/xml;charset=UTF-8," + encodedData,
+    );
+    link.setAttribute("download", name);
+  } else {
+    link.classList.removeClass("active");
   }
+}
 
-  const exportArtifacts = debounce(function () {
-    const currentStepData = savedDebugSteps[currentStep];
-    saveSVG().then(function (result) {
-      setEncoded(
-        downloadSvgLink,
-        `${currentStepData.fileName}-${currentStepData.line}.svg`,
-        result.svg,
-      );
-    });
-
-    saveBoard().then(function (result) {
-      setEncoded(
-        downloadLink,
-        `${currentStepData.fileName}-${currentStepData.line}.xml`,
-        result.xml,
-      );
-    });
-  }, 500);
-
-  odDebugger.on("commandStack.changed", exportArtifacts);
-  odDebugger.on("import.done", exportArtifacts);
-
-  // Debugging specific
-
-  odDebugger.on("element.dblclick", (event) => {
-    if (currentStep === 0) {
-      odDebugger._emit("debugger.loadChildren", event);
-    }
+const exportArtifacts = debounce(function () {
+  const currentStepData = savedDebugSteps[currentStep];
+  saveSVG().then(function (result) {
+    setEncoded(
+      downloadSvgLink,
+      `${currentStepData.fileName}-${currentStepData.line}.svg`,
+      result.svg,
+    );
   });
 
-  odDebugger.on("debugger.data.new", (event) => {
-    odDebugger.importXML(event.xml);
-    saveDebugStep(event);
+  saveBoard().then(function (result) {
+    setEncoded(
+      downloadLink,
+      `${currentStepData.fileName}-${currentStepData.line}.xml`,
+      result.xml,
+    );
   });
+}, 500);
 
-  odDebugger.on("debugger.data.update", (event) => {
-    odDebugger.importXML(event.xml);
-    updateDebugStep(event);
-  });
+odDebugger.on("commandStack.changed", exportArtifacts);
+odDebugger.on("import.done", exportArtifacts);
 
-  odDebugger.on("debugger.config", (event) => {
-    saveConfig(event);
-  });
+// Debugging specific
+
+odDebugger.on("element.dblclick", (event) => {
+  if (currentStep === 0) {
+    odDebugger._emit("debugger.loadChildren", event);
+  }
+});
+
+odDebugger.on("debugger.data.new", (event) => {
+  odDebugger.importXML(event.xml);
+  saveDebugStep(event);
+});
+
+odDebugger.on("debugger.data.update", (event) => {
+  odDebugger.importXML(event.xml);
+  updateDebugStep(event);
+});
+
+odDebugger.on("debugger.config", (event) => {
+  saveConfig(event);
 });
 
 document.addEventListener(
@@ -191,11 +182,11 @@ document.addEventListener(
   false,
 );
 
-const previousDebugState = $("#previous-state");
-const nextDebugState = $("#next-state");
+const previousDebugState = document.getElementById("previous-state");
+const nextDebugState = document.getElementById("next-state");
 
-previousDebugState.on("click", () => previous(odDebugger));
-nextDebugState.on("click", () => next(odDebugger));
+previousDebugState.addEventListener("click", () => previous(odDebugger));
+nextDebugState.addEventListener("click", () => next(odDebugger));
 
 // helpers //////////////////////
 
