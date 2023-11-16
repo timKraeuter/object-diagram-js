@@ -6,7 +6,7 @@ const websocket_url = "ws://localhost:8071/debug";
 
 export default function WebsocketDebugClient(eventBus) {
   // listen to dblclick on non-root elements
-  eventBus.on("element.dblclick", (event) => {
+  eventBus.on("debugger.loadChildren", (event) => {
     if (event.element && event.element.type === "od:Object") {
       // Load children of object on dblclick
       this.sendMessage(event.element.id);
@@ -324,7 +324,7 @@ WebsocketDebugClient.prototype.setOnMessageHandler = function (
   }
 
   function addLoadedChildrenToVisualization(xmlData) {
-    const moddle = new Moddle();
+    const moddle = new Moddle({ db: DebuggingDescriptors });
 
     // Parse xml.
     moddle
@@ -350,7 +350,7 @@ WebsocketDebugClient.prototype.setOnMessageHandler = function (
         await addLayoutInformation(moddle, definitions, board);
 
         moddle.toXML(definitions).then((xml) => {
-          eventBus.fire("debugger.data.new", xml);
+          eventBus.fire("debugger.data.update", xml);
         });
       })
       .catch((reason) => console.log(reason));

@@ -138,9 +138,20 @@ $(function () {
 
   // Debugging specific
 
+  odDebugger.on("element.dblclick", (event) => {
+    if (currentStep === 0) {
+      odDebugger._emit("debugger.loadChildren", event);
+    }
+  });
+
   odDebugger.on("debugger.data.new", (event) => {
     odDebugger.importXML(event.xml);
     saveDebugStep(event.xml);
+  });
+
+  odDebugger.on("debugger.data.update", (event) => {
+    odDebugger.importXML(event.xml);
+    updateDebugStep(event.xml);
   });
 
   odDebugger.on("debugger.config", (event) => {
@@ -207,6 +218,14 @@ function resetCurrentStepIfNeeded() {
     currentStep = 0;
     loadCurrentDebugStep();
   }
+}
+
+function updateDebugStep(xml) {
+  if (currentStep !== 0) {
+    console.log("Should never come here");
+    return;
+  }
+  savedDebugSteps[0] = xml;
 }
 
 function saveDebugStep(xml) {
