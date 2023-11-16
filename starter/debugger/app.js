@@ -208,7 +208,6 @@ function disableOrEnableNextAndPreviousButtons() {
 
 function saveConfig(data) {
   config = JSON.parse(data.content);
-  console.log("Configuration received:", config);
   limitSavedDebugSteps();
   resetCurrentStepIfNeeded();
 }
