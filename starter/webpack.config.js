@@ -19,6 +19,7 @@ module.exports = (env) => {
   }
   if (env.debuggerDeploy) {
     path = "debugger";
+    mode = "production";
 
     // We expect the Visual debugger project in the same folder as this project.
     outputPath = __dirname + "/../../VisualDebugger/src/main/resources/ui";

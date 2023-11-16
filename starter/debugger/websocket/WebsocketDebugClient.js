@@ -27,7 +27,7 @@ export default function WebsocketDebugClient(eventBus) {
   };
   this.setOnMessageHandler(eventBus, {});
 }
-WebsocketDebugClient.prototype.$inject = ["eventBus"];
+WebsocketDebugClient.$inject = ["eventBus"];
 
 const OBJECT_FONT_SIZE = "19.2px"; // 16px * 1.2 = 19.2px (Objects)
 const LINK_FONT_SIZE = "18px"; // 15px * 1.2 = 18px (Objects)
