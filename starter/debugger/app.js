@@ -124,12 +124,21 @@ $(function () {
   }
 
   const exportArtifacts = debounce(function () {
+    const currentStepData = savedDebugSteps[currentStep];
     saveSVG().then(function (result) {
-      setEncoded(downloadSvgLink, "object-diagram.svg", result.svg);
+      setEncoded(
+        downloadSvgLink,
+        `${currentStepData.fileName}-${currentStepData.line}.svg`,
+        result.svg,
+      );
     });
 
     saveBoard().then(function (result) {
-      setEncoded(downloadLink, "object-diagram.xml", result.xml);
+      setEncoded(
+        downloadLink,
+        `${currentStepData.fileName}-${currentStepData.line}.xml`,
+        result.xml,
+      );
     });
   }, 500);
 
@@ -146,12 +155,12 @@ $(function () {
 
   odDebugger.on("debugger.data.new", (event) => {
     odDebugger.importXML(event.xml);
-    saveDebugStep(event.xml);
+    saveDebugStep(event);
   });
 
   odDebugger.on("debugger.data.update", (event) => {
     odDebugger.importXML(event.xml);
-    updateDebugStep(event.xml);
+    updateDebugStep(event);
   });
 
   odDebugger.on("debugger.config", (event) => {
@@ -161,6 +170,12 @@ $(function () {
   previousDebugState.on("click", previous);
   nextDebugState.on("click", next);
 });
+
+const debugPosition = $("#debug-position");
+function setDebugPosition(debugStep) {
+  debugPosition.text(`${debugStep.fileName}:${debugStep.line}`);
+}
+
 const previousDebugState = $("#previous-state");
 const currentState = $("#current-state");
 const nextDebugState = $("#next-state");
@@ -175,7 +190,8 @@ function loadCurrentDebugStep() {
   disableOrEnableNextAndPreviousButtons();
   setCurrentStepCSSAndHTML();
   let savedDebugStep = savedDebugSteps[currentStep];
-  odDebugger.importXML(savedDebugStep);
+  odDebugger.importXML(savedDebugStep.xml);
+  setDebugPosition(savedDebugStep);
 }
 
 function setCurrentStepCSSAndHTML() {
@@ -186,10 +202,10 @@ function setCurrentStepCSSAndHTML() {
   }
   currentState.css("left", "48%");
   if (currentStep === 1) {
-    currentState.text(`Debug Data -${currentStep.toString()} Step`);
+    currentState.text(`Debug Data -${currentStep} Step`);
     return;
   }
-  currentState.text(`Debug Data -${currentStep.toString()} Steps`);
+  currentState.text(`Debug Data -${currentStep} Steps`);
 }
 
 function disableOrEnableNextAndPreviousButtons() {
@@ -219,16 +235,16 @@ function resetCurrentStepIfNeeded() {
   }
 }
 
-function updateDebugStep(xml) {
+function updateDebugStep(debugStep) {
   if (currentStep !== 0) {
     console.log("Should never come here");
     return;
   }
-  savedDebugSteps[0] = xml;
+  savedDebugSteps[0].xml = debugStep.xml;
 }
 
-function saveDebugStep(xml) {
-  savedDebugSteps.unshift(xml);
+function saveDebugStep(step) {
+  savedDebugSteps.unshift(step);
   limitSavedDebugSteps();
 
   if (currentStep !== 0) {
@@ -236,6 +252,7 @@ function saveDebugStep(xml) {
     setCurrentStepCSSAndHTML();
   }
 
+  setDebugPosition(step);
   disableOrEnableNextAndPreviousButtons();
 }
 

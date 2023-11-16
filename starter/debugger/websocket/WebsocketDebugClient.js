@@ -51,7 +51,7 @@ WebsocketDebugClient.prototype.setOnMessageHandler = function (
       return;
     }
     if (data.type === "nextDebugStep") {
-      visualizeDebugData(data.content);
+      visualizeDebugData(data);
     }
   };
 
@@ -303,7 +303,8 @@ WebsocketDebugClient.prototype.setOnMessageHandler = function (
     });
   }
 
-  function visualizeDebugData(xmlData) {
+  function visualizeDebugData(data) {
+    const xmlData = data.content;
     const moddle = new Moddle({ db: DebuggingDescriptors });
 
     // Parse xml.
@@ -316,8 +317,12 @@ WebsocketDebugClient.prototype.setOnMessageHandler = function (
         lastBoard = board;
 
         await addLayoutInformation(moddle, definitions, board);
-        moddle.toXML(definitions).then((xml) => {
-          eventBus.fire("debugger.data.new", xml);
+        moddle.toXML(definitions).then((result) => {
+          eventBus.fire("debugger.data.new", {
+            xml: result.xml,
+            fileName: data.fileName,
+            line: data.line,
+          });
         });
       })
       .catch((reason) => console.log(reason));

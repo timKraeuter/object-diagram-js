@@ -12,6 +12,13 @@ body,
   left: 20px;
 }
 
+.top-right {
+  position: fixed;
+  font-weight: bold;
+  top: 60px;
+  right: 15px;
+}
+
 .previous-state {
   left: 40%;
   bottom: 20px;
