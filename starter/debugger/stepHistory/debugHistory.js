@@ -1,6 +1,4 @@
-import $ from "jquery";
-
-const debugPosition = $("#debug-position");
+const debugPosition = document.getElementById("debug-position");
 
 let config = {
   savedDebugSteps: 0,
@@ -8,9 +6,9 @@ let config = {
 export let savedDebugSteps = [];
 export let currentStep = 0;
 
-const previousDebugState = $("#previous-state");
-const currentState = $("#current-state");
-const nextDebugState = $("#next-state");
+const previousDebugState = document.getElementById("previous-state");
+const currentState = document.getElementById("current-state");
+const nextDebugState = document.getElementById("next-state");
 
 export function previous(odDebugger) {
   if (currentStep < savedDebugSteps.length - 1) {
@@ -62,34 +60,34 @@ function loadCurrentDebugStep(odDebugger) {
 }
 
 function setDebugPosition(debugStep) {
-  debugPosition.text(`${debugStep.fileName}:${debugStep.line}`);
+  debugPosition.textContent = `${debugStep.fileName}:${debugStep.line}`;
 }
 
 function setCurrentStepCSSAndHTML() {
   if (currentStep === 0) {
-    currentState.text("Debug Data");
-    currentState.css("left", "49.5%");
+    currentState.textContent = "Debug Data";
+    currentState.style.left = "49.5%";
     return;
   }
-  currentState.css("left", "48%");
+  currentState.style.left = "48%";
   if (currentStep === 1) {
-    currentState.text(`Debug Data -${currentStep} Step`);
+    currentState.textContent = `Debug Data -${currentStep} Step`;
     return;
   }
-  currentState.text(`Debug Data -${currentStep} Steps`);
+  currentState.textContent = `Debug Data -${currentStep} Steps`;
 }
 
 function disableOrEnableNextAndPreviousButtons() {
   const value = "disabled";
   if (currentStep + 1 >= savedDebugSteps.length) {
-    previousDebugState.addClass(value);
+    previousDebugState.classList.add(value);
   } else {
-    previousDebugState.removeClass(value);
+    previousDebugState.classList.remove(value);
   }
   if (currentStep - 1 < 0) {
-    nextDebugState.addClass(value);
+    nextDebugState.classList.add(value);
   } else {
-    nextDebugState.removeClass(value);
+    nextDebugState.classList.remove(value);
   }
 }
 
