@@ -8,9 +8,11 @@ const SOURCE_VERSION =
 module.exports = (env) => {
   let outputPath = __dirname + "/public";
   let path = "app";
+  let mode = "development";
   if (env.ghpages) {
     // GitHub pages expects static files here.
     outputPath = __dirname + "/../docs";
+    mode = "production";
   }
   if (env.debuggerDev) {
     path = "debugger";
@@ -61,7 +63,7 @@ module.exports = (env) => {
         "process.env.SOURCE_VERSION": JSON.stringify(SOURCE_VERSION || null),
       }),
     ],
-    mode: "development",
+    mode,
     devtool: "source-map",
   };
 };
