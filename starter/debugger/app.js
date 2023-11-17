@@ -10,6 +10,7 @@ import {
   updateDebugStep,
   saveConfig,
 } from "./stepHistory/DebugHistory.js";
+import { diff } from "./differ";
 
 // modeler instance
 const odDebugger = new ODDebugger({
@@ -201,3 +202,25 @@ function debounce(fn, timeout) {
     timer = setTimeout(fn, timeout);
   };
 }
+
+// Test diff
+
+let board1 = JSON.parse(
+  '{"$type":"od:OdBoard","id":"Board_debug","boardElements":[{"$type":"od:Object","id":"Object_2747","name":"this:PartsListTest","attributeValues":""}]}',
+);
+
+let board2 = JSON.parse(
+  '{"$type":"od:OdBoard","id":"Board_debug","boardElements":[{"$type":"od:Link","id":"Link_Object_2751_to_Object_2752_type_components","name":"components","type":"components","sourceRef":{"$type":"od:Object","id":"Object_2751","name":"folding_wall_table:Product","attributeValues":"name=\\"Folding wall table\\"\\ncost=5"},"targetRef":{"$type":"od:Object","id":"Object_2752","name":"components:HashSet","attributeValues":""}},{"$type":"od:Object","id":"Object_2747","name":"this:PartsListTest","attributeValues":""},{"$type":"od:Object","id":"Object_2751","name":"folding_wall_table:Product","attributeValues":"name=\\"Folding wall table\\"\\ncost=5"},{"$type":"od:Object","id":"Object_2752","name":"components:HashSet","attributeValues":""}]}',
+);
+
+console.log(board1);
+
+console.log(board2);
+
+// objects 2751/2752 are added.
+// link 2751 to 2752 is added.
+// Would be nice to have delete and change too.
+
+let diff1 = diff(board1, board2);
+
+console.log(diff1);
