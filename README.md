@@ -35,7 +35,7 @@ npm run build:github-pages
 
 ## Object diagram debugger
 
-The UI used in the [visual debugger IntelliJ plugin](https://plugins.jetbrains.com/plugin/16851-visual-debugger) is configured in the folder `starter/debugger`.
+The UI used in the [visual debugger IntelliJ plugin](https://plugins.jetbrains.com/plugin/16851-visual-debugger) is configured in the folder `/debugger`.
 This serves as an example how the library can be used and customized (here we added a **Websocket connection** to read debug data live).
 
 ### Installing dependencies
@@ -49,18 +49,18 @@ npm i
 ### Running the debugger
 
 ```console
-cd starter
-npm run startDebugger
+cd debugger
+npm run start
 ```
 
 ### Building the debugger
 
 ```console
-cd starter
-npm run buildDebugger:deploy
+cd debugger
+npm run build:deploy
 ```
 
-The debugger will be build at the right location for the **visual debugger plugin**.
+The debugger will be built at the right location for the **visual debugger plugin**.
 
 ## License
 

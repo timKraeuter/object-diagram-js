@@ -9,10 +9,11 @@ module.exports = (env) => {
   let outputPath = __dirname + "/public";
   let path = "src";
   let mode = "development";
-  if (env.ghpages) {
-    // GitHub pages expects static files here.
-    outputPath = __dirname + "/../docs";
+  if (env.deploy) {
     mode = "production";
+
+    // We expect the Visual debugger project in the same folder as this project.
+    outputPath = __dirname + "/../../VisualDebugger/src/main/resources/ui";
   }
   return {
     entry: {

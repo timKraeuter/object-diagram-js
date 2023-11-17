@@ -10,7 +10,7 @@
     "dev": "run-p build:watch serve",
     "build:watch": "webpack -w",
     "serve": "serve public",
-    "build:github-pages": "webpack --env ghpages",
+    "buildDebugger:deploy": "webpack --env deploy",
     "pCheck": "prettier . --check",
     "pWrite": "prettier . --write"
   },
@@ -40,8 +40,9 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
+    "diffpatch": "^0.5.1",
+    "elkjs": "^0.8.2",
     "inherits": "^2.0.4",
-    "jquery": "^3.7.0",
     "object-diagram-modeler": "file:../"
   }
 }
