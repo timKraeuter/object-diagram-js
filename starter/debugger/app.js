@@ -9,7 +9,7 @@ import {
   savedDebugSteps,
   updateDebugStep,
   saveConfig,
-} from "./stepHistory/debugHistory.js";
+} from "./stepHistory/DebugHistory.js";
 
 // modeler instance
 const odDebugger = new ODDebugger({

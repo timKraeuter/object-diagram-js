@@ -2,6 +2,7 @@ const debugPosition = document.getElementById("debug-position");
 
 let config = {
   savedDebugSteps: 0,
+  coloredDiff: true,
 };
 export let savedDebugSteps = [];
 export let currentStep = 0;
@@ -44,10 +45,6 @@ export function saveDebugStep(step) {
 }
 
 export function updateDebugStep(debugStep) {
-  if (currentStep !== 0) {
-    console.log("Should never come here");
-    return;
-  }
   savedDebugSteps[0].xml = debugStep.xml;
 }
 
