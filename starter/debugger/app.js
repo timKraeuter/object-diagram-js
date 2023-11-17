@@ -121,7 +121,7 @@ function setEncoded(link, name, data) {
     );
     link.setAttribute("download", name);
   } else {
-    link.classList.removeClass("active");
+    link.classList.remove("active");
   }
 }
 
