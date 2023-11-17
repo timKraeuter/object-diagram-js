@@ -50,7 +50,7 @@ WebsocketDebugClient.prototype.setOnMessageHandler = function (
       addLoadedChildrenToVisualization(data.content);
       return;
     }
-    if (data.type === "nextDebugStep") {
+    if (data.type === "nextDebugStep" && data.content) {
       visualizeDebugData(data);
     }
   };
