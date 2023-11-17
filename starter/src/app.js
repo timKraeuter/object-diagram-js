@@ -1,5 +1,3 @@
-import $ from "jquery";
-
 import "object-diagram-modeler/assets/odm.css";
 import ODModeler from "object-diagram-modeler/lib/Modeler";
 
@@ -99,17 +97,13 @@ function openFile(file, callback) {
   reader.readAsText(file);
 }
 
-const fileInput = $('<input type="file" />')
-  .appendTo(document.body)
-  .css({
-    width: 1,
-    height: 1,
-    display: "none",
-    overflow: "hidden",
-  })
-  .on("change", function (e) {
-    openFile(e.target.files[0], openBoard);
-  });
+const fileInput = document.createElement("input");
+fileInput.setAttribute("type", "file");
+fileInput.style.display = "none";
+document.body.appendChild(fileInput);
+document.addEventListener("change", function (e) {
+  openFile(e.target.files[0], openBoard);
+});
 
 function openBoard(xml) {
   // import board
@@ -129,57 +123,48 @@ function saveBoard() {
 }
 
 // bootstrap board functions
-$(function () {
-  const downloadLink = $("#js-download-board");
-  const downloadSvgLink = $("#js-download-svg");
+const downloadLink = document.getElementById("js-download-board");
+const downloadSvgLink = document.getElementById("js-download-svg");
 
-  const openNew = $("#js-open-new");
-  const openExistingBoard = $("#js-open-board");
+const openNew = document.getElementById("js-open-new");
+const openExistingBoard = document.getElementById("js-open-board");
 
-  $(".buttons a").click(function (e) {
-    if (!$(this).is(".active")) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-  });
+function setEncoded(link, name, data) {
+  const encodedData = encodeURIComponent(data);
 
-  function setEncoded(link, name, data) {
-    const encodedData = encodeURIComponent(data);
-
-    if (data) {
-      link.addClass("active").attr({
-        href: "data:application/xml;charset=UTF-8," + encodedData,
-        download: name,
-      });
-    } else {
-      link.removeClass("active");
-    }
+  if (data) {
+    link.classList.add("active");
+    link.setAttribute(
+      "href",
+      "data:application/xml;charset=UTF-8," + encodedData,
+    );
+    link.setAttribute("download", name);
+  } else {
+    link.classList.remove("active");
   }
+}
 
-  const exportArtifacts = debounce(function () {
-    saveSVG().then(function (result) {
-      setEncoded(downloadSvgLink, "object-diagram.svg", result.svg);
-    });
-
-    saveBoard().then(function (result) {
-      setEncoded(downloadLink, "object-diagram.xml", result.xml);
-    });
-  }, 500);
-
-  modeler.on("commandStack.changed", exportArtifacts);
-  modeler.on("import.done", exportArtifacts);
-
-  openNew.on("click", function () {
-    openBoard(emptyBoardXML);
+const exportArtifacts = debounce(function () {
+  saveSVG().then(function (result) {
+    setEncoded(downloadSvgLink, "object-diagram.svg", result.svg);
   });
 
-  openExistingBoard.on("click", function () {
-    const input = $(fileInput);
-
-    // clear input so that previously selected file can be reopened
-    input.val("");
-    input.trigger("click");
+  saveBoard().then(function (result) {
+    setEncoded(downloadLink, "object-diagram.xml", result.xml);
   });
+}, 500);
+
+modeler.on("commandStack.changed", exportArtifacts);
+modeler.on("import.done", exportArtifacts);
+
+openNew.addEventListener("click", function () {
+  openBoard(emptyBoardXML);
+});
+
+openExistingBoard.addEventListener("click", function () {
+  // clear input so that previously selected file can be reopened
+  fileInput.value = "";
+  fileInput.click();
 });
 
 openBoard(sampleBoardXML);

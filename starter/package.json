@@ -41,7 +41,6 @@
   },
   "dependencies": {
     "inherits": "^2.0.4",
-    "jquery": "^3.7.0",
     "object-diagram-modeler": "file:../"
   }
 }
