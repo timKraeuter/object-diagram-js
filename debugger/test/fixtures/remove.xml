@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<od:definitions xmlns:od="http://tk/schema/od" xmlns:odDi="http://tk/schema/odDi" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC">
+  <od:odBoard id="Board_debug">
+    <od:object name="folding_wall_table:Product" id="Object_2669" attributeValues="cost=5&#10;name=&#34;Folding wall table&#34;" />
+  </od:odBoard>
+  <odDi:odRootBoard id="RootBoard_debug">
+    <odDi:odPlane id="Plane_debug" boardElement="Board_debug">
+      <odDi:odShape id="Object_2669_di" boardElement="Object_2669">
+        <dc:Bounds x="434" y="120" width="221" height="78" />
+      </odDi:odShape>
+    </odDi:odPlane>
+  </odDi:odRootBoard>
+</od:definitions>
