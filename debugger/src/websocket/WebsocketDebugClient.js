@@ -1,4 +1,4 @@
-import Moddle from "object-diagram-modeler/lib/moddle";
+import Moddle from "object-diagram-moddle";
 import ELK from "elkjs/lib/elk.bundled.js";
 import DebuggingDescriptors from "./db.json";
 
