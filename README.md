@@ -4,7 +4,7 @@
 
 ## Object-diagram-js
 
-This repository contains the source code for object-diagram-js, based on **diagram-js** and strongly inspired by the excellent **bpmn-js**.
+This repository contains the source code for **object-diagram-js**, based on **diagram-js** and strongly inspired by the excellent **bpmn-js**.
 A demonstration is available [here](https://timkraeuter.com/object-diagram-modeler/).
 
 ### Usage
