@@ -1,11 +1,11 @@
 [![Build & Test](https://github.com/timKraeuter/object-diagram-js/actions/workflows/ci.yml/badge.svg)](https://github.com/timKraeuter/object-diagram-js/actions/workflows/ci.yml)
 
-## [Try the resulting object diagram modeler here](https://timkraeuter.com/object-diagram-modeler/).
+## [Try the resulting object diagram modeler here](https://timkraeuter.com/object-diagram-js/).
 
 ## Object-diagram-js
 
 This repository contains the source code for **object-diagram-js**, based on **diagram-js** and strongly inspired by the excellent **bpmn-js**.
-A demonstration is available [here](https://timkraeuter.com/object-diagram-modeler/).
+A demonstration is available [here](https://timkraeuter.com/object-diagram-js/).
 
 ### Usage
 
