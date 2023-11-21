@@ -1,6 +1,7 @@
 import Moddle from "object-diagram-moddle";
 import ELK from "elkjs/lib/elk.bundled.js";
 import DebuggingDescriptors from "./db.json";
+import diff from "object-diagram-js-differ";
 
 const websocket_url = "ws://localhost:8071/debug";
 
@@ -25,7 +26,7 @@ export default function WebsocketDebugClient(eventBus) {
         '" failed.',
     );
   };
-  this.setOnMessageHandler(eventBus, {});
+  this.setOnMessageHandler(eventBus, undefined);
 }
 WebsocketDebugClient.$inject = ["eventBus"];
 
@@ -311,17 +312,24 @@ WebsocketDebugClient.prototype.setOnMessageHandler = function (
     moddle
       .fromXML(xmlData, "db:ObjectDiagram")
       .then(async (apiData) => {
-        const definitions = moddle.create("od:Definitions");
         const board = mapSemantic(moddle, apiData);
+        const definitions = moddle.create("od:Definitions");
         definitions.get("rootElements").push(board);
-        lastBoard = board;
 
         await addLayoutInformation(moddle, definitions, board);
+
+        let delta = {};
+        if (lastBoard) {
+          delta = diff(lastBoard, board);
+        }
+
+        lastBoard = board;
         moddle.toXML(definitions).then((result) => {
           eventBus.fire("debugger.data.new", {
             xml: result.xml,
             fileName: data.fileName,
             line: data.line,
+            diff: delta,
           });
         });
       })

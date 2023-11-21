@@ -43,9 +43,9 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
-    "diffpatch": "^0.5.1",
     "elkjs": "^0.8.2",
     "inherits": "^2.0.4",
+    "object-diagram-js-differ": "^1.0.1",
     "object-diagram-modeler": "file:../"
   }
 }
