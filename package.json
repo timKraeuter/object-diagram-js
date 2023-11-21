@@ -1,6 +1,6 @@
 {
-  "name": "object-diagram-modeler",
-  "version": "1.0.5",
+  "name": "object-diagram-js",
+  "version": "1.0.6",
   "description": "An object diagram toolkit and modeler",
   "main": "index.js",
   "files": [
@@ -27,7 +27,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/timKraeuter/object-diagram-modeler.git"
+    "url": "https://github.com/timKraeuter/object-diagram-js.git"
   },
   "license": "SEE LICENSE IN LICENSE",
   "sideEffects": [
