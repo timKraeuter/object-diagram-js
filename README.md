@@ -1,10 +1,11 @@
-[![Build & Test](https://github.com/timKraeuter/object-diagram-modeler/actions/workflows/ci.yml/badge.svg)](https://github.com/timKraeuter/object-diagram-modeler/actions/workflows/ci.yml)
+[![Build & Test](https://github.com/timKraeuter/object-diagram-js/actions/workflows/ci.yml/badge.svg)](https://github.com/timKraeuter/object-diagram-js/actions/workflows/ci.yml)
 
-## [Try the object diagram modeler here](https://timkraeuter.com/object-diagram-modeler/).
+## [Try the resulting object diagram modeler here](https://timkraeuter.com/object-diagram-modeler/).
 
-## Object diagram modeler
+## Object-diagram-js
 
-This folder contains the source code for an [object diagram modeler](https://timkraeuter.com/object-diagram-modeler/) library based on **diagram-js**.
+This repository contains the source code for object-diagram-js, based on **diagram-js** and strongly inspired by the excellent **bpmn-js**.
+A demonstration is available [here](https://timkraeuter.com/object-diagram-modeler/).
 
 ### Usage
 
@@ -36,7 +37,7 @@ npm run build:github-pages
 ## Object diagram debugger
 
 The UI used in the [visual debugger IntelliJ plugin](https://plugins.jetbrains.com/plugin/16851-visual-debugger) is configured in the folder `starter/debugger`.
-This serves as an example how the library can be used and customized (here we added a **Websocket connection** to read debug data live).
+This serves as an example of how the library can be used and customized (here, we added a **Websocket connection** to read debug data live).
 
 ### Installing dependencies
 
