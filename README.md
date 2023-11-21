@@ -1,10 +1,11 @@
-[![Build & Test](https://github.com/timKraeuter/object-diagram-modeler/actions/workflows/ci.yml/badge.svg)](https://github.com/timKraeuter/object-diagram-modeler/actions/workflows/ci.yml)
+[![Build & Test](https://github.com/timKraeuter/object-diagram-js/actions/workflows/ci.yml/badge.svg)](https://github.com/timKraeuter/object-diagram-js/actions/workflows/ci.yml)
 
-## [Try the object diagram modeler here](https://timkraeuter.com/object-diagram-modeler/).
+## [Try the resulting object diagram modeler here](https://timkraeuter.com/object-diagram-js/).
 
-## Object diagram modeler
+## Object-diagram-js
 
-This folder contains the source code for an [object diagram modeler](https://timkraeuter.com/object-diagram-modeler/) library based on **diagram-js**.
+This repository contains the source code for **object-diagram-js**, based on **diagram-js** and strongly inspired by the excellent **bpmn-js**.
+A demonstration is available [here](https://timkraeuter.com/object-diagram-js/).
 
 ### Usage
 
@@ -49,18 +50,18 @@ npm i
 ### Running the debugger
 
 ```console
-cd debugger
-npm run start
+cd starter
+npm run startDebugger
 ```
 
 ### Building the debugger
 
 ```console
-cd debugger
-npm run build:deploy
+cd starter
+npm run buildDebugger:deploy
 ```
 
-The debugger will be built at the right location for the **visual debugger plugin**.
+The debugger will be build at the right location for the **visual debugger plugin**.
 
 ## License
 
