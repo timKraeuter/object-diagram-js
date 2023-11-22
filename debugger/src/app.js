@@ -11,7 +11,8 @@ import {
   saveConfig,
   getConfig,
 } from "./stepHistory/DebugHistory.js";
-import diff from "object-diagram-js-differ";
+
+import {colorDifference} from "./differ/DiffVisualizer";
 
 // modeler instance
 const odDebugger = new ODDebugger({
@@ -157,33 +158,6 @@ odDebugger.on("element.dblclick", (event) => {
   }
 });
 
-function colorDifference(last, current) {
-  const delta = diff(last, current);
-
-  const modeling = odDebugger.get("modeling");
-  const registry = odDebugger.get("elementRegistry");
-
-  const addedElements = Object.keys(delta._added).map((key) =>
-    registry.get(key),
-  );
-  modeling.setColor(addedElements, {
-    fill: "#158311",
-    stroke: "#158311",
-  });
-
-  const changedElements = Object.keys(delta._changed).map((key) =>
-    registry.get(key),
-  );
-  modeling.setColor(changedElements, {
-    fill: "#e76e09",
-    stroke: "#e76e09",
-  });
-
-  odDebugger.saveXML({ format: true }).then((result) => {
-    updateDebugStep(result);
-  });
-}
-
 function isNotEmptyBoard(board) {
   return Object.keys(board).length > 0;
 }
@@ -191,7 +165,7 @@ function isNotEmptyBoard(board) {
 odDebugger.on("debugger.data.new", (event) => {
   odDebugger.importXML(event.xml).then(() => {
     if (getConfig().coloredDiff && isNotEmptyBoard(event.lastBoard)) {
-      colorDifference(event.lastBoard, event.currentBoard);
+      colorDifference(odDebugger, event.lastBoard, event.currentBoard);
     }
   });
 

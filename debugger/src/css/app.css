@@ -118,3 +118,26 @@ body,
   padding: 5px 10px;
   font-family: monospace;
 }
+
+.marker {
+  border-radius: 50%;
+  background-color: rgb(128, 128, 128);
+  color: white;
+  font-weight: bold;
+  font-size: 150%;
+  padding-right: 6px;
+  padding-left: 6px;
+}
+
+.marker.marker-added {
+  background: #54B415;
+}
+
+.marker-changed {
+  font-size: 100%;
+  padding: 2px 6px;
+}
+
+.marker.marker-changed {
+  background: #e76e09;
+}
