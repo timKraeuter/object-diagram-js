@@ -159,21 +159,25 @@ function highlightDiff(diff) {
   const modeling = odDebugger.get("modeling");
   const registry = odDebugger.get("elementRegistry");
 
-  for (const [key, _] of Object.entries(diff._added)) {
-    const addedElement = registry.get(key);
-    modeling.setColor([addedElement], {
-      stroke: "#158311",
-      fill: "#158311",
-    });
-  }
+  const addedElements = Object.keys(diff._added).map((key) =>
+    registry.get(key),
+  );
+  modeling.setColor(addedElements, {
+    fill: "#158311",
+    stroke: "#158311",
+  });
 
-  for (const [key, _] of Object.entries(diff._changed)) {
-    const changedElement = registry.get(key);
-    modeling.setColor([changedElement], {
-      stroke: "#e76e09",
-      fill: "#e76e09",
-    });
-  }
+  const changedElements = Object.keys(diff._changed).map((key) =>
+    registry.get(key),
+  );
+  modeling.setColor(changedElements, {
+    fill: "#e76e09",
+    stroke: "#e76e09",
+  });
+
+  odDebugger.saveXML({ format: true }).then((result) => {
+    updateDebugStep(result);
+  });
 }
 
 odDebugger.on("debugger.data.new", (event) => {
