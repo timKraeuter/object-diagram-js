@@ -31,6 +31,10 @@ export function saveConfig(data) {
   resetCurrentStepIfNeeded();
 }
 
+export function getConfig() {
+  return config;
+}
+
 export function saveDebugStep(step) {
   savedDebugSteps.unshift(step);
   limitSavedDebugSteps();

@@ -318,19 +318,15 @@ WebsocketDebugClient.prototype.setOnMessageHandler = function (
 
         await addLayoutInformation(moddle, definitions, board);
 
-        let delta = {};
-        if (lastBoard) {
-          delta = diff(lastBoard, board);
-        }
-
-        lastBoard = board;
         moddle.toXML(definitions).then((result) => {
           eventBus.fire("debugger.data.new", {
             xml: result.xml,
             fileName: data.fileName,
             line: data.line,
-            diff: delta,
+            lastBoard: lastBoard,
+            currentBoard: board,
           });
+          lastBoard = board;
         });
       })
       .catch((reason) => console.log(reason));
