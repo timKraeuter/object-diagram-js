@@ -68,7 +68,7 @@
     "inherits": "^2.0.4",
     "min-dash": "^4.1.1",
     "min-dom": "^4.1.0",
-    "object-diagram-moddle": "^1.0.0",
+    "object-diagram-moddle": "^1.0.2",
     "object-refs": "^0.3.0",
     "tiny-svg": "^3.0.0"
   }
