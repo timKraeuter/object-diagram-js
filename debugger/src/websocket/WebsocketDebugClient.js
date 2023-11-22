@@ -1,7 +1,6 @@
 import Moddle from "object-diagram-moddle";
 import ELK from "elkjs/lib/elk.bundled.js";
 import DebuggingDescriptors from "./db.json";
-import diff from "object-diagram-js-differ";
 
 const websocket_url = "ws://localhost:8071/debug";
 
