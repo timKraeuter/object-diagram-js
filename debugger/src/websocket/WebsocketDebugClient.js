@@ -26,7 +26,7 @@ export default function WebsocketDebugClient(eventBus) {
         '" failed.',
     );
   };
-  this.setOnMessageHandler(eventBus, undefined);
+  this.setOnMessageHandler(eventBus, {});
 }
 WebsocketDebugClient.$inject = ["eventBus"];
 

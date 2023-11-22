@@ -10,7 +10,6 @@ import {
   updateDebugStep,
   saveConfig,
 } from "./stepHistory/DebugHistory.js";
-import diff from "object-diagram-js-differ";
 
 // modeler instance
 const odDebugger = new ODDebugger({
@@ -156,18 +155,48 @@ odDebugger.on("element.dblclick", (event) => {
   }
 });
 
-odDebugger.on("debugger.data.new", (event) => {
-  odDebugger.importXML(event.xml);
-  const diff = event.diff;
-  for (const [key, _] of Object.entries(diff._added)) {
-    console.log(`${key}`);
+function highlightDiff(diff) {
+  // TODO: Switch to colors instead of overlays
+  const overlays = odDebugger.get("overlays");
+  overlays.clear();
 
-    // const modeling = this.bpmnModeler.getModeler().get("modeling");
-    // modeling.setColor(elementsToColor, {
-    //   stroke: "#831311",
-    //   fill: "#ffcdd2",
-    // });
+  for (const [key, _] of Object.entries(diff._added)) {
+    overlays.add(key, "added", {
+      position: {
+        bottom: 0,
+        left: 0,
+      },
+      html: '<div class="small-note">Added</div>',
+    });
   }
+
+  for (const [key, _] of Object.entries(diff._removed)) {
+    overlays.add(key, "removed", {
+      position: {
+        bottom: 0,
+        left: 0,
+      },
+      html: '<div class="small-note">Removed</div>',
+    });
+  }
+
+  for (const [key, _] of Object.entries(diff._changed)) {
+    overlays.add(key, "changed", {
+      position: {
+        bottom: 0,
+        left: 0,
+      },
+      html: '<div class="small-note">Changed</div>',
+    });
+  }
+}
+
+odDebugger.on("debugger.data.new", (event) => {
+  odDebugger.importXML(event.xml).then(() => {
+    if (event.diff) {
+      highlightDiff(event.diff);
+    }
+  });
 
   saveDebugStep(event);
 });
