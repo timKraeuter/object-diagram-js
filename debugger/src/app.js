@@ -156,37 +156,14 @@ odDebugger.on("element.dblclick", (event) => {
 });
 
 function highlightDiff(diff) {
-  // TODO: Switch to colors instead of overlays
-  const overlays = odDebugger.get("overlays");
-  overlays.clear();
+  const modeling = odDebugger.get("modeling");
+  const registry = odDebugger.get("elementRegistry");
 
   for (const [key, _] of Object.entries(diff._added)) {
-    overlays.add(key, "added", {
-      position: {
-        bottom: 0,
-        left: 0,
-      },
-      html: '<div class="small-note">Added</div>',
-    });
-  }
-
-  for (const [key, _] of Object.entries(diff._removed)) {
-    overlays.add(key, "removed", {
-      position: {
-        bottom: 0,
-        left: 0,
-      },
-      html: '<div class="small-note">Removed</div>',
-    });
-  }
-
-  for (const [key, _] of Object.entries(diff._changed)) {
-    overlays.add(key, "changed", {
-      position: {
-        bottom: 0,
-        left: 0,
-      },
-      html: '<div class="small-note">Changed</div>',
+    const addedElement = registry.get(key);
+    modeling.setColor([addedElement], {
+      stroke: "#158311",
+      fill: "#158311",
     });
   }
 }
