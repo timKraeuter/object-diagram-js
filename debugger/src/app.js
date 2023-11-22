@@ -166,6 +166,14 @@ function highlightDiff(diff) {
       fill: "#158311",
     });
   }
+
+  for (const [key, _] of Object.entries(diff._changed)) {
+    const changedElement = registry.get(key);
+    modeling.setColor([changedElement], {
+      stroke: "#e76e09",
+      fill: "#e76e09",
+    });
+  }
 }
 
 odDebugger.on("debugger.data.new", (event) => {
