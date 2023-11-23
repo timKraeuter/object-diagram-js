@@ -34,7 +34,7 @@ cd starter
 npm run build:github-pages
 ```
 
-## Object diagram debugger
+## Object-diagram-js debugger
 
 The UI used in the [visual debugger IntelliJ plugin](https://plugins.jetbrains.com/plugin/16851-visual-debugger) is configured in the folder `/debugger`.
 This serves as an example how the library can be used and customized (here we added a **Websocket connection** to read debug data live).
