@@ -1,5 +1,5 @@
 import diff from "object-diagram-js-differ";
-import {updateDebugStep} from "../stepHistory/DebugHistory";
+import { updateDebugStep } from "../stepHistory/DebugHistory";
 
 const DIFF = "diff";
 
@@ -12,16 +12,19 @@ export function colorDifference(odDebugger, last, current) {
   overlays.clear();
 
   const addedElements = Object.keys(delta._added).map((key) =>
-      registry.get(key),
+    registry.get(key),
   );
-  addedElements.filter(element => !element.id.includes("Link")).forEach(
-      element => overlays.add(element, DIFF, {
+  addedElements
+    .filter((element) => !element.id.includes("Link"))
+    .forEach((element) =>
+      overlays.add(element, DIFF, {
         position: {
           top: -10,
           right: 10,
         },
-        html: '<span class="marker marker-added">+</span>',
-      }))
+        html: '<span class="marker marker-added"></span>',
+      }),
+    );
 
   modeling.setColor(addedElements, {
     fill: "#54B415",
@@ -29,23 +32,25 @@ export function colorDifference(odDebugger, last, current) {
   });
 
   const changedElements = Object.keys(delta._changed).map((key) =>
-      registry.get(key),
+    registry.get(key),
   );
-  changedElements.filter(element => !element.id.includes("Link")).forEach(
-      element =>
-          overlays.add(element, DIFF, {
-            position: {
-              top: -10,
-              right: 10,
-            },
-            html: '<span class="marker marker-changed">✎</span>',
-          }))
+  changedElements
+    .filter((element) => !element.id.includes("Link"))
+    .forEach((element) =>
+      overlays.add(element, DIFF, {
+        position: {
+          top: -10,
+          right: 10,
+        },
+        html: '<span class="marker marker-changed"></span>',
+      }),
+    );
   modeling.setColor(changedElements, {
     fill: "#e76e09",
     stroke: "#e76e09",
   });
 
-  odDebugger.saveXML({format: true}).then((result) => {
+  odDebugger.saveXML({ format: true }).then((result) => {
     updateDebugStep(result);
   });
 }

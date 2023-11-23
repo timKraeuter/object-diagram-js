@@ -120,22 +120,32 @@ body,
 }
 
 .marker {
-  border-radius: 50%;
   background-color: rgb(128, 128, 128);
   color: white;
-  font-weight: bold;
-  font-size: 150%;
-  padding-right: 6px;
-  padding-left: 6px;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.marker-added::before {
+  font-family: "Font Awesome 5 Free Solid", serif;
+  line-height: 1.2em;
+  content: "\e807";
+  display: inline-block;
 }
 
 .marker.marker-added {
   background: #54B415;
 }
 
-.marker-changed {
-  font-size: 100%;
-  padding: 2px 6px;
+.marker-changed::before {
+  font-family: "Font Awesome 5 Free Solid", serif;
+  font-size: 0.85em;
+  content: "\e806";
+  display: inline-block;
 }
 
 .marker.marker-changed {
