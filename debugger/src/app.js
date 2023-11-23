@@ -1,3 +1,5 @@
+"use strict";
+
 import "object-diagram-modeler/assets/odm.css";
 import ODDebugger from "./Debugger";
 
