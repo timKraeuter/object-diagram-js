@@ -38,6 +38,13 @@ npm run build:github-pages
 
 The UI used in the [visual debugger IntelliJ plugin](https://plugins.jetbrains.com/plugin/16851-visual-debugger) is configured in the folder `/debugger`.
 This serves as an example how the library can be used and customized (here we added a **Websocket connection** to read debug data live).
+The debugger has two more interesting features:
+
+1. The debugger **highlights changes** by computing a diff using [object-diagram-js-differ](https://github.com/timKraeuter/object-diagram-js-differ):
+![PNG showing a diff](documentation/diff.png)
+
+2. The debugger saves the **debugging history** such that a user can step back in the UI:
+![Gif showing the history feature](documentation/steps.gif)
 
 ### Installing dependencies
 
