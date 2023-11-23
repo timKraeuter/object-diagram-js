@@ -12,7 +12,7 @@
     "serve": "serve public",
     "buildDebugger:deploy": "webpack --env deploy",
     "pCheck": "prettier . --check",
-    "pWrite": "prettier . --write",
+    "pWrite": "prettier . --write"
   },
   "private": "true",
   "keywords": [
