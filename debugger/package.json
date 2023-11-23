@@ -13,7 +13,6 @@
     "buildDebugger:deploy": "webpack --env deploy",
     "pCheck": "prettier . --check",
     "pWrite": "prettier . --write",
-    "test": "jest"
   },
   "private": "true",
   "keywords": [
