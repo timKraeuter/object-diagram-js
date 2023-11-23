@@ -77,6 +77,19 @@ body,
   color: #333333;
 }
 
+.icon-edit {
+  box-sizing: border-box;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1.2em;
+}
+
+.icon-edit::before {
+  content: "\e806";
+  display: inline-block;
+  line-height: 1.2em;
+}
+
 .icon-keyboard {
   box-sizing: border-box;
   cursor: pointer;
@@ -150,4 +163,8 @@ body,
 
 .marker.marker-changed {
   background: #ef944e;
+}
+
+.pjs-buttons-active:hover {
+  background-color: #fbdbc0;
 }

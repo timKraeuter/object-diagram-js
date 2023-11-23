@@ -55,6 +55,9 @@ const state = {
   keyboardHelp: false,
   help: false,
 };
+document.getElementById("js-edit").addEventListener("click", function () {
+  window.open("https://timkraeuter.com/object-diagram-js/");
+});
 document
   .getElementById("js-toggle-fullscreen")
   .addEventListener("click", function () {
