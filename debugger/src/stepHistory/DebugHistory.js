@@ -1,15 +1,17 @@
+import visualizeChanges from "../differ/DiffVisualizer";
+
 const debugPosition = document.getElementById("debug-position");
 
 let config = {
   savedDebugSteps: 0,
   coloredDiff: true,
 };
-export let savedDebugSteps = [];
-export let currentStep = 0;
+let savedDebugSteps = [];
+let currentStep = 0;
 
-const previousDebugState = document.getElementById("previous-state");
-const currentState = document.getElementById("current-state");
-const nextDebugState = document.getElementById("next-state");
+const previousDebugStateButton = document.getElementById("previous-state");
+const currentStateText = document.getElementById("current-state");
+const nextDebugStateButton = document.getElementById("next-state");
 
 export function previous(odDebugger) {
   if (currentStep < savedDebugSteps.length - 1) {
@@ -25,14 +27,22 @@ export function next(odDebugger) {
   }
 }
 
-export function saveConfig(data) {
+export function saveConfig(data, odDebugger) {
   config = JSON.parse(data.content);
   limitSavedDebugSteps();
-  resetCurrentStepIfNeeded();
+  resetCurrentStepIfNeeded(odDebugger);
 }
 
 export function getConfig() {
   return config;
+}
+
+export function getCurrentStepData() {
+  return savedDebugSteps[currentStep];
+}
+
+export function isLastDebugStep() {
+  return currentStep === 0;
 }
 
 export function saveDebugStep(step) {
@@ -48,16 +58,18 @@ export function saveDebugStep(step) {
   disableOrEnableNextAndPreviousButtons();
 }
 
-export function updateDebugStep(debugStep) {
-  savedDebugSteps[0].xml = debugStep.xml;
+export function updateDebugStepXML(xml) {
+  savedDebugSteps[0].xml = xml;
 }
 
 function loadCurrentDebugStep(odDebugger) {
   disableOrEnableNextAndPreviousButtons();
   setCurrentStepCSSAndHTML();
-  let savedDebugStep = savedDebugSteps[currentStep];
-  odDebugger.importXML(savedDebugStep.xml);
-  setDebugPosition(savedDebugStep);
+  let debugStep = getCurrentStepData();
+  odDebugger.importXML(debugStep.xml).then(() => {
+    visualizeChanges(odDebugger, debugStep.added, debugStep.changed);
+  });
+  setDebugPosition(debugStep);
 }
 
 function setDebugPosition(debugStep) {
@@ -66,29 +78,29 @@ function setDebugPosition(debugStep) {
 
 function setCurrentStepCSSAndHTML() {
   if (currentStep === 0) {
-    currentState.textContent = "Debug Data";
-    currentState.style.left = "49.5%";
+    currentStateText.textContent = "Debug Data";
+    currentStateText.style.left = "49.5%";
     return;
   }
-  currentState.style.left = "48%";
+  currentStateText.style.left = "48%";
   if (currentStep === 1) {
-    currentState.textContent = `Debug Data -${currentStep} Step`;
+    currentStateText.textContent = `Debug Data -${currentStep} Step`;
     return;
   }
-  currentState.textContent = `Debug Data -${currentStep} Steps`;
+  currentStateText.textContent = `Debug Data -${currentStep} Steps`;
 }
 
 function disableOrEnableNextAndPreviousButtons() {
   const value = "disabled";
   if (currentStep + 1 >= savedDebugSteps.length) {
-    previousDebugState.classList.add(value);
+    previousDebugStateButton.classList.add(value);
   } else {
-    previousDebugState.classList.remove(value);
+    previousDebugStateButton.classList.remove(value);
   }
   if (currentStep - 1 < 0) {
-    nextDebugState.classList.add(value);
+    nextDebugStateButton.classList.add(value);
   } else {
-    nextDebugState.classList.remove(value);
+    nextDebugStateButton.classList.remove(value);
   }
 }
 

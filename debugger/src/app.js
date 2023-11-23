@@ -2,17 +2,18 @@ import "object-diagram-modeler/assets/odm.css";
 import ODDebugger from "./Debugger";
 
 import {
-  currentStep,
   next,
   previous,
   saveDebugStep,
-  savedDebugSteps,
-  updateDebugStep,
+  updateDebugStepXML,
   saveConfig,
   getConfig,
+  getCurrentStepData,
+  isLastDebugStep,
 } from "./stepHistory/DebugHistory.js";
 
-import {colorDifference} from "./differ/DiffVisualizer";
+import visualizeChanges from "./differ/DiffVisualizer";
+import diff from "object-diagram-js-differ";
 
 // modeler instance
 const odDebugger = new ODDebugger({
@@ -129,7 +130,7 @@ function setEncoded(link, name, data) {
 }
 
 const exportArtifacts = debounce(function () {
-  const currentStepData = savedDebugSteps[currentStep];
+  const currentStepData = getCurrentStepData();
   saveSVG().then(function (result) {
     setEncoded(
       downloadSvgLink,
@@ -153,7 +154,7 @@ odDebugger.on("import.done", exportArtifacts);
 // Debugging specific
 
 odDebugger.on("element.dblclick", (event) => {
-  if (currentStep === 0) {
+  if (isLastDebugStep()) {
     odDebugger._emit("debugger.loadChildren", event);
   }
 });
@@ -164,21 +165,37 @@ function isNotEmptyBoard(board) {
 
 odDebugger.on("debugger.data.new", (event) => {
   odDebugger.importXML(event.xml).then(() => {
+    const debugStep = {
+      xml: event.xml,
+      line: event.line,
+      fileName: event.fileName,
+      added: [],
+      changed: [],
+    };
+    saveDebugStep(debugStep);
     if (getConfig().coloredDiff && isNotEmptyBoard(event.lastBoard)) {
-      colorDifference(odDebugger, event.lastBoard, event.currentBoard);
+      const delta = diff(event.lastBoard, event.currentBoard);
+      debugStep.added = Object.keys(delta._added);
+      debugStep.changed = Object.keys(delta._changed);
+      visualizeChanges(odDebugger, debugStep.added, debugStep.changed);
     }
   });
-
-  saveDebugStep(event);
 });
 
 odDebugger.on("debugger.data.update", (event) => {
-  odDebugger.importXML(event.xml);
-  updateDebugStep(event);
+  odDebugger.importXML(event.xml).then(() => {
+    updateDebugStepXML(event.xml);
+    const currentStepData = getCurrentStepData();
+    visualizeChanges(
+      odDebugger,
+      currentStepData.added,
+      currentStepData.changed,
+    );
+  });
 });
 
 odDebugger.on("debugger.config", (event) => {
-  saveConfig(event);
+  saveConfig(event, odDebugger);
 });
 
 document.addEventListener(
