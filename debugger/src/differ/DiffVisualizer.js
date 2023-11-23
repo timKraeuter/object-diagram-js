@@ -39,15 +39,15 @@ export function colorDifference(odDebugger, last, current) {
     .forEach((element) =>
       overlays.add(element, DIFF, {
         position: {
-          top: -10,
-          right: 10,
+          top: -12,
+          right: 12,
         },
         html: '<span class="marker marker-changed"></span>',
       }),
     );
   modeling.setColor(changedElements, {
-    fill: "#e76e09",
-    stroke: "#e76e09",
+    fill: "#ef944e",
+    stroke: "#ef944e",
   });
 
   odDebugger.saveXML({ format: true }).then((result) => {
