@@ -1,3 +1,5 @@
+"use strict";
+
 import visualizeChanges from "../differ/DiffVisualizer";
 
 const debugPosition = document.getElementById("debug-position");

@@ -1,3 +1,5 @@
+"use strict";
+
 const DIFF = "diff";
 
 export default function visualizeChanges(odDebugger, added, changed) {
