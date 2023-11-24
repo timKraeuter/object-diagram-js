@@ -9,7 +9,7 @@
     "!.eslintrc"
   ],
   "scripts": {
-    "all": "run-s lint test",
+    "all": "run-s lint pCheck test",
     "lint": "eslint .",
     "test": "karma start karma.conf.js",
     "dev": "npm test -- --auto-watch --no-single-run",

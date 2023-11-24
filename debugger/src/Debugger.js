@@ -1,4 +1,4 @@
-import inherits from 'inherits';
+import inherits from 'inherits-browser';
 
 import CoreModule from 'object-diagram-js/lib/core';
 import TranslateModule from 'diagram-js/lib/i18n/translate';

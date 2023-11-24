@@ -3,7 +3,7 @@
     "version": "0.0.0",
     "description": "A simple object diagram editor built with diagram-js",
     "scripts": {
-        "all": "run-s lint build",
+        "all": "run-s lint pCheck build",
         "build": "webpack",
         "lint": "eslint ",
         "start": "run-s dev",

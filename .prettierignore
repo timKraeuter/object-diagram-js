@@ -1,5 +1,4 @@
-node_modules/
-public/
-.idea/
-
-docs/
+node_modules
+public
+docs
+.idea
