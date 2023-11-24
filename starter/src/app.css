@@ -1,76 +1,76 @@
 html,
 body,
 #canvas {
-  font-family: "IBM Plex Sans", sans-serif;
-  height: 100%;
-  padding: 0;
-  margin: 0;
+    font-family: 'IBM Plex Sans', sans-serif;
+    height: 100%;
+    padding: 0;
+    margin: 0;
 }
 
 .bottom-buttons {
-  bottom: 20px;
-  left: 20px;
+    bottom: 20px;
+    left: 20px;
 }
 
 .bottom-buttons a:hover {
-  background-color: #fbdbc0;
+    background-color: #fbdbc0;
 }
 
 .pjs-buttons-active:hover {
-  background-color: #fbdbc0;
+    background-color: #fbdbc0;
 }
 
 .bottom-buttons a.active {
-  opacity: 1;
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
+    opacity: 1;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
 }
 
 /* screen interaction helpers & modal */
 
 #io-dialog-main {
-  display: none; /*default*/
+    display: none; /*default*/
 }
 
 #io-editing-tools-buttons {
-  display: block;
-  position: fixed;
-  top: 0;
-  right: 0;
-  list-style: none;
-  padding: 5px;
-  margin: 0;
+    display: block;
+    position: fixed;
+    top: 0;
+    right: 0;
+    list-style: none;
+    padding: 5px;
+    margin: 0;
 }
 
 #io-editing-tools-buttons button:hover {
-  color: #333333;
+    color: #333333;
 }
 
 .icon-keyboard {
-  box-sizing: border-box;
-  cursor: pointer;
-  font-size: 18px;
-  line-height: 1.2em;
+    box-sizing: border-box;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1.2em;
 }
 
 .icon-keyboard::before {
-  content: "\e802";
-  display: inline-block;
-  line-height: 1.2em;
+    content: '\e802';
+    display: inline-block;
+    line-height: 1.2em;
 }
 
 .icon-resize-full {
-  box-sizing: border-box;
-  cursor: pointer;
-  font-size: 18px;
-  line-height: 1.2em;
+    box-sizing: border-box;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1.2em;
 }
 
 .icon-resize-full::before {
-  content: "\e801";
-  display: inline-block;
+    content: '\e801';
+    display: inline-block;
 }
 
 .keybindings-dialog .binding {
-  padding: 5px 10px;
-  font-family: monospace;
+    padding: 5px 10px;
+    font-family: monospace;
 }

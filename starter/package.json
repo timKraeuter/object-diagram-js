@@ -1,46 +1,46 @@
 {
-  "name": "object-diagram-js-starter",
-  "version": "0.0.0",
-  "description": "A simple object diagram editor built with diagram-js",
-  "scripts": {
-    "all": "run-s lint build",
-    "build": "webpack",
-    "lint": "eslint ",
-    "start": "run-s dev",
-    "dev": "run-p build:watch serve",
-    "build:watch": "webpack -w",
-    "serve": "serve public",
-    "build:github-pages": "webpack --env ghpages",
-    "pCheck": "prettier . --check",
-    "pWrite": "prettier . --write"
-  },
-  "private": "true",
-  "keywords": [
-    "diagram-js",
-    "object diagram editor",
-    "object diagram modeler"
-  ],
-  "author": {
-    "name": "Tim Kräuter",
-    "url": "https://timkraeuter.com/"
-  },
-  "license": "MIT",
-  "devDependencies": {
-    "@babel/preset-env": "^7.23.2",
-    "copy-webpack-plugin": "^11.0.0",
-    "css-loader": "^6.8.1",
-    "eslint": "^8.52.0",
-    "eslint-plugin-bpmn-io": "^1.0.0",
-    "npm-run-all": "^4.1.5",
-    "prettier": "^3.1.0",
-    "raw-loader": "^4.0.2",
-    "serve": "^14.2.1",
-    "style-loader": "^3.3.3",
-    "webpack": "^5.89.0",
-    "webpack-cli": "^5.1.4"
-  },
-  "dependencies": {
-    "inherits": "^2.0.4",
-    "object-diagram-js": "^1.0.6"
-  }
+    "name": "object-diagram-js-starter",
+    "version": "0.0.0",
+    "description": "A simple object diagram editor built with diagram-js",
+    "scripts": {
+        "all": "run-s lint build",
+        "build": "webpack",
+        "lint": "eslint ",
+        "start": "run-s dev",
+        "dev": "run-p build:watch serve",
+        "build:watch": "webpack -w",
+        "serve": "serve public",
+        "build:github-pages": "webpack --env ghpages",
+        "pCheck": "prettier . --check",
+        "pWrite": "prettier . --write"
+    },
+    "private": "true",
+    "keywords": [
+        "diagram-js",
+        "object diagram editor",
+        "object diagram modeler"
+    ],
+    "author": {
+        "name": "Tim Kräuter",
+        "url": "https://timkraeuter.com/"
+    },
+    "license": "MIT",
+    "devDependencies": {
+        "@babel/preset-env": "^7.23.2",
+        "copy-webpack-plugin": "^11.0.0",
+        "css-loader": "^6.8.1",
+        "eslint": "^8.52.0",
+        "eslint-plugin-bpmn-io": "^1.0.0",
+        "npm-run-all": "^4.1.5",
+        "prettier": "^3.1.0",
+        "raw-loader": "^4.0.2",
+        "serve": "^14.2.1",
+        "style-loader": "^3.3.3",
+        "webpack": "^5.89.0",
+        "webpack-cli": "^5.1.4"
+    },
+    "dependencies": {
+        "inherits": "^2.0.4",
+        "object-diagram-js": "^1.0.6"
+    }
 }
