@@ -17,8 +17,8 @@
   "private": "true",
   "keywords": [
     "diagram-js",
-    "object diagram editor",
-    "object diagram modeler"
+    "object-diagram-js",
+    "object diagram debugger"
   ],
   "author": {
     "name": "Tim Kräuter",
@@ -45,6 +45,6 @@
     "elkjs": "^0.8.2",
     "inherits": "^2.0.4",
     "object-diagram-js-differ": "^1.0.1",
-    "object-diagram-modeler": "file:../"
+    "object-diagram-js": "^1.0.6"
   }
 }

@@ -1,13 +1,13 @@
-import inherits from "inherits-browser";
+import inherits from "inherits";
 
-import CoreModule from "object-diagram-modeler/lib/core";
+import CoreModule from "object-diagram-js/lib/core";
 import TranslateModule from "diagram-js/lib/i18n/translate";
 import SelectionModule from "diagram-js/lib/features/selection";
 import OverlaysModule from "diagram-js/lib/features/overlays";
 import DirectEditingModule from "diagram-js-direct-editing";
 import WebsocketDebugClientModule from "./websocket";
 
-import BaseViewer from "object-diagram-modeler/lib/BaseViewer";
+import BaseViewer from "object-diagram-js/lib/BaseViewer";
 import Modeler from "../../lib/Modeler";
 import ModelingModule from "../../lib/features/modeling";
 

@@ -12,3 +12,9 @@ updates:
       interval: monthly
       time: "10:00"
       timezone: Europe/Amsterdam
+  - package-ecosystem: npm
+    directory: "/debugger"
+    schedule:
+      interval: monthly
+      time: "10:00"
+      timezone: Europe/Amsterdam
