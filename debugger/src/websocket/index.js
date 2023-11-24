@@ -1,6 +1,6 @@
-import WebsocketDebugClient from './WebsocketDebugClient';
+import WebsocketDebugClient from "./WebsocketDebugClient";
 
 export default {
-    __init__: ['websocketDebugClient'],
-    websocketDebugClient: ['type', WebsocketDebugClient],
+  __init__: ["websocketDebugClient"],
+  websocketDebugClient: ["type", WebsocketDebugClient],
 };
