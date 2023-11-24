@@ -41,6 +41,6 @@
   },
   "dependencies": {
     "inherits": "^2.0.4",
-    "object-diagram-modeler": "file:../"
+    "object-diagram-js": "^1.0.6"
   }
 }

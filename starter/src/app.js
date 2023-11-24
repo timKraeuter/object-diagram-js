@@ -1,5 +1,5 @@
-import "object-diagram-modeler/assets/odm.css";
-import ODModeler from "object-diagram-modeler/lib/Modeler";
+import "object-diagram-js/assets/odm.css";
+import ODModeler from "object-diagram-js/lib/Modeler";
 
 import emptyBoardXML from "../resources/emptyBoard.xml";
 import sampleBoardXML from "../resources/sampleBoard.xml";
