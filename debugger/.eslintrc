@@ -1,6 +1,6 @@
 {
-  "extends": ["plugin:bpmn-io/browser", "prettier"],
-  "env": {
-    "node": true
-  }
+    "extends": ["plugin:bpmn-io/browser", "prettier"],
+    "env": {
+        "node": true
+    }
 }
