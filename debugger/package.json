@@ -45,6 +45,6 @@
     "elkjs": "^0.8.2",
     "inherits": "^2.0.4",
     "object-diagram-js-differ": "^1.0.1",
-    "object-diagram-js": "^1.0.6"
+    "object-diagram-js": "file:../"
   }
 }

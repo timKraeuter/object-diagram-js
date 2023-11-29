@@ -77,17 +77,38 @@ body,
   color: #333333;
 }
 
-.icon-edit {
+.icon-image {
   box-sizing: border-box;
   cursor: pointer;
   font-size: 18px;
   line-height: 1.2em;
 }
 
+.icon-image::before {
+  content: "\e807";
+  display: inline-block;
+}
+
+.icon-download {
+  box-sizing: border-box;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.icon-download::before {
+  content: "\e808";
+  display: inline-block;
+}
+
+.icon-edit {
+  box-sizing: border-box;
+  cursor: pointer;
+  font-size: 18px;
+}
+
 .icon-edit::before {
   content: "\e806";
   display: inline-block;
-  line-height: 1.2em;
 }
 
 .icon-keyboard {
@@ -107,7 +128,6 @@ body,
   box-sizing: border-box;
   cursor: pointer;
   font-size: 18px;
-  line-height: 1.2em;
 }
 
 .icon-resize-full::before {
