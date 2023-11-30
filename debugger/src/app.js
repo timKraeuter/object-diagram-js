@@ -203,18 +203,19 @@ odDebugger.on("debugger.config", (event) => {
   saveConfig(event, odDebugger);
 });
 
-document.addEventListener(
-  "keyup",
-  (event) => {
-    if (event.code === "ArrowRight") {
-      next(odDebugger);
-    }
-    if (event.code === "ArrowLeft") {
-      previous(odDebugger);
-    }
-  },
-  false,
-);
+// Using diagram-js keyboard instead of addEventListener works even in the JCEF embedded browser
+const djsKeyboard = odDebugger.get("keyboard");
+djsKeyboard.addListener(function (context) {
+  const event = context.keyEvent;
+  if (djsKeyboard.isKey(["ArrowRight"], event)) {
+    next(odDebugger);
+    return true;
+  }
+  if (djsKeyboard.isKey(["ArrowLeft"], event)) {
+    previous(odDebugger);
+    return true;
+  }
+});
 
 const previousDebugState = document.getElementById("previous-state");
 const nextDebugState = document.getElementById("next-state");

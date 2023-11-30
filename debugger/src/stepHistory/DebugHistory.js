@@ -84,12 +84,13 @@ function setCurrentStepCSSAndHTML() {
     currentStateText.style.left = "49.5%";
     return;
   }
-  currentStateText.style.left = "47%";
   if (currentStep === 1) {
     currentStateText.textContent = `Debug Data -${currentStep} Step`;
+    currentStateText.style.left = "47%";
     return;
   }
   currentStateText.textContent = `Debug Data -${currentStep} Steps`;
+  currentStateText.style.left = "46%";
 }
 
 function disableOrEnableNextAndPreviousButtons() {
