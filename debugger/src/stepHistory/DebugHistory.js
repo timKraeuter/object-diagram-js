@@ -84,7 +84,7 @@ function setCurrentStepCSSAndHTML() {
     currentStateText.style.left = "49.5%";
     return;
   }
-  currentStateText.style.left = "48%";
+  currentStateText.style.left = "47%";
   if (currentStep === 1) {
     currentStateText.textContent = `Debug Data -${currentStep} Step`;
     return;
