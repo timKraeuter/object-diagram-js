@@ -166,7 +166,7 @@ body,
 .marker-added::before {
   font-family: "Font Awesome 5 Free Solid", serif;
   line-height: 1.2em;
-  content: "\e807";
+  content: "\e800";
   display: inline-block;
 }
 
