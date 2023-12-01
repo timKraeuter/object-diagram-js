@@ -1,10 +1,6 @@
 # Object diagram modeler
 
-This example uses [diagram-js](https://github.com/bpmn-io/diagram-js) to implement a modeler for object diagrams.
-
-## About
-
-This example is a node-style web application that builds a user interface around the diagram-js framework.
+This example uses **object-diagram-js** to implement a modeler for object diagrams.
 
 ## Building
 
@@ -16,7 +12,7 @@ To install all project dependencies execute
 npm install
 ```
 
-Build the application (including [postit-js](https://github.com/pinussilvestrus/postit-js)) via
+Check, test, and build the application via
 
 ```
 npm run all
@@ -25,9 +21,7 @@ npm run all
 You may also spawn a development setup by executing
 
 ```
-npm run dev
+npm start
 ```
-
-Both tasks generate the distribution ready client-side modeler application into the `public` folder.
 
 Serve the application locally or via a web server (nginx, apache, embedded).
