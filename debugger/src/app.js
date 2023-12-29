@@ -68,6 +68,12 @@ document
       exitFullscreen();
     }
   });
+
+const embeddedValue = new URLSearchParams(window.location.search).get("embedded");
+if (embeddedValue === "true") {
+  document.getElementById("fullscreen").remove();
+}
+
 document
   .getElementById("js-toggle-keyboard-help")
   .addEventListener("click", function () {
@@ -203,7 +209,7 @@ odDebugger.on("debugger.config", (event) => {
   saveConfig(event, odDebugger);
 });
 
-// Using diagram-js keyboard instead of addEventListener works even in the JCEF embedded browser
+// Using diagram-js keyboard instead of addEventListener works even in the JCEF embeddedValue browser
 const djsKeyboard = odDebugger.get("keyboard");
 djsKeyboard.addListener(function (context) {
   const event = context.keyEvent;
