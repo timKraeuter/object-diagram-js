@@ -69,7 +69,9 @@ document
     }
   });
 
-const embeddedValue = new URLSearchParams(window.location.search).get("embedded");
+const embeddedValue = new URLSearchParams(window.location.search).get(
+  "embedded",
+);
 if (embeddedValue === "true") {
   document.getElementById("fullscreen").remove();
 }
