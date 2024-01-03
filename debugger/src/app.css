@@ -1,3 +1,7 @@
+:root {
+  --color-button-hover: #fbdbc0;
+}
+
 html,
 body,
 #canvas {
@@ -34,18 +38,17 @@ body,
   opacity: 0.4;
 }
 
+.pjs-buttons-active:hover,
 .previous-state button:hover,
-.next-state button:hover {
-  background-color: #fbdbc0;
+.next-state button:hover,
+.bottom-buttons a:hover {
+  background-color: var(--color-button-hover);
+  transition: background-color 0.2s linear;
 }
 
 .next-state {
   left: 65%;
   bottom: 20px;
-}
-
-.bottom-buttons a:hover {
-  background-color: #fbdbc0;
 }
 
 .bottom-buttons a.active {
@@ -71,10 +74,6 @@ body,
   list-style: none;
   padding: 5px;
   margin: 0;
-}
-
-#io-editing-tools-buttons button:hover {
-  color: #333333;
 }
 
 .icon-image {
@@ -183,8 +182,4 @@ body,
 
 .marker.marker-changed {
   background: #ef944e;
-}
-
-.pjs-buttons-active:hover {
-  background-color: #fbdbc0;
 }

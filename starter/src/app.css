@@ -1,3 +1,7 @@
+:root {
+  --color-button-hover: #fbdbc0;
+}
+
 html,
 body,
 #canvas {
@@ -12,12 +16,9 @@ body,
   left: 20px;
 }
 
-.bottom-buttons a:hover {
-  background-color: #fbdbc0;
-}
-
-.pjs-buttons-active:hover {
-  background-color: #fbdbc0;
+.bottom-buttons a:hover, .pjs-buttons-active:hover {
+  background-color: var(--color-button-hover);
+  transition: background-color 0.2s linear;
 }
 
 .bottom-buttons a.active {
@@ -39,10 +40,6 @@ body,
   list-style: none;
   padding: 5px;
   margin: 0;
-}
-
-#io-editing-tools-buttons button:hover {
-  color: #333333;
 }
 
 .icon-keyboard {
