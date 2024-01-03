@@ -16,7 +16,8 @@ body,
   left: 20px;
 }
 
-.bottom-buttons a:hover, .pjs-buttons-active:hover {
+.bottom-buttons a:hover,
+.pjs-buttons-active:hover {
   background-color: var(--color-button-hover);
   transition: background-color 0.2s linear;
 }
