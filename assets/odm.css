@@ -36,18 +36,6 @@ a:hover {
   cursor: pointer;
 }
 
-.pjs-error {
-  color: #ff0000;
-}
-
-.pjs-visible {
-  display: block !important;
-}
-
-.pjs-first {
-  /* DONT CHANGE. USED AS PSEUDOCLASS */
-}
-
 .pjs-buttons {
   position: fixed;
 }
@@ -55,8 +43,7 @@ a:hover {
 .pjs-buttons > ul {
   display: block;
   padding: 0;
-  margin: 0;
-  margin-top: 10px;
+  margin: 10px 0 0;
   list-style: none;
 }
 
@@ -100,50 +87,6 @@ a:hover {
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
 }
 
-/* tool tip */
-
-.pjs-tooltip {
-  position: relative;
-  display: inline-block;
-  border-bottom: 1px dotted black;
-}
-
-.pjs-tooltip .pjs-tooltiptext {
-  font-family: "IBM Plex Sans", sans-serif;
-  visibility: hidden;
-  width: 120px;
-  background-color: black;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 20px;
-  position: absolute;
-  z-index: 1;
-  bottom: 100%;
-  left: 50%;
-  margin-left: -60px;
-
-  /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */
-  opacity: 0;
-  transition: opacity 1s;
-}
-
-.pjs-tooltip:hover .pjs-tooltiptext {
-  visibility: visible;
-  opacity: 1;
-}
-
-.pjs-tooltip .pjs-tooltiptext::after {
-  content: " ";
-  position: absolute;
-  top: 100%; /* At the bottom of the tooltip */
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: black transparent transparent transparent;
-}
-
 /* canvas drawing */
 
 .pjs-text-box:before {
@@ -175,120 +118,8 @@ a:hover {
   line-height: 1.2em;
 }
 
-.pjs-ui-element-bordered {
-  color: black;
-  background-color: #f8f8f8;
-  border-radius: 3px;
-  display: inline-block;
-  font-size: 13px;
-  border: solid 1px #cdcdcd;
-}
-
-.pjs-io-dialog-text-hint {
-  margin-top: 4px;
-  font-size: 13px;
-  text-align: left;
-  color: #555555;
-}
-
-.pjs-io-dialog-text-hint .pjs-tooltip .pjs-tooltiptext {
-  margin-left: -80px !important;
-}
-
-/* flex box grid */
-
-.pjs-row {
-  box-sizing: border-box;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-flex: 0;
-  -ms-flex: 0 1 auto;
-  flex: 0 1 auto;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -ms-flex-wrap: wrap-reverse;
-  flex-wrap: wrap-reverse;
-}
-
-.pjs-col-xs {
-  -webkit-box-flex: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  -ms-flex-preferred-size: 0;
-  flex-basis: 0;
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
-.pjs-box,
-.pjs-box-first,
-.pjs-box-large,
-.pjs-box-nested,
-.pjs-box-row {
-  position: relative;
-  box-sizing: border-box;
-  min-height: 1rem;
-  margin-bottom: 0;
-  border: 1px solid #fff;
-  border-radius: 2px;
-  overflow: hidden;
-  text-align: center;
-  color: #fff;
-}
-
-.pjs-text {
-  color: black;
-  font-size: 13px;
-  font-weight: bold;
-}
-
-.pjs-ui-element {
-  color: black;
-  background-color: #f8f8f8;
-  display: inline-block;
-  font-size: 13px;
-  border: solid 1px #cdcdcd;
-}
-
 button:hover {
   cursor: pointer;
-}
-
-input,
-textarea {
-  width: 100%;
-  text-align: left;
-  padding: 6px 10px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
-.pjs-labeled-input {
-  position: relative;
-}
-
-.pjs-section-spacer {
-  width: 100%;
-  height: 1px;
-  background-color: #555555;
-}
-
-.pjs-io-dialog {
-  position: fixed;
-  width: 600px;
-  left: 50%;
-  margin-left: -300px;
-  top: 100px;
-  background: white;
-  padding: 10px 30px 20px 30px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
-  border-radius: 2px;
-  height: auto;
-  z-index: 1001;
 }
 
 .pjs-io-dialog.pjs-io-dialog-open::before {
@@ -303,61 +134,16 @@ textarea {
   z-index: 1001;
 }
 
-.pjs-io-dialog .pjs-io-dialog-content {
+.pjs-io-dialog-content {
   background: white;
   z-index: 1001;
   position: fixed;
-  width: 600px;
+  width: 350px;
   left: 50%;
   margin-left: -300px;
   top: 100px;
-  background: white;
   padding: 10px 30px 20px 30px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
   border-radius: 2px;
   height: auto;
-}
-
-.pjs-io-dialog-section {
-  padding-top: 10px;
-}
-
-.pjs-io-dialog-section.pjs-first {
-  padding-top: 0;
-}
-
-.pjs-io-dialog-local {
-  padding: 10px;
-  background: white;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
-  border-radius: 2px;
-  height: auto;
-}
-
-.pjs-io-dialog-local .pjs-box-row {
-  min-width: 40px;
-}
-
-.pjs-io-dialog-local .pjs-box-row img {
-  width: 100%;
-  max-width: 100px;
-  object-fit: fill;
-  vertical-align: middle;
-}
-
-.pjs-buttons.pjs-image-selection-submit-wrapper {
-  position: relative;
-}
-
-.pjs-buttons.pjs-image-selection-submit-wrapper button {
-  width: 100%;
-}
-
-.pjs-buttons.pjs-image-selection-submit-wrapper button:hover {
-  color: #555;
-}
-
-.pjs-buttons.pjs-image-selection-submit-wrapper button:active {
-  opacity: 1;
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
 }

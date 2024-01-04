@@ -58,10 +58,7 @@ body,
 
 /* screen interaction helpers & modal */
 
-#io-dialog-main {
-  display: none; /*default*/
-}
-
+#io-dialog-main,
 #help-dialog-main {
   display: none; /*default*/
 }
@@ -146,8 +143,14 @@ body,
   display: inline-block;
 }
 
-.keybindings-dialog .binding {
-  padding: 5px 10px;
+.keybindings {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(auto-fill, 1fr);
+  grid-row-gap: 10px;
+}
+
+.binding {
   font-family: monospace;
 }
 
@@ -182,4 +185,17 @@ body,
 
 .marker.marker-changed {
   background: #ef944e;
+}
+
+#help-dialog-content {
+  width: 490px;
+}
+
+#help-dialog-content > ul {
+  list-style-type: square;
+}
+
+/* margin-top but not on the last element */
+#help-dialog-content > ul > li + li {
+  margin-top: 5px;
 }

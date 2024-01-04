@@ -8,47 +8,27 @@
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
   </head>
   <body>
-    <div
-      id="io-dialog-main"
-      class="pjs-io-dialog pjs-io-dialog-open keybindings-dialog"
-    >
+    <div id="io-dialog-main" class="pjs-io-dialog pjs-io-dialog-open">
       <div class="pjs-io-dialog-content">
         <h1>Keyboard Shortcuts</h1>
-        <table>
-          <tbody>
-            <tr>
-              <td>Previous debug state</td>
-              <td class="binding">&#x2190;</td>
-            </tr>
-            <tr>
-              <td>Next debug state</td>
-              <td class="binding">&#x2192;</td>
-            </tr>
-            <tr>
-              <td>Zooming</td>
-              <td class="binding">ctrl + Scrolling</td>
-            </tr>
-            <tr>
-              <td>Scrolling</td>
-              <td class="binding">
-                ctrl + &#x2191;/&#x2193;/&#x2192;/&#x2190;
-              </td>
-            </tr>
-            <tr>
-              <td>Fast scrolling</td>
-              <td class="binding">
-                ctrl + &#x21E7; + &#x2191;/&#x2193;/&#x2192;/&#x2190;
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="keybindings">
+          <div>Previous debug state</div>
+          <div class="binding">&#x2190;</div>
+          <div>Next debug state</div>
+          <div class="binding">&#x2192;</div>
+          <div>Zooming</div>
+          <div class="binding">ctrl + Scrolling</div>
+          <div>Scrolling</div>
+          <div class="binding">ctrl + &#x2191;/&#x2193;/&#x2192;/&#x2190;</div>
+          <div>Fast scrolling</div>
+          <div class="binding">
+            ctrl + &#x21E7; + &#x2191;/&#x2193;/&#x2192;/&#x2190;
+          </div>
+        </div>
       </div>
     </div>
-    <div
-      id="help-dialog-main"
-      class="pjs-io-dialog pjs-io-dialog-open keybindings-dialog"
-    >
-      <div class="pjs-io-dialog-content">
+    <div id="help-dialog-main" class="pjs-io-dialog pjs-io-dialog-open">
+      <div id="help-dialog-content" class="pjs-io-dialog-content">
         <h1>Visual Debugger Help</h1>
         <ul>
           <li>

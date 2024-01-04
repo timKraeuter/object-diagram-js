@@ -68,7 +68,13 @@ body,
   display: inline-block;
 }
 
-.keybindings-dialog .binding {
-  padding: 5px 10px;
+.keybindings {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(auto-fill, 1fr);
+  grid-row-gap: 10px;
+}
+
+.binding {
   font-family: monospace;
 }
