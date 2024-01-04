@@ -75,7 +75,6 @@ body,
 
 .icon-image {
   box-sizing: border-box;
-  cursor: pointer;
   font-size: 18px;
   line-height: 1.2em;
 }
@@ -87,7 +86,6 @@ body,
 
 .icon-download {
   box-sizing: border-box;
-  cursor: pointer;
   font-size: 18px;
 }
 
@@ -98,7 +96,6 @@ body,
 
 .icon-edit {
   box-sizing: border-box;
-  cursor: pointer;
   font-size: 18px;
 }
 
@@ -109,7 +106,6 @@ body,
 
 .icon-keyboard {
   box-sizing: border-box;
-  cursor: pointer;
   font-size: 18px;
   line-height: 1.2em;
 }
@@ -122,7 +118,6 @@ body,
 
 .icon-resize-full {
   box-sizing: border-box;
-  cursor: pointer;
   font-size: 18px;
 }
 
@@ -133,7 +128,6 @@ body,
 
 .icon-question {
   box-sizing: border-box;
-  cursor: pointer;
   font-size: 18px;
   line-height: 1.2em;
 }
