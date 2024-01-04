@@ -36,24 +36,24 @@ a:hover {
   cursor: pointer;
 }
 
-.pjs-buttons {
+.ojs-buttons {
   position: fixed;
 }
 
-.pjs-buttons > ul {
+.ojs-buttons > ul {
   display: block;
   padding: 0;
   margin: 10px 0 0;
   list-style: none;
 }
 
-.pjs-buttons > ul > li {
+.ojs-buttons > ul > li {
   display: inline-block;
   margin-right: 10px;
 }
 
-.pjs-buttons > ul > li > a,
-.pjs-buttons button {
+.ojs-buttons > ul > li > a,
+.ojs-buttons button {
   color: black;
   background-color: #f8f8f8;
   border-radius: 3px;
@@ -65,33 +65,33 @@ a:hover {
   border: solid 1px #cdcdcd;
 }
 
-.pjs-buttons a {
+.ojs-buttons a {
   opacity: 0.3;
   text-decoration: none;
 }
 
-.pjs-buttons a.pjs-buttons-active,
-.pjs-buttons button.pjs-buttons-active {
+.ojs-buttons a.ojs-buttons-active,
+.ojs-buttons button.ojs-buttons-active {
   opacity: 1;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
 }
 
 /* canvas drawing */
 
-.pjs-text-box:before {
+.ojs-text-box:before {
   content: "Abc";
   font-size: medium;
 }
 
-.pjs-horizontal {
+.ojs-horizontal {
   display: inline-block;
 }
 
-.pjs-horizontal li {
+.ojs-horizontal li {
   float: left;
 }
 
-[class*=" pjs-general-icon"]::before {
+[class*=" ojs-general-icon"]::before {
   font-style: normal;
   font-weight: normal;
   speak: none;
@@ -102,14 +102,14 @@ a:hover {
   text-transform: none;
 }
 
-.pjs-general-icon {
+.ojs-general-icon {
   font-family: "Font Awesome 5 Free Solid", serif;
   line-height: 1.2em;
   box-sizing: border-box;
   font-size: 18px;
 }
 
-.pjs-io-dialog.pjs-io-dialog-open::before {
+.ojs-io-dialog.ojs-io-dialog-open::before {
   content: "";
   position: fixed;
   left: 0;
@@ -121,7 +121,7 @@ a:hover {
   z-index: 1001;
 }
 
-.pjs-io-dialog-content {
+.ojs-io-dialog-content {
   background: white;
   z-index: 1001;
   position: fixed;
