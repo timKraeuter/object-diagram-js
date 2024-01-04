@@ -1,4 +1,4 @@
-import "object-diagram-js/assets/odm.css";
+import "object-diagram-js/assets/object-diagram-js.css";
 import ODModeler from "object-diagram-js/lib/Modeler";
 
 import emptyBoardXML from "../resources/emptyBoard.xml";

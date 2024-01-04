@@ -14,7 +14,7 @@ import emptyXML from "test/fixtures/empty.xml";
 
 var singleStart = window.__env__ && window.__env__.SINGLE_START === "modeler";
 
-insertCSS("odm.css", require("../../assets/odm.css").default);
+insertCSS("odm.css", require("../../assets/object-diagram-js.css").default);
 
 describe("Modeler", function () {
   var container;

@@ -1,6 +1,6 @@
 "use strict";
 
-import "object-diagram-js/assets/odm.css";
+import "object-diagram-js/assets/object-diagram-js.css";
 import ODDebugger from "./Debugger";
 
 import {
