@@ -132,7 +132,7 @@ a:hover {
   position: fixed;
   width: 350px;
   left: 50%;
-  margin-left: -300px;
+  transform: translateX(-50%);
   top: 100px;
   padding: 10px 30px 20px 30px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
