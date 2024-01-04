@@ -43,21 +43,9 @@ body,
   margin: 0;
 }
 
-.icon-keyboard {
-  box-sizing: border-box;
-  font-size: 18px;
-  line-height: 1.2em;
-}
-
 .icon-keyboard::before {
   content: "\e802";
   display: inline-block;
-  line-height: 1.2em;
-}
-
-.icon-resize-full {
-  box-sizing: border-box;
-  font-size: 18px;
   line-height: 1.2em;
 }
 

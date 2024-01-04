@@ -70,13 +70,6 @@ a:hover {
   text-decoration: none;
 }
 
-.pjs-button-disabled,
-.pjs-button-disabled:hover,
-.pjs-button-disabled:active {
-  opacity: 0.3;
-  text-decoration: none;
-}
-
 .pjs-buttons a.pjs-buttons-active,
 .pjs-buttons button.pjs-buttons-active {
   opacity: 1;
@@ -112,6 +105,8 @@ a:hover {
 .pjs-general-icon {
   font-family: "Font Awesome 5 Free Solid", serif;
   line-height: 1.2em;
+  box-sizing: border-box;
+  font-size: 18px;
 }
 
 .pjs-io-dialog.pjs-io-dialog-open::before {
