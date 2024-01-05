@@ -75,33 +75,26 @@ body,
 
 .icon-image::before {
   content: "\e807";
-  display: inline-block;
 }
 
 .icon-download::before {
   content: "\e808";
-  display: inline-block;
 }
 
 .icon-edit::before {
   content: "\e806";
-  display: inline-block;
 }
 
 .icon-keyboard::before {
   content: "\e802";
-  display: inline-block;
-  line-height: 1.2em;
 }
 
 .icon-resize-full::before {
   content: "\e801";
-  display: inline-block;
 }
 
 .icon-question::before {
   content: "\e803";
-  display: inline-block;
 }
 
 .keybindings {
