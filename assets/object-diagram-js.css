@@ -25,12 +25,6 @@ button {
   background: none;
 }
 
-ul {
-  padding: 0;
-  margin: 0;
-  list-style-type: none;
-}
-
 button:hover,
 a:hover {
   cursor: pointer;
@@ -40,19 +34,19 @@ a:hover {
   position: fixed;
 }
 
-.ojs-buttons > ul {
+.ojs-buttons > div {
   display: block;
   padding: 0;
   margin: 10px 0 0;
   list-style: none;
 }
 
-.ojs-buttons > ul > li {
+.ojs-buttons > div > div {
   display: inline-block;
   margin-right: 10px;
 }
 
-.ojs-buttons > ul > li > a,
+.ojs-buttons > div > div > a,
 .ojs-buttons button {
   color: black;
   background-color: #f8f8f8;
@@ -87,7 +81,7 @@ a:hover {
   display: inline-block;
 }
 
-.ojs-horizontal li {
+.ojs-horizontal div {
   float: left;
 }
 
