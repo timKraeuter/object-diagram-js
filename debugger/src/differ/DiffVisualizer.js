@@ -30,7 +30,7 @@ function addOverlaysChanged(odDebugger, lastChanged) {
           top: -12,
           right: 12,
         },
-        html: '<span class="marker marker-changed"></span>',
+        html: '<span class="marker marker-changed ojs-general-icon"></span>',
       }),
     );
 }
@@ -58,7 +58,7 @@ function addOverlaysAdded(odDebugger, lastAdded) {
           top: -10,
           right: 10,
         },
-        html: '<span class="marker marker-added"></span>',
+        html: '<span class="marker marker-added ojs-general-icon"></span>',
       }),
     );
 }

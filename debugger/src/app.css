@@ -68,7 +68,6 @@ body,
   position: fixed;
   top: 0;
   right: 0;
-  list-style: none;
   padding: 5px;
   margin: 0;
 }
@@ -109,7 +108,6 @@ body,
 }
 
 .marker {
-  background-color: rgb(128, 128, 128);
   color: white;
   border-radius: 50%;
   width: 25px;
@@ -120,10 +118,7 @@ body,
 }
 
 .marker-added::before {
-  font-family: "Font Awesome 5 Free Solid", serif;
-  line-height: 1.2em;
   content: "\e800";
-  display: inline-block;
 }
 
 .marker.marker-added {
@@ -131,10 +126,8 @@ body,
 }
 
 .marker-changed::before {
-  font-family: "Font Awesome 5 Free Solid", serif;
   font-size: 0.85em;
   content: "\e806";
-  display: inline-block;
 }
 
 .marker.marker-changed {
@@ -149,7 +142,7 @@ body,
   list-style-type: square;
 }
 
-/* margin-top but not on the last element */
-#help-dialog-content > ul > li + li {
-  margin-top: 5px;
+/* margin-bottom but not on the last element */
+#help-dialog-content > ul > li:not(:last-child) {
+  margin-bottom: 5px;
 }
