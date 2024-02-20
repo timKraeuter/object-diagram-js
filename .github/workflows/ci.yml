@@ -1,4 +1,4 @@
-name: Build & Test
+name: Build, Lint & Test
 
 on: [push, pull_request, workflow_dispatch]
 
@@ -29,22 +29,22 @@ jobs:
             ${{ runner.OS }}-
 
       #  Check modeler
-      - name: Install modeler dependencies
+      - name: Install dependencies
         run: npm install
 
-      - name: Test modeler
+      - name: Build, Lint & Test ubuntu
         if: matrix.os == 'ubuntu-latest'
         env:
           TEST_BROWSERS: ChromeHeadless
         run: xvfb-run npm run all
 
-      - name: Build modeler
+      - name: Build, Lint & Test others
         if: matrix.os != 'ubuntu-latest'
         env:
           TEST_BROWSERS: ChromeHeadless,Firefox
         run: npm run all
 
-      - name: Setup and build modeler starter
+      - name: Setup and build example starter
         working-directory: ./starter
         run: |
           npm install
