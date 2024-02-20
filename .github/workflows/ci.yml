@@ -35,7 +35,7 @@ jobs:
       - name: Build, Lint & Test ubuntu
         if: matrix.os == 'ubuntu-latest'
         env:
-          TEST_BROWSERS: ChromeHeadless, Firefox
+          TEST_BROWSERS: ChromeHeadless,Firefox
         run: xvfb-run npm run all
 
       - name: Build, Lint & Test others
