@@ -38,20 +38,16 @@ body,
   position: fixed;
   top: 0;
   right: 0;
-  list-style: none;
   padding: 5px;
   margin: 0;
 }
 
 .icon-keyboard::before {
   content: "\e802";
-  display: inline-block;
-  line-height: 1.2em;
 }
 
 .icon-resize-full::before {
   content: "\e801";
-  display: inline-block;
 }
 
 .keybindings {
