@@ -9,7 +9,7 @@ A demonstration is available [here](https://timkraeuter.com/object-diagram-js/).
 
 ### Usage
 
-The project is published as a [npm package](https://www.npmjs.com/package/object-diagram-modeler).
+The project is published as a [npm package](https://www.npmjs.com/package/object-diagram-js).
 Usage is similar to [bpmn-js](https://github.com/bpmn-io/bpmn-js) and is shown in `/starter`.
 
 ### Installing dependencies
