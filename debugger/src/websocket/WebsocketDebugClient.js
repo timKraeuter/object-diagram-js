@@ -81,7 +81,7 @@ WebsocketDebugClient.prototype.setOnMessageHandler = function (
       if (object.attributeValue) {
         object.attributeValue.forEach((attribute) => {
           mapped_object.attributeValues +=
-            attribute.name + "=" + attribute.value;
+            attribute.name + " = " + attribute.value;
           mapped_object.attributeValues += "\n";
         });
 
