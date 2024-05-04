@@ -14,7 +14,7 @@ Usage is similar to [bpmn-js](https://github.com/bpmn-io/bpmn-js) and is shown i
 
 ### Installing dependencies
 
-```console
+```bash
 npm i
 cd starter
 npm i
@@ -22,14 +22,14 @@ npm i
 
 ### Running the modeler
 
-```console
+```bash
 cd starter
 npm start
 ```
 
 ### Build & deploy changes to github-pages
 
-```console
+```bash
 cd starter
 npm run build:github-pages
 ```

@@ -10,7 +10,8 @@
     "dev": "run-p build:watch serve",
     "build:watch": "webpack -w",
     "serve": "serve public",
-    "buildDebugger:deploy": "webpack --env deploy",
+    "build:intellij": "webpack --env intellij",
+    "build:vs-code": "webpack --env vsCode",
     "pCheck": "prettier . --check",
     "pWrite": "prettier . --write"
   },

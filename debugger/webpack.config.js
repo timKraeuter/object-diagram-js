@@ -9,11 +9,15 @@ module.exports = (env) => {
   let outputPath = __dirname + "/public";
   let path = "src";
   let mode = "development";
-  if (env.deploy) {
+  if (env.intellij) {
     mode = "production";
-
-    // We expect the Visual debugger project in the same folder as this project.
+    // We expect the Visual debugger intellij project in the same folder as this project.
     outputPath = __dirname + "/../../VisualDebugger/src/main/resources/ui";
+  }
+  if (env.vsCode) {
+    mode = "production";
+    // We expect the Visual debugger vs-code project in the same folder as this project.
+    outputPath = __dirname + "/../../vscode-visual-debugger/src/static";
   }
   return {
     entry: {
