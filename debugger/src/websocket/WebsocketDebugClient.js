@@ -2,8 +2,7 @@ import Moddle from "object-diagram-moddle";
 import ELK from "elkjs/lib/elk.bundled.js";
 import DebuggingDescriptors from "./db.json";
 
-
-const port = new URLSearchParams(window.location.search).get('serverPort');
+const port = new URLSearchParams(window.location.search).get("serverPort");
 const websocket_url = `ws://localhost:${port ? port : "8071"}/debug`;
 
 export default function WebsocketDebugClient(eventBus) {
