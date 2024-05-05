@@ -39,6 +39,7 @@ WebsocketDebugClient.prototype.setOnMessageHandler = function (
 ) {
   this.webSocket.onmessage = function (event) {
     const data = JSON.parse(event.data);
+    console.log(data.type);
     if (data.type === "error") {
       console.error("Websocket error message received:" + data.content);
       return;
