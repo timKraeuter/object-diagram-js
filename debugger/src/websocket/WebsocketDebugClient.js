@@ -1,9 +1,9 @@
 import Moddle from "object-diagram-moddle";
 import ELK from "elkjs/lib/elk.bundled.js";
-import DebuggingDescriptors from "./db.json";
 
 const port = new URLSearchParams(window.location.search).get("serverPort");
 const websocket_url = `ws://localhost:${port ? port : "8071"}/debug`;
+const moddle = new Moddle();
 
 export default function WebsocketDebugClient(eventBus) {
   // listen to dblclick on non-root elements
@@ -21,7 +21,7 @@ export default function WebsocketDebugClient(eventBus) {
   };
   this.webSocket.onerror = () => {
     console.log(
-      'Connection to websocket debug API with url "' +
+        'Connection to websocket debug API with url "' +
         websocket_url +
         '" failed.',
     );
@@ -34,12 +34,11 @@ const OBJECT_FONT_SIZE = "19.2px"; // 16px * 1.2 = 19.2px (Objects)
 const LINK_FONT_SIZE = "18px"; // 15px * 1.2 = 18px (Objects)
 
 WebsocketDebugClient.prototype.setOnMessageHandler = function (
-  eventBus,
-  lastBoard,
+    eventBus,
+    lastBoard,
 ) {
   this.webSocket.onmessage = function (event) {
     const data = JSON.parse(event.data);
-    console.log(data.type);
     if (data.type === "error") {
       console.error("Websocket error message received:" + data.content);
       return;
@@ -49,6 +48,7 @@ WebsocketDebugClient.prototype.setOnMessageHandler = function (
       return;
     }
     if (data.type === "loadChildren") {
+      console.log("Load children response", data);
       addLoadedChildrenToVisualization(data.content);
       return;
     }
@@ -57,16 +57,18 @@ WebsocketDebugClient.prototype.setOnMessageHandler = function (
     }
   };
 
-  function mapSemantic(moddle, apiData) {
+  /**
+   * @param {ObjectDiagram} debugVars
+   */
+  function mapSemantic(debugVars) {
     let board = moddle.create("od:OdBoard");
     board.id = "Board_debug";
 
     let boardElements = board.get("boardElements");
 
     // Map objects
-    let objects = apiData.rootElement.get("object");
     let objectMap = {};
-    objects.forEach((object) => {
+    debugVars.objects.forEach((object) => {
       let mapped_object = moddle.create("od:Object");
       boardElements.push(mapped_object);
       mapped_object.id = object.id;
@@ -74,68 +76,72 @@ WebsocketDebugClient.prototype.setOnMessageHandler = function (
 
       // Could do this when rendering as well and keep the full information here
       mapped_object.name =
-        object.variableName +
-        ":" +
-        object.type.substring(object.type.lastIndexOf(".") + 1);
+          object.variableName +
+          ":" +
+          object.type.substring(object.type.lastIndexOf(".") + 1);
 
       // Map attribute values.
       mapped_object.attributeValues = "";
-      if (object.attributeValue) {
-        object.attributeValue.forEach((attribute) => {
+      if (object.attributeValues) {
+        object.attributeValues.forEach((attribute) => {
           mapped_object.attributeValues +=
-            attribute.name + " = " + attribute.value;
+              attribute.name + " = " + attribute.value;
           mapped_object.attributeValues += "\n";
         });
 
         // removed the unwanted \n at the end.
         mapped_object.attributeValues = mapped_object.attributeValues.substring(
-          0,
-          mapped_object.attributeValues.length - 1,
+            0,
+            mapped_object.attributeValues.length - 1,
         );
       }
     });
 
     // Map links
-    let links = apiData.rootElement.get("link");
-    links.forEach((link) => {
-      let mapped_link = moddle.create("od:Link");
-      mapped_link.id = link.id;
-      mapped_link.name = link.type;
-      mapped_link.type = link.type;
-      mapped_link.sourceRef = objectMap[link.from.id];
-      mapped_link.targetRef = objectMap[link.to.id];
+    if (debugVars.links && debugVars.links.length > 0) {
+      debugVars.links.forEach((link) => {
+        let mapped_link = moddle.create("od:Link");
+        mapped_link.id = link.id;
+        mapped_link.name = link.type;
+        mapped_link.type = link.type;
+        // TODO: Not sure about link.from.id
+        mapped_link.sourceRef = objectMap[link.from];
+        mapped_link.targetRef = objectMap[link.to];
 
-      objectMap[link.from.id].get("links").push(mapped_link);
-      boardElements.push(mapped_link);
-    });
+        objectMap[link.from].get("links").push(mapped_link);
+        boardElements.push(mapped_link);
+      });
+    }
 
     // Map primitive root values
-    const primitiveRootValus = apiData.rootElement.get("primitiveRootValue");
-    if (primitiveRootValus && primitiveRootValus.length > 0) {
+    if (
+        debugVars.primitiveRootValues &&
+        debugVars.primitiveRootValues.length > 0
+    ) {
       let local_primitive_vars = moddle.create("od:Object");
       local_primitive_vars.id = "LocalPrimitiveVars";
       local_primitive_vars.name = "LocalPrimitiveVars";
       boardElements.push(local_primitive_vars);
 
       local_primitive_vars.attributeValues = "";
-      primitiveRootValus.forEach((primitiveVar) => {
+      debugVars.primitiveRootValues.forEach((primitiveVar) => {
         local_primitive_vars.attributeValues +=
-          primitiveVar.variableName + "=" + primitiveVar.value;
+            primitiveVar.variableName + "=" + primitiveVar.value;
         local_primitive_vars.attributeValues += "\n";
       });
 
       // removed the unwanted \n at the end.
       local_primitive_vars.attributeValues =
-        local_primitive_vars.attributeValues.substring(
-          0,
-          local_primitive_vars.attributeValues.length - 1,
-        );
+          local_primitive_vars.attributeValues.substring(
+              0,
+              local_primitive_vars.attributeValues.length - 1,
+          );
     }
 
     return board;
   }
 
-  async function addLayoutInformation(moddle, definitions, board) {
+  async function addLayoutInformation(definitions, board) {
     // use elk for layouting
     const elk_graph = {
       id: "root",
@@ -151,8 +157,8 @@ WebsocketDebugClient.prototype.setOnMessageHandler = function (
 
     function getTextWidth(text, fontSize) {
       let canvas =
-        getTextWidth.canvas ||
-        (getTextWidth.canvas = document.createElement("canvas"));
+          getTextWidth.canvas ||
+          (getTextWidth.canvas = document.createElement("canvas"));
       let context = canvas.getContext("2d");
       context.font = fontSize + " IBM Plex Sans";
       let metrics = context.measureText(text);
@@ -177,12 +183,12 @@ WebsocketDebugClient.prototype.setOnMessageHandler = function (
 
     function calcAttributeWidth(object) {
       return Math.max.apply(
-        Math,
-        object
+          Math,
+          object
           .get("attributeValues")
           .split(/\r\n|\r|\n/)
           .map((singleAttribute) =>
-            getTextWidth(singleAttribute, OBJECT_FONT_SIZE),
+              getTextWidth(singleAttribute, OBJECT_FONT_SIZE),
           ),
       );
     }
@@ -190,8 +196,8 @@ WebsocketDebugClient.prototype.setOnMessageHandler = function (
     function calcObjectHeight(object) {
       // Calculate number of lines by splitting at \n.
       let numberOfLines = object
-        .get("attributeValues")
-        .split(/\r\n|\r|\n/).length;
+      .get("attributeValues")
+      .split(/\r\n|\r|\n/).length;
 
       // The line height is 19.2px.
       let height = numberOfLines * 19.2;
@@ -285,8 +291,8 @@ WebsocketDebugClient.prototype.setOnMessageHandler = function (
 
       edge.sections.forEach((section) => {
         let startPoint = createPoint(
-          section.startPoint.x,
-          section.startPoint.y,
+            section.startPoint.x,
+            section.startPoint.y,
         );
         linkShape.get("waypoint").push(startPoint);
 
@@ -305,65 +311,53 @@ WebsocketDebugClient.prototype.setOnMessageHandler = function (
     });
   }
 
-  function visualizeDebugData(data) {
-    const xmlData = data.content;
-    const moddle = new Moddle({ db: DebuggingDescriptors });
+  async function visualizeDebugData(data) {
+    const debugVars = JSON.parse(data.content);
+    const board = mapSemantic(debugVars);
 
-    // Parse xml.
-    moddle
-      .fromXML(xmlData, "db:ObjectDiagram")
-      .then(async (apiData) => {
-        const board = mapSemantic(moddle, apiData);
-        const definitions = moddle.create("od:Definitions");
-        definitions.get("rootElements").push(board);
+    const definitions = moddle.create("od:Definitions");
+    definitions.get("rootElements").push(board);
+    await addLayoutInformation(definitions, board);
 
-        await addLayoutInformation(moddle, definitions, board);
-
-        moddle.toXML(definitions).then((result) => {
-          eventBus.fire("debugger.data.new", {
-            xml: result.xml,
-            fileName: data.fileName,
-            line: data.line,
-            lastBoard: lastBoard,
-            currentBoard: board,
-          });
-          lastBoard = board;
-        });
-      })
-      .catch((reason) => console.log(reason));
+    moddle.toXML(definitions).then((result) => {
+      eventBus.fire("debugger.data.new", {
+        xml: result.xml,
+        fileName: data.fileName,
+        line: data.line,
+        lastBoard: lastBoard,
+        currentBoard: board,
+      });
+      lastBoard = board;
+    });
   }
 
-  function addLoadedChildrenToVisualization(xmlData) {
-    const moddle = new Moddle({ db: DebuggingDescriptors });
+  async function addLoadedChildrenToVisualization(childrenData) {
+    const children = JSON.parse(childrenData);
+    if (children.empty) {
+      return;
+    }
+    const definitions = moddle.create("od:Definitions");
+    const board = mapSemantic(children);
+    const allBoardElements = board.get("boardElements");
 
-    // Parse xml.
-    moddle
-      .fromXML(xmlData, "db:ObjectDiagram")
-      .then(async (apiData) => {
-        const definitions = moddle.create("od:Definitions");
-        const board = mapSemantic(moddle, apiData);
-        const allBoardElements = board.get("boardElements");
+    // Add old board elements to the newly created board.
+    lastBoard.get("boardElements").forEach((boardElement) => {
+      // only add if not contained already
+      if (
+          !allBoardElements.some((element) => element.id === boardElement.id)
+      ) {
+        allBoardElements.push(boardElement);
+      }
+    });
 
-        // Add old board elements to the newly created board.
-        lastBoard.get("boardElements").forEach((boardElement) => {
-          // only add if not contained already
-          if (
-            !allBoardElements.some((element) => element.id === boardElement.id)
-          ) {
-            allBoardElements.push(boardElement);
-          }
-        });
+    definitions.get("rootElements").push(board);
+    lastBoard = board;
 
-        definitions.get("rootElements").push(board);
-        lastBoard = board;
+    await addLayoutInformation(definitions, board);
 
-        await addLayoutInformation(moddle, definitions, board);
-
-        moddle.toXML(definitions).then((xml) => {
-          eventBus.fire("debugger.data.update", xml);
-        });
-      })
-      .catch((reason) => console.log(reason));
+    moddle.toXML(definitions).then((xml) => {
+      eventBus.fire("debugger.data.update", xml);
+    });
   }
 };
 
