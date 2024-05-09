@@ -21,7 +21,7 @@ export default function WebsocketDebugClient(eventBus) {
   };
   this.webSocket.onerror = () => {
     console.log(
-        'Connection to websocket debug API with url "' +
+      'Connection to websocket debug API with url "' +
         websocket_url +
         '" failed.',
     );
@@ -34,8 +34,8 @@ const OBJECT_FONT_SIZE = "19.2px"; // 16px * 1.2 = 19.2px (Objects)
 const LINK_FONT_SIZE = "18px"; // 15px * 1.2 = 18px (Objects)
 
 WebsocketDebugClient.prototype.setOnMessageHandler = function (
-    eventBus,
-    lastBoard,
+  eventBus,
+  lastBoard,
 ) {
   this.webSocket.onmessage = function (event) {
     const data = JSON.parse(event.data);
@@ -76,23 +76,23 @@ WebsocketDebugClient.prototype.setOnMessageHandler = function (
 
       // Could do this when rendering as well and keep the full information here
       mapped_object.name =
-          object.variableName +
-          ":" +
-          object.type.substring(object.type.lastIndexOf(".") + 1);
+        object.variableName +
+        ":" +
+        object.type.substring(object.type.lastIndexOf(".") + 1);
 
       // Map attribute values.
       mapped_object.attributeValues = "";
       if (object.attributeValues) {
         object.attributeValues.forEach((attribute) => {
           mapped_object.attributeValues +=
-              attribute.name + " = " + attribute.value;
+            attribute.name + " = " + attribute.value;
           mapped_object.attributeValues += "\n";
         });
 
         // removed the unwanted \n at the end.
         mapped_object.attributeValues = mapped_object.attributeValues.substring(
-            0,
-            mapped_object.attributeValues.length - 1,
+          0,
+          mapped_object.attributeValues.length - 1,
         );
       }
     });
@@ -115,8 +115,8 @@ WebsocketDebugClient.prototype.setOnMessageHandler = function (
 
     // Map primitive root values
     if (
-        debugVars.primitiveRootValues &&
-        debugVars.primitiveRootValues.length > 0
+      debugVars.primitiveRootValues &&
+      debugVars.primitiveRootValues.length > 0
     ) {
       let local_primitive_vars = moddle.create("od:Object");
       local_primitive_vars.id = "LocalPrimitiveVars";
@@ -126,16 +126,16 @@ WebsocketDebugClient.prototype.setOnMessageHandler = function (
       local_primitive_vars.attributeValues = "";
       debugVars.primitiveRootValues.forEach((primitiveVar) => {
         local_primitive_vars.attributeValues +=
-            primitiveVar.variableName + "=" + primitiveVar.value;
+          primitiveVar.variableName + "=" + primitiveVar.value;
         local_primitive_vars.attributeValues += "\n";
       });
 
       // removed the unwanted \n at the end.
       local_primitive_vars.attributeValues =
-          local_primitive_vars.attributeValues.substring(
-              0,
-              local_primitive_vars.attributeValues.length - 1,
-          );
+        local_primitive_vars.attributeValues.substring(
+          0,
+          local_primitive_vars.attributeValues.length - 1,
+        );
     }
 
     return board;
@@ -157,8 +157,8 @@ WebsocketDebugClient.prototype.setOnMessageHandler = function (
 
     function getTextWidth(text, fontSize) {
       let canvas =
-          getTextWidth.canvas ||
-          (getTextWidth.canvas = document.createElement("canvas"));
+        getTextWidth.canvas ||
+        (getTextWidth.canvas = document.createElement("canvas"));
       let context = canvas.getContext("2d");
       context.font = fontSize + " IBM Plex Sans";
       let metrics = context.measureText(text);
@@ -183,12 +183,12 @@ WebsocketDebugClient.prototype.setOnMessageHandler = function (
 
     function calcAttributeWidth(object) {
       return Math.max.apply(
-          Math,
-          object
+        Math,
+        object
           .get("attributeValues")
           .split(/\r\n|\r|\n/)
           .map((singleAttribute) =>
-              getTextWidth(singleAttribute, OBJECT_FONT_SIZE),
+            getTextWidth(singleAttribute, OBJECT_FONT_SIZE),
           ),
       );
     }
@@ -196,8 +196,8 @@ WebsocketDebugClient.prototype.setOnMessageHandler = function (
     function calcObjectHeight(object) {
       // Calculate number of lines by splitting at \n.
       let numberOfLines = object
-      .get("attributeValues")
-      .split(/\r\n|\r|\n/).length;
+        .get("attributeValues")
+        .split(/\r\n|\r|\n/).length;
 
       // The line height is 19.2px.
       let height = numberOfLines * 19.2;
@@ -291,8 +291,8 @@ WebsocketDebugClient.prototype.setOnMessageHandler = function (
 
       edge.sections.forEach((section) => {
         let startPoint = createPoint(
-            section.startPoint.x,
-            section.startPoint.y,
+          section.startPoint.x,
+          section.startPoint.y,
         );
         linkShape.get("waypoint").push(startPoint);
 
@@ -343,9 +343,7 @@ WebsocketDebugClient.prototype.setOnMessageHandler = function (
     // Add old board elements to the newly created board.
     lastBoard.get("boardElements").forEach((boardElement) => {
       // only add if not contained already
-      if (
-          !allBoardElements.some((element) => element.id === boardElement.id)
-      ) {
+      if (!allBoardElements.some((element) => element.id === boardElement.id)) {
         allBoardElements.push(boardElement);
       }
     });
