@@ -37,7 +37,7 @@ WebsocketDebugClient.prototype.setOnMessageHandler = function (
   eventBus,
   lastBoard,
 ) {
-  this.webSocket.onmessage = function (event) {
+  this.webSocket.onmessage = async function (event) {
     const data = JSON.parse(event.data);
     if (data.type === "error") {
       console.error("Websocket error message received:" + data.content);
@@ -48,12 +48,11 @@ WebsocketDebugClient.prototype.setOnMessageHandler = function (
       return;
     }
     if (data.type === "loadChildren") {
-      console.log("Load children response", data);
-      addLoadedChildrenToVisualization(data.content);
+      await addLoadedChildrenToVisualization(data.content);
       return;
     }
     if (data.type === "nextDebugStep" && data.content) {
-      visualizeDebugData(data);
+      await visualizeDebugData(data);
     }
   };
 
