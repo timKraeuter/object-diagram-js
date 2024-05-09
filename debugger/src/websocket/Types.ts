@@ -5,7 +5,7 @@ export interface ObjectDiagram {
 }
 
 export interface ODObject {
-  id: number;
+  id: string;
   type: string;
   variableName: string;
   attributeValues: ODAttributeValue[];

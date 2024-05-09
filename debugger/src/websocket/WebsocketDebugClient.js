@@ -103,7 +103,6 @@ WebsocketDebugClient.prototype.setOnMessageHandler = function (
         mapped_link.id = link.id;
         mapped_link.name = link.type;
         mapped_link.type = link.type;
-        // TODO: Not sure about link.from.id
         mapped_link.sourceRef = objectMap[link.from];
         mapped_link.targetRef = objectMap[link.to];
 
