@@ -10,7 +10,7 @@
     "dev": "run-p build:watch serve",
     "build:watch": "webpack -w",
     "serve": "serve public",
-    "build:github-pages": "webpack --env ghpages",
+    "build:github-pages": "rimraf .././docs && webpack --env ghpages",
     "pCheck": "prettier . --check",
     "pWrite": "prettier . --write"
   },
@@ -38,7 +38,8 @@
     "serve": "^14.2.3",
     "style-loader": "^4.0.0",
     "webpack": "^5.91.0",
-    "webpack-cli": "^5.1.4"
+    "webpack-cli": "^5.1.4",
+    "rimraf": "^5.0.7"
   },
   "dependencies": {
     "inherits": "^2.0.4",
