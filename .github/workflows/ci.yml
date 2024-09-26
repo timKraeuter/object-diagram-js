@@ -36,5 +36,5 @@ jobs:
       - name: Setup and build example starter
         working-directory: ./starter
         run: |
-          npm install
+          npm ci
           npm run all
