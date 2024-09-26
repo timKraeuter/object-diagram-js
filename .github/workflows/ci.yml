@@ -7,29 +7,28 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
-        node-version: [20]
 
     runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 20
           cache: 'npm'
       - name: Install dependencies
         run: npm ci
 
-      - name: Build, Lint & Test ubuntu
-        if: matrix.os == 'ubuntu-latest'
+      - name: Build, Lint & Test Linux
+        if: runner.os == 'Linux'
         env:
           TEST_BROWSERS: ChromeHeadless,Firefox
         run: xvfb-run npm run all
 
       - name: Build, Lint & Test others
-        if: matrix.os != 'ubuntu-latest'
+        if: runner.os != 'Linux'
         env:
           TEST_BROWSERS: ChromeHeadless
         run: npm run all
