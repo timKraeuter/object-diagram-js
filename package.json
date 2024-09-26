@@ -59,7 +59,7 @@
     "raw-loader": "^4.0.2",
     "sinon": "^18.0.0",
     "sinon-chai": "^3.7.0",
-    "webpack": "^5.94.0"
+    "webpack": "^5.95.0"
   },
   "dependencies": {
     "bpmn-font": "^0.12.1",
