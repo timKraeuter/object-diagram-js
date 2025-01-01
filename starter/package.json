@@ -5,7 +5,7 @@
   "scripts": {
     "all": "run-s lint pCheck build",
     "build": "webpack",
-    "lint": "eslint ",
+    "lint": "eslint .",
     "start": "run-s dev",
     "dev": "run-p build:watch serve",
     "build:watch": "webpack -w",
@@ -29,8 +29,7 @@
     "@babel/preset-env": "^7.25.4",
     "copy-webpack-plugin": "^12.0.2",
     "css-loader": "^7.1.2",
-    "eslint": "^8.57.0",
-    "eslint-plugin-bpmn-io": "^1.0.1",
+    "eslint": "^9.17.0",
     "eslint-config-prettier": "^9.1.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^3.3.3",
