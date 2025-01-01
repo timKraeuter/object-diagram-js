@@ -63,7 +63,7 @@
   },
   "dependencies": {
     "bpmn-font": "^0.12.1",
-    "diagram-js": "^14.4.1",
+    "diagram-js": "^15.2.4",
     "diagram-js-direct-editing": "^3.0.1",
     "ids": "^1.0.5",
     "inherits": "^2.0.4",

@@ -29,10 +29,7 @@ describe("Modeler", function () {
     clearPostitJS();
 
     modeler = new Modeler({
-      container: container,
-      keyboard: {
-        bindTo: document,
-      },
+      container: container
     });
 
     setPostitJS(modeler);

@@ -19,10 +19,7 @@ import diff from "object-diagram-js-differ";
 
 // modeler instance
 const odDebugger = new ODDebugger({
-  container: "#canvas",
-  keyboard: {
-    bindTo: window,
-  },
+  container: "#canvas"
 });
 
 /* screen interaction */
