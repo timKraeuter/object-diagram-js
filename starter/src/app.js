@@ -6,7 +6,7 @@ import sampleBoardXML from "../resources/sampleBoard.xml";
 
 // modeler instance
 const modeler = new ODModeler({
-  container: "#canvas"
+  container: "#canvas",
 });
 
 /* screen interaction */

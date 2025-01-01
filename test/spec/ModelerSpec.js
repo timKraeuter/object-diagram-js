@@ -29,7 +29,7 @@ describe("Modeler", function () {
     clearPostitJS();
 
     modeler = new Modeler({
-      container: container
+      container: container,
     });
 
     setPostitJS(modeler);
