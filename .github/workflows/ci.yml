@@ -19,7 +19,6 @@ jobs:
           node-version: 20
           cache: "npm"
 
-
       - name: Setup puppeteer/chrome apparmor profile
         if: matrix.os == 'ubuntu-latest'
         shell: bash
@@ -35,7 +34,7 @@ jobs:
           }
           EOF
           sudo service apparmor reload
-          
+
       - name: Install dependencies
         run: npm ci
 
