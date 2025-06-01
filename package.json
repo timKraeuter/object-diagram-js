@@ -39,7 +39,7 @@
     "chai": "^4.5.0",
     "chai-match": "^1.1.1",
     "eslint": "^9.19.0",
-    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-prettier": "^10.1.5",
     "file-loader": "^6.2.0",
     "karma": "^6.4.3",
     "karma-chrome-launcher": "^3.2.0",
