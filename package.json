@@ -35,10 +35,10 @@
     "*.css"
   ],
   "devDependencies": {
-    "@babel/preset-env": "^7.26.7",
+    "@babel/preset-env": "^7.28.3",
     "chai": "^4.5.0",
     "chai-match": "^1.1.1",
-    "eslint": "^9.19.0",
+    "eslint": "^9.35.0",
     "eslint-config-prettier": "^10.1.5",
     "file-loader": "^6.2.0",
     "karma": "^6.4.3",
