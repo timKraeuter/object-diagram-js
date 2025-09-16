@@ -1,6 +1,6 @@
 {
   "name": "object-diagram-js",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "An object diagram toolkit and modeler",
   "main": "index.js",
   "files": [
