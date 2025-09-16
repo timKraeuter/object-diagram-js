@@ -43,7 +43,7 @@
   "dependencies": {
     "elkjs": "^0.10.0",
     "inherits": "^2.0.4",
-    "object-diagram-js-differ": "^1.0.2",
+    "object-diagram-js-differ": "^1.0.3",
     "object-diagram-js": "file:../"
   }
 }
