@@ -19,7 +19,7 @@ module.exports = function (karma) {
   var config = {
     basePath,
 
-    frameworks: ["mocha", "sinon-chai"],
+    frameworks: ["mocha"],
 
     files: [suite],
 
