@@ -35,7 +35,7 @@
     "*.css"
   ],
   "devDependencies": {
-    "@babel/preset-env": "^7.28.3",
+    "@babel/preset-env": "^7.28.6",
     "chai": "^4.5.0",
     "chai-match": "^1.1.1",
     "eslint": "^9.35.0",
@@ -55,7 +55,7 @@
     "prettier": "3.7.4",
     "puppeteer": "^24.7.2",
     "raw-loader": "^4.0.2",
-    "sinon": "^21.0.0",
+    "sinon": "^21.0.1",
     "sinon-chai": "^3.7.0",
     "webpack": "^5.97.1"
   },
@@ -67,8 +67,8 @@
     "inherits": "^2.0.4",
     "min-dash": "^5.0.0",
     "min-dom": "^5.0.0",
-    "object-diagram-moddle": "^1.0.2",
+    "object-diagram-moddle": "^1.0.3",
     "object-refs": "^0.4.0",
-    "tiny-svg": "^4.0.0"
+    "tiny-svg": "^4.1.4"
   }
 }
