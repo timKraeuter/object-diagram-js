@@ -38,7 +38,7 @@
     "@babel/preset-env": "^7.29.0",
     "chai": "^6.2.2",
     "chai-match": "^1.1.1",
-    "eslint": "^10.0.0",
+    "eslint": "^10.0.2",
     "eslint-config-prettier": "^10.1.8",
     "file-loader": "^6.2.0",
     "karma": "^6.4.4",
@@ -52,11 +52,11 @@
     "mocha-test-container-support": "^0.2.0",
     "npm-run-all": "^4.1.5",
     "prettier": "3.8.1",
-    "puppeteer": "^24.37.3",
+    "puppeteer": "^24.37.5",
     "raw-loader": "^4.0.2",
     "sinon": "^21.0.1",
     "sinon-chai": "^4.0.1",
-    "webpack": "^5.105.2"
+    "webpack": "^5.105.3"
   },
   "dependencies": {
     "bpmn-font": "^0.12.1",
