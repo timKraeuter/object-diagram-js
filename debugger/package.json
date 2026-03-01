@@ -45,5 +45,9 @@
     "inherits": "^2.0.4",
     "object-diagram-js-differ": "^1.0.3",
     "object-diagram-js": "file:../"
+  },
+  "overrides": {
+    "serialize-javascript": "^7.0.3",
+    "minimatch": ">=3.1.3"
   }
 }

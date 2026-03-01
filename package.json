@@ -69,5 +69,8 @@
     "object-diagram-moddle": "^1.0.3",
     "object-refs": "^0.4.0",
     "tiny-svg": "^4.1.4"
+  },
+  "overrides": {
+    "serialize-javascript": "^7.0.3"
   }
 }
