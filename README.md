@@ -50,21 +50,21 @@ The debugger has two more interesting features:
 
 ```console
 npm i
-cd starter
+cd debugger
 npm i
 ```
 
 ### Running the debugger
 
 ```console
-cd starter
-npm run startDebugger
+cd debugger
+npm start
 ```
 
 ### Building the debugger
 
 ```console
-cd starter
+cd debugger
 npm run buildDebugger:deploy
 ```
 
