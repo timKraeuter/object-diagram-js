@@ -34,6 +34,21 @@ cd starter
 npm run build:github-pages
 ```
 
+### Running tests
+
+Unit tests (runs in browser via Vitest + Playwright):
+
+```console
+npm test
+```
+
+E2e tests for the starter (requires Playwright browsers installed):
+
+```console
+cd starter
+npm run test:e2e
+```
+
 ## Object-diagram-js debugger
 
 The UI used in the [visual debugger IntelliJ plugin](https://plugins.jetbrains.com/plugin/16851-visual-debugger) is configured in the folder `/debugger`.
