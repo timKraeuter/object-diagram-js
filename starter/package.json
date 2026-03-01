@@ -9,7 +9,7 @@
     "start": "run-s dev",
     "dev": "vite",
     "serve": "vite preview",
-    "build:github-pages": "rimraf .././docs && GHPAGES=true vite build",
+    "build:github-pages": "rimraf .././docs && vite build --mode ghpages",
     "pCheck": "prettier . --check",
     "pWrite": "prettier . --write",
     "test:e2e": "playwright test",
