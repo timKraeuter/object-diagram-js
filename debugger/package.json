@@ -4,13 +4,12 @@
   "description": "An object diagram debugger built with object-diagram-js",
   "scripts": {
     "all": "run-s lint pCheck build",
-    "build": "webpack",
+    "build": "vite build",
     "lint": "eslint ",
     "start": "run-s dev",
-    "dev": "run-p build:watch serve",
-    "build:watch": "webpack -w",
-    "serve": "serve public",
-    "buildDebugger:deploy": "webpack --env deploy",
+    "dev": "vite",
+    "serve": "vite preview",
+    "buildDebugger:deploy": "DEPLOY=true vite build",
     "pCheck": "prettier . --check",
     "pWrite": "prettier . --write"
   },
@@ -26,28 +25,16 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@babel/plugin-transform-modules-commonjs": "^7.28.6",
-    "@babel/preset-env": "^7.28.6",
-    "copy-webpack-plugin": "^13.0.1",
-    "css-loader": "^7.1.4",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
     "npm-run-all": "^4.1.5",
     "prettier": "^3.8.1",
-    "raw-loader": "^4.0.2",
-    "serve": "^14.2.5",
-    "style-loader": "^4.0.0",
-    "webpack": "^5.104.1",
-    "webpack-cli": "^6.0.1"
+    "vite": "^6.3.5"
   },
   "dependencies": {
     "elkjs": "^0.11.0",
     "inherits": "^2.0.4",
     "object-diagram-js-differ": "^1.0.3",
     "object-diagram-js": "file:../"
-  },
-  "overrides": {
-    "serialize-javascript": "^7.0.3",
-    "minimatch": ">=3.1.3"
   }
 }

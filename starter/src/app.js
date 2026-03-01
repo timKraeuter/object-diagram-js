@@ -1,8 +1,9 @@
 import "object-diagram-js/assets/object-diagram-js.css";
+import "./app.css";
 import ODModeler from "object-diagram-js/lib/Modeler";
 
-import emptyBoardXML from "../resources/emptyBoard.xml";
-import sampleBoardXML from "../resources/sampleBoard.xml";
+import emptyBoardXML from "../resources/emptyBoard.xml?raw";
+import sampleBoardXML from "../resources/sampleBoard.xml?raw";
 
 // modeler instance
 const modeler = new ODModeler({

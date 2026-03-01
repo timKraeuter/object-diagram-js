@@ -1,20 +1,22 @@
+import { describe, it, beforeEach } from "vitest";
+
 import Modeler from "lib/Modeler";
 
 import Viewer from "lib/Viewer";
 
-import TestContainer from "mocha-test-container-support";
-
 import { setPostitJS, clearPostitJS, insertCSS } from "test/TestHelper";
 
-import simpleXML from "test/fixtures/simple.xml";
+import simpleXML from "test/fixtures/simple.xml?raw";
 
-import complexXML from "test/fixtures/complex.xml";
+import complexXML from "test/fixtures/complex.xml?raw";
 
-import emptyXML from "test/fixtures/empty.xml";
+import emptyXML from "test/fixtures/empty.xml?raw";
+
+import odmCSS from "../../assets/object-diagram-js.css?raw";
 
 var singleStart = window.__env__ && window.__env__.SINGLE_START === "modeler";
 
-insertCSS("odm.css", require("../../assets/object-diagram-js.css").default);
+insertCSS("odm.css", odmCSS);
 
 describe("Modeler", function () {
   var container;
@@ -22,7 +24,9 @@ describe("Modeler", function () {
   var modeler;
 
   beforeEach(function () {
-    container = TestContainer.get(this);
+    container = document.createElement("div");
+    container.classList.add("test-content-container");
+    document.body.appendChild(container);
   });
 
   function createModeler(xml) {

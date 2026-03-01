@@ -11,8 +11,8 @@
   "scripts": {
     "all": "run-s lint pCheck test",
     "lint": "eslint .",
-    "test": "karma start karma.conf.js",
-    "dev": "npm test -- --auto-watch --no-single-run",
+    "test": "vitest run",
+    "dev": "vitest",
     "pCheck": "prettier . --check",
     "pWrite": "prettier . --write"
   },
@@ -35,28 +35,17 @@
     "*.css"
   ],
   "devDependencies": {
-    "@babel/preset-env": "^7.29.0",
+    "@vitest/browser": "^3.2.4",
     "chai": "^6.2.2",
     "chai-match": "^1.1.1",
     "eslint": "^10.0.2",
     "eslint-config-prettier": "^10.1.8",
-    "file-loader": "^6.2.0",
-    "karma": "^6.4.4",
-    "karma-chrome-launcher": "^3.2.0",
-    "karma-debug-launcher": "0.0.5",
-    "karma-env-preprocessor": "^0.1.1",
-    "karma-firefox-launcher": "^2.1.3",
-    "karma-mocha": "^2.0.1",
-    "karma-webpack": "^5.0.1",
-    "mocha": "^11.7.5",
-    "mocha-test-container-support": "^0.2.0",
     "npm-run-all": "^4.1.5",
+    "playwright": "^1.52.0",
     "prettier": "3.8.1",
-    "puppeteer": "^24.37.5",
-    "raw-loader": "^4.0.2",
     "sinon": "^21.0.1",
     "sinon-chai": "^4.0.1",
-    "webpack": "^5.105.3"
+    "vitest": "^3.2.4"
   },
   "dependencies": {
     "bpmn-font": "^0.12.1",
@@ -69,8 +58,5 @@
     "object-diagram-moddle": "^1.0.3",
     "object-refs": "^0.4.0",
     "tiny-svg": "^4.1.4"
-  },
-  "overrides": {
-    "serialize-javascript": "^7.0.3"
   }
 }
