@@ -4,8 +4,8 @@ import { resolve } from "path";
 const SOURCE_VERSION =
   process.env.SOURCE_VERSION || process.env.npm_package_gitHead || "dev";
 
-export default defineConfig(() => {
-  const isDeploy = process.env.DEPLOY === "true";
+export default defineConfig(({ mode }) => {
+  const isDeploy = mode === "deploy";
 
   return {
     root: "src",

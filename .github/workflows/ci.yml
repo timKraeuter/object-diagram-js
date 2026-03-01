@@ -19,35 +19,13 @@ jobs:
           node-version: 22
           cache: "npm"
 
-      - name: Setup puppeteer/chrome apparmor profile
-        if: matrix.os == 'ubuntu-latest'
-        shell: bash
-        run: |
-          cat | sudo tee /etc/apparmor.d/chrome-puppeteer <<EOF
-          abi <abi/4.0>,
-          include <tunables/global>
-
-          profile chrome /@{HOME}/.cache/puppeteer/chrome/*/chrome-linux64/chrome flags=(unconfined) {
-            userns,
-
-            include if exists <local/chrome>
-          }
-          EOF
-          sudo service apparmor reload
-
       - name: Install dependencies
         run: npm ci
 
-      - name: Build, Lint & Test Linux
-        if: runner.os == 'Linux'
-        env:
-          TEST_BROWSERS: ChromeHeadless,Firefox
-        run: xvfb-run npm run all
+      - name: Install Playwright browsers
+        run: npx playwright install chromium
 
-      - name: Build, Lint & Test others
-        if: runner.os != 'Linux'
-        env:
-          TEST_BROWSERS: ChromeHeadless
+      - name: Build, Lint & Test
         run: npm run all
 
       - name: Setup and build example starter

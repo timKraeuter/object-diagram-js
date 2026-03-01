@@ -9,7 +9,7 @@
     "start": "run-s dev",
     "dev": "vite",
     "serve": "vite preview",
-    "buildDebugger:deploy": "DEPLOY=true vite build",
+    "buildDebugger:deploy": "vite build --mode deploy",
     "pCheck": "prettier . --check",
     "pWrite": "prettier . --write"
   },
