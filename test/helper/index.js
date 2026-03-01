@@ -32,8 +32,6 @@
 
 import { isFunction, forEach, merge } from "min-dash";
 
-import TestContainer from "mocha-test-container-support";
-
 import Modeler from "../../lib/Modeler";
 
 var OPTIONS, POSTIT_JS;
@@ -42,20 +40,9 @@ export function boostrapPostitJS(PostitJS, diagram, options, locals) {
   return function () {
     var testContainer;
 
-    // Make sure the test container is an optional dependency and we fall back
-    // to an empty <div> if it does not exist.
-    //
-    // This is needed if other libraries rely on this helper for testing
-    // while not adding the mocha-test-container-support as a dependency.
-    try {
-      // 'this' is the current test context
-      testContainer = TestContainer.get(this);
-    } catch (e) {
-      testContainer = document.createElement("div");
-      testContainer.classList.add("test-content-container");
-
-      document.body.appendChild(testContainer);
-    }
+    testContainer = document.createElement("div");
+    testContainer.classList.add("test-content-container");
+    document.body.appendChild(testContainer);
 
     var _options = options,
       _locals = locals;
