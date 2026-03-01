@@ -55,3 +55,37 @@ jobs:
         run: |
           npm i
           npm run all
+
+  e2e:
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.58.2-noble
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install starter dependencies
+        working-directory: ./starter
+        run: npm i
+
+      - name: Build starter
+        working-directory: ./starter
+        run: npm run build
+
+      - name: Run Playwright tests
+        working-directory: ./starter
+        run: npx playwright test
+        env:
+          HOME: /root
+
+      - name: Upload Playwright Report
+        uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: starter/playwright-report/
+          retention-days: 30
