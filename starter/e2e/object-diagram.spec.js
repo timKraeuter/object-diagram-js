@@ -2,10 +2,13 @@
 const { test, expect } = require("@playwright/test");
 const path = require("path");
 
+/** @typedef {import('@playwright/test').Page} Page */
+
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
 /**
  * Wait until the diagram has fully rendered (at least one shape on canvas).
+ * @param {Page} page
  */
 async function waitForDiagramLoaded(page) {
   await page.locator(".djs-shape").first().waitFor({ state: "visible" });
@@ -13,6 +16,8 @@ async function waitForDiagramLoaded(page) {
 
 /**
  * Return the data-element-id values of all object shapes on the canvas.
+ * @param {Page} page
+ * @returns {Promise<string[]>}
  */
 async function getObjectShapeIds(page) {
   return page
@@ -22,6 +27,8 @@ async function getObjectShapeIds(page) {
 
 /**
  * Return the data-element-id values of all connection elements on the canvas.
+ * @param {Page} page
+ * @returns {Promise<string[]>}
  */
 async function getConnectionIds(page) {
   return page
@@ -31,6 +38,8 @@ async function getConnectionIds(page) {
 
 /**
  * Click a palette entry by its icon CSS class name.
+ * @param {Page} page
+ * @param {string} iconClass
  */
 async function clickPaletteEntry(page, iconClass) {
   await page.locator(`.djs-palette .entry.${iconClass}`).click();
@@ -39,6 +48,9 @@ async function clickPaletteEntry(page, iconClass) {
 /**
  * Click on the canvas at the given relative position (relative to the #canvas
  * element's bounding box).
+ * @param {Page} page
+ * @param {number} relX
+ * @param {number} relY
  */
 async function clickOnCanvas(page, relX, relY) {
   const canvas = page.locator("#canvas");
@@ -48,15 +60,16 @@ async function clickOnCanvas(page, relX, relY) {
 
 /**
  * Type text into the currently active direct-editing content.
- * Uses pressSequentially to properly trigger input events that
- * diagram-js direct editing expects.
+ * Selects all existing text, deletes it, then types the new value so that
+ * diagram-js's input event handlers fire correctly.
+ * @param {Page} page
+ * @param {string} text
  */
 async function typeIntoDirectEdit(page, text) {
   const content = page.locator(
     ".djs-direct-editing-parent .djs-direct-editing-content",
   );
   await content.waitFor({ state: "visible" });
-  // Select all existing text and delete it, then type new text
   await content.click();
   await page.keyboard.press("ControlOrMeta+a");
   await page.keyboard.press("Delete");
@@ -66,44 +79,60 @@ async function typeIntoDirectEdit(page, text) {
 /**
  * Complete direct editing by clicking on an empty area of the canvas.
  * This triggers directEditing.complete() which saves the value.
+ * @param {Page} page
  */
 async function finishDirectEdit(page) {
-  // Click on an empty spot on the canvas to complete the edit
   await clickOnCanvas(page, 50, 50);
-  // Wait for the direct editing overlay to disappear
   await page
     .locator(".djs-direct-editing-parent")
-    .waitFor({ state: "hidden", timeout: 3000 })
-    .catch(() => {});
+    .waitFor({ state: "hidden", timeout: 3000 });
 }
 
 /**
- * Dismiss the initial direct edit that auto-activates after creating a shape.
+ * Dismiss the direct-edit overlay that auto-activates after creating a shape.
+ * The overlay may or may not appear depending on timing, so this helper
+ * tolerates its absence.
+ * @param {Page} page
  */
 async function dismissAutoDirectEdit(page) {
-  await page
+  const visible = await page
     .locator(".djs-direct-editing-parent .djs-direct-editing-content")
     .waitFor({ state: "visible", timeout: 3000 })
-    .catch(() => {});
-  await finishDirectEdit(page);
+    .then(() => true)
+    .catch(() => false);
+
+  if (visible) {
+    await finishDirectEdit(page);
+  }
 }
 
 /**
- * Wait for the export debounce (500ms in app.js) to settle so download hrefs
- * are updated.
+ * Wait for the export download links to reflect the current diagram state.
+ * The app debounces export by 500 ms (see app.js), so we poll the XML
+ * download link's href until it is a non-empty data URI rather than relying
+ * on a fixed delay.
+ * @param {Page} page
  */
 async function waitForExportUpdate(page) {
-  // The export uses a 500ms debounce; give a bit extra
-  await page.waitForTimeout(800);
+  await expect(page.locator("#js-download-board")).toHaveAttribute(
+    "href",
+    /^data:application\/xml/,
+    { timeout: 5000 },
+  );
 }
 
 /**
- * Get the decoded href content of a download link.
+ * Get the decoded content of a data-URI download link.
+ * Works for both XML (`data:application/xml;charset=UTF-8,...`) and SVG links.
+ * @param {Page} page
+ * @param {string} selector
+ * @returns {Promise<string>}
  */
 async function getDownloadLinkContent(page, selector) {
   const href = await page.locator(selector).getAttribute("href");
   if (!href) return "";
-  const encoded = href.replace(/^data:application\/xml;charset=UTF-8,/, "");
+  // Strip everything up to and including the first comma (the data-URI header)
+  const encoded = href.substring(href.indexOf(",") + 1);
   return decodeURIComponent(encoded);
 }
 
@@ -166,12 +195,8 @@ test.describe("Import / Export", () => {
   test("export XML download link contains valid XML", async ({ page }) => {
     await waitForExportUpdate(page);
 
-    const href = await page.locator("#js-download-board").getAttribute("href");
-    expect(href).toBeTruthy();
-
-    const xml = decodeURIComponent(
-      href.replace("data:application/xml;charset=UTF-8,", ""),
-    );
+    const xml = await getDownloadLinkContent(page, "#js-download-board");
+    expect(xml).toBeTruthy();
 
     // Verify the XML contains expected elements
     expect(xml).toContain("od:definitions");
@@ -183,10 +208,8 @@ test.describe("Import / Export", () => {
   test("export SVG download link contains valid SVG", async ({ page }) => {
     await waitForExportUpdate(page);
 
-    const href = await page.locator("#js-download-svg").getAttribute("href");
-    expect(href).toBeTruthy();
-
-    const content = decodeURIComponent(href.split(",").slice(1).join(","));
+    const content = await getDownloadLinkContent(page, "#js-download-svg");
+    expect(content).toBeTruthy();
     expect(content).toContain("<svg");
     expect(content).toContain("</svg>");
   });
