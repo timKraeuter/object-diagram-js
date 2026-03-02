@@ -35,7 +35,7 @@
     "*.css"
   ],
   "devDependencies": {
-    "@vitest/browser": "^3.2.4",
+    "@vitest/browser": "^4.0.18",
     "chai": "^6.2.2",
     "chai-match": "^1.1.1",
     "eslint": "^10.0.2",
