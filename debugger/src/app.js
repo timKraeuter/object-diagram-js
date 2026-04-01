@@ -16,7 +16,7 @@ import {
 } from "./stepHistory/DebugHistory.js";
 
 import visualizeChanges from "./differ/DiffVisualizer";
-import diff from "object-diagram-js-differ";
+import { diff } from "object-diagram-js-differ";
 
 // modeler instance
 const odDebugger = new ODDebugger({

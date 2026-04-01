@@ -23,6 +23,9 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       port: 3000,
+      fs: {
+        allow: [".."],
+      },
     },
     preview: {
       port: 3000,
