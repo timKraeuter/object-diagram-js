@@ -36,7 +36,7 @@
   ],
   "devDependencies": {
     "@vitest/browser": "^4.1.9",
-    "@vitest/browser-playwright": "^4.1.9",
+    "@vitest/browser-playwright": "^5.0.0",
     "chai": "^6.2.2",
     "chai-match": "^1.1.1",
     "eslint": "^10.1.0",
