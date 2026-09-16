@@ -35,8 +35,8 @@
     "*.css"
   ],
   "devDependencies": {
-    "@vitest/browser": "^4.1.9",
-    "@vitest/browser-playwright": "^5.0.0",
+    "@vitest/browser": "^5.0.1",
+    "@vitest/browser-playwright": "^5.0.1",
     "chai": "^6.2.2",
     "chai-match": "^1.1.1",
     "eslint": "^10.1.0",
@@ -46,7 +46,7 @@
     "prettier": "3.9.6",
     "sinon": "^22.0.0",
     "sinon-chai": "^4.0.1",
-    "vitest": "^4.1.9"
+    "vitest": "^5.0.1"
   },
   "dependencies": {
     "bpmn-font": "^0.13.0",
